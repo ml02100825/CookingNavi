@@ -262,3 +262,44 @@ body {
     position: absolute; /* フッターをページの一番下に固定 */
     bottom: 0;
 }
+
+/* トップページ画像上のボタンを配置するためのスタイル */
+.image-container {
+    position: relative;
+    text-align: center;
+}
+
+/* トップページの画像 */
+.top-image {
+    width: 100%;
+    height: auto;
+    max-width: 800px; /* 必要に応じてサイズを調整 */
+    display: block;
+    margin: 0 auto;
+}
+
+/* 画像の上にボタンを中央に配置するためのスタイル */
+.button-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    gap: 20px;
+}
+
+/* ボタンのスタイル */
+.button {
+    background-color: #ff7f50;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+}
+
+.button:hover {
+    background-color: #ff4500;
+}
