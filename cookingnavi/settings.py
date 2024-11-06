@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "cookapp.apps.CookappConfig",
+     "account.apps.AccountConfig",
 ]
 
 MIDDLEWARE = [
@@ -82,6 +83,9 @@ DATABASES = {
         'PASSWORD': 'cookingnavi@0104',
          'HOST':'localhost',
          'PORT':'3306',
+         'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
     }
 }
 
