@@ -14,16 +14,18 @@ body {
 
 /* ヘッダーのスタイリング */
 .header {
-    background-color: #333;
-    color: #fff;
+    background-color: rgba(173, 216, 230, 0.5); /* さらに薄い水色 */
+    color: #333;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 少し影を追加 */
 }
 
 .header .app-name {
     font-size: 1.5em;
+    color: #333; /* 文字色を少し濃いめに設定 */
 }
 
 .header .nav-right {
@@ -38,13 +40,17 @@ body {
 }
 
 .header .nav-links a {
-    color: #fff;
+    color: #333; /* デフォルトは濃い目の文字色 */
     text-decoration: none;
     font-size: 1em;
 }
 
 .header .nav-links a:hover {
     text-decoration: underline;
+}
+
+.header .nav-links a.home-link {
+    color: #007bff; /* ホームリンクは青色 */
 }
 
 .header .user-icon {
@@ -63,8 +69,9 @@ main {
 
 /* フッターのスタイリング */
 .footer {
-    background-color: #333;
-    color: #fff;
+    background-color: #fff; /* フッターの背景色を白に */
+    color: #007bff; /* フッターの文字色を青に */
     text-align: center;
     padding: 10px;
+    border-top: 1px solid rgba(0, 123, 255, 0.5); /* 枠線を細くして色を薄く */
 }
