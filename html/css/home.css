@@ -62,19 +62,11 @@ body {
 }
 
 /* メインコンテンツエリアのスタイル */
-.content-area {
+main {
     display: flex;
-    justify-content: space-between;
-    padding: 20px;
-    flex: 1;
-    height: calc(100vh - 80px); /* ヘッダーの高さを引いて、メインエリアに調整 */
-    position: relative;
-}
-
-/* メインコンテンツのスタイル */
-.main-content {
-    flex: 1; /* メインコンテンツは残りのスペースを占める */
-    position: relative; /* 中央配置のため */
+    justify-content: center; /* 水平方向に中央揃え */
+    align-items: center; /* 垂直方向に中央揃え */
+    min-height: calc(100vh - 80px); /* ヘッダーの高さを引いた残りの画面高 */
 }
 
 /* ログインコンテナのスタイル */
