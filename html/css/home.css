@@ -62,12 +62,21 @@ body {
 }
 
 /* メインコンテンツエリアのスタイル */
-main {
+.content-area {
     display: flex;
-    justify-content: center; /* 水平方向に中央揃え */
-    align-items: center; /* 垂直方向に中央揃え */
-    min-height: calc(100vh - 80px); /* ヘッダーの高さを引いた残りの画面高 */
+    justify-content: space-between;
+    padding: 20px;
+    flex: 1;
+    height: calc(100vh - 80px); /* ヘッダーの高さを引いて、メインエリアに調整 */
+    position: relative; /* 中央配置のため */
 }
+
+/* メインコンテンツのスタイル */
+.main-content {
+    flex: 1; /* メインコンテンツは残りのスペースを占める */
+    position: relative; /* 中央配置のため */
+}
+
 
 /* ログインコンテナのスタイル */
 .login-container {
@@ -78,14 +87,21 @@ main {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     background-color: #f9f9f9;
     text-align: center;
+    
+    /* 画面の中央に配置 */
+    position: absolute;
+    top: 50%;  /* 画面の高さの50%に配置 */
+    left: 50%;  /* 画面の幅の50%に配置 */
+    transform: translate(-50%, -50%);  /* 要素を中央に調整 */
 }
 
+ 
 .login-container h1 {
     margin-bottom: 20px;
     font-size: 1.8em;
     color: #333;
 }
-
+ 
 .login-container label {
     display: block;
     margin-bottom: 5px;
@@ -93,7 +109,7 @@ main {
     font-weight: bold;
     color: #555;
 }
-
+ 
 .login-container input[type="text"],
 .login-container input[type="password"] {
     width: 100%;
@@ -103,7 +119,7 @@ main {
     border-radius: 4px;
     font-size: 1em;
 }
-
+ 
 .login-container button {
     width: 100%;
     padding: 10px;
@@ -114,26 +130,27 @@ main {
     border-radius: 4px;
     cursor: pointer;
 }
-
+ 
 .login-container button:hover {
     background-color: #555;
 }
-
+ 
 /* パスワードを忘れた場合リンクのスタイル */
 .forgot-password {
     margin-top: 10px;
 }
-
+ 
 .forgot-password a {
     color: #333;
     text-decoration: none;
     font-size: 0.9em;
 }
-
+ 
 .forgot-password a:hover {
     text-decoration: underline;
     color: #555;
 }
+
 
 /* 健康管理ボタンのスタイル */
 .health-management-btn {
