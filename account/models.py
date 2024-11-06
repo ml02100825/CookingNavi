@@ -42,8 +42,8 @@ class User(models.Modek):
         verbose_name= "家族フラグ",
         max_length= 10
     )
-    logoutfkag = models.BooleanField(
-        verbose_name="ログアウトフラグ",
+    logindate = models.CharField(
+        verbose_name="ログイン日時",
         max_length= 10
     )
     
