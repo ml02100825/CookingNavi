@@ -80,14 +80,14 @@ body {
 /* 健康管理ボタンのスタイル */
 .health-management-btn {
     position: absolute;
-    top: 5%; /* 画面のさらに上部に配置 */
+    top: 2%; /* 画面のさらに上部に配置 */
     left: 50%;
     transform: translateX(-50%); /* 中央揃え */
 }
 
 .health-management-btn button {
-    font-size: 4em; /* ボタンをさらに大きく */
-    padding: 40px 80px; /* ボタンのパディングを大きくしてさらに広げる */
+    font-size: 4.5em; /* ボタンをさらに大きく */
+    padding: 50px 100px; /* ボタンのパディングを大きくしてさらに広げる */
     background-color: white; /* ボタン背景を白に */
     color: #003366; /* 文字色を紺色に */
     border: 4px solid #003366; /* 紺色の枠線を少し太く */
@@ -98,6 +98,54 @@ body {
 
 .health-management-btn button:hover {
     background-color: #003366; /* ホバー時に背景色を紺色に */
+    color: white; /* ホバー時に文字色を白に */
+}
+
+/* 食事履歴ボタンのスタイル */
+.meal-history-btn {
+    position: absolute;
+    top: 20%; /* 健康管理ボタンの下に配置 */
+    left: 50%;
+    transform: translateX(-50%); /* 中央揃え */
+}
+
+.meal-history-btn button {
+    font-size: 2em;
+    padding: 20px 50px;
+    background-color: white;
+    color: black; /* 文字色を黒に */
+    border: 3px solid black; /* 黒い枠線 */
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.meal-history-btn button:hover {
+    background-color: black; /* ホバー時に背景色を黒に */
+    color: white; /* ホバー時に文字色を白に */
+}
+
+/* 掲示板ボタンのスタイル */
+.forum-btn {
+    position: absolute;
+    top: 35%; /* 食事履歴ボタンの下に配置 */
+    left: 10%; /* 左側に寄せる */
+    transform: translateX(0); /* 左側に寄せたので中央揃えは不要 */
+}
+
+.forum-btn button {
+    font-size: 2em;
+    padding: 20px 50px;
+    background-color: white;
+    color: black; /* 文字色を黒に */
+    border: 3px solid black; /* 黒い枠線 */
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.forum-btn button:hover {
+    background-color: black; /* ホバー時に背景色を黒に */
     color: white; /* ホバー時に文字色を白に */
 }
 
