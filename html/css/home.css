@@ -68,7 +68,7 @@ body {
     padding: 20px;
     flex: 1;
     height: calc(100vh - 80px); /* ヘッダーの高さを引いて、メインエリアに調整 */
-    position: relative;
+    position: relative; /* 中央配置のため */
 }
  
 /* メインコンテンツのスタイル */
@@ -76,7 +76,7 @@ body {
     flex: 1; /* メインコンテンツは残りのスペースを占める */
     position: relative; /* 中央配置のため */
 }
-
+ 
  
 /* ログインコンテナのスタイル */
 .login-container {
@@ -87,7 +87,14 @@ body {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     background-color: #f9f9f9;
     text-align: center;
+   
+    /* 画面の中央に配置 */
+    position: absolute;
+    top: 50%;  /* 画面の高さの50%に配置 */
+    left: 50%;  /* 画面の幅の50%に配置 */
+    transform: translate(-50%, -50%);  /* 要素を中央に調整 */
 }
+ 
  
 .login-container h1 {
     margin-bottom: 20px;
