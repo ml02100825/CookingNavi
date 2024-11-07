@@ -161,6 +161,106 @@
 }
 
 
+/* ログアウト画面のスタイル */
+
+/* 全体のスタイル */
+body {
+    font-family: Arial, sans-serif; /* フォントの設定 */
+    background-color: #f9f9f9; /* 背景色を薄いグレーに設定 */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column; /* ヘッダーとコンテンツを縦に並べる */
+    height: 100vh; /* 画面全体の高さに設定 */
+}
+
+/* ヘッダーのスタイル */
+header {
+    background-color: #003366; /* ヘッダーの背景色 */
+    color: white; /* ヘッダーの文字色 */
+    padding: 20px;
+    text-align: center;
+    position: fixed; /* ヘッダーを固定 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100; /* ヘッダーを最前面に */
+}
+
+/* ログアウト画面のスタイル */
+.logout-container {
+    display: flex;
+    justify-content: center; /* 横中央 */
+    align-items: center; /* 縦中央 */
+    flex-grow: 1; /* ヘッダー下の残りのスペースを埋める */
+    padding-top: 80px; /* ヘッダーの高さ分だけスペースを空ける */
+}
+
+/* ログアウトボックスのスタイル */
+.logout-box {
+    background-color: #fff; /* 背景色を白に設定 */
+    padding: 100px; /* 内側の余白 */
+    border-radius: 10px; /* 角を丸く */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 影をつけて立体感を追加 */
+    text-align: center;
+    width: 700px; /* 幅を300pxに設定 */
+}
+
+/* 見出しのスタイル */
+.logout-box h2 {
+    font-size: 2em; /* フォントサイズを2emに設定 */
+    color: #333; /* 文字色をダークグレーに */
+    margin-bottom: 20px; /* 見出しの下に余白 */
+}
+
+/* メッセージのスタイル */
+.logout-box p {
+    font-size: 1.2em; /* フォントサイズを1.2emに設定 */
+    color: #666; /* 文字色をグレーに */
+    margin-bottom: 30px; /* メッセージの下に余白 */
+}
+
+/* ボタンコンテナのスタイル */
+.button-container {
+    display: flex;
+    justify-content: center; /* ボタンを中央に配置 */
+    gap: 15px; /* ボタン間の隙間を調整 */
+}
+
+/* ログアウトボタンのスタイル */
+.logout-btn {
+    background-color: #003366; /* 紺色の背景 */
+    color: white; /* 文字色を白に */
+    border: none;
+    padding: 12px 25px; /* パディングを調整 */
+    font-size: 1.1em; /* フォントサイズを調整 */
+    border-radius: 5px; /* 角を丸く */
+    cursor: pointer; /* ポインターを表示 */
+    transition: background-color 0.3s; /* ホバー時の背景色変化 */
+}
+
+/* ログアウトボタンホバー時のスタイル */
+.logout-btn:hover {
+    background-color: #002244; /* 紺色が少し暗くなる */
+}
+
+/* キャンセルボタンのスタイル */
+.cancel-btn {
+    background-color: #ccc; /* グレーの背景 */
+    color: black; /* 文字色を黒に */
+    border: none;
+    padding: 12px 25px; /* パディングを調整 */
+    font-size: 1.1em; /* フォントサイズを調整 */
+    border-radius: 5px; /* 角を丸く */
+    cursor: pointer; /* ポインターを表示 */
+    transition: background-color 0.3s; /* ホバー時の背景色変化 */
+}
+
+/* キャンセルボタンホバー時のスタイル */
+.cancel-btn:hover {
+    background-color: #999; /* グレーが少し暗くなる */
+}
+
 
 /* ホーム画面のスタイル */
 
