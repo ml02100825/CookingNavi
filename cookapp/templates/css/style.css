@@ -61,6 +61,22 @@ body {
     display: inline-block;
 }
 
+/* メインコンテンツエリアのスタイル */
+.content-area {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    flex: 1;
+    height: calc(100vh - 80px); /* ヘッダーの高さを引いて、メインエリアに調整 */
+    position: relative; /* 中央配置のため */
+}
+
+/* メインコンテンツのスタイル */
+.main-content {
+    flex: 1; /* メインコンテンツは残りのスペースを占める */
+    padding: 20px;
+    position: relative; /* 中央配置のため */
+}
 
 /* フッターのスタイリング */
 .footer {
