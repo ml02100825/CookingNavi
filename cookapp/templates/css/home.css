@@ -390,7 +390,6 @@ header {
     color: white; /* ホバー時に文字色を白に */
 }
 
-
 /* サイドバー（広告部分）のスタイル */
 .sidebar {
     width: 300px; /* サイドバーの幅を300pxに設定 */
@@ -417,6 +416,80 @@ header {
 .right-sidebar {
     margin-left: 20px; /* メインコンテンツとの間に余白を設定 */
 }
+
+
+/* (管理者)ホーム画面のスタイル /*
+/* ホーム画面全体のスタイル */
+.home-container {
+    font-family: Arial, sans-serif; /* フォントの設定 */
+    background-color: #f9f9f9; /* 背景色を薄いグレーに設定 */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column; /* 縦に並べる */
+    justify-content: center; /* 縦中央に配置 */
+    align-items: center; /* 横中央に配置 */
+    height: 100vh; /* 画面全体の高さに設定 */
+}
+
+/* ボタンコンテナのスタイル */
+.button-container {
+    display: flex; /* ボタンを横に並べる */
+    justify-content: space-between; /* ボタン間に間隔を設定 */
+    gap: 30px; /* ボタン間の間隔を広げる */
+    align-items: center; /* ボタンを中央揃え */
+    margin-top: 20px; /* 上部の余白 */
+}
+
+/* レシピ機能ボタンのスタイル */
+.recipe-btn {
+    background-color: #b3e0ff; /* 薄い水色の背景 */
+    color: white; /* 文字色を白に */
+    border: none;
+    padding: 20px; /* パディングを調整 */
+    font-size: 1.2em; /* フォントサイズを調整 */
+    border-radius: 5px; /* 角を丸く */
+    cursor: pointer; /* ポインターを表示 */
+    transition: background-color 0.3s; /* ホバー時の背景色変化 */
+    width: 150px; /* 幅を指定 */
+    height: 150px; /* 高さも同じ値に設定して正方形に */
+    text-align: center; /* テキストを中央揃え */
+    display: flex; /* フレックスボックスを使用 */
+    justify-content: center; /* 水平方向に中央揃え */
+    align-items: center; /* 垂直方向に中央揃え */
+    font-weight: bold; /* フォントを太字にする */
+}
+
+/* レシピ機能ボタンホバー時のスタイル */
+.recipe-btn:hover {
+    background-color: #99c2ff; /* 薄い水色が少し暗くなる */
+}
+
+/* 掲示板機能ボタンのスタイル */
+.forum-btn {
+    background-color: #b3e0ff; /* 薄い水色の背景 */
+    color: white; /* 文字色を白に */
+    border: none;
+    padding: 20px; /* パディングを調整 */
+    font-size: 1.2em; /* フォントサイズを調整 */
+    border-radius: 5px; /* 角を丸く */
+    cursor: pointer; /* ポインターを表示 */
+    transition: background-color 0.3s; /* ホバー時の背景色変化 */
+    width: 150px; /* 幅を指定 */
+    height: 150px; /* 高さも同じ値に設定して正方形に */
+    text-align: center; /* テキストを中央揃え */
+    display: flex; /* フレックスボックスを使用 */
+    justify-content: center; /* 水平方向に中央揃え */
+    align-items: center; /* 垂直方向に中央揃え */
+    font-weight: bold; /* フォントを太字にする */
+}
+
+/* 掲示板機能ボタンホバー時のスタイル */
+.forum-btn:hover {
+    background-color: #99c2ff; /* 薄い水色が少し暗くなる */
+}
+
+
 
 
 /* トップページのスタイル */
