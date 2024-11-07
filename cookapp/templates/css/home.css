@@ -166,7 +166,7 @@
 /* 全体のスタイル */
 body {
     font-family: Arial, sans-serif; /* フォントの設定 */
-    background-color: #f4f4f4; /* 背景色を薄いグレーに設定 */
+    background-color: #f9f9f9; /* 背景色を薄いグレーに設定 */
     margin: 0;
     padding: 0;
     display: flex;
@@ -199,11 +199,11 @@ header {
 /* ログアウトボックスのスタイル */
 .logout-box {
     background-color: #fff; /* 背景色を白に設定 */
-    padding: 40px; /* 内側の余白 */
+    padding: 100px; /* 内側の余白 */
     border-radius: 10px; /* 角を丸く */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 影をつけて立体感を追加 */
     text-align: center;
-    width: 300px; /* 幅を300pxに設定 */
+    width: 700px; /* 幅を300pxに設定 */
 }
 
 /* 見出しのスタイル */
@@ -223,7 +223,8 @@ header {
 /* ボタンコンテナのスタイル */
 .button-container {
     display: flex;
-    justify-content: space-between; /* ボタン間を広げる */
+    justify-content: center; /* ボタンを中央に配置 */
+    gap: 15px; /* ボタン間の隙間を調整 */
 }
 
 /* ログアウトボタンのスタイル */
