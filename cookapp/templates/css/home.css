@@ -1,0 +1,465 @@
+/* ログイン画面のスタイル */
+ 
+/* ログインコンテナのスタイル */
+.login-container {
+    width: 100%; /* 幅を100%に設定 */
+    max-width: 400px; /* 最大幅を400pxに設定 */
+    padding: 20px; /* 内部の余白を20pxに設定 */
+    border-radius: 8px; /* 角を丸くする */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* ボックスに影をつける */
+    background-color: #f9f9f9; /* 背景色を明るいグレーに設定 */
+    text-align: center; /* テキストを中央揃えにする */
+   
+    /* 画面の中央に配置 */
+    position: absolute; /* 絶対位置指定 */
+    top: 50%;  /* 画面の高さの50%に配置 */
+    left: 50%;  /* 画面の幅の50%に配置 */
+    transform: translate(-50%, -50%);  /* 要素を中央に調整 */
+}
+ 
+/* ログインタイトルのスタイル */
+.login-container h1 {
+    margin-bottom: 20px; /* タイトル下の余白を設定 */
+    font-size: 1.8em; /* フォントサイズを1.8倍に設定 */
+    color: #333; /* 文字色をダークグレーに設定 */
+}
+ 
+/* ラベルのスタイル */
+.login-container label {
+    display: block; /* ラベルをブロック要素にして改行させる */
+    margin-bottom: 5px; /* ラベル下の余白を設定 */
+    text-align: left; /* ラベルを左揃えにする */
+    font-weight: bold; /* フォントを太字にする */
+    color: #555; /* 文字色をグレーに設定 */
+}
+ 
+/* 入力フォームのスタイル */
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    width: 100%; /* 入力フォームの幅を100%に設定 */
+    padding: 10px; /* 内部の余白を10pxに設定 */
+    margin-bottom: 15px; /* 入力フォーム下の余白を設定 */
+    border: 1px solid #ddd; /* 薄いグレーの枠線 */
+    border-radius: 4px; /* 角を丸くする */
+    font-size: 1em; /* フォントサイズを1emに設定 */
+}
+ 
+/* ボタンのスタイル */
+.login-container button {
+    width: 100%; /* ボタンの幅を100%に設定 */
+    padding: 10px; /* ボタン内の余白を10pxに設定 */
+    border: none; /* 枠線をなしに設定 */
+    background-color: #333; /* 背景色をダークグレーに設定 */
+    color: #fff; /* 文字色を白に設定 */
+    font-size: 1em; /* フォントサイズを1emに設定 */
+    border-radius: 4px; /* 角を丸くする */
+    cursor: pointer; /* ポインターを表示 */
+}
+ 
+/* ボタンのホバー時のスタイル */
+.login-container button:hover {
+    background-color: #555; /* ホバー時に背景色を少し明るくする */
+}
+
+/* パスワード忘れた場合リンクのスタイル */
+.forgot-password {
+    margin-top: 10px; /* 上部に余白を設定 */
+}
+ 
+/* パスワード忘れた場合のリンクスタイル */
+.forgot-password a {
+    color: #333; /* リンクの文字色をダークグレーに設定 */
+    text-decoration: none; /* 下線をなしにする */
+    font-size: 0.9em; /* フォントサイズを0.9emに設定 */
+}
+ 
+/* パスワード忘れた場合のリンクホバー時のスタイル */
+.forgot-password a:hover {
+    text-decoration: underline; /* ホバー時に下線を表示 */
+    color: #555; /* ホバー時に文字色を少し明るくする */
+}
+
+
+/* (管理者)ログインコンテナスタイル */
+/* ログインコンテナのスタイル */
+.login-container {
+    width: 100%; /* 幅を100%に設定 */
+    max-width: 400px; /* 最大幅を400pxに設定 */
+    padding: 20px; /* 内部の余白を20pxに設定 */
+    border-radius: 8px; /* 角を丸くする */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* ボックスに影をつける */
+    background-color: #f9f9f9; /* 背景色を明るいグレーに設定 */
+    text-align: center; /* テキストを中央揃えにする */
+   
+    /* 画面の中央に配置 */
+    position: absolute; /* 絶対位置指定 */
+    top: 50%;  /* 画面の高さの50%に配置 */
+    left: 50%;  /* 画面の幅の50%に配置 */
+    transform: translate(-50%, -50%);  /* 要素を中央に調整 */
+}
+ 
+/* ログインタイトルのスタイル */
+.login-container h1 {
+    margin-bottom: 20px; /* タイトル下の余白を設定 */
+    font-size: 1.8em; /* フォントサイズを1.8倍に設定 */
+    color: #333; /* 文字色をダークグレーに設定 */
+}
+ 
+/* ラベルのスタイル */
+.login-container label {
+    display: block; /* ラベルをブロック要素にして改行させる */
+    margin-bottom: 5px; /* ラベル下の余白を設定 */
+    text-align: left; /* ラベルを左揃えにする */
+    font-weight: bold; /* フォントを太字にする */
+    color: #555; /* 文字色をグレーに設定 */
+}
+ 
+/* 入力フォームのスタイル */
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    width: 100%; /* 入力フォームの幅を100%に設定 */
+    padding: 10px; /* 内部の余白を10pxに設定 */
+    margin-bottom: 15px; /* 入力フォーム下の余白を設定 */
+    border: 1px solid #ddd; /* 薄いグレーの枠線 */
+    border-radius: 4px; /* 角を丸くする */
+    font-size: 1em; /* フォントサイズを1emに設定 */
+}
+ 
+/* ボタンのスタイル */
+.login-container button {
+    width: 100%; /* ボタンの幅を100%に設定 */
+    padding: 10px; /* ボタン内の余白を10pxに設定 */
+    border: none; /* 枠線をなしに設定 */
+    background-color: #333; /* 背景色をダークグレーに設定 */
+    color: #fff; /* 文字色を白に設定 */
+    font-size: 1em; /* フォントサイズを1emに設定 */
+    border-radius: 4px; /* 角を丸くする */
+    cursor: pointer; /* ポインターを表示 */
+}
+ 
+/* ボタンのホバー時のスタイル */
+.login-container button:hover {
+    background-color: #555; /* ホバー時に背景色を少し明るくする */
+}
+
+/* パスワード忘れた場合リンクのスタイル */
+.forgot-password {
+    margin-top: 10px; /* 上部に余白を設定 */
+}
+ 
+/* パスワード忘れた場合のリンクスタイル */
+.forgot-password a {
+    color: #333; /* リンクの文字色をダークグレーに設定 */
+    text-decoration: none; /* 下線をなしにする */
+    font-size: 0.9em; /* フォントサイズを0.9emに設定 */
+}
+ 
+/* パスワード忘れた場合のリンクホバー時のスタイル */
+.forgot-password a:hover {
+    text-decoration: underline; /* ホバー時に下線を表示 */
+    color: #555; /* ホバー時に文字色を少し明るくする */
+}
+
+
+/* ログアウト画面のスタイル */
+
+/* 全体のスタイル */
+body {
+    font-family: Arial, sans-serif; /* フォントの設定 */
+    background-color: #f9f9f9; /* 背景色を薄いグレーに設定 */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column; /* ヘッダーとコンテンツを縦に並べる */
+    height: 100vh; /* 画面全体の高さに設定 */
+}
+
+/* ヘッダーのスタイル */
+header {
+    background-color: #003366; /* ヘッダーの背景色 */
+    color: white; /* ヘッダーの文字色 */
+    padding: 20px;
+    text-align: center;
+    position: fixed; /* ヘッダーを固定 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100; /* ヘッダーを最前面に */
+}
+
+/* ログアウト画面のスタイル */
+.logout-container {
+    display: flex;
+    justify-content: center; /* 横中央 */
+    align-items: center; /* 縦中央 */
+    flex-grow: 1; /* ヘッダー下の残りのスペースを埋める */
+    padding-top: 80px; /* ヘッダーの高さ分だけスペースを空ける */
+}
+
+/* ログアウトボックスのスタイル */
+.logout-box {
+    background-color: #fff; /* 背景色を白に設定 */
+    padding: 100px; /* 内側の余白 */
+    border-radius: 10px; /* 角を丸く */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 影をつけて立体感を追加 */
+    text-align: center;
+    width: 700px; /* 幅を300pxに設定 */
+}
+
+/* 見出しのスタイル */
+.logout-box h2 {
+    font-size: 2em; /* フォントサイズを2emに設定 */
+    color: #333; /* 文字色をダークグレーに */
+    margin-bottom: 20px; /* 見出しの下に余白 */
+}
+
+/* メッセージのスタイル */
+.logout-box p {
+    font-size: 1.2em; /* フォントサイズを1.2emに設定 */
+    color: #666; /* 文字色をグレーに */
+    margin-bottom: 30px; /* メッセージの下に余白 */
+}
+
+/* ボタンコンテナのスタイル */
+.button-container {
+    display: flex;
+    justify-content: center; /* ボタンを中央に配置 */
+    gap: 15px; /* ボタン間の隙間を調整 */
+}
+
+/* ログアウトボタンのスタイル */
+.logout-btn {
+    background-color: #003366; /* 紺色の背景 */
+    color: white; /* 文字色を白に */
+    border: none;
+    padding: 12px 25px; /* パディングを調整 */
+    font-size: 1.1em; /* フォントサイズを調整 */
+    border-radius: 5px; /* 角を丸く */
+    cursor: pointer; /* ポインターを表示 */
+    transition: background-color 0.3s; /* ホバー時の背景色変化 */
+}
+
+/* ログアウトボタンホバー時のスタイル */
+.logout-btn:hover {
+    background-color: #002244; /* 紺色が少し暗くなる */
+}
+
+/* キャンセルボタンのスタイル */
+.cancel-btn {
+    background-color: #ccc; /* グレーの背景 */
+    color: black; /* 文字色を黒に */
+    border: none;
+    padding: 12px 25px; /* パディングを調整 */
+    font-size: 1.1em; /* フォントサイズを調整 */
+    border-radius: 5px; /* 角を丸く */
+    cursor: pointer; /* ポインターを表示 */
+    transition: background-color 0.3s; /* ホバー時の背景色変化 */
+}
+
+/* キャンセルボタンホバー時のスタイル */
+.cancel-btn:hover {
+    background-color: #999; /* グレーが少し暗くなる */
+}
+
+
+/* ホーム画面のスタイル */
+
+/* 健康管理ボタンのスタイル */
+.health-management-btn {
+    position: absolute; /* 絶対位置指定 */
+    top: 2%; /* 上部に配置 */
+    left: 50%; /* 左側50% */
+    transform: translateX(-50%); /* ボタンを中央揃えにする */
+}
+
+/* 健康管理ボタンのスタイル */
+.health-management-btn button {
+    font-size: 4.5em; /* ボタンのフォントサイズを大きく */
+    padding: 50px 100px; /* ボタンのパディングを大きく */
+    background-color: white; /* ボタンの背景色を白 */
+    color: #003366; /* 文字色を紺色に設定 */
+    border: 4px solid #003366; /* 紺色の枠線 */
+    border-radius: 15px; /* 角を丸くする */
+    cursor: pointer; /* ポインターを表示 */
+    transition: background-color 0.3s, color 0.3s; /* ホバー時のトランジション */
+}
+
+/* 健康管理ボタンホバー時のスタイル */
+.health-management-btn button:hover {
+    background-color: #003366; /* ホバー時に背景色を紺色に */
+    color: white; /* ホバー時に文字色を白に */
+}
+
+/* 掲示板ボタンのスタイル */
+.forum-btn {
+    position: absolute; /* 絶対位置指定 */
+    top: 35%; /* 健康管理ボタンの下に配置 */
+    left: 20%; /* 左側に寄せる */
+}
+
+/* 掲示板ボタンのスタイル */
+.forum-btn button {
+    font-size: 2em; /* フォントサイズを2emに設定 */
+    padding: 20px 50px; /* パディングを設定 */
+    background-color: white; /* 背景色を白に設定 */
+    color: black; /* 文字色を黒に設定 */
+    border: 3px solid black; /* 黒い枠線 */
+    border-radius: 15px; /* 角を丸くする */
+    cursor: pointer; /* ポインターを表示 */
+    transition: background-color 0.3s, color 0.3s; /* ホバー時のトランジション */
+}
+
+/* 掲示板ボタンホバー時のスタイル */
+.forum-btn button:hover {
+    background-color: black; /* ホバー時に背景色を黒に */
+    color: white; /* ホバー時に文字色を白に */
+}
+
+/* 食事履歴ボタンのスタイル */
+.meal-history-btn {
+    position: absolute; /* 絶対位置指定 */
+    top: 35%; /* 掲示板ボタンと同じ位置 */
+    right: 20%; /* 右側に配置 */
+}
+
+/* 食事履歴ボタンのスタイル */
+.meal-history-btn button {
+    font-size: 2em; /* フォントサイズを2emに設定 */
+    padding: 20px 50px; /* パディングを設定 */
+    background-color: white; /* 背景色を白に設定 */
+    color: black; /* 文字色を黒に設定 */
+    border: 3px solid black; /* 黒い枠線 */
+    border-radius: 15px; /* 角を丸くする */
+    cursor: pointer; /* ポインターを表示 */
+    transition: background-color 0.3s, color 0.3s; /* ホバー時のトランジション */
+}
+
+/* 食事履歴ボタンホバー時のスタイル */
+.meal-history-btn button:hover {
+    background-color: black; /* ホバー時に背景色を黒に */
+    color: white; /* ホバー時に文字色を白に */
+}
+
+/* 買い物リストボタンのスタイル */
+.shopping-list-btn {
+    position: absolute; /* 絶対位置指定 */
+    top: 60%; /* 掲示板ボタンの下に配置 */
+    left: 18%; /* 左側に寄せる */
+}
+
+/* 買い物リストボタンのスタイル */
+.shopping-list-btn button {
+    font-size: 2em; /* フォントサイズを2emに設定 */
+    padding: 20px 50px; /* パディングを設定 */
+    background-color: white; /* 背景色を白に設定 */
+    color: black; /* 文字色を黒に設定 */
+    border: 3px solid black; /* 黒い枠線 */
+    border-radius: 15px; /* 角を丸くする */
+    cursor: pointer; /* ポインターを表示 */
+    transition: background-color 0.3s, color 0.3s; /* ホバー時のトランジション */
+}
+
+/* 買い物リストボタンホバー時のスタイル */
+.shopping-list-btn button:hover {
+    background-color: black; /* ホバー時に背景色を黒に */
+    color: white; /* ホバー時に文字色を白に */
+}
+
+/* 健康グラフボタンのスタイル */
+.health-graph-btn {
+    position: absolute; /* 絶対位置指定 */
+    top: 60%; /* 食事履歴ボタンの下に配置 */
+    right: 18%; /* 右側に配置 */
+}
+
+/* 健康グラフボタンのスタイル */
+.health-graph-btn button {
+    font-size: 2em; /* フォントサイズを2emに設定 */
+    padding: 20px 50px; /* パディングを設定 */
+    background-color: white; /* 背景色を白に設定 */
+    color: black; /* 文字色を黒に設定 */
+    border: 3px solid black; /* 黒い枠線 */
+    border-radius: 15px; /* 角を丸くする */
+    cursor: pointer; /* ポインターを表示 */
+    transition: background-color 0.3s, color 0.3s; /* ホバー時のトランジション */
+}
+
+/* 健康グラフボタンホバー時のスタイル */
+.health-graph-btn button:hover {
+    background-color: black; /* ホバー時に背景色を黒に */
+    color: white; /* ホバー時に文字色を白に */
+}
+
+
+/* サイドバー（広告部分）のスタイル */
+.sidebar {
+    width: 300px; /* サイドバーの幅を300pxに設定 */
+    background-color: #f9f9f9; /* 背景色を明るいグレーに設定 */
+    border-left: 5px solid black; /* 黒い縦の枠線 */
+    padding: 10px; /* パディングを10pxに設定 */
+    height: calc(100vh - 80px); /* 画面全体に合わせる */
+    position: relative; /* サイドバーを相対位置指定 */
+}
+
+/* 広告部分のスタイリング */
+.advertisement {
+    background-color: #eee; /* 背景色を淡いグレーに設定 */
+    padding: 10px; /* パディングを10pxに設定 */
+    text-align: center; /* テキストを中央揃えにする */
+}
+
+/* 左サイドバーのスタイル */
+.left-sidebar {
+    margin-right: 20px; /* メインコンテンツとの間に余白を設定 */
+}
+
+/* 右サイドバーのスタイル */
+.right-sidebar {
+    margin-left: 20px; /* メインコンテンツとの間に余白を設定 */
+}
+
+
+/* トップページのスタイル */
+
+/* 画像を画面の中央に配置するためのスタイル */
+.image-container {
+    display: flex; /* フレックスボックスを使用 */
+    justify-content: center; /* 水平方向の中央揃え */
+    align-items: center; /* 垂直方向の中央揃え */
+    min-height: 100vh; /* 画面全体の高さを確保 */
+    position: relative; /* 位置指定 */
+    flex-direction: column; /* ボタンを画像の下部に配置 */
+}
+
+/* トップページの画像 */
+.top-image {
+    width: 100%; /* 幅を100%に設定 */
+    height: auto; /* 高さを自動調整 */
+    max-width: 800px; /* 最大幅を800pxに設定 */
+    display: block; /* ブロック表示 */
+    margin: 0 auto; /* 水平中央に配置 */
+}
+
+/* 画像の下部にボタンを配置するためのスタイル */
+.button-container {
+    margin-top: 20px; /* 画像とボタンの間隔を設定 */
+    display: flex; /* フレックスボックスで配置 */
+    gap: 20px; /* ボタン間に間隔を設定 */
+}
+
+/* ボタンのスタイル */
+.button {
+    background-color: #007bff; /* ボタンの背景色を青に設定 */
+    color: white; /* 文字色を白に設定 */
+    text-decoration: none; /* リンクの下線をなしに設定 */
+    padding: 10px 20px; /* パディングを設定 */
+    border-radius: 5px; /* 角を丸くする */
+    font-size: 1em; /* フォントサイズを1emに設定 */
+    transition: background-color 0.3s ease; /* ホバー時の背景色の変化 */
+    font-weight: bold; /* フォントを太字にする */
+}
+
+/* ボタンホバー時のスタイル */
+.button:hover {
+    background-color: #0056b3; /* ホバー時に背景色を濃い青に変更 */
+}
