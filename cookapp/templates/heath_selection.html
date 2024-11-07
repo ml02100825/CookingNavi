@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>健康管理 - 主菜選択</title>
+    <style>
+        /* 全体のレイアウト */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center; /* 横中央揃え */
+            align-items: center;     /* 縦中央揃え */
+            height: 100vh;           /* 画面いっぱいに高さを使う */
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;  /* 最大幅を設定 */
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .meal-selection,
+        .meal-time-selection {
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-right: 10px;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+
+        select {
+            padding: 5px;
+            font-size: 16px;
+            width: 100%;
+            max-width: 300px;
+            margin: 10px 0;
+        }
+
+        .meal-status {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>健康管理</h1>
+            <p>食事のメニューを管理しましょう。</p>
+        </header>
+
+        <main>
+            <div class="meal-selection">
+                <h2>主菜選択</h2>
+                <!-- 主菜選択フォーム -->
+                <form id="dish-form">
+                    <label for="dish">主菜を選んでください:</label>
+                    <select id="dish" name="dish" required>
+                        <option value="">選択してください</option>
+                        <option value="唐揚げ">唐揚げ</option>
+                        <option value="焼き魚">焼き魚</option>
+                        <option value="ステーキ">ステーキ</option>
+                        <option value="カレー">カレー</option>
+                        <option value="パスタ">パスタ</option>
+                    </select>
+                    <button type="submit">登録</button>
+                </form>
+            </div>
+
+            <div class="meal-time-selection">
+                <h3>時間帯</h3>
+                <p>登録した主菜は以下の時間帯で表示されます。</p>
+
+                <button id="morning-btn" onclick="setMealTime('朝')">朝</button>
+                <button id="afternoon-btn" onclick="setMealTime('昼')">昼</button>
+                <button id="evening-btn" onclick="setMealTime('晩')">晩</button>
+
+                <div id="meal-status" class="meal-status">
+                    <!-- 未定 or 登録された主菜が表示される -->
+                    <p id="dish-status">主菜は未定です。</p>
+                </div>
+            </div>
+
+            <div>
+                <button onclick="goBack()">戻る</button>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 CookingNavi</p>
+        </footer>
+    </div>
+
+    <script>
+        // 主菜の選択が登録されると、選択内容をローカルストレージに保存する
+        document.getElementById("dish-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const selectedDish = document.getElementById("dish").value;
+            if (selectedDish) {
+                localStorage.setItem('selectedDish', selectedDish);
+                alert('主菜が登録されました: ' + selectedDish);
+                updateMealStatus();  // 登録後、表示を更新
+            } else {
+                alert('主菜を選んでください。');
+            }
+        });
+
+        // 時間帯ボタンをクリックして、登録された主菜を表示
+        function setMealTime(time) {
+            const selectedDish = localStorage.getItem('selectedDish');
+            if (selectedDish) {
+                document.getElementById("dish-status").innerText = time + ": " + selectedDish;
+            } else {
+                document.getElementById("dish-status").innerText = time + "の主菜は未定です。";
+            }
+        }
+
+        // 管理画面の表示を更新する関数
+        function updateMealStatus() {
+            const selectedDish = localStorage.getItem('selectedDish');
+            if (selectedDish) {
+                document.getElementById("dish-status").innerText = '登録された主菜: ' + selectedDish;
+            } else {
+                document.getElementById("dish-status").innerText = '主菜は未定です。';
+            }
+        }
+
+        // 初期表示で主菜の状態を更新
+        window.onload = updateMealStatus;
+
+        // 戻るボタン
+        function goBack() {
+            alert("戻ります。");
+            // 管理画面や他のページに戻る処理を記述
+        }
+    </script>
+</body>
+</html>
