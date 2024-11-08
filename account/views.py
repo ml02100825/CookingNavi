@@ -21,7 +21,7 @@ class CustomLoginView(LoginView):
     
 
 class CustomLogoutView(LogoutView):
-    template_name = 'logout.html'  # ログインページのテンプレート
+    template_name = 'logout.html'  # ログアウトページのテンプレート
 
 class IndexView(TemplateView):
     
