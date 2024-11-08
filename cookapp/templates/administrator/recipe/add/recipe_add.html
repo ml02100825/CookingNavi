@@ -3,23 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>（管理者）レシピ検索</title>
-    <!-- CSSのリンク -->
+    <title>（管理者）レシピ追加</title>
     <link rel="stylesheet" href="css/home.css">
-    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../../css/style.css">
 </head>
 <body>
 
    <!-- ヘッダー -->
    <header class="header">
         <div class="app-name">クッキングnavi　管理者用</div>
-        <!-- ナビゲーションバー右側のリンク -->
         <div class="nav-right">
             <div class="nav-links">
                 <a href="#" class="home-link">ホーム</a>
                 <a href="#">ログアウト</a>
             </div>
-            <!-- ユーザーアイコンのスペース -->
             <div class="user-icon"></div>
         </div>
     </header>
@@ -28,23 +25,24 @@
     <main>
         <div class="login-container">
             <h1>管理者画面</h1>
-            <h2>～レシピ検索～</h2>
-            
-            <!-- 検索バー -->
-            <input type="text" id="search-bar" name="search-bar" placeholder="レシピを検索" />
-    
-            <!-- レシピ選択と画像アップロードフォーム -->
+            <h2>～レシピ追加～</h2>
             <form action="#" method="post" enctype="multipart/form-data">
-                <!-- 画像追加のラベルとファイル選択 -->
-                <label for="image-upload">画像追加</label>
-                <input type="file" id="image-upload" name="image-upload" accept="image/*" />
-    
-                <!-- 画像削除ボタン -->
-                <button type="submit" name="action" value="delete-image">画像削除</button>
+                <label for="recipe-name">メニュー名</label>
+                <input type="text" id="recipe-name" name="recipe-name" required>
+
+                <label for="ingredients">材料名</label>
+                <textarea id="ingredients" name="ingredients" rows="4" required></textarea>
+
+                <label for="instructions">作り方</label>
+                <textarea id="instructions" name="instructions" rows="4" required></textarea>
+
+                <button type="submit">戻る</button>
+
+                <button type="submit">レシピ追加</button>
             </form>
         </div>
     </main>
-    
+
     <!-- フッター -->
     <footer class="footer">
         <p>&copy; 2024 CookingNavi</p>
