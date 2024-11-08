@@ -18,6 +18,7 @@ class CustomLoginView(LoginView):
     def get_success_url(self):
         # カスタムリダイレクト先を指定
         return self.success_url
+    
 class IndexView(TemplateView):
     
     template_name='top.html'
