@@ -175,17 +175,6 @@ body {
     min-height: 100vh; /* ページの高さを100vh（画面全体）に */
 }
 
-/* ヘッダーのスタイル */
-.header {
-    display: flex; /* フレックスボックスでヘッダーを配置 */
-    justify-content: space-between; /* 左右にコンテンツを配置 */
-    align-items: center; /* 垂直方向に中央に配置 */
-    padding: 15px 30px; /* 上下15px、左右30pxの余白 */
-    background-color: #4CAF50; /* ヘッダーの背景色を緑に設定 */
-    color: white; /* ヘッダー内の文字色を白に */
-    font-size: 1.2em; /* フォントサイズを1.2emに */
-}
-
 .app-name {
     font-weight: bold; /* アプリ名を太字に */
 }
@@ -262,16 +251,6 @@ main {
 }
 
 
-/* フッターのスタイル */
-.footer {
-    text-align: center; /* フッター内のテキストを中央に配置 */
-    padding: 20px; /* フッターの上下20pxの余白 */
-    background-color: #333; /* 背景色をダークグレーに */
-    color: white; /* 文字色を白に設定 */
-    margin-top: auto; /* 上に余白を自動で調整してフッターを下に固定 */
-}
-
-
 
 /* （管理者）ログアウト画面のスタイル */
 /* 全体のスタイル */
@@ -283,17 +262,6 @@ body {
     display: flex; /* Flexboxを使ってレイアウトを設定 */
     flex-direction: column; /* 縦方向にレイアウト */
     min-height: 100vh; /* 画面の高さに合わせて最小高さを設定 */
-}
-
-/* ヘッダーのスタイル */
-.header {
-    display: flex; /* Flexboxでレイアウト */
-    justify-content: space-between; /* ヘッダー内で左右にアイテムを配置 */
-    align-items: center; /* 垂直方向に中央揃え */
-    padding: 15px 30px; /* パディングの設定 */
-    background-color: #4CAF50; /* ヘッダー背景色を緑に */
-    color: white; /* 文字色を白に */
-    font-size: 1.2em; /* フォントサイズを設定 */
 }
 
 .app-name {
@@ -387,17 +355,6 @@ body {
 }
 
 
-/* フッターのスタイル */
-.footer {
-    text-align: center; /* フッター内の文字を中央揃え */
-    padding: 20px; /* パディングを設定 */
-    background-color: #333; /* フッターの背景色をダークグレーに */
-    color: white; /* フッターの文字色を白に */
-    margin-top: auto; /* ページの下部に配置 */
-}
-
-
-
 
 /* （管理者）ログアウト完了画面のスタイル */
 /* 全体のスタイル */
@@ -409,17 +366,6 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh; /* 最小高さを画面全体にする */
-}
-
-/* ヘッダーのスタイル */
-.header {
-    display: flex;
-    justify-content: space-between; /* ヘッダー内の要素を左右に分ける */
-    align-items: center; /* 中央揃え */
-    padding: 15px 30px; /* 上下15px、左右30pxのパディング */
-    background-color: #4CAF50; /* ヘッダー背景色を緑に設定 */
-    color: white; /* ヘッダー内の文字色を白に設定 */
-    font-size: 1.2em; /* フォントサイズを設定 */
 }
 
 .app-name {
@@ -498,16 +444,6 @@ body {
     background-color: #45a049; /* ホバー時にボタンの色を少し暗く */
 }
 
-/* フッターのスタイル */
-.footer {
-    text-align: center; /* フッターのテキストを中央揃え */
-    padding: 20px; /* フッター内のパディング */
-    background-color: #333; /* フッター背景色を暗い色に設定 */
-    color: white; /* フッター内の文字色を白に設定 */
-    margin-top: auto; /* フッターを画面下部に固定 */
-}
-
-
 
 
 /* 新規登録画面のスタイル */
@@ -517,17 +453,6 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f4f9;
-}
-
-/* ヘッダーのスタイル */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    background-color: #4CAF50;
-    color: white;
-    font-size: 1.2em;
 }
 
 .app-name {
@@ -601,17 +526,6 @@ body {
     background-color: #45a049;
 }
 
-/* フッターのスタイル */
-.footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #333;
-    color: white;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-}
-
 
 
 /* 新規登録（身長・体重・年齢・アレルギー）入力画面のスタイル */
@@ -624,17 +538,6 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh; /* フッターが常に画面下部に配置されるように高さを設定 */
-}
-
-/* ヘッダーのスタイル */
-.header {
-    display: flex;
-    justify-content: space-between; /* ヘッダー内容を左右に配置 */
-    align-items: center;
-    padding: 15px 30px; /* 上下15px、左右30pxの余白 */
-    background-color: #4CAF50; /* ヘッダーの背景色を緑色に設定 */
-    color: white; /* 文字色を白に設定 */
-    font-size: 1.2em; /* 文字サイズを少し大きく設定 */
 }
 
 .app-name {
@@ -740,16 +643,6 @@ body {
 }
 
 
-/* フッターのスタイル */
-.footer {
-    text-align: center; /* テキストを中央揃え */
-    padding: 20px; /* 上下左右に20pxの余白 */
-    background-color: #333; /* 背景色をダークグレーに */
-    color: white; /* テキスト色を白に */
-    margin-top: auto; /* フッターが常に画面下部に配置されるように */
-}
-
-
 
 /* ログアウト画面のスタイル */
 /* 全体のスタイル */
@@ -761,19 +654,6 @@ body {
     display: flex;
     flex-direction: column; /* ヘッダーとコンテンツを縦に並べる */
     height: 100vh; /* 画面全体の高さに設定 */
-}
-
-/* ヘッダーのスタイル */
-header {
-    background-color: #003366; /* ヘッダーの背景色 */
-    color: white; /* ヘッダーの文字色 */
-    padding: 20px;
-    text-align: center;
-    position: fixed; /* ヘッダーを固定 */
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 100; /* ヘッダーを最前面に */
 }
 
 /* ログアウト画面のスタイル */
