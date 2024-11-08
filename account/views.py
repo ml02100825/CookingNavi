@@ -1,19 +1,22 @@
-from httprequest import request
+
 from django.shortcuts import render
 
 # Create your views here.
 # Create your views here.
-from django.views.generic.base import TemplateView, LoginView as BaseLoginView
-from django.contrib.auth import authenticate, login
-from .forms import SignUpForm, LoginFrom #ログインフォームをimport
+from django.views.generic.base import TemplateView
 
 
-class LoginView(BaseLoginView):
-    
-    template_name='Login.html'
+from django.contrib.auth.views import LoginView
+from django.urls import reverse_lazy
 
-    form_class = LoginFrom
-    template_name = "accounts/login.html"
+class CustomLoginView(LoginView):
+    template_name = 'login.html'  # ログインページのテンプレート
+    # redirect_authenticated_user = True  # ログイン済みユーザーをリダイレクト
+    success_url = reverse_lazy('cookapp:index')  # ログイン後のリダイレクト先
+
+    def get_success_url(self):
+        # カスタムリダイレクト先を指定
+        return self.success_url
 class IndexView(TemplateView):
     
     template_name='top.html'
