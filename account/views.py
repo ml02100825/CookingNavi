@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.views.generic.base import TemplateView
 
 
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 
 class CustomLoginView(LoginView):
@@ -19,6 +19,10 @@ class CustomLoginView(LoginView):
         # カスタムリダイレクト先を指定
         return self.success_url
     
+
+class CustomLogoutView(LogoutView):
+    template_name = 'logout.html'  # ログインページのテンプレート
+
 class IndexView(TemplateView):
     
     template_name='top.html'
