@@ -648,7 +648,6 @@ body {
 
 /* メインコンテンツのスタイル */
 .main-content {
-    display: flex;
     flex-direction: column;
     align-items: center;
     padding: 40px; /* コンテンツの上下左右に40pxの余白 */
