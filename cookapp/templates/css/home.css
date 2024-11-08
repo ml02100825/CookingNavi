@@ -216,13 +216,10 @@ body {
 
 /* メインコンテンツのスタイル */
 main {
-    display: flex; /* フレックスボックスでメインコンテンツを配置 */
     flex-direction: column; /* 縦方向に並べる */
     align-items: center; /* 中央に配置 */
     padding: 40px; /* 40pxの余白 */
-    background-color: white; /* 背景色を白に */
     border-radius: 8px; /* コンテナの角を丸くする */
-    max-width: 500px; /* 最大幅を500pxに設定 */
     width: 100%; /* 幅は100%で、最大幅を超えないように */
     margin: 50px; /* 上下に50px、左右は自動でセンタリング */
 }
@@ -995,9 +992,6 @@ header {
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
     margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
     align-items: center;
     height: 100vh;
 }
