@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新規登録</title>
+    <link rel="stylesheet" href="../../css/home.css">
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<!-- ヘッダー -->
+<header class="header">
+    <div class="app-name">クッキングnavi</div>
+    <div class="nav-right">
+        <div class="nav-links">
+            <a href="#" class="home-link">ホーム</a>
+            <a href="#">ログアウト</a>
+        </div>
+        <div class="user-icon"></div>
+    </div>
+</header>
+
+<!-- メインコンテンツ -->
+<main class="main-content">
+    <h2>新規登録</h2>
+    <form action="#" method="post" class="registration-form">
+        <label for="birthdate">生年月日</label>
+        <input type="date" id="birthdate" name="birthdate" required>
+
+        <label for="gender">性別</label>
+        <select id="gender" name="gender" required>
+            <option value="male">男性</option>
+            <option value="female">女性</option>
+            <option value="other">その他</option>
+        </select>
+
+        <label for="allergies">アレルギー</label>
+        <input type="text" id="allergies" name="allergies" placeholder="例: ピーナッツ, 卵">
+
+        <label for="height">身長 (cm)</label>
+        <input type="number" id="height" name="height" min="0" step="0.1" required>
+
+        <label for="weight">体重 (kg)</label>
+        <input type="number" id="weight" name="weight" min="0" step="0.1" required>
+
+        <button type="submit">戻る</button>
+
+        <button type="submit">登録</button>
+    </form>
+</main>
+
+<!-- フッター -->
+<footer class="footer">
+    <p>&copy; 2024 CookingNavi</p>
+</footer>
+
+</body>
+</html>
