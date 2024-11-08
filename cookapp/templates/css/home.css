@@ -216,16 +216,12 @@ body {
 
 /* メインコンテンツのスタイル */
 main {
-    display: flex; /* フレックスボックスでメインコンテンツを配置 */
     flex-direction: column; /* 縦方向に並べる */
     align-items: center; /* 中央に配置 */
     padding: 40px; /* 40pxの余白 */
-    background-color: white; /* 背景色を白に */
     border-radius: 8px; /* コンテナの角を丸くする */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 薄いシャドウをつけて浮き上がらせる */
-    max-width: 500px; /* 最大幅を500pxに設定 */
     width: 100%; /* 幅は100%で、最大幅を超えないように */
-    margin: 50px auto; /* 上下に50px、左右は自動でセンタリング */
+    margin: 50px; /* 上下に50px、左右は自動でセンタリング */
 }
 
 .login-complete-container h1 {
@@ -339,20 +335,9 @@ body {
     padding: 30px; /* 内部にパディングを追加 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 影を付けて浮き上がったような見た目に */
     text-align: center; /* 文字を中央揃え */
-    max-width: 400px; /* 最大幅を400pxに制限 */
+    max-width: 400px; /* 最大幅を400pxに設定 */
     width: 100%; /* 幅は100% */
-}
-
-.logout-box h2 {
-    font-size: 1.8em; /* タイトルのフォントサイズを設定 */
-    margin-bottom: 20px; /* タイトルとコンテンツの間にスペースを追加 */
-    color: #333; /* 文字色をダークグレーに */
-}
-
-.logout-box p {
-    font-size: 1.2em; /* メッセージのフォントサイズを設定 */
-    margin-bottom: 30px; /* メッセージとボタンの間にスペースを追加 */
-    color: #666; /* 文字色をライトグレーに */
+    margin: 0 auto; /* 左右中央に配置 */
 }
 
 /* ボタンコンテナのスタイル */
@@ -381,11 +366,9 @@ body {
     background-color: #45a049; /* ホバー時にボタンの色を少し濃く */
 }
 
-
 .logout-btn:hover, .cancel-btn:hover {
     background-color: #45a049; /* ホバー時にボタンの色を少し濃く */
 }
-
 
 /* フッターのスタイル */
 .footer {
@@ -395,6 +378,7 @@ body {
     color: white; /* フッターの文字色を白に */
     margin-top: auto; /* ページの下部に配置 */
 }
+
 
 
 
@@ -457,9 +441,6 @@ body {
     align-items: center; /* 中央揃え */
     justify-content: center; /* 縦方向も中央揃え */
     padding: 40px; /* 上下左右に40pxの余白 */
-    /* background-color: white; 削除 */
-    /* border-radius: 8px; 削除 */
-    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 削除 */
     max-width: 500px; /* 最大幅を500pxに制限 */
     width: 100%; /* 幅を100%に設定 */
     margin: 50px auto; /* 上下に50pxの余白を設定し、左右中央に配置 */
@@ -511,105 +492,105 @@ body {
 
 
 /* 新規登録画面のスタイル */
+
 /* 全体のスタイル */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f9;
+    font-family: Arial, sans-serif; /* フォントを指定 */
+    margin: 0; /* ページの余白をリセット */
+    padding: 0; /* ページの内側の余白をリセット */
+    background-color: #f4f4f9; /* 背景色を淡いグレーに設定 */
 }
 
 /* ヘッダーのスタイル */
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    background-color: #4CAF50;
-    color: white;
-    font-size: 1.2em;
+    display: flex; /* ヘッダーをフレックスボックスで配置 */
+    justify-content: space-between; /* ヘッダー内要素を左右に配置 */
+    align-items: center; /* アイテムを縦方向に中央揃え */
+    padding: 15px 30px; /* ヘッダー内の余白 */
+    background-color: #4CAF50; /* 背景色を緑色に設定 */
+    color: white; /* 文字色を白に設定 */
+    font-size: 1.2em; /* フォントサイズを1.2emに設定 */
 }
 
 .app-name {
-    font-weight: bold;
+    font-weight: bold; /* アプリ名を太字に */
 }
 
 .nav-right {
-    display: flex;
-    align-items: center;
+    display: flex; /* ナビゲーションリンクとアイコンをフレックスボックスで配置 */
+    align-items: center; /* アイテムを縦方向に中央揃え */
 }
 
 .nav-links a {
-    color: white;
-    text-decoration: none;
-    margin-left: 15px;
-    font-weight: bold;
+    color: white; /* リンクの文字色を白に設定 */
+    text-decoration: none; /* リンクの下線を削除 */
+    margin-left: 15px; /* リンク同士に左余白を設定 */
+    font-weight: bold; /* リンク文字を太字に設定 */
 }
 
 .nav-links a:hover {
-    text-decoration: underline;
+    text-decoration: underline; /* ホバー時に下線を表示 */
 }
 
 .user-icon {
-    width: 30px;
-    height: 30px;
-    background-color: #333;
-    border-radius: 50%;
-    margin-left: 15px;
+    width: 30px; /* アイコンの幅を30pxに設定 */
+    height: 30px; /* アイコンの高さを30pxに設定 */
+    background-color: #333; /* アイコンの背景色をダークグレーに設定 */
+    border-radius: 50%; /* アイコンを丸型にする */
+    margin-left: 15px; /* アイコンの左に余白を追加 */
 }
 
 /* メインコンテンツ（新規登録フォーム）のスタイル */
 .login-container {
-    background-color: white;
-    padding: 40px;
-    max-width: 400px;
-    margin: 50px auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    background-color: white; /* 背景色を白に設定 */
+    padding: 40px; /* 内側の余白を40pxに設定 */
+    max-width: 400px; /* 最大幅を400pxに設定 */
+    margin: 50px auto; /* 上下に50px、左右中央に配置 */
+    border-radius: 8px; /* 角を丸くする */
+    text-align: center; /* テキストを中央揃え */
 }
 
 .login-container h1 {
-    margin-bottom: 20px;
-    font-size: 1.8em;
-    color: #333;
+    margin-bottom: 20px; /* 見出し下に20pxの余白を追加 */
+    font-size: 1.8em; /* フォントサイズを1.8emに設定 */
+    color: #333; /* 文字色をダークグレーに設定 */
 }
 
 .login-container input[type="email"],
 .login-container input[type="password"] {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1em;
+    width: 100%; /* 入力フィールドを幅100%に設定 */
+    padding: 12px; /* 内側の余白を12pxに設定 */
+    margin: 10px 0; /* 上下に10pxの余白を追加 */
+    border: 1px solid #ddd; /* 入力フィールドの枠線を薄いグレーに設定 */
+    border-radius: 5px; /* 角を丸くする */
+    font-size: 1em; /* フォントサイズを1emに設定 */
 }
 
 .login-container button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 12px;
-    font-size: 1.1em;
-    cursor: pointer;
-    width: 100%;
-    border-radius: 5px;
-    margin-top: 20px;
+    background-color: #4CAF50; /* ボタンの背景色を緑に設定 */
+    color: white; /* ボタン文字色を白に設定 */
+    border: none; /* ボタンの枠線を削除 */
+    padding: 12px; /* ボタン内の余白を12pxに設定 */
+    font-size: 1.1em; /* フォントサイズを1.1emに設定 */
+    cursor: pointer; /* ボタンにカーソルをポインタに設定 */
+    width: 100%; /* 幅を100%に設定 */
+    border-radius: 5px; /* ボタンの角を丸くする */
+    margin-top: 20px; /* ボタン上に20pxの余白を追加 */
 }
 
 .login-container button:hover {
-    background-color: #45a049;
+    background-color: #45a049; /* ホバー時のボタン背景色を少し濃くする */
 }
 
 /* フッターのスタイル */
 .footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #333;
-    color: white;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
+    text-align: center; /* テキストを中央揃え */
+    padding: 20px; /* 内側の余白を20pxに設定 */
+    background-color: #333; /* 背景色をダークグレーに設定 */
+    color: white; /* 文字色を白に設定 */
+    position: fixed; /* フッターを画面の下部に固定 */
+    width: 100%; /* 幅を100%に設定 */
+    bottom: 0; /* 画面の下に配置 */
 }
 
 
@@ -818,7 +799,6 @@ header {
 
 /* ログアウトボタンのスタイル */
 .logout-btn {
-    background-color: #003366; /* 紺色の背景 */
     color: white; /* 文字色を白に */
     border: none;
     padding: 12px 25px; /* パディングを調整 */
@@ -1012,9 +992,6 @@ header {
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
     margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
     align-items: center;
     height: 100vh;
 }
@@ -1133,7 +1110,7 @@ body {
 /* メインのコンテナボックス */
 .container {
     background-color: white; /* 背景色を白に設定 */
-    padding: 30px; /* 内側の余白 */
+    padding: 0px; /* 内側の余白 */
     border-radius: 8px; /* 角を丸く */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 影を付ける */
     width: 100%; /* 幅を100%に設定 */
@@ -1142,7 +1119,7 @@ body {
 
 /* メインコンテンツの内側の余白 */
 main {
-    padding: 20px;
+    padding: 0px;
 }
 
 /* 各セクションの余白設定 */
@@ -1189,3 +1166,10 @@ select {
     color: #333; /* テキストカラー */
 }
 
+/* ボタンを横並びにするためのコンテナ */
+.button-container {
+    display: flex; /* Flexboxを使用してボタンを横並びに */
+    justify-content: flex-start; /* 左詰めに配置 */
+    gap: 10px; /* ボタン間の間隔を設定 */
+    margin-top: 20px; /* ボタン上部の余白 */
+}
