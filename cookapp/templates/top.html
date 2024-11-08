@@ -14,8 +14,8 @@
         <div class="app-name">クッキングnavi</div>
         <div class="nav-right">
             <div class="nav-links">
-                <a href="#" class="home-link">ホーム</a>
-                <a href="#">ログイン</a>
+                <a href="{% url 'cookapp:home' %}" >ホーム</a>
+                <a href="{% url 'account:login' %}">ログイン</a>
                 <a href="#">サインアップ</a>
             </div>
             <div class="user-icon"></div>
@@ -29,7 +29,7 @@
             <img src="C:\djangoprojects\CookingNavi\png\top.jpg" alt="Top Image" class="top-image">
             <div class="button-container">
                 <a href="#" class="button">新規登録</a>
-                <a href="#" class="button">ログイン</a>
+                <a href="{% url 'account:login' %}" class="button">ログイン</a>
             </div>
         </div>
     </main>
