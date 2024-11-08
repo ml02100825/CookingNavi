@@ -11,8 +11,9 @@ from django.urls import reverse_lazy
 
 class CustomLoginView(LoginView):
     template_name = 'login.html'  # ログインページのテンプレート
-    # redirect_authenticated_user = True  # ログイン済みユーザーをリダイレクト
+    redirect_authenticated_user = True  # ログイン済みユーザーをリダイレクト
     success_url = reverse_lazy('cookapp:index')  # ログイン後のリダイレクト先
+    
 
     def get_success_url(self):
         # カスタムリダイレクト先を指定
