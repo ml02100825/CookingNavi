@@ -1297,7 +1297,6 @@ header {
     display: flex; /* フレックスボックスを使用 */
     justify-content: center; /* 水平方向の中央揃え */
     align-items: center; /* 垂直方向の中央揃え */
-    min-height: 100vh; /* 画面全体の高さを確保 */
     position: relative; /* 位置指定 */
 }
 
