@@ -1,39 +1,11 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>（管理者）ホーム</title>
-    <link rel="stylesheet" href="../../css/home.css">
-    <link rel="stylesheet" href="../../css/style.css">
-</head>
-<body>
+{% extends 'base.html' %}
 
-   <!-- ヘッダー -->
-   <header class="header">
-    <div class="app-name">クッキングnavi　管理者用</div>
-    <div class="nav-right">
-        <div class="nav-links">
-            <a href="#" class="home-link">ホーム</a>
-            <a href="#">ログアウト</a>
-        </div>
-        <div class="user-icon"></div>
+{% block title %}管理者ホーム - CookingNavi{% endblock %}
+
+{% block content %}
+    <h1 class="admin-title">管理者画面</h1>
+    <div class="button-container">
+        <button class="recipe-btn">レシピ機能</button>
+        <button class="forum-btn">掲示板機能</button>
     </div>
-</header>
-
-    <!-- メインコンテンツ -->
-    <main class="home-container">
-        <h1 class="admin-title">管理者画面</h1>
-        <div class="button-container">
-            <button class="recipe-btn">レシピ機能</button>
-            <button class="forum-btn">掲示板機能</button>
-        </div>
-    </main>
-
-    <!-- フッター -->
-    <footer class="footer">
-        <p>&copy; 2024 CookingNavi</p>
-    </footer>
-
-</body>
-</html>
+{% endblock %}

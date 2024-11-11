@@ -1,53 +1,27 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>（管理者）再設定コード入力</title>
-    <link rel="stylesheet" href="../../css/home.css">
-    <link rel="stylesheet" href="../../css/style.css">
-</head>
-<body>
+<!-- reset_code.html -->
+{% extends 'base2.html' %}
 
-   <!-- ヘッダー -->
-   <header class="header">
-    <div class="app-name">クッキングnavi　管理者用</div>
-    <div class="nav-right">
-        <div class="nav-links">
-            <a href="#" class="home-link">ホーム</a>
-            <a href="#">ログイン</a>
-            <a href="#">サインアップ</a>
-        </div>
-        <div class="user-icon"></div>
+{% block title %}（管理者）再設定コード入力{% endblock %}
+
+{% block content %}
+<div class="login-container">
+
+    <!-- 再設定コード入力 -->
+    <div class="code-input-container">
+        <h2>再設定コードの入力</h2>
+        <form method="post">
+            {% csrf_token %}
+            <label>6桁の再設定コードを入力してください。</label>
+            <input type="text" id="reset-code" name="reset-code" placeholder="コード" maxlength="6" required/>
+
+            <button type="submit">コードを確認</button>
+        </form>
     </div>
-</header>
 
-    <!-- メインコンテンツ -->
-    <main>
-        <div class="login-container">
+    <!-- 再送信ボタン -->
+    <div class="resend-code-container">
+        <p>再設定コードが届かない場合、<a href="#">こちら</a>から再送信できます。</p>
+    </div>
 
-            <!-- 再設定コード入力 -->
-            <div class="code-input-container">
-                <h2>再設定コードの入力</h2>
-                <form action="#" method="post">
-                    <label>6桁の再設定コードを入力してください。</label>
-                    <input type="text" id="reset-code" name="reset-code" placeholder="コード" maxlength="6" required/>
-
-                    <button type="submit">コードを確認</button>
-                </form>
-            </div>
-
-            <!-- 再送信ボタン -->
-            <div class="resend-code-container">
-                <p>再設定コードが届かない場合、<a href="#">こちら</a>から再送信できます。</p>
-            </div>
-        </div>
-    </main>
-
-    <!-- フッター -->
-    <footer class="footer">
-        <p>&copy; 2024 CookingNavi</p>
-    </footer>
-
-</body>
-</html>
+</div>
+{% endblock %}
