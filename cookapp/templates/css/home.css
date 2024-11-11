@@ -1610,15 +1610,6 @@ button:hover {
     background-color: #0056b3; /* ホバー時の背景色 */
 }
 
-/* 特別なボタン (最後のボタン) */
-button:last-of-type {
-    background-color: #dc3545; /* サブスク解約やアカウント退会ボタンの色 */
-}
-
-button:last-of-type:hover {
-    background-color: #c82333; /* ホバー時の色 */
-}
-
 /* フッター */
 .footer {
     background-color: #5865f2; /* フッターの背景色 */
