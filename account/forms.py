@@ -28,16 +28,3 @@ class LoginForm(AuthenticationForm):
     class Meta:
         model = User
 
-class UserNameUpdateForm(forms.Form):
-    new_username = forms.CharField(label="新しいユーザー名", max_length=150)
-    confirm_username = forms.CharField(label="ユーザー名（確認）", max_length=150)
-    
-    def clean(self):
-        cleaned_data = super().clean()
-        new_username = cleaned_data.get("new_username")
-        confirm_username = cleaned_data.get("confirm_username")
-        
-        if new_username != confirm_username:
-            raise forms.ValidationError("ユーザー名が一致しません。")
-        
-        return cleaned_data
