@@ -12,8 +12,8 @@ urlpatterns = [
     path('username/', views.UsernameView.as_view(), name='username'),
     path('email/', views.EmailView.as_view(), name='email'),
     path('password/', views.PasswordView.as_view(), name='password'),
-    #path('username_henko/', views.UsernameHenkoView.as_view(), name='username_henko'),
-    #path('email_henko/', views.EmailHenkoView.as_view(), name='email_henko'),
-    #path('password_henko/', views.PasswordHenkoView.as_view(), name='password_henko'),
+    #path('username_henko_ok/', views.UsernameHenkoView.as_view(), name='username_henko_ok'),
+    #path('email_henko_ok/', views.EmailHenkoView.as_view(), name='email_henko_ok'),
+    #path('password_henko_ok/', views.PasswordHenkoView.as_view(), name='password_henko_ok'),
     path('', views.IndexView.as_view(), name='top'),
 ]
