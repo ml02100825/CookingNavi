@@ -977,6 +977,7 @@ body {
 
 
 /* ログアウト画面のスタイル */
+
 /* 全体のスタイル */
 body {
     font-family: Arial, sans-serif; /* フォントの設定 */
@@ -1343,6 +1344,7 @@ header {
 
 
 /* 主菜選択のスタイル */
+
 /* 全体のレイアウト */
 body {
     font-family: Arial, sans-serif; /* フォント設定 */
@@ -1643,3 +1645,7 @@ button.register:hover {
 .footer p {
     margin: 0; /* 上下の余白をゼロにする */
 }
+
+
+
+/* 身体情報変更画面のスタイル */
