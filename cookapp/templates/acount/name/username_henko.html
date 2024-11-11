@@ -23,7 +23,7 @@
     <h2>ユーザ変更</h2>
 
     <!-- Djangoフォームタグの配置 -->
-    <form method="post" action="{% url 'account:account_setting' %}">
+    <form method="post" action="{% url 'account:username' %}">
         {% csrf_token %}
         
         <div>
