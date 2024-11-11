@@ -10,3 +10,9 @@ class IndexView(TemplateView):
 
 class HomeView(TemplateView):
     template_name='home.html'
+
+class HealthMainView(TemplateView):
+    template_name='health_management_main.html'
+
+class HealthSelectionView(TemplateView):
+    template_name='health_selection.html'
