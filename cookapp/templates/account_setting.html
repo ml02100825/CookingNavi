@@ -24,7 +24,7 @@
 
     <!-- 設定セクション -->
     <h2>設定</h2>
-    <button type="button">アカウント設定</button>
+    <a href="{% url 'cookapp:acount_setting' %}" ><button type="button">アカウント設定</button></a>
     <button type="button">家族情報</button>
     <button type="button">身体情報変更</button>
     <button type="button">通知設定</button>
@@ -41,7 +41,7 @@
 
     <!-- その他の操作 -->
     <button type="button">サブスク解約</button>
-    <button type="button">アカウント退会</button>
+    <button class="delete">アカウント退会</button>
 
     <!-- フッター部分 -->
     <footer class="footer">
