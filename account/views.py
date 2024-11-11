@@ -24,7 +24,7 @@ class CustomLoginView(LoginView):
     
 
 class SignUpPage1View(TemplateView):
-    template_name = 'sign up.html'
+    template_name = 'signup/sign up.html'
 
     def get(self, request, *args, **kwargs):
         form = CustomUserCreation1Form() # もしセッションにデータがあれば、それをフォームに渡す
