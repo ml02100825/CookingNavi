@@ -1424,7 +1424,7 @@ select {
 
 
 
-/* 主菜選択 */
+/* 主菜選択 （画像あり）*/
 
 /* ページ全体のスタイル */
 body {
@@ -1598,7 +1598,7 @@ button {
     padding: 10px; /* 内側の余白 */
     font-size: 1em; /* フォントサイズ */
     color: white; /* ボタンの文字色 */
-    background-color: #007bff; /* ボタンの背景色 */
+    background-color: #0351f8; /* 朝昼と同じ緑色に設定 */
     border: none; /* ボタンの枠線をなしに */
     border-radius: 5px; /* 角丸にする */
     cursor: pointer; /* ポインターカーソルに変更 */
@@ -1607,16 +1607,17 @@ button {
 
 /* ボタンのホバー時の効果 */
 button:hover {
-    background-color: #0056b3; /* ホバー時の背景色 */
+    background-color: #4553a0; /* 朝昼と同じホバー時の背景色 */
 }
 
-/* 特別なボタン (最後のボタン) */
-button:last-of-type {
-    background-color: #dc3545; /* サブスク解約やアカウント退会ボタンの色 */
+/* 特定のボタン（登録ボタン）のスタイルを赤色に設定 */
+button[type="submit"] {
+    background-color: #dc3545; /* 登録ボタンの赤色 */
 }
 
-button:last-of-type:hover {
-    background-color: #c82333; /* ホバー時の色 */
+/* 登録ボタンのホバー時の効果 */
+button[type="submit"]:hover {
+    background-color: #c82333; /* ホバー時の赤色 */
 }
 
 /* フッター */
