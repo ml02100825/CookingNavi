@@ -91,4 +91,4 @@ class EmailView(TemplateView):
     template_name='acount/email/email_henko.html'
 
 class PasswordView(TemplateView):
-    template_name='acount/password/email_henko.html'
+    template_name='acount/password/password_henko.html'
