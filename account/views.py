@@ -82,3 +82,9 @@ class CustomLogoutView(LogoutView):
 class IndexView(TemplateView):
     
     template_name='top/top.html'
+
+class UsernameView(TemplateView):
+    template_name='acount/name/username_henko.html'
+
+class EmailView(TemplateView):
+    template_name='acount/email/email_henko.html'
