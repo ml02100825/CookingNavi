@@ -24,7 +24,7 @@ class CustomLoginView(LoginView):
     
 
 class SignUpPage1View(TemplateView):
-    template_name = 'sign up.html'
+    template_name = 'administrator/sign up/sign up.html'
 
     def get(self, request, *args, **kwargs):
         form = CustomUserCreation1Form() # もしセッションにデータがあれば、それをフォームに渡す
@@ -35,12 +35,12 @@ class SignUpPage1View(TemplateView):
         if form.is_valid():
             request.session['email'] = form.cleaned_data['email'] # 入力されたデータをセッションに保存
             request.session['password1'] = form.cleaned_data['password1']
-            return redirect('user_sign up2')  # 2ページ目へリダイレクト
+            return redirect('signup2')  # 2ページ目へリダイレクト
         return render(request, self.template_name, {'form': form})
 
 
 class SignUpPage2View(TemplateView):
-    template_name = 'user_sign up2.html'
+    template_name = 'administrator/sign up/sign up2.html'
 
     def get(self, request, *args, **kwargs):
         form = CustomUserCreation2Form()
@@ -66,13 +66,13 @@ class SignUpPage2View(TemplateView):
 
             # ログイン処理
             login(request, user)
-            return redirect('user_sign up_completion')  # 登録完了ページへリダイレクト
+            return redirect('signup')  # 登録完了ページへリダイレクト
         
         return render(request, self.template_name, {'form': form})
 
 # 登録完了ページ
 class CustomSignUpView(TemplateView):
-    template_name = 'user_sign up_complete.html'
+    template_name = 'administrator/sign up/sign up_completion.html'
     
 
 class CustomLogoutView(LogoutView):
