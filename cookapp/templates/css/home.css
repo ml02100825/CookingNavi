@@ -1610,6 +1610,25 @@ button:hover {
     background-color: #0056b3; /* ホバー時の背景色 */
 }
 
+/* アカウント退会ボタンのスタイル */
+button.delete {
+    background-color: #dc3545; /* アカウント退会ボタンを赤色に */
+}
+
+button.delete:hover {
+    background-color: #c82333; /* アカウント退会ボタンのホバー時の色 */
+}
+
+/* 登録ボタンのスタイル */
+button.register {
+    background-color: #dc3545; /* 登録ボタンを赤色に */
+}
+
+button.register:hover {
+    background-color: #c82333; /* 登録ボタンのホバー時の色 */
+}
+
+
 /* フッター */
 .footer {
     background-color: #5865f2; /* フッターの背景色 */
