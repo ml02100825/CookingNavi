@@ -5,9 +5,7 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from django.views.generic.base import TemplateView
 from django.contrib.auth import login
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views import View
-from .forms import UserNameUpdateForm
+
 
 
 from django.contrib.auth.views import LoginView, LogoutView
@@ -87,7 +85,7 @@ class IndexView(TemplateView):
     template_name='top/top.html'
 
 class UsernameView(TemplateView):
-    template_name='acount/email/username_henko.html'
+    template_name='acount/name/username_henko.html'
 
 class EmailView(TemplateView):
     template_name='acount/email/email_henko.html'
