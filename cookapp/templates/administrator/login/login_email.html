@@ -1,46 +1,20 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>（管理者）パスワード忘れた場合</title>
-    <link rel="stylesheet" href="../css/home.css">
-    <link rel="stylesheet" href="../../css/style.css">
-</head>
-<body>
+<!-- password_reset.html -->
+{% extends 'base2.html' %}
 
-   <!-- ヘッダー -->
-   <header class="header">
-    <div class="app-name">クッキングnavi　管理者用</div>
-    <div class="nav-right">
-        <div class="nav-links">
-            <a href="#" class="home-link">ホーム</a>
-            <a href="#">ログイン</a>
-            <a href="#">サインアップ</a>
+{% block title %}（管理者）パスワード忘れた場合{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <h1>パスワードを忘れた場合</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label>入力したメールアドレスに再設定コードを送ります。</label>
+        <input type="email" id="email" name="email" placeholder="メールアドレス" required/>
+
+        <div class="button-group">
+            <button type="button" onclick="window.history.back()">戻る</button>
+            <button type="submit">送信</button>
         </div>
-        <div class="user-icon"></div>
-    </div>
-</header>
-
-    <!-- メインコンテンツ -->
-    <main>
-        <div class="login-container">
-            <h1>パスワードを忘れた場合</h1>
-            <form action="#" method="post">
-                <label>入力したメールアドレスに再設定コードを送ります。</label>
-                <input type="email" id="email" name="email" placeholder="メールアドレス" required/>
-
-                <button type="submit">戻る</button>
-
-                <button type="submit">送信</button>
-            </form>
-        </div>
-    </main>
-
-    <!-- フッター -->
-    <footer class="footer">
-        <p>&copy; 2024 CookingNavi</p>
-    </footer>
-
-</body>
-</html>
+    </form>
+</div>
+{% endblock %}
