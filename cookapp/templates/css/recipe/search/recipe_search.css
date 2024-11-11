@@ -1,0 +1,100 @@
+/* （管理者）レシピ検索画面のスタイル */
+
+/* 基本的なページの設定 */
+body {
+    font-family: Arial, sans-serif; /* フォント設定: Arialを使用 */
+    margin: 0; /* ページの余白を削除 */
+    padding: 0; /* ページ内の余白を削除 */
+    background-color: #f9f9f9; /* 背景色を薄いグレーに設定 */
+    display: flex; /* フレックスボックスでレイアウト */
+    flex-direction: column; /* レイアウトを縦方向に設定 */
+    align-items: center; /* 中央揃え */
+}
+
+/* メインコンテンツ */
+.login-container {
+    width: 90%; /* 幅を90%に設定 */
+    max-width: 600px; /* 最大幅を600pxに設定 */
+    margin-top: 40px; /* 上部に40pxの余白を追加 */
+    padding: 20px; /* 内部の余白を20pxに設定 */
+    background-color: #fff; /* 背景色を白に設定 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* ボックスに影を追加 */
+    border-radius: 10px; /* 角を丸く設定 */
+    text-align: center; /* 中央揃え */
+}
+
+/* 見出しスタイル */
+.login-container h1 {
+    font-size: 2em; /* フォントサイズを大きく設定 */
+    color: #333; /* 見出しの色をダークグレーに設定 */
+    margin-bottom: 20px; /* 見出しと他の要素の間に20pxの余白 */
+}
+
+/* サブタイトルスタイル */
+.login-container h2 {
+    font-size: 1.5em; /* サブタイトルのフォントサイズを設定 */
+    color: #666; /* サブタイトルの色を少し明るいグレーに設定 */
+    margin-bottom: 30px; /* サブタイトルとフォームの間に30pxの余白 */
+}
+
+/* 検索バーのスタイル */
+#search-bar {
+    width: 100%; /* 幅を100%に設定 */
+    padding: 10px; /* 内部の余白を10pxに設定 */
+    font-size: 1em; /* フォントサイズを1emに設定 */
+    border: 1px solid #ccc; /* 薄いグレーの枠線を設定 */
+    border-radius: 5px; /* 角を丸く設定 */
+    margin-bottom: 20px; /* 検索バーと下のフォームの間に20pxの余白 */
+    box-sizing: border-box; /* パディングとボーダーを含むサイズ指定 */
+}
+
+/* 画像追加のラベル */
+label[for="image-upload"] {
+    font-size: 1em; /* ラベルのフォントサイズを設定 */
+    color: #333; /* ラベルの文字色を設定 */
+    margin-bottom: 10px; /* ラベルとファイル入力の間に10pxの余白 */
+    display: inline-block; /* ラベルをインラインブロック要素にして隣接させる */
+}
+
+/* ファイル選択ボタン */
+#image-upload {
+    width: 100%; /* 幅を100%に設定 */
+    padding: 10px; /* 内部の余白を10pxに設定 */
+    font-size: 1em; /* フォントサイズを1emに設定 */
+    border: 1px solid #ccc; /* 枠線を薄いグレーに設定 */
+    border-radius: 5px; /* 角を丸く設定 */
+    margin-bottom: 20px; /* ファイル選択ボタンと画像削除ボタンの間に20pxの余白 */
+    box-sizing: border-box; /* パディングとボーダーを含むサイズ指定 */
+}
+
+/* 画像削除ボタンのスタイル */
+button[type="submit"] {
+    padding: 10px 20px; /* ボタン内の上下10px、左右20pxの余白を設定 */
+    font-size: 1.1em; /* フォントサイズを少し大きく設定 */
+    color: white; /* 文字色を白に設定 */
+    background-color: #ff4d4d; /* 背景色を赤に設定 */
+    border: none; /* 枠線なし */
+    border-radius: 5px; /* 角を丸く設定 */
+    cursor: pointer; /* マウスオーバー時にポインターを表示 */
+    transition: background-color 0.3s; /* 背景色がスムーズに変化するように設定 */
+    width: 100%; /* ボタンの幅を100%に設定 */
+    text-align: center; /* ボタンのテキストを中央揃え */
+}
+
+/* ホバー時のボタンスタイル */
+button[type="submit"]:hover {
+    background-color: #e60000; /* ホバー時に赤色を少し暗くする */
+}
+
+/* レスポンシブデザイン: モバイルビュー */
+@media (max-width: 768px) {
+    .login-container {
+        width: 95%; /* モバイルデバイスではコンテナ幅を95%に変更 */
+    }
+
+    #search-bar,
+    #image-upload,
+    button[type="submit"] {
+        width: 100%; /* 入力欄とボタンを画面幅に合わせて100%に設定 */
+    }
+}

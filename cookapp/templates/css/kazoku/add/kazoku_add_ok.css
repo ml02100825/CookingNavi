@@ -1,0 +1,150 @@
+/* 家族情報追加完了画面のスタイル */
+
+/* 全体の基本設定 */
+* {
+    margin: 0; /* 要素のデフォルトマージンをリセット */
+    padding: 0; /* 要素のデフォルトパディングをリセット */
+    box-sizing: border-box; /* ボックスサイズ計算をborder-boxに設定 */
+}
+
+body {
+    font-family: Arial, sans-serif; /* フォント設定 */
+    line-height: 1.6; /* 行間の設定 */
+    background-color: #f4f4f9; /* 背景色の設定 */
+    color: #333; /* 文字色の設定 */
+    display: flex;
+    flex-direction: column; /* 縦方向にレイアウトを配置 */
+    min-height: 100vh; /* フッターを画面下部に固定するための高さ設定 */
+}
+
+/* ヘッダー */
+.header {
+    background-color: #ff6b6b; /* ヘッダーの背景色 */
+    color: white; /* ヘッダー内の文字色 */
+    padding: 15px; /* ヘッダーの内側余白 */
+    display: flex;
+    align-items: center; /* 縦方向中央揃え */
+    justify-content: space-between; /* 両端に配置 */
+}
+
+.app-name {
+    font-size: 1.5em; /* アプリ名のフォントサイズ */
+    font-weight: bold; /* 太字に設定 */
+}
+
+.nav-right {
+    display: flex;
+    align-items: center; /* 縦方向中央揃え */
+}
+
+.nav-links a {
+    color: white; /* リンクの文字色 */
+    margin-left: 15px; /* リンク間の間隔 */
+    text-decoration: none; /* アンダーラインを削除 */
+    font-size: 1em;
+}
+
+.nav-links a:hover {
+    text-decoration: underline; /* ホバー時にアンダーラインを表示 */
+}
+
+.user-icon {
+    width: 35px;
+    height: 35px;
+    background-color: #e63946; /* ユーザーアイコンの背景色 */
+    border-radius: 50%; /* 丸型にする */
+    margin-left: 15px; /* 左側の余白 */
+}
+
+/* メインコンテンツ */
+main {
+    flex: 1; /* コンテンツ部分を拡大して高さを調整 */
+    display: flex;
+    align-items: center; /* 垂直方向中央揃え */
+    justify-content: center; /* 水平方向中央揃え */
+    padding: 20px;
+}
+
+.main-content {
+    background-color: #ffffff; /* 背景色を白に設定 */
+    padding: 20px;
+    border-radius: 8px; /* 角丸にする */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 影を付けて立体感を出す */
+    width: 90%;
+    max-width: 600px; /* 最大幅を設定 */
+    text-align: center; /* 中央揃え */
+}
+
+/* フォームスタイル */
+.registration-form {
+    display: flex;
+    flex-direction: column; /* フォーム要素を縦並びに */
+    gap: 15px; /* 各入力フィールドの間隔を設定 */
+    margin-top: 20px;
+}
+
+.registration-form label {
+    font-weight: bold; /* ラベルを太字に設定 */
+    color: #333; /* ラベルの文字色 */
+}
+
+.registration-form input,
+.registration-form select,
+.registration-form textarea {
+    padding: 10px; /* 入力フィールドの内側余白 */
+    font-size: 1em; /* フォントサイズ */
+    border: 1px solid #ccc; /* 薄いグレーの枠線 */
+    border-radius: 4px; /* 角丸にする */
+}
+
+.registration-form button {
+    padding: 10px; /* ボタン内の余白 */
+    font-size: 1em; /* ボタンの文字サイズ */
+    color: white; /* ボタン文字色 */
+    background-color: #ff6b6b; /* ボタンの背景色 */
+    border: none; /* ボタン枠線をなくす */
+    border-radius: 4px; /* 角丸にする */
+    cursor: pointer; /* ポインタを表示 */
+}
+
+.registration-form button:hover {
+    background-color: #e63946; /* ホバー時の背景色 */
+}
+
+/* 完了メッセージ */
+.login-complete-container {
+    text-align: center; /* 中央揃え */
+    padding: 20px;
+    background-color: #ffffff; /* 背景色を白に設定 */
+    border-radius: 8px; /* 角丸にする */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 影を付けて立体感を出す */
+}
+
+.login-complete-container h1 {
+    color: #333; /* 見出しの文字色 */
+    margin-bottom: 20px; /* 下側余白 */
+}
+
+.login-complete-container .btn {
+    padding: 10px 20px;
+    background-color: #ff6b6b; /* ボタン背景色 */
+    color: white; /* ボタン文字色 */
+    text-decoration: none; /* アンダーラインを削除 */
+    border-radius: 4px; /* 角丸にする */
+    font-size: 1em; /* フォントサイズ */
+    display: inline-block; /* インラインブロックにして中央配置 */
+    margin-top: 10px;
+}
+
+.login-complete-container .btn:hover {
+    background-color: #e63946; /* ホバー時の背景色 */
+}
+
+/* フッター */
+.footer {
+    background-color: #333; /* フッター背景色 */
+    color: #fff; /* フッター文字色 */
+    text-align: center; /* テキスト中央揃え */
+    padding: 10px 0;
+    font-size: 0.9em;
+}
