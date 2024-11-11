@@ -16,3 +16,6 @@ class HealthMainView(TemplateView):
 
 class HealthSelectionView(TemplateView):
     template_name='health_selection.html'
+
+class AccountSettingView(TemplateView):
+    template_name='account_setting.html'
