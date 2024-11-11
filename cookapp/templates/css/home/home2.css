@@ -1,0 +1,147 @@
+/* ベース設定 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* 全ての要素にbox-sizing: border-boxを適用し、パディングとボーダーを含めてサイズ計算 */
+}
+
+/* ボディ */
+body {
+    font-family: 'Arial', sans-serif; /* フォントをArialに設定 */
+    background-color: #f4f4f4; /* 背景色を薄いグレーに設定 */
+    color: #333; /* 基本の文字色を濃いグレーに設定 */
+    line-height: 1.6; /* 行間を1.6倍に設定 */
+}
+
+/* ヘッダー */
+.header {
+    display: flex; /* 横並びのレイアウト */
+    justify-content: space-between; /* アイテムを左右に配置 */
+    align-items: center; /* アイテムを縦方向で中央に配置 */
+    background-color: #333; /* 背景色をダークグレーに設定 */
+    color: white; /* 文字色を白に設定 */
+    padding: 10px 20px; /* 上下10px、左右20pxの余白 */
+}
+
+.app-name {
+    font-size: 1.8em; /* アプリ名のフォントサイズを設定 */
+    font-weight: bold; /* アプリ名を太字に設定 */
+}
+
+.nav-right {
+    display: flex; /* 横並びのレイアウト */
+    align-items: center; /* アイテムを縦方向で中央に配置 */
+}
+
+.nav-links {
+    margin-right: 20px; /* ナビリンクの右側に20pxの余白 */
+}
+
+.nav-links a {
+    color: white; /* リンクの文字色を白に設定 */
+    margin-left: 20px; /* リンク同士の間に20pxの余白 */
+    text-decoration: none; /* リンクの下線を削除 */
+}
+
+.nav-links a:hover {
+    text-decoration: underline; /* ホバー時に下線を追加 */
+}
+
+.user-icon {
+    width: 40px; /* アイコンの幅 */
+    height: 40px; /* アイコンの高さ */
+    background-color: #666; /* アイコンの背景色 */
+    border-radius: 50%; /* アイコンを丸く設定 */
+}
+
+/* メインコンテンツ */
+main {
+    display: flex; /* 横並びのレイアウト */
+    justify-content: space-between; /* コンテンツを左右に配置 */
+    margin-top: 20px; /* 上部に20pxの余白 */
+}
+
+/* 左側のサイドバー */
+.sidebar {
+    width: 20%; /* サイドバーの幅を20%に設定 */
+    background-color: #fff; /* 背景色を白に設定 */
+    padding: 20px; /* 内部の余白を20pxに設定 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+}
+
+.left-sidebar {
+    margin-right: 20px; /* 左サイドバーとメインコンテンツの間に20pxの余白 */
+}
+
+/* メインコンテンツエリア */
+.main-content {
+    width: 60%; /* 幅を60%に設定 */
+    padding: 20px; /* 内部の余白を20pxに設定 */
+    background-color: #fff; /* 背景色を白に設定 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+}
+
+/* 健康管理ボタン */
+.health-management-btn button {
+    width: 100%; /* ボタンの幅を100%に設定 */
+    padding: 15px; /* ボタンの内部余白を設定 */
+    font-size: 1.2em; /* フォントサイズを設定 */
+    background-color: #5cb85c; /* ボタン背景色を緑に設定 */
+    color: white; /* 文字色を白に設定 */
+    border: none; /* 枠線を削除 */
+    border-radius: 5px; /* 角を丸く設定 */
+    cursor: pointer; /* マウスカーソルをポインタに設定 */
+    transition: background-color 0.3s ease; /* ホバー時の背景色変更をスムーズに */
+}
+
+.health-management-btn button:hover {
+    background-color: #4cae4c; /* ホバー時にボタン背景色を少し暗く */
+}
+
+/* ボタン群 */
+.buttons-container {
+    display: flex; /* 横並びレイアウト */
+    flex-wrap: wrap; /* ラップして改行を可能に */
+    gap: 20px; /* ボタン間に20pxの間隔 */
+    margin-top: 20px; /* 上部に20pxの余白 */
+}
+
+.buttons-container .meal-history-btn button,
+.buttons-container .forum-btn button,
+.buttons-container .shopping-list-btn button,
+.buttons-container .health-graph-btn button {
+    width: 22%; /* 各ボタンの幅を設定（4つのボタンが横並びになるように） */
+    padding: 15px; /* ボタン内部の余白 */
+    font-size: 1em; /* フォントサイズ設定 */
+    background-color: #0275d8; /* ボタンの背景色 */
+    color: white; /* 文字色を白に設定 */
+    border: none; /* 枠線を削除 */
+    border-radius: 5px; /* 角を丸く設定 */
+    cursor: pointer; /* マウスカーソルをポインタに設定 */
+    transition: background-color 0.3s ease; /* ホバー時の背景色変更をスムーズに */
+}
+
+.buttons-container button:hover {
+    background-color: #025aa5; /* ホバー時に背景色を少し暗く */
+}
+
+/* 右側のサイドバー */
+.right-sidebar {
+    width: 20%; /* サイドバーの幅を20%に設定 */
+    background-color: #fff; /* 背景色を白に設定 */
+    padding: 20px; /* 内部の余白を20pxに設定 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+}
+
+/* フッター */
+.footer {
+    text-align: center; /* テキストを中央揃え */
+    background-color: #333; /* 背景色をダークグレーに設定 */
+    color: white; /* 文字色を白に設定 */
+    padding: 20px 0; /* 上下に20pxの余白を追加 */
+    margin-top: 40px; /* 上部に40pxの余白を追加 */
+}
+
+.footer p {
+    font-size: 1em; /* フォントサイズを設定 */
+}
