@@ -1,0 +1,64 @@
+/* (管理者)ホーム画面のスタイル /*
+
+/* ホーム画面全体のスタイル */
+.home-container {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+}
+
+/* 管理者画面タイトルのスタイル */
+.admin-title {
+    font-size: 3.5em;
+    color: #333;
+    text-align: center;
+    margin-top: 70px;
+    margin-bottom: 235px; /* タイトルとボタン間の余白 */
+    font-weight: bold;
+}
+
+/* ボタンコンテナのスタイル */
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* レシピ機能ボタンと掲示板機能ボタンのスタイル */
+.recipe-btn, .forum-btn {
+    background-color: #e6f0ff; /* 薄い青色に変更 */
+    color: #007bff; /* 文字色を青色に変更 */
+    border: none;
+    font-size: 2.5em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    position: absolute;
+    top: 35%; /* 同じ高さに配置 */
+}
+
+.recipe-btn {
+    left: 20%; /* 左に配置 */
+}
+
+.forum-btn {
+    left: 70%; /* 右に配置 */
+    transform: translateX(-50%); /* 中央揃え */
+}
+
+/* ボタンホバー時のスタイル */
+.recipe-btn:hover, .forum-btn:hover {
+    background-color: #b3d9ff; /* ホバー時の背景色 */
+    color: #0056b3; /* ホバー時の文字色 */
+}
