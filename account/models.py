@@ -11,6 +11,7 @@ class User(models.Model):
     height = models.FloatField(verbose_name="身長", db_column='Height')  # Field name made lowercase.
     weight = models.FloatField(verbose_name="体重", db_column='Weight')  # Field name made lowercase.
     is_superuser = models.BooleanField(verbose_name="管理者フラグ", db_column='is_superuser')  # Field name made lowercase.
+    is_staff = models.BooleanField(verbose_name="管理者フラグ", db_column='is_staff')  # Field name made lowercase.
     family = models.BooleanField(verbose_name="家族フラグ", db_column='Family')  # Field name made lowercase.
     last_login = models.DateTimeField(verbose_name="ログイン日時", db_column='last_login')  # Field name made lowercase.
     deleteflag = models.BooleanField(verbose_name="削除フラグ", db_column='DeleteFlag')  # Field name made lowercase.
@@ -29,3 +30,11 @@ class User(models.Model):
         db_table = 'user'
     
     
+class Userallergy(models.Model):
+    userallergy_id = models.CharField(db_column='USERALLERGY_ID', primary_key=True, max_length=10)  # Field name made lowercase.
+    user = models.ForeignKey('User', models.CASCADE, db_column='USER_ID')  # Field name made lowercase.
+    allergy_category = models.CharField(db_column='ALLERGY_CATEGORY', max_length=10)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'userallergy'
