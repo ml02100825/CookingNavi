@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ログイン</title>
-    <link rel="stylesheet" href="css/home.css">
-    <link rel="stylesheet" href="css/style.css">
+    <title>（管理者）パスワード忘れた場合</title>
+    <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
 
    <!-- ヘッダー -->
    <header class="header">
-    <div class="app-name">クッキングnavi</div>
+    <div class="app-name">クッキングnavi　管理者用</div>
     <div class="nav-right">
         <div class="nav-links">
             <a href="#" class="home-link">ホーム</a>
@@ -25,20 +25,15 @@
     <!-- メインコンテンツ -->
     <main>
         <div class="login-container">
-            <h1>ログイン</h1>
+            <h1>パスワードを忘れた場合</h1>
             <form action="#" method="post">
-                {% csrf_token %}
-                <label for="username">ユーザー名</label>
-                <input type="text" id="username" name="username" required>
+                <label>入力したメールアドレスに再設定コードを送ります。</label>
+                <input type="email" id="email" name="email" placeholder="メールアドレス" required/>
 
-                <label for="password">パスワード</label>
-                <input type="password" id="password" name="password" required>
+                <button type="submit">戻る</button>
 
-                <button type="submit">ログイン</button>
+                <button type="submit">送信</button>
             </form>
-            <div class="forgot-password">
-                <a href="#">パスワードを忘れた場合</a>
-            </div>
         </div>
     </main>
 

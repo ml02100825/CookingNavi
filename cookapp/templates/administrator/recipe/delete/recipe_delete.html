@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>（管理者）レシピ追加</title>
+    <title>（管理者）レシピ削除</title>
     <link rel="stylesheet" href="css/home.css">
-    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../../css/style.css">
 </head>
 <body>
 
@@ -25,23 +25,23 @@
     <main>
         <div class="login-container">
             <h1>管理者画面</h1>
-            <h2>～レシピ追加～</h2>
+            <h2>～レシピ削除～</h2>
             <form action="#" method="post" enctype="multipart/form-data">
                 <label for="recipe-name">メニュー名</label>
-                <input type="text" id="recipe-name" name="recipe-name" required>
-
-                <label for="ingredients">材料名</label>
-                <textarea id="ingredients" name="ingredients" rows="4" required></textarea>
-
-                <label for="instructions">作り方</label>
-                <textarea id="instructions" name="instructions" rows="4" required></textarea>
-
+                <select id="recipe-name" name="recipe-name" required>
+                    <option value="" disabled selected>メニューを選択してください</option>
+                    <option value="recipe1">レシピ1</option>
+                    <option value="recipe2">レシピ2</option>
+                    <option value="recipe3">レシピ3</option>
+                    <!-- 他のメニュー名も追加可能 -->
+                </select>
+    
                 <button type="submit">戻る</button>
-
-                <button type="submit">レシピ追加</button>
+                <button type="submit">レシピ削除</button>
             </form>
         </div>
     </main>
+    
 
     <!-- フッター -->
     <footer class="footer">
