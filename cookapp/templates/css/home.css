@@ -1079,6 +1079,7 @@ header {
 
 
 /* ホーム画面のスタイル */
+
 /* 健康管理ボタンのスタイル */
 .health-management-btn {
     position: absolute; /* 絶対位置指定 */
@@ -1234,6 +1235,7 @@ header {
 
 
 /* (管理者)ホーム画面のスタイル /*
+
 /* ホーム画面全体のスタイル */
 .home-container {
     font-family: Arial, sans-serif;
@@ -1300,6 +1302,7 @@ header {
 
 
 /* トップページのスタイル */
+
 /* 画像を画面の中央に配置するためのスタイル */
 .image-container {
     display: flex; /* フレックスボックスを使用 */
@@ -1425,6 +1428,7 @@ select {
 
 
 /* 主菜選択 */
+
 /* ページ全体のスタイル */
 body {
     font-family: Arial, sans-serif; /* フォントの設定 */
@@ -1538,3 +1542,97 @@ body {
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1); /* 上側に影をつける */
 }
 
+
+
+/* 設定画面のスタイル */
+
+/* 全体の基本スタイル */
+body {
+    font-family: Arial, sans-serif; /* Arialフォントを使用 */
+    margin: 0; /* 余白をゼロにしてコンテンツが上から表示されるように */
+    padding: 0; /* 上下左右の余白をゼロ */
+    display: flex; /* Flexboxレイアウトを使用 */
+    flex-direction: column; /* 上から下に配置するための設定 */
+    align-items: center; /* コンテンツを中央揃え */
+    background-color: #f9f9f9; /* 背景色をライトグレーに設定 */
+}
+
+/* ヘッダー */
+.header {
+    display: flex; /* Flexboxでレイアウト */
+    justify-content: space-between; /* 両端に要素を配置 */
+    align-items: center; /* 要素を上下中央揃え */
+    background-color: #5865f2; /* ヘッダーの背景色 */
+    color: white; /* ヘッダーの文字色 */
+    padding: 15px 20px; /* ヘッダーの内側の余白 */
+    width: 100%; /* ヘッダーを画面全幅に広げる */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 影をつけて立体感を出す */
+}
+
+.app-name {
+    font-size: 1.5em; /* アプリ名のフォントサイズ */
+    font-weight: bold; /* アプリ名を太字にする */
+}
+
+/* ナビゲーションリンク */
+.nav-links a {
+    margin-left: 15px; /* リンク間の間隔 */
+    color: white; /* リンク文字の色 */
+    text-decoration: none; /* 下線を削除 */
+    font-size: 1em; /* リンクのフォントサイズ */
+}
+
+.nav-links a:hover {
+    text-decoration: underline; /* ホバー時に下線を表示 */
+}
+
+/* メインコンテンツ */
+h2 {
+    font-size: 1.5em; /* 見出しのフォントサイズ */
+    color: #333; /* 見出しの文字色 */
+    margin: 20px 0 10px; /* 上下の余白 */
+}
+
+/* 共通のボタンスタイル */
+button {
+    display: block; /* ボタンをブロック要素として扱う */
+    width: 200px; /* ボタンの幅 */
+    margin: 10px auto; /* 上下左右の余白と中央揃え */
+    padding: 10px; /* 内側の余白 */
+    font-size: 1em; /* フォントサイズ */
+    color: white; /* ボタンの文字色 */
+    background-color: #007bff; /* ボタンの背景色 */
+    border: none; /* ボタンの枠線をなしに */
+    border-radius: 5px; /* 角丸にする */
+    cursor: pointer; /* ポインターカーソルに変更 */
+    transition: background-color 0.3s; /* 背景色の変化にアニメーションを追加 */
+}
+
+/* ボタンのホバー時の効果 */
+button:hover {
+    background-color: #0056b3; /* ホバー時の背景色 */
+}
+
+/* 特別なボタン (最後のボタン) */
+button:last-of-type {
+    background-color: #dc3545; /* サブスク解約やアカウント退会ボタンの色 */
+}
+
+button:last-of-type:hover {
+    background-color: #c82333; /* ホバー時の色 */
+}
+
+/* フッター */
+.footer {
+    background-color: #5865f2; /* フッターの背景色 */
+    color: white; /* フッターの文字色 */
+    padding: 15px; /* フッターの内側の余白 */
+    text-align: center; /* 文字を中央揃え */
+    width: 100%; /* フッターを画面全幅に広げる */
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1); /* フッターの影 */
+    margin-top: 30px; /* 上に間隔を追加 */
+}
+
+.footer p {
+    margin: 0; /* 上下の余白をゼロにする */
+}
