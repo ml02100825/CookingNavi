@@ -1,0 +1,63 @@
+/* （管理者）レシピ削除エラー画面のスタイル */
+
+/* 基本スタイル */
+body {
+    font-family: Arial, sans-serif; /* フォント設定: Arialを使用 */
+    margin: 0; /* ページの余白を削除 */
+    padding: 0; /* ページの内側の余白を削除 */
+    background-color: #f9f9f9; /* 背景色を明るいグレーに設定 */
+    display: flex; /* フレックスボックスでレイアウト */
+    flex-direction: column; /* 縦方向にレイアウト */
+    align-items: center; /* 中央揃え */
+}
+
+/* メインコンテンツ */
+.login-error-container {
+    width: 90%; /* 幅を90%に設定 */
+    max-width: 500px; /* 最大幅を500pxに設定 */
+    margin-top: 30px; /* 上部に30pxの余白を追加 */
+    padding: 20px; /* 内部に20pxの余白を追加 */
+    background-color: #fff; /* 背景色を白に設定 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 下に大きめの影をつけて浮き上がる効果 */
+    border-radius: 10px; /* 角を丸く設定 */
+    text-align: center; /* 中央揃え */
+}
+
+/* 見出しスタイル */
+.login-error-container h1 {
+    font-size: 2em; /* フォントサイズを2倍に設定 */
+    color: #e74c3c; /* エラーの強調のため、赤い色に設定 */
+    margin-bottom: 10px; /* 下部に10pxの余白を追加 */
+}
+
+/* エラーメッセージスタイル */
+.login-error-container p {
+    font-size: 1.2em; /* フォントサイズを少し大きめに設定 */
+    color: #555; /* 文字色をやや薄いグレーに設定 */
+    margin-bottom: 20px; /* 下部に20pxの余白を追加 */
+}
+
+/* ボタンスタイル */
+.login-error-container .btn {
+    padding: 10px 20px; /* ボタン内に10pxの上下、20pxの左右の余白を追加 */
+    font-size: 1.1em; /* フォントサイズを少し大きく設定 */
+    color: white; /* 文字色を白に設定 */
+    background-color: #e74c3c; /* 背景色を赤に設定（エラーの色） */
+    border: none; /* 枠線をなしに設定 */
+    border-radius: 5px; /* 角を丸く設定 */
+    cursor: pointer; /* ポインターカーソルを表示 */
+    transition: background-color 0.3s; /* ホバー時に背景色の変化をスムーズにする */
+    width: 100%; /* ボタンの幅を100%に設定 */
+    text-align: center; /* ボタン内のテキストを中央揃え */
+}
+
+.login-error-container .btn:hover {
+    background-color: #c0392b; /* ホバー時に背景色を少し暗くする */
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    .login-error-container {
+        width: 95%; /* スクリーンが小さい場合、幅を95%に設定 */
+    }
+}
