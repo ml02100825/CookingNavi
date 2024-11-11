@@ -40,6 +40,8 @@
         
         <div>
             <button>戻る</button>
+            {% csrf_token %}
+            {{ form.as_p }}
             <button>変更</button>
         </div>
     </div>
