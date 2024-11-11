@@ -137,6 +137,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTHENTICATION_BACKENDS = [
   
     'account.backends.EmailBackend',  # カスタムバックエンドを指定
+    'django.contrib.auth.backends.ModelBackend'
 ]
 
 LOGOUT_REDIRECT_URL = reverse_lazy('cookapp:index')
