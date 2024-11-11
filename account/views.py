@@ -35,7 +35,7 @@ class SignUpPage1View(TemplateView):
         if form.is_valid():
             request.session['email'] = form.cleaned_data['email'] # 入力されたデータをセッションに保存
             request.session['password1'] = form.cleaned_data['password1']
-            return redirect('signup2')  # 2ページ目へリダイレクト
+            return redirect('account:signup2')  # 2ページ目へリダイレクト
         return render(request, self.template_name, {'form': form})
 
 
@@ -66,7 +66,7 @@ class SignUpPage2View(TemplateView):
 
             # ログイン処理
             login(request, user)
-            return redirect('signup')  # 登録完了ページへリダイレクト
+            return redirect('account:signup_completion')  # 登録完了ページへリダイレクト
         
         return render(request, self.template_name, {'form': form})
 
