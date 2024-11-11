@@ -86,7 +86,7 @@ class IndexView(TemplateView):
     
     template_name='top/top.html'
 
-class UsernameView(LoginRequiredMixin, View):
+class UsernameView(TemplateView):
     template_name='acount/email/username_henko.html'
 
 class EmailView(TemplateView):
