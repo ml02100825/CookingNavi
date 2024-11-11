@@ -85,3 +85,6 @@ class IndexView(TemplateView):
 
 class UsernameView(TemplateView):
     template_name='acount/name/username_henko.html'
+
+class EmailView(TemplateView):
+    template_name='acount/email/email_henko.html'
