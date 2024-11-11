@@ -5,6 +5,9 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from django.views.generic.base import TemplateView
 from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import View
+from .forms import UserNameUpdateForm
 
 
 from django.contrib.auth.views import LoginView, LogoutView
@@ -83,8 +86,19 @@ class IndexView(TemplateView):
     
     template_name='top/top.html'
 
-class UsernameView(TemplateView):
-    template_name='acount/name/username_henko.html'
+class UsernameView(LoginRequiredMixin, View):
+    def get(self, request):
+        form = UserNameUpdateForm()
+        return render(request, 'account/account_setting.html', {'form': form})
 
+    def post(self, request):
+        form = UserNameUpdateForm(request.POST)
+        if form.is_valid():
+            new_username = form.cleaned_data['new_username']
+            user = request.user
+            user.username = new_username
+            user.save()
+            return redirect('account:account_setting')  # 変更後のリダイレクト先
+        return render(request, 'account/account_setting.html', {'form': form})
 class EmailView(TemplateView):
     template_name='acount/email/email_henko.html'
