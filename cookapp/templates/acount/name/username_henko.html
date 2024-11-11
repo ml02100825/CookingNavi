@@ -3,53 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <title>クッキングナビ - ユーザ変更</title>
 </head>
 <body>
 
-    <header class="header">
-        <div class="app-name">クッキングnavi</div>
-        <div class="nav-right">
-            <div class="nav-links">
-                <a href="#">ホーム</a>
-                <a href="#">ログアウト</a>
-                <div>👤</div>
-            </div>
-        </div>
-    </header>
-        
-    <div>
-        <h2>ユーザ変更</h2>
-        
-        <div>
-            <label>新しいユーザ名：</label>
-            <div>
-                <span>📧</span>
-                <input type="user-name" placeholder="ゴリ　ゴリオ">
-            </div>
-        </div>
-        
-        <div>
-            <label>ユーザ名（確認）：</label>
-            <div>
-                <span>📧</span>
-                <input type="user-name" placeholder="ゴリ　ゴリオ">
-            </div>
-        </div>
-        
-        <div>
-            <button>戻る</button>
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button>変更</button>
+<header class="header">
+    <div class="app-name">クッキングnavi</div>
+    <div class="nav-right">
+        <div class="nav-links">
+            <a href="#">ホーム</a>
+            <a href="#">ログアウト</a>
+            <div>👤</div>
         </div>
     </div>
+</header>
 
-    <!-- フッター -->
-    <footer class="footer">
-        <p>&copy; 2024 CookingNavi</p>
-    </footer>
+<div>
+    <h2>ユーザ変更</h2>
+
+    <!-- Djangoフォームタグの配置 -->
+    <form method="post" action="{% url 'account:account_setting' %}">
+        {% csrf_token %}
+        
+        <div>
+            <label for="new_username">新しいユーザー名：</label>
+            {{ form.new_username }}
+        </div>
+        
+        <div>
+            <label for="confirm_username">ユーザー名（確認）：</label>
+            {{ form.confirm_username }}
+        </div>
+
+        <div>
+            <button type="button" onclick="history.back()">戻る</button>
+            <button type="submit">変更</button>
+        </div>
+    </form>
+</div>
+
+<!-- フッター -->
+<footer class="footer">
+    <p>&copy; 2024 CookingNavi</p>
+</footer>
 
 </body>
 </html>
