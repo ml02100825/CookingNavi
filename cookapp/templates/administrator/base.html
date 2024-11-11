@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}CookingNavi{% endblock %}</title>
-    <link rel="stylesheet" href="{% static '../css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
 
@@ -14,8 +14,8 @@
     <div class="app-name">クッキングnavi</div>
     <div class="nav-right">
         <div class="nav-links">
-            <a href="{% url 'home' %}" class="home-link">ホーム</a>
-            <a href="{% url 'logout' %}">ログアウト</a>
+            <a href="{% url 'cookapp:home' %}" class="home-link">ホーム</a>
+            <a href="{% url 'account:logout' %}">ログアウト</a>
         </div>
         <div class="user-icon"></div>
     </div>
