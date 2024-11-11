@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "cookapp.apps.CookappConfig",
-     "account.apps.AccountConfig",
+    "account.apps.AccountConfig",
 ]
 
 MIDDLEWARE = [
