@@ -795,7 +795,6 @@ body {
     margin: 50px auto; /* 上下に50px、左右中央に配置 */
     border-radius: 8px; /* 角を丸くする */
     text-align: center; /* テキストを中央揃え */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 影を追加して立体感を出す */
 }
 
 /* 見出しのスタイル */
@@ -977,6 +976,7 @@ body {
 
 
 /* ログアウト画面のスタイル */
+
 /* 全体のスタイル */
 body {
     font-family: Arial, sans-serif; /* フォントの設定 */
@@ -1343,6 +1343,7 @@ header {
 
 
 /* 主菜選択のスタイル */
+
 /* 全体のレイアウト */
 body {
     font-family: Arial, sans-serif; /* フォント設定 */
@@ -1463,7 +1464,6 @@ body {
 
 /* メインコンテンツ */
 .main-content {
-    text-align: center; /* テキストを中央揃え */
     margin: 20px 0; /* 上下の余白 */
     width: 100%; /* 幅を最大に */
     max-width: 800px; /* コンテンツ幅の最大値 */
@@ -1642,4 +1642,142 @@ button.register:hover {
 
 .footer p {
     margin: 0; /* 上下の余白をゼロにする */
+}
+
+
+
+/* 身体情報変更画面のスタイル */
+
+/* 全体の基本スタイル */
+body {
+    font-family: Arial, sans-serif; /* 全体のフォントを設定 */
+    margin: 0; /* 外側余白をゼロ */
+    padding: 0; /* 内側余白をゼロ */
+    background-color: #f9f9f9; /* 背景色を薄いグレーに設定 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ヘッダー */
+.header {
+    display: flex; /* Flexboxでレイアウト */
+    justify-content: space-between; /* 左右に配置 */
+    align-items: center; /* 垂直方向に中央揃え */
+    background-color: #5865f2; /* ヘッダーの背景色 */
+    color: white; /* 文字色を白に */
+    padding: 15px 20px; /* 内側余白 */
+    width: 100%; /* ヘッダーを画面全幅に */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 影をつけて立体感 */
+}
+
+.app-name {
+    font-size: 1.5em; /* アプリ名のフォントサイズ */
+    font-weight: bold; /* 太字に */
+}
+
+.nav-links a {
+    margin-left: 15px; /* リンク間の余白 */
+    color: white; /* リンク文字の色 */
+    text-decoration: none; /* 下線を削除 */
+    font-size: 1em; /* フォントサイズ */
+}
+
+.nav-links a:hover {
+    text-decoration: underline; /* ホバー時の下線 */
+}
+
+.user-icon {
+    width: 40px; /* アイコンの幅 */
+    height: 40px; /* アイコンの高さ */
+    background-color: #ddd; /* 背景色をグレーに */
+    border-radius: 50%; /* 丸く表示 */
+}
+
+/* メインコンテンツ */
+.main-content {
+    width: 90%; /* 幅を画面幅に近づける */
+    max-width: 500px; /* 最大幅を500pxに制限 */
+    margin-top: 30px; /* 上に余白 */
+    padding: 20px; /* 内側余白 */
+    background-color: white; /* 背景色を白に */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 影をつけてカード風に */
+    border-radius: 10px; /* 角を丸く */
+}
+
+.main-content h2 {
+    font-size: 1.8em; /* 見出しのフォントサイズ */
+    color: #333; /* 文字色を濃いグレーに */
+    text-align: center; /* 中央揃え */
+    margin-bottom: 20px; /* 下に余白 */
+}
+
+/* フォーム */
+.registration-form {
+    display: flex;
+    flex-direction: column; /* 項目を縦に並べる */
+}
+
+.registration-form label {
+    font-size: 1em; /* ラベルのフォントサイズ */
+    color: #333; /* 文字色 */
+    margin: 10px 0 5px; /* 上下の余白 */
+}
+
+.registration-form input,
+.registration-form select {
+    padding: 10px; /* 内側余白 */
+    font-size: 1em; /* フォントサイズ */
+    color: #333; /* 文字色 */
+    border: 1px solid #ddd; /* 枠線 */
+    border-radius: 5px; /* 角丸 */
+    outline: none; /* フォーカス時のアウトラインをなしに */
+    margin-bottom: 15px; /* 下に余白 */
+}
+
+.registration-form input:focus,
+.registration-form select:focus {
+    border-color: #5865f2; /* フォーカス時の枠線色 */
+}
+
+/* ボタンのスタイル */
+.registration-form button {
+    padding: 10px; /* 内側余白 */
+    font-size: 1em; /* フォントサイズ */
+    color: white; /* ボタン文字色 */
+    background-color: #007bff; /* ボタンのデフォルト背景色 */
+    border: none; /* 枠線なし */
+    border-radius: 5px; /* 角丸 */
+    cursor: pointer; /* ポインターカーソルに */
+    transition: background-color 0.3s; /* 背景色変化のアニメーション */
+    margin-top: 10px; /* 上に余白 */
+}
+
+/* 戻るボタン */
+.registration-form button:first-of-type {
+    background-color: #007bff; /* 戻るボタンの色 */
+}
+
+.registration-form button:first-of-type:hover {
+    background-color: #0056b3; /* 戻るボタンのホバー色 */
+}
+
+/* 変更ボタン */
+.registration-form button:last-of-type {
+    background-color: #28a745; /* 変更ボタンの色を緑に */
+}
+
+.registration-form button:last-of-type:hover {
+    background-color: #218838; /* 変更ボタンのホバー色 */
+}
+
+/* フッター */
+.footer {
+    background-color: #5865f2; /* フッターの背景色 */
+    color: white; /* 文字色 */
+    padding: 15px; /* 内側余白 */
+    text-align: center; /* 中央揃え */
+    width: 100%; /* 全幅に */
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1); /* 上に影を追加 */
+    margin-top: 30px; /* 上に余白 */
 }
