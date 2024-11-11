@@ -1,0 +1,42 @@
+/* トップページのスタイル */
+
+/* 画像を画面の中央に配置するためのスタイル */
+.image-container {
+    display: flex; /* フレックスボックスを使用 */
+    justify-content: center; /* 水平方向の中央揃え */
+    align-items: center; /* 垂直方向の中央揃え */
+    position: relative; /* 位置指定 */
+}
+
+/* トップページの画像 */
+.top-image {
+    width: 100%; /* 幅を100%に設定 */
+    height: auto; /* 高さを自動調整 */
+    max-width: 800px; /* 最大幅を800pxに設定 */
+    display: block; /* ブロック表示 */
+    margin: 0 auto; /* 水平中央に配置 */
+}
+
+/* 画像の下部にボタンを配置するためのスタイル */
+.button-container {
+    margin-top: 20px; /* 画像とボタンの間隔を設定 */
+    display: flex; /* フレックスボックスで配置 */
+    gap: 20px; /* ボタン間に間隔を設定 */
+}
+
+/* ボタンのスタイル */
+.button {
+    background-color: #007bff; /* ボタンの背景色を青に設定 */
+    color: white; /* 文字色を白に設定 */
+    text-decoration: none; /* リンクの下線をなしに設定 */
+    padding: 10px 20px; /* パディングを設定 */
+    border-radius: 5px; /* 角を丸くする */
+    font-size: 1em; /* フォントサイズを1emに設定 */
+    transition: background-color 0.3s ease; /* ホバー時の背景色の変化 */
+    font-weight: bold; /* フォントを太字にする */
+}
+
+/* ボタンホバー時のスタイル */
+.button:hover {
+    background-color: #0056b3; /* ホバー時に背景色を濃い青に変更 */
+}

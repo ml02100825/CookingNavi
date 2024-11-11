@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
+import logging
 from pathlib import Path
 
 from django.urls import reverse_lazy
@@ -138,3 +140,24 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 LOGOUT_REDIRECT_URL = reverse_lazy('cookapp:index')
+
+
+
+# For debugging 
+if DEBUG:
+    # will output to your console
+    logging.basicConfig(
+        level = logging.DEBUG,
+        format = '%(asctime)s %(levelname)s %(message)s',
+    )
+else:
+    # will output to logging file
+    logging.basicConfig(
+        level = logging.DEBUG,
+        format = '%(asctime)s %(levelname)s %(message)s',
+        filename = '/my_log_file.log',
+        filemode = 'a'
+    )
+    
+STATIC_URL = "static/"
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), )
