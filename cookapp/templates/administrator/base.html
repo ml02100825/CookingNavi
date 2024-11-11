@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CookingNavi{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static '../css/style.css' %}">
+</head>
+<body>
+
+   <!-- ヘッダー -->
+   <header class="header">
+    <div class="app-name">クッキングnavi</div>
+    <div class="nav-right">
+        <div class="nav-links">
+            <a href="{% url 'home' %}" class="home-link">ホーム</a>
+            <a href="{% url 'logout' %}">ログアウト</a>
+        </div>
+        <div class="user-icon"></div>
+    </div>
+</header>
+
+    <!-- メインコンテンツ -->
+    <main class="home-container">
+        {% block content %}
+        <!-- 個別のページのコンテンツがここに表示される -->
+        {% endblock %}
+    </main>
+
+    <!-- フッター -->
+    <footer class="footer">
+        <p>&copy; 2024 CookingNavi</p>
+    </footer>
+
+</body>
+</html>
