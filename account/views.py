@@ -12,6 +12,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from .forms import CustomUserCreation1Form, CustomUserCreation2Form
 from .models import User
 from django.urls import reverse_lazy
+import logging
 
 class CustomLoginView(LoginView):
     template_name = 'login.html'  # ログインページのテンプレート
@@ -34,6 +35,7 @@ class SignUpPage1View(TemplateView):
     def post(self, request, *args, **kwargs):
         form = CustomUserCreation1Form(request.POST)
         if form.is_valid():
+            logging.debug('debug message')
             request.session['email'] = form.cleaned_data['email'] # 入力されたデータをセッションに保存
             request.session['password1'] = form.cleaned_data['password1']
             return redirect('account:signup2')  # 2ページ目へリダイレクト
@@ -89,3 +91,6 @@ class UsernameView(TemplateView):
 
 class EmailView(TemplateView):
     template_name='acount/email/email_henko.html'
+
+class PasswordView(TemplateView):
+    template_name='acount/password/password_henko.html'

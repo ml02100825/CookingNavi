@@ -1,0 +1,154 @@
+/* ホーム画面のスタイル */
+
+/* 健康管理ボタンのスタイル */
+.health-management-btn {
+    position: absolute; /* 絶対位置指定 */
+    top: 2%; /* 上部に配置 */
+    left: 50%; /* 左側50% */
+    transform: translateX(-50%); /* ボタンを中央揃えにする */
+}
+
+/* 健康管理ボタンのスタイル */
+.health-management-btn button {
+    font-size: 4.5em; /* ボタンのフォントサイズを大きく */
+    padding: 50px 100px; /* ボタンのパディングを大きく */
+    background-color: white; /* ボタンの背景色を白 */
+    color: #003366; /* 文字色を紺色に設定 */
+    border: 4px solid #003366; /* 紺色の枠線 */
+    border-radius: 15px; /* 角を丸くする */
+    cursor: pointer; /* ポインターを表示 */
+    transition: background-color 0.3s, color 0.3s; /* ホバー時のトランジション */
+}
+
+/* 健康管理ボタンホバー時のスタイル */
+.health-management-btn button:hover {
+    background-color: #003366; /* ホバー時に背景色を紺色に */
+    color: white; /* ホバー時に文字色を白に */
+}
+
+/* 掲示板ボタンのスタイル */
+.forum-btn {
+    position: absolute; /* 絶対位置指定 */
+    top: 35%; /* 健康管理ボタンの下に配置 */
+    left: 20%; /* 左側に寄せる */
+}
+
+/* 掲示板ボタンのスタイル */
+.forum-btn button {
+    font-size: 2em; /* フォントサイズを2emに設定 */
+    padding: 20px 50px; /* パディングを設定 */
+    background-color: white; /* 背景色を白に設定 */
+    color: black; /* 文字色を黒に設定 */
+    border: 3px solid black; /* 黒い枠線 */
+    border-radius: 15px; /* 角を丸くする */
+    cursor: pointer; /* ポインターを表示 */
+    transition: background-color 0.3s, color 0.3s; /* ホバー時のトランジション */
+}
+
+/* 掲示板ボタンホバー時のスタイル */
+.forum-btn button:hover {
+    background-color: black; /* ホバー時に背景色を黒に */
+    color: white; /* ホバー時に文字色を白に */
+}
+
+/* 食事履歴ボタンのスタイル */
+.meal-history-btn {
+    position: absolute; /* 絶対位置指定 */
+    top: 35%; /* 掲示板ボタンと同じ位置 */
+    right: 20%; /* 右側に配置 */
+}
+
+/* 食事履歴ボタンのスタイル */
+.meal-history-btn button {
+    font-size: 2em; /* フォントサイズを2emに設定 */
+    padding: 20px 50px; /* パディングを設定 */
+    background-color: white; /* 背景色を白に設定 */
+    color: black; /* 文字色を黒に設定 */
+    border: 3px solid black; /* 黒い枠線 */
+    border-radius: 15px; /* 角を丸くする */
+    cursor: pointer; /* ポインターを表示 */
+    transition: background-color 0.3s, color 0.3s; /* ホバー時のトランジション */
+}
+
+/* 食事履歴ボタンホバー時のスタイル */
+.meal-history-btn button:hover {
+    background-color: black; /* ホバー時に背景色を黒に */
+    color: white; /* ホバー時に文字色を白に */
+}
+
+/* 買い物リストボタンのスタイル */
+.shopping-list-btn {
+    position: absolute; /* 絶対位置指定 */
+    top: 60%; /* 掲示板ボタンの下に配置 */
+    left: 18%; /* 左側に寄せる */
+}
+
+/* 買い物リストボタンのスタイル */
+.shopping-list-btn button {
+    font-size: 2em; /* フォントサイズを2emに設定 */
+    padding: 20px 50px; /* パディングを設定 */
+    background-color: white; /* 背景色を白に設定 */
+    color: black; /* 文字色を黒に設定 */
+    border: 3px solid black; /* 黒い枠線 */
+    border-radius: 15px; /* 角を丸くする */
+    cursor: pointer; /* ポインターを表示 */
+    transition: background-color 0.3s, color 0.3s; /* ホバー時のトランジション */
+}
+
+/* 買い物リストボタンホバー時のスタイル */
+.shopping-list-btn button:hover {
+    background-color: black; /* ホバー時に背景色を黒に */
+    color: white; /* ホバー時に文字色を白に */
+}
+
+/* 健康グラフボタンのスタイル */
+.health-graph-btn {
+    position: absolute; /* 絶対位置指定 */
+    top: 60%; /* 食事履歴ボタンの下に配置 */
+    right: 18%; /* 右側に配置 */
+}
+
+/* 健康グラフボタンのスタイル */
+.health-graph-btn button {
+    font-size: 2em; /* フォントサイズを2emに設定 */
+    padding: 20px 50px; /* パディングを設定 */
+    background-color: white; /* 背景色を白に設定 */
+    color: black; /* 文字色を黒に設定 */
+    border: 3px solid black; /* 黒い枠線 */
+    border-radius: 15px; /* 角を丸くする */
+    cursor: pointer; /* ポインターを表示 */
+    transition: background-color 0.3s, color 0.3s; /* ホバー時のトランジション */
+}
+
+/* 健康グラフボタンホバー時のスタイル */
+.health-graph-btn button:hover {
+    background-color: black; /* ホバー時に背景色を黒に */
+    color: white; /* ホバー時に文字色を白に */
+}
+
+/* サイドバー（広告部分）のスタイル */
+.sidebar {
+    width: 300px; /* サイドバーの幅を300pxに設定 */
+    background-color: #f9f9f9; /* 背景色を明るいグレーに設定 */
+    border-left: 5px solid black; /* 黒い縦の枠線 */
+    padding: 10px; /* パディングを10pxに設定 */
+    height: calc(100vh - 80px); /* 画面全体に合わせる */
+    position: relative; /* サイドバーを相対位置指定 */
+}
+
+/* 広告部分のスタイリング */
+.advertisement {
+    background-color: #eee; /* 背景色を淡いグレーに設定 */
+    padding: 10px; /* パディングを10pxに設定 */
+    text-align: center; /* テキストを中央揃えにする */
+}
+
+/* 左サイドバーのスタイル */
+.left-sidebar {
+    margin-right: 20px; /* メインコンテンツとの間に余白を設定 */
+}
+
+/* 右サイドバーのスタイル */
+.right-sidebar {
+    margin-left: 20px; /* メインコンテンツとの間に余白を設定 */
+}
