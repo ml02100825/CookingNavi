@@ -5,7 +5,7 @@ from django.contrib.auth import login
 from django.views.generic.edit import FormView
 from .forms import UsernameForm
 from django.contrib.auth.views import LoginView, LogoutView
-from .forms import CustomUserCreation1Form, CustomUserCreation2Form, ChangeEmailForm
+from .forms import CustomUserCreation1Form, CustomUserCreation2Form, EmailForm
 from .models import User, Userallergy
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -107,29 +107,24 @@ class UsernameView(LoginRequiredMixin, FormView):
 class UsernameOkView(TemplateView):
     template_name = "acount/name/username_henko_ok.html"
 
-class EmailView(TemplateView):
+class EmailView(LoginRequiredMixin, FormView):
     template_name='acount/email/email_henko.html'
+    form_class = EmailForm
+    login_url = reverse_lazy('account:login')
 
-    def get(self, request, *args, **kwargs):
-        form = ChangeEmailForm()
-        return render(request, self.template_name, {'form': form})
-    
-    def post(self, request, *args, **kwargs):
-        form = ChangeEmailForm(request.POST)
-        if form.is_valid():
-            new_email = form.cleaned_data['email']
-            
-            # メールアドレスの更新
-            user = request.user
-            user.email = new_email
-            user.save()
+    def form_valid(self, form):
+        new_email = form.cleaned_data["new_email"]
+        confirm_email = form.cleaned_data["confirm_email"]
 
-            messages.success(request, 'メールアドレスが正常に変更されました。')
-            return redirect('account:profile')  # プロフィールページなどにリダイレクト
-        
-        return render(request, self.template_name, {'form': form})
+        if new_email == confirm_email:
+            with connection.cursor() as cursor:
+                cursor.execute("UPDATE user SET Email = %s WHERE Email = %s", [new_email, self.request.user.id])
+            return redirect("account:email_ok")
+        else:
+            form.add_error(None, "メールアドレスが一致しません")
+            return self.form_invalid(form)
     
-class EmailHenkoView(TemplateView):
+class EmailOkView(TemplateView):
     template_name='acount/email/email_henko_ok.html'
 
 class PasswordView(TemplateView):
