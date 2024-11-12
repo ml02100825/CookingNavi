@@ -1,58 +1,86 @@
-{% extends '../baseuser.html' %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ホームページ</title>
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
 
-{% block title %}ホームページ{% endblock %}
-
-{% block content %}
-<main>
-    <div class="content-area">
-        
-        <!-- 左側のサイドバー（広告部分） -->
-        <aside class="sidebar left-sidebar">
-            <div class="advertisement">
-                <p>広告がここに表示されます。</p>
+    <!-- ヘッダー -->
+    <header class="header">
+        <div class="app-name">クッキングnavi</div>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="#" class="home-link">ホーム</a>
+                <a href="#">ログイン</a>
+                <a href="#">サインアップ</a>
+                <a href="{% url 'cookapp:setting' %}">アカウント詳細</a>
             </div>
-        </aside>
+            <div class="user-icon"></div>
+        </div>
+    </header>
 
-        <!-- メインコンテンツエリア -->
-        <div class="main-content">
+    <!-- メインコンテンツ -->
+    <main>
+        <div class="content-area">
             
-            <!-- 健康管理ボタン -->
-            <div class="health-management-btn">
-                <a href="{% url 'cookapp:health_management_main' %}"><button>健康管理</button></a>
+            <!-- 左側のサイドバー（広告部分） -->
+            <aside class="sidebar left-sidebar">
+                <div class="advertisement">
+                    <p>広告がここに表示されます。</p>
+                </div>
+            </aside>
+
+            <!-- メインコンテンツエリア -->
+            <div class="main-content">
+                
+                <!-- 健康管理ボタン -->
+                <div class="health-management-btn">
+                    <a href="{% url 'cookapp:health_management_main' %}" ><button>健康管理</button></a>
+                </div>
+
+                <!-- ボタン群（食事履歴、掲示板、買い物リスト、健康グラフ） -->
+                <div class="buttons-container">
+                    <!-- 食事履歴ボタン -->
+                    <div class="meal-history-btn">
+                        <button>食事履歴</button>
+                    </div>
+
+                    <!-- 掲示板ボタン -->
+                    <div class="forum-btn">
+                        <button>掲示板</button>
+                    </div>
+
+                    <!-- 買い物リストボタン -->
+                    <div class="shopping-list-btn">
+                        <button>買い物リスト</button>
+                    </div>
+
+                    <!-- 健康グラフボタン -->
+                    <div class="health-graph-btn">
+                        <button>健康グラフ</button>
+                    </div>
+                </div>
+
             </div>
 
-            <!-- ボタン群（食事履歴、掲示板、買い物リスト、健康グラフ） -->
-            <div class="buttons-container">
-                <!-- 食事履歴ボタン -->
-                <div class="meal-history-btn">
-                    <button>食事履歴</button>
+            <!-- 右側のサイドバー（広告部分） -->
+            <aside class="sidebar right-sidebar">
+                <div class="advertisement">
+                    <p>広告がここに表示されます。</p>
                 </div>
-
-                <!-- 掲示板ボタン -->
-                <div class="forum-btn">
-                    <button>掲示板</button>
-                </div>
-
-                <!-- 買い物リストボタン -->
-                <div class="shopping-list-btn">
-                    <button>買い物リスト</button>
-                </div>
-
-                <!-- 健康グラフボタン -->
-                <div class="health-graph-btn">
-                    <button>健康グラフ</button>
-                </div>
-            </div>
+            </aside>
 
         </div>
+    </main>
 
-        <!-- 右側のサイドバー（広告部分） -->
-        <aside class="sidebar right-sidebar">
-            <div class="advertisement">
-                <p>広告がここに表示されます。</p>
-            </div>
-        </aside>
+    <!-- フッター -->
+    <footer class="footer">
+        <p>&copy; 2024 CookingNavi</p>
+    </footer>
 
-    </div>
-</main>
-{% endblock %}
+</body>
+</html>
