@@ -14,6 +14,7 @@ class CustomUserCreation1Form(UserCreationForm):
         fields = ('email', 'password1', 'password2')
 
 class CustomUserCreation2Form(forms.ModelForm):
+    name = forms.CharField(label="ユーザ名", max_length=30)
     birthdate = forms.DateField(label="生年月日", widget=forms.SelectDateWidget(years=range(1900, 2025)))
     gender = forms.ChoiceField(label="性別", choices=[('1', '男性'), ('2', '女性'), ('3', 'その他')])
     allergies = forms.MultipleChoiceField(label="アレルギー", choices=[('1', 'えび'), ('2', 'かに'), ('3', 'くるみ'),
@@ -28,7 +29,7 @@ class CustomUserCreation2Form(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('birthdate', 'gender', 'allergies', 'height', 'weight')
+        fields = ('name','birthdate', 'gender', 'allergies', 'height', 'weight')
     
 class LoginForm(AuthenticationForm):
     class Meta:
