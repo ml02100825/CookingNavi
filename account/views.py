@@ -10,7 +10,7 @@ from django.contrib.auth import login
 
 from django.contrib.auth.views import LoginView, LogoutView
 from .forms import CustomUserCreation1Form, CustomUserCreation2Form
-from .models import User
+from .models import User, Userallergy
 from django.urls import reverse_lazy
 import logging
 
@@ -33,12 +33,15 @@ class SignUpPage1View(TemplateView):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
+        logging.debug('debug message')
         form = CustomUserCreation1Form(request.POST)
         if form.is_valid():
-            logging.debug('debug message')
+            logging.debug('if文動いてる')
             request.session['email'] = form.cleaned_data['email'] # 入力されたデータをセッションに保存
             request.session['password1'] = form.cleaned_data['password1']
             return redirect('account:signup2')  # 2ページ目へリダイレクト
+        else:
+          logging.debug('フォームが無効です: %s', form.errors) 
         return render(request, self.template_name, {'form': form})
 
 
@@ -55,18 +58,25 @@ class SignUpPage2View(TemplateView):
             # セッションからメールアドレスとパスワードを取得
             email = request.session.get('email')
             password = request.session.get('password1')
-
+           
             # ユーザー作成
-            user = User.objects.create_user(email=email, password=password)
+            email = email 
+            password =password
+            userallergy = Userallergy.objects.create
             
             # フォームの入力内容でユーザーの詳細情報を更新
-            user.birthdate = form.cleaned_data['birthdate']
-            user.gender = form.cleaned_data['gender']
-            user.allergies = form.cleaned_data.get('allergies')
-            user.height = form.cleaned_data['height']
-            user.weight = form.cleaned_data['weight']
+            birthdate = form.cleaned_data['birthdate']
+            gender = form.cleaned_data['gender']
+    
+            height = form.cleaned_data['height']
+            weight = form.cleaned_data['weight']
+            user = User()
             user.save()
-
+            userid = user.user_id
+            allergies = form.cleaned_data['allergies']
+            for i in allergies:
+                allergy = allergies[i]
+                Userallergy.objects.create(user = userid,allergy_category = allergy)
             # ログイン処理
             login(request, user)
             return redirect('account:signup_completion')  # 登録完了ページへリダイレクト
