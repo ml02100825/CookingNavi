@@ -1,78 +1,51 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>（管理者）登録確認</title>
-    <link rel="stylesheet" href="css/home.css">
-    <link rel="stylesheet" href="../../css/style.css">
-</head>
-<body>
+{% extends '../base2.html' %}
 
-<!-- ヘッダー: 管理者用ページのタイトルとナビゲーションリンク -->
-<header class="header">
-    <div class="app-name">クッキングnavi　管理者用</div>
-    <div class="nav-right">
-        <div class="nav-links">
-            <a href="#" class="home-link">ホーム</a>
-            <a href="#">ログアウト</a>
-        </div>
-        <div class="user-icon"></div>
+{% block title %}（管理者）登録確認{% endblock %}
+
+{% block content %}
+<h2>登録内容の確認</h2>
+<form action="#" method="post" class="registration-confirmation-form">
+    {% csrf_token %}
+    
+    <!-- 生年月日表示 -->
+    <div class="confirmation-field">
+        <label for="birthdate">生年月日</label>
+        <p id="birthdate">{{ birthdate }}</p> <!-- 入力内容を表示 -->
+        <input type="hidden" name="birthdate" value="{{ birthdate }}"> <!-- 確認画面で保持用 -->
     </div>
-</header>
+    
+    <!-- 性別表示 -->
+    <div class="confirmation-field">
+        <label for="gender">性別</label>
+        <p id="gender">{{ gender }}</p> <!-- 入力内容を表示 -->
+        <input type="hidden" name="gender" value="{{ gender }}"> <!-- 確認画面で保持用 -->
+    </div>
 
-<!-- メインコンテンツ: 入力内容の確認画面 -->
-<main class="main-content">
-    <h2>登録内容の確認</h2>
-    <form action="#" method="post" class="registration-confirmation-form">
-        
-        <!-- 生年月日表示 -->
-        <div class="confirmation-field">
-            <label for="birthdate">生年月日</label>
-            <p id="birthdate">1990-01-01</p> <!-- 入力内容を表示 -->
-            <input type="hidden" name="birthdate" value="1990-01-01"> <!-- 確認画面で保持用 -->
-        </div>
-        
-        <!-- 性別表示 -->
-        <div class="confirmation-field">
-            <label for="gender">性別</label>
-            <p id="gender">男性</p> <!-- 入力内容を表示 -->
-            <input type="hidden" name="gender" value="male"> <!-- 確認画面で保持用 -->
-        </div>
+    <!-- アレルギー表示 -->
+    <div class="confirmation-field">
+        <label for="allergies">アレルギー</label>
+        <p id="allergies">{{ allergies }}</p> <!-- 入力内容を表示 -->
+        <input type="hidden" name="allergies" value="{{ allergies }}"> <!-- 確認画面で保持用 -->
+    </div>
 
-        <!-- アレルギー表示 -->
-        <div class="confirmation-field">
-            <label for="allergies">アレルギー</label>
-            <p id="allergies">ピーナッツ, 卵</p> <!-- 入力内容を表示 -->
-            <input type="hidden" name="allergies" value="ピーナッツ, 卵"> <!-- 確認画面で保持用 -->
-        </div>
+    <!-- 身長表示 -->
+    <div class="confirmation-field">
+        <label for="height">身長 (cm)</label>
+        <p id="height">{{ height }}</p> <!-- 入力内容を表示 -->
+        <input type="hidden" name="height" value="{{ height }}"> <!-- 確認画面で保持用 -->
+    </div>
 
-        <!-- 身長表示 -->
-        <div class="confirmation-field">
-            <label for="height">身長 (cm)</label>
-            <p id="height">170</p> <!-- 入力内容を表示 -->
-            <input type="hidden" name="height" value="170"> <!-- 確認画面で保持用 -->
-        </div>
+    <!-- 体重表示 -->
+    <div class="confirmation-field">
+        <label for="weight">体重 (kg)</label>
+        <p id="weight">{{ weight }}</p> <!-- 入力内容を表示 -->
+        <input type="hidden" name="weight" value="{{ weight }}"> <!-- 確認画面で保持用 -->
+    </div>
 
-        <!-- 体重表示 -->
-        <div class="confirmation-field">
-            <label for="weight">体重 (kg)</label>
-            <p id="weight">65</p> <!-- 入力内容を表示 -->
-            <input type="hidden" name="weight" value="65"> <!-- 確認画面で保持用 -->
-        </div>
-
-        <!-- ボタン: 修正と登録確認 -->
-        <div class="button-group">
-            <button type="button" onclick="window.history.back()">修正</button> <!-- 戻るボタンで入力画面へ -->
-            <button type="submit">登録</button> <!-- 登録ボタンでフォーム送信 -->
-        </div>
-    </form>
-</main>
-
-<!-- フッター: コピーライト情報 -->
-<footer class="footer">
-    <p>&copy; 2024 CookingNavi</p>
-</footer>
-
-</body>
-</html>
+    <!-- ボタン: 修正と登録確認 -->
+    <div class="button-group">
+        <button type="button" onclick="window.history.back()">修正</button> <!-- 戻るボタンで入力画面へ -->
+        <button type="submit">登録</button> <!-- 登録ボタンでフォーム送信 -->
+    </div>
+</form>
+{% endblock %}
