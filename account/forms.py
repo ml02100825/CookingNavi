@@ -38,27 +38,6 @@ class LoginForm(AuthenticationForm):
         model = User
       
 
-<<<<<<< HEAD
 class UsernameForm(forms.Form):
     new_username = forms.CharField(max_length=100, label="新しいユーザー名")
     confirm_username = forms.CharField(max_length=100, label="ユーザー名（確認）")
-=======
-class ChangeEmailForm(forms.Form):
-    email = forms.EmailField(label="新しいメールアドレス")
-    confirm_email = forms.EmailField(label="メールアドレス（確認）")
-
-    def clean(self):
-        cleaned_data = super().clean()
-        email = cleaned_data.get('email')
-        confirm_email = cleaned_data.get('confirm_email')
-        
-        # メールアドレスと確認用メールアドレスが一致しているかを確認
-        if email != confirm_email:
-            raise forms.ValidationError("新しいメールアドレスと確認用メールアドレスが一致しません。")
-        
-        # 他のユーザーがすでにこのメールアドレスを使用していないか確認
-        if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("このメールアドレスはすでに使用されています。")
-
-        return cleaned_data
->>>>>>> 976f1bca5706d8b99d02bfdcaea4631b1570dcb2
