@@ -1,52 +1,10 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>主菜選択</title>
-    <link rel="stylesheet" href="css/home.css">
-    <link rel="stylesheet" href="css/style.css">
-    
-    <script>
-        // 主菜ごとの材料データ
-        const ingredientsData = {
-            "唐揚げ": ["鶏肉", "しょうゆ", "にんにく", "しょうが", "片栗粉"],
-            "焼き魚": ["魚（さば、さんま等）", "塩", "レモン"],
-            "ステーキ": ["牛肉", "塩", "コショウ", "オリーブオイル"],
-            "カレー": ["カレールー", "にんじん", "じゃがいも", "玉ねぎ", "鶏肉"],
-            "パスタ": ["パスタ", "トマトソース", "にんにく", "オリーブオイル", "バジル"]
-        };
+{% extends 'baseuser.html' %}
 
-        // 選択した主菜の材料を表示
-        function updateIngredients() {
-            const dish = document.getElementById("dish").value;
-            const ingredientsList = document.getElementById("ingredients");
+{% block title %}主菜選択{% endblock %}
 
-            // 選択された主菜に応じた材料を取得
-            const ingredients = ingredientsData[dish] || [];
-
-            // 材料リストを更新
-            ingredientsList.innerHTML = ingredients.length
-                ? `<strong>材料:</strong> ${ingredients.join(", ")}`
-                : "<strong>材料:</strong> 主菜を選んでください。";
-        }
-    </script>
-</head>
-<body>
+{% block content %}
     <div class="container">
-        <!-- ヘッダー -->
-        <header class="header">
-            <div class="app-name">クッキングnavi</div>
-            <div class="nav-right">
-                <div class="nav-links">
-                    <a href="#" class="home-link">ホーム</a>
-                    <a href="#">ログイン</a>
-                    <a href="#">サインアップ</a>
-                </div>
-                <div class="user-icon"></div>
-            </div>
-        </header>
-
+        <!-- Main Meal Selection Section -->
         <main>
             <div class="meal-selection">
                 <h2>主菜選択</h2>
@@ -85,11 +43,42 @@
 
             <button class="register">登録</button>
         </main>
-
-       
     </div>
-    <footer class="footer">
-        <p>&copy; 2024 クッキングnavi.</p>
-    </footer>
-</body>
-</html>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        // 主菜ごとの材料データ
+        const ingredientsData = {
+            "唐揚げ": ["鶏肉", "しょうゆ", "にんにく", "しょうが", "片栗粉"],
+            "焼き魚": ["魚（さば、さんま等）", "塩", "レモン"],
+            "ステーキ": ["牛肉", "塩", "コショウ", "オリーブオイル"],
+            "カレー": ["カレールー", "にんじん", "じゃがいも", "玉ねぎ", "鶏肉"],
+            "パスタ": ["パスタ", "トマトソース", "にんにく", "オリーブオイル", "バジル"]
+        };
+
+        // 選択した主菜の材料を表示
+        function updateIngredients() {
+            const dish = document.getElementById("dish").value;
+            const ingredientsList = document.getElementById("ingredients");
+
+            // 選択された主菜に応じた材料を取得
+            const ingredients = ingredientsData[dish] || [];
+
+            // 材料リストを更新
+            ingredientsList.innerHTML = ingredients.length
+                ? `<strong>材料:</strong> ${ingredients.join(", ")}`
+                : "<strong>材料:</strong> 主菜を選んでください。";
+        }
+
+        // 時間帯を選択する関数
+        function setMealTime(mealTime) {
+            document.getElementById("dish-status").innerText = `主菜は${mealTime}に設定されました。`;
+        }
+
+        // 戻るボタンの処理
+        function goBack() {
+            history.back();
+        }
+    </script>
+{% endblock %}

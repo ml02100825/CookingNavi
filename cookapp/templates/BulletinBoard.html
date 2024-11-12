@@ -1,29 +1,9 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>みんなの料理掲示板</title>
-    
-    
-    
-</head>
+{% extends 'baseuser.html' %}
 
-<body>
-    <!-- Header -->
-    <header class="header">
-        <div class="app-name">クッキングnavi</div>
-        <div class="nav-right">
-            <div class="nav-links">
-                <a href="#" class="home-link">ホーム</a>
-                <a href="#">ログイン</a>
-                <a href="#">サインアップ</a>
-            </div>
-            <div class="user-icon"></div>
-        </div>
-    </header>
+{% block title %}みんなの料理掲示板{% endblock %}
 
-    <!-- Centered Search Bar section -->
+{% block content %}
+    
     <div class="search-bar-container">
         <div class="search-container">
             <input type="text" class="search-bar" placeholder="料理を検索する..." id="search-input">
@@ -32,7 +12,7 @@
         <button class="post-recipe-btn">レシピを投稿する</button>
     </div>
 
-    <!-- Sidebar and main content -->
+   
     <div class="content-container">
         <div class="sidebar">
             <button onclick="filterPosts('myPosts')">自分が投稿したもの</button>
@@ -41,6 +21,7 @@
         </div>
 
         <div class="main-content" id="post-grid">
+          
             <div class="post-card">
                 <img src="https://via.placeholder.com/150" alt="料理写真">
                 <div class="post-details">
@@ -51,6 +32,8 @@
                     <p>ユーザーA</p>
                 </div>
             </div>
+
+           
             <div class="post-card">
                 <img src="https://via.placeholder.com/150" alt="料理写真">
                 <div class="post-details">
@@ -61,64 +44,19 @@
                     <p>ユーザーB</p>
                 </div>
             </div>
-            <div class="post-card">
-                <img src="https://via.placeholder.com/150" alt="料理写真">
-                <div class="post-details">
-                    <p class="post-title">
-                        サラダ
-                        <button class="like-btn" onclick="toggleLike(this)">❤</button>
-                    </p>
-                    <p>ユーザーC</p>
-                </div>
-            </div>
 
-
-            <div class="post-card">
-                <img src="https://via.placeholder.com/150" alt="料理写真">
-                <div class="post-details">
-                    <p class="post-title">
-                        サラダ
-                        <button class="like-btn" onclick="toggleLike(this)">❤</button>
-                    </p>
-                    <p>ユーザーC</p>
-                </div>
-            </div>
-
-            <div class="post-card">
-                <img src="https://via.placeholder.com/150" alt="料理写真">
-                <div class="post-details">
-                    <p class="post-title">
-                        サラダ
-                        <button class="like-btn" onclick="toggleLike(this)">❤</button>
-                    </p>
-                    <p>ユーザーC</p>
-                </div>
-            </div>
-
-            <div class="post-card">
-                <img src="https://via.placeholder.com/150" alt="料理写真">
-                <div class="post-details">
-                    <p class="post-title">
-                        サラダ
-                        <button class="like-btn" onclick="toggleLike(this)">❤</button>
-                    </p>
-                    <p>ユーザーC</p>
-                </div>
-            </div>
-
-            <div class="post-card">
-                <img src="https://via.placeholder.com/150" alt="料理写真">
-                <div class="post-details">
-                    <p class="post-title">
-                        サラダ
-                        <button class="like-btn" onclick="toggleLike(this)">❤</button>
-                    </p>
-                    <p>ユーザーC</p>
-                </div>
-            </div>
+           
         </div>
     </div>
+{% endblock %}
 
+{% block footer %}
+    <footer class="footer">
+        <p>&copy; 2024 クッキングnavi. All Rights Reserved.</p>
+    </footer>
+{% endblock %}
+
+{% block scripts %}
     <script>
         function filterPosts(filterType) {
             alert(filterType + "のフィルターが選択されました。");
@@ -133,8 +71,4 @@
             button.classList.toggle("liked");
         }
     </script>
-     <footer class="footer">
-        <p>&copy; 2024 クッキングnavi. All Rights Reserved.</p>
-    </footer>
-</body>
-</html>
+{% endblock %}
