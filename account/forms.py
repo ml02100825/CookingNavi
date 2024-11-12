@@ -35,3 +35,17 @@ class LoginForm(AuthenticationForm):
     class Meta:
         model = User
 
+class UsernameForm(forms.Form):
+    new_username = forms.CharField(max_length=150, label="新しいユーザー名")
+    confirm_username = forms.CharField(max_length=150, label="新しいユーザー名（確認用）")
+
+    def clean(self):
+        cleaned_data = super().clean()
+        new_username = cleaned_data.get("new_username")
+        confirm_username = cleaned_data.get("confirm_username")
+
+        # 入力されたユーザー名が一致するか確認
+        if new_username != confirm_username:
+            self.add_error('confirm_username', "ユーザー名が一致しません。")
+        
+        return cleaned_data
