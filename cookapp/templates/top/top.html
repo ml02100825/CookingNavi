@@ -8,7 +8,7 @@
 <main>
     <!-- 画像とボタンを配置するためのコンテナ -->
     <div class="image-container">
-        <img src="{% static 'png/top.jpg' %}" alt="Top Image" class="top-image">
+        {% comment %} <img src="{% static 'png/top.jpg' %}" alt="Top Image" class="top-image"> {% endcomment %}
         <div class="button-container">
             <a href="{% url 'account:signup1' %}" class="button">新規登録</a>
             <a href="{% url 'account:login' %}" class="button">ログイン</a>
