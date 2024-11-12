@@ -9,7 +9,7 @@ class IndexView(TemplateView):
     template_name='index.html'
 
 class HomeView(TemplateView):
-    template_name='home/home2.html'
+    template_name='home/home.html'
 
 class HealthMainView(TemplateView):
     template_name='health_management_main.html'
