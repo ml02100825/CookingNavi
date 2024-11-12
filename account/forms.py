@@ -1,6 +1,7 @@
 # UserCreationFormクラスをインポート
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
+
 # models.pyで定義したUserをインポート
 from .models import User
 
@@ -12,6 +13,7 @@ class CustomUserCreation1Form(UserCreationForm):
     class Meta:
         model = User
         fields = ('email', 'password1', 'password2')
+
 
 class CustomUserCreation2Form(forms.ModelForm):
     name = forms.CharField(label="ユーザ名", max_length=30)
@@ -31,9 +33,11 @@ class CustomUserCreation2Form(forms.ModelForm):
         model = User
         fields = ('name','birthdate', 'gender', 'allergies', 'height', 'weight')
     
+
 class LoginForm(AuthenticationForm):
     class Meta:
         model = User
+      
 
 class UsernameForm(forms.Form):
     new_username = forms.CharField(max_length=150, label="新しいユーザー名")
