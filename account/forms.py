@@ -1,7 +1,6 @@
 # UserCreationFormクラスをインポート
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
-
 # models.pyで定義したUserをインポート
 from .models import User
 
@@ -14,8 +13,8 @@ class CustomUserCreation1Form(UserCreationForm):
         model = User
         fields = ('email', 'password1', 'password2')
 
-
 class CustomUserCreation2Form(forms.ModelForm):
+    name = forms.CharField(label="ユーザ名", max_length=30)
     birthdate = forms.DateField(label="生年月日", widget=forms.SelectDateWidget(years=range(1900, 2025)))
     gender = forms.ChoiceField(label="性別", choices=[('1', '男性'), ('2', '女性'), ('3', 'その他')])
     allergies = forms.MultipleChoiceField(label="アレルギー", choices=[('1', 'えび'), ('2', 'かに'), ('3', 'くるみ'),
@@ -30,13 +29,11 @@ class CustomUserCreation2Form(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('birthdate', 'gender', 'allergies', 'height', 'weight')
+        fields = ('name','birthdate', 'gender', 'allergies', 'height', 'weight')
     
-
 class LoginForm(AuthenticationForm):
     class Meta:
         model = User
-      
 
 class UsernameForm(forms.Form):
     new_username = forms.CharField(max_length=100, label="新しいユーザー名")
