@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views.generic.base import TemplateView
 from django.contrib.auth import login
-
+from django.views.generic.edit import FormView
 from .forms import UsernameForm
-from .forms import UsernameFormfrom 
 from django.contrib.auth.views import LoginView, LogoutView
 from .forms import CustomUserCreation1Form, CustomUserCreation2Form
 from .models import User, Userallergy
