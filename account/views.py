@@ -107,7 +107,7 @@ class UsernameOkView(TemplateView):
     template_name = "acount/name/username_henko_ok.html"
 
 class EmailView(TemplateView):
-    template_name = 'account/templates/acount/email/email_henko.html'
+    template_name = 'acount/templates/acount/email/email_henko.html'
 
 class PasswordView(TemplateView):
     template_name = 'acount/password/password_henko.html'
