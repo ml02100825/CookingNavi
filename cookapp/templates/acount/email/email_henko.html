@@ -20,28 +20,33 @@
     </header>
         
     <div>
+        
         <h2>メールアドレス変更</h2>
+
+        <form method="POST">
+            {% csrf_token %}
         
-        <div>
-            <label>新しいメールアドレス：</label>
             <div>
-                <span>📧</span>
-                <input type="email" placeholder="mail@example.com">
+                <label>新しいメールアドレス：</label>
+                <div>
+                    <span>📧</span>
+                    <input type="email" placeholder="mail@example.com">
+                </div>
             </div>
-        </div>
         
-        <div>
-            <label>メールアドレス（確認）：</label>
             <div>
-                <span>📧</span>
-                <input type="email" placeholder="mail@example.com">
+                <label>メールアドレス（確認）：</label>
+                <div>
+                    <span>📧</span>
+                    <input type="email" placeholder="mail@example.com">
+                </div>
             </div>
-        </div>
         
-        <div>
-            <button>戻る</button>
-            <button>変更</button>
-        </div>
+            <div>
+                <button>戻る</button>
+                <button>変更</button>
+            </div>
+        </form>
     </div>
 
     <!-- フッター -->

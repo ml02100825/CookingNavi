@@ -1,15 +1,14 @@
 
 from django.shortcuts import render, redirect
+from django.contrib import messages
 
 # Create your views here.
 # Create your views here.
 from django.views.generic.base import TemplateView
 from django.contrib.auth import login
 
-
-
 from django.contrib.auth.views import LoginView, LogoutView
-from .forms import CustomUserCreation1Form, CustomUserCreation2Form
+from .forms import CustomUserCreation1Form, CustomUserCreation2Form, ChangeEmailForm
 from .models import User, Userallergy
 from django.urls import reverse_lazy
 import logging
@@ -19,7 +18,6 @@ class CustomLoginView(LoginView):
     redirect_authenticated_user = True  # ログイン済みユーザーをリダイレクト
     success_url = reverse_lazy('cookapp:index')  # ログイン後のリダイレクト先
     
-
     def get_success_url(self):
         # カスタムリダイレクト先を指定
         return self.success_url
@@ -83,17 +81,15 @@ class SignUpPage2View(TemplateView):
         
         return render(request, self.template_name, {'form': form})
 
+
 # 登録完了ページ
 class CustomSignUpView(TemplateView):
     template_name = 'administrator/sign up/sign up_completion.html'
     
-
 class CustomLogoutView(LogoutView):
     template_name = 'logout.html'  # ログアウトページのテンプレート
 
-
 class IndexView(TemplateView):
-    
     template_name='top/top.html'
 
 class UsernameView(TemplateView):
@@ -101,6 +97,29 @@ class UsernameView(TemplateView):
 
 class EmailView(TemplateView):
     template_name='acount/email/email_henko.html'
+
+    def get(self, request, *args, **kwargs):
+        # 現在のユーザーのメールアドレスをフォームにセット
+        form = ChangeEmailForm(initial={'email': request.user.email})
+        return render(request, self.template_name, {'form': form})
+    
+    def post(self, request, *args, **kwargs):
+        form = ChangeEmailForm(request.POST)
+        if form.is_valid():
+            new_email = form.cleaned_data['email']
+            
+            # メールアドレスの更新
+            user = request.user
+            user.email = new_email
+            user.save()
+
+            messages.success(request, 'メールアドレスが正常に変更されました。')
+            return redirect('account:profile')  # プロフィールページなどにリダイレクト
+        
+        return render(request, self.template_name, {'form': form})
+    
+class EmailHenkoView(TemplateView):
+    template_name='acount/email/email_henko_ok.html'
 
 class PasswordView(TemplateView):
     template_name='acount/password/password_henko.html'
