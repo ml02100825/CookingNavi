@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>他のユーザーの投稿</title>
+    
+   
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="app-name">クッキングnavi</div>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="#" class="home-link">ホーム</a>
+                <a href="#">ログイン</a>
+                <a href="#">サインアップ</a>
+            </div>
+            <div class="user-icon"></div>
+        </div>
+    </header>
+
+    <!-- 投稿表示 -->
+    <div class="post-container">
+        <!-- ユーザー情報（アイコンと名前） -->
+        <div class="user-info">
+            <div class="user-icon"></div>
+            <div class="user-name">ユーザー名</div>
+        </div>
+
+        <!-- 画像 -->
+        <div class="image-slider">
+            <div class="image-container">
+                <img src="../../png/dinner.jpg" alt="料理画像 1" class="post-image" id="slider-image">
+                <img src="../../png/lunch.jpg" alt="料理画像 2" class="post-image hidden">
+                <img src="image3.jpg" alt="料理画像 3" class="post-image hidden">
+            </div>
+            <div class="arrow-buttons">
+                <button class="arrow-button" onclick="changeImage(-1)">&#10094;</button>
+                <button class="arrow-button" onclick="changeImage(1)">&#10095;</button>
+            </div>
+        </div>
+
+        <!-- メニュー名 (四角で囲む) -->
+        <h3>メニュー名</h3>
+        <div class="post-title">唐揚げ</div>
+
+        <!-- 作り方 (リストを四角で囲む) -->
+        <div class="recipe-method">
+            <h3>作り方 <button class="like-btn" onclick="toggleLike(this)">♡</button></h3>
+            <ul>
+                <li>1. 鶏肉を一口大に切り、調味料で下味をつけます。</li>
+                <li>2. 衣をつけて、180度の油で揚げます。</li>
+                <li>3. キッチンペーパーで余分な油を取って、お皿に盛り付けます。</li>
+                <li>4. お好みでレモンを絞って召し上がれ。</li>
+            </ul>
+        </div>
+
+        <!-- 戻るボタン -->
+        <button class="back-button" onclick="goBack()">戻る</button>
+    </div>
+
+    <script>
+        let currentImageIndex = 0;
+
+        function changeImage(direction) {
+            const images = document.querySelectorAll('.post-image');
+            const totalImages = images.length;
+
+            images.forEach(image => image.classList.add('hidden'));
+
+            currentImageIndex += direction;
+
+            if (currentImageIndex < 0) {
+                currentImageIndex = totalImages - 1;
+            } else if (currentImageIndex >= totalImages) {
+                currentImageIndex = 0;
+            }
+
+            images[currentImageIndex].classList.remove('hidden');
+        }
+
+        function toggleLike(button) {
+            button.classList.toggle("liked");
+        }
+        
+        function goBack() {
+            window.history.back(); // 前のページに戻る
+        }
+    </script>
+<footer class="footer">
+    <p>&copy; 2024 CookingNavi</p>
+</footer>
+</body>
+</html>

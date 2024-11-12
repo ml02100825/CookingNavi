@@ -16,8 +16,14 @@ class CustomUserCreation1Form(UserCreationForm):
 
 class CustomUserCreation2Form(forms.ModelForm):
     birthdate = forms.DateField(label="生年月日", widget=forms.SelectDateWidget(years=range(1900, 2025)))
-    gender = forms.ChoiceField(label="性別", choices=[('male', '男性'), ('female', '女性'), ('other', 'その他')])
-    allergies = forms.CharField(label="アレルギー", required=False)
+    gender = forms.ChoiceField(label="性別", choices=[('1', '男性'), ('2', '女性'), ('3', 'その他')])
+    allergies = forms.MultipleChoiceField(label="アレルギー", choices=[('1', 'えび'), ('2', 'かに'), ('3', 'くるみ'),
+    ('4', '小麦'),('5', 'そば'),('6', '卵'),('7', '乳'),('8', '落花生(ピーナッツ)'),('9', 'アーモンド'),
+    ('10', 'あわび'),('11', 'いか'),('12', 'いくら'),('13', 'オレンジ'),('14', 'カシューナッツ'),('15', 'キウイフルーツ'),
+    ('16', '牛肉'),('17', 'ごま'),('18', '鮭'),('19', '鯖'),('20', '大豆'),('21', '鶏肉'),('22', 'バナナ'),('23', '豚肉'),('24', 'マカダミアナッツ'),
+    ('25', 'もも'),('26', 'やまいも'),('27', 'りんご'),('28', 'ゼラチン'),],required=False, widget=forms.SelectMultiple(attrs={
+            'size': '5'  # 表示する選択肢の数
+        }))
     height = forms.FloatField(label="身長 (cm)", min_value=0)
     weight = forms.FloatField(label="体重 (kg)", min_value=0)
 
