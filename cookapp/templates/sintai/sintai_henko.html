@@ -1,30 +1,13 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>身体情報変更</title>
-    <link rel="stylesheet" href="../css/home.css">
-    <link rel="stylesheet" href="../css/style.css">
-</head>
-<body>
+<!-- body_info_update.html -->
+{% extends '../baseuser.html' %}
 
-<!-- ヘッダー -->
-<header class="header">
-    <div class="app-name">クッキングnavi</div>
-    <div class="nav-right">
-        <div class="nav-links">
-            <a href="#" class="home-link">ホーム</a>
-            <a href="#">ログアウト</a>
-        </div>
-        <div class="user-icon"></div>
-    </div>
-</header>
+{% block title %}身体情報変更{% endblock %}
 
-<!-- メインコンテンツ -->
+{% block content %}
 <main class="main-content">
     <h2>身体情報変更</h2>
-    <form action="#" method="post" class="registration-form">
+    <form action="{% url 'cookapp:body_info_update' %}" method="post" class="registration-form">
+        {% csrf_token %}
         <label for="username">ユーザー名</label>
         <input type="text" id="username" name="username" required placeholder="ユーザー名を入力してください">
 
@@ -47,15 +30,8 @@
         <label for="weight">体重 (kg)</label>
         <input type="number" id="weight" name="weight" min="0" step="0.1" required>
 
-        <button type="submit">戻る</button>
+        <button type="button" onclick="window.history.back()">戻る</button>
         <button type="submit">変更</button>
     </form>
 </main>
-
-<!-- フッター -->
-<footer class="footer">
-    <p>&copy; 2024 CookingNavi</p>
-</footer>
-
-</body>
-</html>
+{% endblock %}

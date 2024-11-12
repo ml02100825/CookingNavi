@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <title>クッキングナビ - アカウント設定</title>
-</head>
-<body>
+<!-- アカウント設定 -->
+{% extends '../../baseuser.html' %}
 
+<<<<<<< HEAD
     <header class="header">
         <div class="app-name">クッキングnavi</div>
         <div class="nav-right">
@@ -41,12 +35,36 @@
                 <button>変更</button>
             </div>
         </div>
+=======
+{% block title %}クッキングナビ - アカウント設定{% endblock %}
+
+{% block content %}
+<main class="main-content">
+    <h2>アカウント設定</h2>
+    
+    <div class="account-setting-item">
+        <label>ユーザーID：</label>
+        <span>XXXXXXXXX</span>
+        <a href="{% url 'account:username' %}">
+            <button>変更</button>
+        </a>
+>>>>>>> 38ac778c279ce9f0b4bf6134154a25d6b4286de2
     </div>
-
-      <!-- フッター -->
-      <footer class="footer">
-        <p>&copy; 2024 CookingNavi</p>
-    </footer>
-
-</body>
-</html>
+    
+    <div class="account-setting-item">
+        <label>メールアドレス：</label>
+        <span>XXXXXXXXX</span>
+        <a href="{% url 'account:email' %}">
+            <button>変更</button>
+        </a>
+    </div>
+    
+    <div class="account-setting-item">
+        <label>パスワード：</label>
+        <span>XXXXXXXXX</span>
+        <a href="{% url 'account:password' %}">
+            <button>変更</button>
+        </a>
+    </div>
+</main>
+{% endblock %}

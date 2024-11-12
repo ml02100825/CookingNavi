@@ -1,0 +1,58 @@
+{% extends '../baseuser.html' %}
+
+{% block title %}ホームページ{% endblock %}
+
+{% block content %}
+<main>
+    <div class="content-area">
+        
+        <!-- 左側のサイドバー（広告部分） -->
+        <aside class="sidebar left-sidebar">
+            <div class="advertisement">
+                <p>広告がここに表示されます。</p>
+            </div>
+        </aside>
+
+        <!-- メインコンテンツエリア -->
+        <div class="main-content">
+            
+            <!-- 健康管理ボタン -->
+            <div class="health-management-btn">
+                <a href="{% url 'cookapp:health_management_main' %}"><button>健康管理</button></a>
+            </div>
+
+            <!-- ボタン群（食事履歴、掲示板、買い物リスト、健康グラフ） -->
+            <div class="buttons-container">
+                <!-- 食事履歴ボタン -->
+                <div class="meal-history-btn">
+                    <button>食事履歴</button>
+                </div>
+
+                <!-- 掲示板ボタン -->
+                <div class="forum-btn">
+                    <button>掲示板</button>
+                </div>
+
+                <!-- 買い物リストボタン -->
+                <div class="shopping-list-btn">
+                    <button>買い物リスト</button>
+                </div>
+
+                <!-- 健康グラフボタン -->
+                <div class="health-graph-btn">
+                    <button>健康グラフ</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 右側のサイドバー（広告部分） -->
+        <aside class="sidebar right-sidebar">
+            <div class="advertisement">
+                <p>広告がここに表示されます。</p>
+            </div>
+        </aside>
+
+    </div>
+</main>
+{% endblock %}

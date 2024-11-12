@@ -1,0 +1,124 @@
+/* （管理者）レシピ追加画面のスタイル */
+
+/* 基本スタイル */
+body {
+    font-family: Arial, sans-serif; /* フォント設定: Arialを使用 */
+    margin: 0; /* ページの余白を削除 */
+    padding: 0; /* ページの内側の余白を削除 */
+    background-color: #f9f9f9; /* 背景色を明るいグレーに設定 */
+    display: flex; /* フレックスボックスでレイアウト */
+    flex-direction: column; /* 縦方向にレイアウト */
+    align-items: center; /* 中央揃え */
+}
+
+/* ヘッダー */
+.header {
+    display: flex; /* フレックスボックスで横並び */
+    justify-content: space-between; /* 両端に配置 */
+    align-items: center; /* 垂直方向に中央揃え */
+    background-color: #5865f2; /* 背景色を青紫色に設定 */
+    color: white; /* 文字色を白に設定 */
+    padding: 15px 20px; /* パディングを上下15px、左右20px */
+    width: 100%; /* 幅を100%に設定 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 下に影をつけて浮き上がる効果 */
+}
+
+.app-name {
+    font-size: 1.5em; /* フォントサイズを1.5倍に設定 */
+    font-weight: bold; /* 太字に設定 */
+}
+
+.nav-links a {
+    margin-left: 15px; /* リンクの間隔を15pxに設定 */
+    color: white; /* リンク文字色を白に設定 */
+    text-decoration: none; /* 下線をなしに設定 */
+    font-size: 1em; /* フォントサイズを標準に設定 */
+}
+
+.nav-links a:hover {
+    text-decoration: underline; /* ホバー時に下線を表示 */
+}
+
+.user-icon {
+    width: 40px; /* アイコンの幅を40pxに設定 */
+    height: 40px; /* アイコンの高さを40pxに設定 */
+    background-color: #ddd; /* 背景色をグレーに設定 */
+    border-radius: 50%; /* 丸い形にする */
+}
+
+/* メインコンテンツ */
+.main-content {
+    width: 90%; /* 幅を90%に設定 */
+    max-width: 500px; /* 最大幅を500pxに設定 */
+    margin-top: 30px; /* 上部に30pxの余白を追加 */
+    padding: 20px; /* 内部に20pxの余白を追加 */
+    background-color: white; /* 背景色を白に設定 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 下に大きめの影をつけて浮き上がる効果 */
+    border-radius: 10px; /* 角を丸く設定 */
+    text-align: center; /* 中央揃え */
+}
+
+/* 見出しスタイル */
+.login-container h1 {
+    font-size: 1.8em; /* フォントサイズを1.8倍に設定 */
+    color: #333; /* 文字色をダークグレーに設定 */
+    margin-bottom: 10px; /* 下部に10pxの余白を追加 */
+}
+
+.login-container h2 {
+    font-size: 1.4em; /* フォントサイズを1.4倍に設定 */
+    color: #666; /* 文字色を明るいグレーに設定 */
+    margin-bottom: 20px; /* 下部に20pxの余白を追加 */
+}
+
+/* フォームスタイル */
+.login-container form {
+    display: flex; /* フレックスボックスでレイアウト */
+    flex-direction: column; /* 縦方向に配置 */
+    gap: 15px; /* 各要素間に15pxの隙間を設定 */
+}
+
+.login-container label {
+    font-weight: bold; /* ラベルを太字に設定 */
+    color: #555; /* 文字色を少し薄いグレーに設定 */
+    text-align: left; /* 左揃え */
+}
+
+.login-container input[type="text"],
+.login-container textarea {
+    width: 100%; /* 入力フォームの幅を100%に設定 */
+    padding: 10px; /* 内部に10pxの余白を追加 */
+    margin-bottom: 15px; /* 下部に15pxの余白を追加 */
+    border: 1px solid #ddd; /* 枠線を薄いグレーに設定 */
+    border-radius: 4px; /* 角を丸く設定 */
+    font-size: 1em; /* フォントサイズを標準に設定 */
+    resize: vertical; /* テキストエリアは縦方向のみリサイズ可能 */
+}
+
+/* ボタンスタイル */
+.login-container button {
+    padding: 10px; /* 内部に10pxの余白を追加 */
+    font-size: 1em; /* フォントサイズを標準に設定 */
+    color: white; /* 文字色を白に設定 */
+    background-color: #007bff; /* 背景色を青色に設定 */
+    border: none; /* 枠線をなしに設定 */
+    border-radius: 5px; /* 角を丸く設定 */
+    cursor: pointer; /* ポインターカーソルを表示 */
+    transition: background-color 0.3s; /* ホバー時に背景色の変化をスムーズにする */
+    width: 100%; /* ボタンの幅を100%に設定 */
+}
+
+.login-container button:hover {
+    background-color: #0056b3; /* ホバー時に背景色を暗くする */
+}
+
+/* フッター */
+.footer {
+    background-color: #5865f2; /* 背景色を青紫色に設定 */
+    color: white; /* 文字色を白に設定 */
+    padding: 15px; /* 内部に15pxの余白を追加 */
+    text-align: center; /* 中央揃え */
+    width: 100%; /* 幅を100%に設定 */
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1); /* 上部に影をつける */
+    margin-top: 30px; /* 上部に30pxの余白を追加 */
+}
