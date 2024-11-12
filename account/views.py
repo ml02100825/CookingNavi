@@ -99,8 +99,7 @@ class EmailView(TemplateView):
     template_name='acount/email/email_henko.html'
 
     def get(self, request, *args, **kwargs):
-        # 現在のユーザーのメールアドレスをフォームにセット
-        form = ChangeEmailForm(initial={'email': request.user.email})
+        form = ChangeEmailForm()
         return render(request, self.template_name, {'form': form})
     
     def post(self, request, *args, **kwargs):
