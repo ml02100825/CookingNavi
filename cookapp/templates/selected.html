@@ -1,27 +1,8 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>他のユーザーの投稿</title>
-    
-   
-</head>
+{% extends 'baseuser.html' %}
 
-<body>
+{% block title %}他のユーザーの投稿{% endblock %}
 
-    <header class="header">
-        <div class="app-name">クッキングnavi</div>
-        <div class="nav-right">
-            <div class="nav-links">
-                <a href="#" class="home-link">ホーム</a>
-                <a href="#">ログイン</a>
-                <a href="#">サインアップ</a>
-            </div>
-            <div class="user-icon"></div>
-        </div>
-    </header>
-
+{% block content %}
     <!-- 投稿表示 -->
     <div class="post-container">
         <!-- ユーザー情報（アイコンと名前） -->
@@ -43,11 +24,11 @@
             </div>
         </div>
 
-        <!-- メニュー名 (四角で囲む) -->
+        <!-- メニュー名 -->
         <h3>メニュー名</h3>
         <div class="post-title">唐揚げ</div>
 
-        <!-- 作り方 (リストを四角で囲む) -->
+        <!-- 作り方 -->
         <div class="recipe-method">
             <h3>作り方 <button class="like-btn" onclick="toggleLike(this)">♡</button></h3>
             <ul>
@@ -61,7 +42,9 @@
         <!-- 戻るボタン -->
         <button class="back-button" onclick="goBack()">戻る</button>
     </div>
+{% endblock %}
 
+{% block scripts %}
     <script>
         let currentImageIndex = 0;
 
@@ -90,8 +73,4 @@
             window.history.back(); // 前のページに戻る
         }
     </script>
-<footer class="footer">
-    <p>&copy; 2024 CookingNavi</p>
-</footer>
-</body>
-</html>
+{% endblock %}
