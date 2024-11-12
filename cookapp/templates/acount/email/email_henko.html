@@ -1,53 +1,31 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/style.css">
-    <title>クッキングナビ - メールアドレス変更</title>
-</head>
-<body>
+<!-- メールアドレス変更 -->
+{% extends 'base.html' %}
 
-    <header class="header">
-        <div class="app-name">クッキングnavi</div>
-        <div class="nav-right">
-            <div class="nav-links">
-                <a href="#">ホーム</a>
-                <a href="#">ログアウト</a>
-                <div>👤</div>
-            </div>
-        </div>
-    </header>
-        
-    <div>
-        <h2>メールアドレス変更</h2>
-        
-        <div>
-            <label>新しいメールアドレス：</label>
-            <div>
-                <span>📧</span>
-                <input type="email" placeholder="mail@example.com">
-            </div>
-        </div>
-        
-        <div>
-            <label>メールアドレス（確認）：</label>
-            <div>
-                <span>📧</span>
-                <input type="email" placeholder="mail@example.com">
-            </div>
-        </div>
-        
-        <div>
-            <button>戻る</button>
-            <button>変更</button>
+{% block title %}クッキングナビ - メールアドレス変更{% endblock %}
+
+{% block content %}
+<main class="main-content">
+    <h2>メールアドレス変更</h2>
+    
+    <div class="form-group">
+        <label>新しいメールアドレス：</label>
+        <div class="input-group">
+            <span>📧</span>
+            <input type="email" placeholder="mail@example.com" required>
         </div>
     </div>
-
-    <!-- フッター -->
-    <footer class="footer">
-        <p>&copy; 2024 CookingNavi</p>
-    </footer>
-
-</body>
-</html>
+    
+    <div class="form-group">
+        <label>メールアドレス（確認）：</label>
+        <div class="input-group">
+            <span>📧</span>
+            <input type="email" placeholder="mail@example.com" required>
+        </div>
+    </div>
+    
+    <div class="button-group">
+        <button onclick="window.history.back();">戻る</button>
+        <button type="submit">変更</button>
+    </div>
+</main>
+{% endblock %}

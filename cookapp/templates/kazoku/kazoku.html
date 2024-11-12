@@ -1,40 +1,37 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>家族情報</title>
-    <link rel="stylesheet" href="css/home.css">
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+{% extends '../base.html' %}
 
-<!-- ヘッダー -->
-<header class="header">
-    <div class="app-name">クッキングnavi　管理者用</div>
-    <div class="nav-right">
-        <div class="nav-links">
-            <a href="#" class="home-link">ホーム</a>
-            <a href="#">ログアウト</a>
+{% block title %}家族情報{% endblock %}
+
+{% block content %}
+<!-- メインコンテンツ -->
+<main>
+    <!-- ヘッダー -->
+    <header class="header">
+        <div class="app-name">クッキングnavi　管理者用</div>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="#" class="home-link">ホーム</a>
+                <a href="#">ログアウト</a>
+            </div>
+            <div class="user-icon"></div>
         </div>
-        <div class="user-icon"></div>
-    </div>
-    <!-- 家族一覧項目と名前を追加 -->
-    <div class="family-section">
-        <h3>家族一覧</h3>
-        <div class="family-member">
-            <p>名前: </p>
-            <button type="button">身体情報確認</button>
-            <button type="button">身体情報変更</button>
+        <!-- 家族一覧項目と名前を追加 -->
+        <div class="family-section">
+            <h3>家族一覧</h3>
+            <div class="family-member">
+                <p>名前: </p>
+                <button type="button">身体情報確認</button>
+                <button type="button">身体情報変更</button>
+            </div>
         </div>
-    </div>
-</header>
+    </header>
+</main>
 
+{% endblock %}
 
- <!-- フッター -->
- <footer class="footer">
-    <p>&copy; 2024 クッキングnavi.</p>
-</footer>
-
-</body>
-</html>
+{% block footer %}
+    <!-- フッター -->
+    <footer class="footer">
+        <p>&copy; 2024 クッキングnavi.</p>
+    </footer>
+{% endblock %}
