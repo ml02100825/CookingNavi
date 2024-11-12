@@ -1,6 +1,7 @@
 # UserCreationFormクラスをインポート
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
+
 # models.pyで定義したUserをインポート
 from .models import User
 
@@ -12,6 +13,7 @@ class CustomUserCreation1Form(UserCreationForm):
     class Meta:
         model = User
         fields = ('email', 'password1', 'password2')
+
 
 class CustomUserCreation2Form(forms.ModelForm):
     name = forms.CharField(label="ユーザ名", max_length=30)
@@ -31,7 +33,34 @@ class CustomUserCreation2Form(forms.ModelForm):
         model = User
         fields = ('name','birthdate', 'gender', 'allergies', 'height', 'weight')
     
+
 class LoginForm(AuthenticationForm):
     class Meta:
         model = User
+      
 
+class UsernameForm(forms.Form):
+    new_username = forms.CharField(max_length=100, label="新しいユーザー名")
+    confirm_username = forms.CharField(max_length=100, label="ユーザー名（確認）")
+
+class ChangeEmailForm(forms.Form):
+    email = forms.EmailField(label="新しいメールアドレス")
+    confirm_email = forms.EmailField(label="メールアドレス（確認）")
+
+    def clean(self):
+        cleaned_data = super().clean()
+        email = cleaned_data.get('email')
+        confirm_email = cleaned_data.get('confirm_email')
+        
+        # メールアドレスと確認用メールアドレスが一致しているかを確認
+        if email != confirm_email:
+            raise forms.ValidationError("新しいメールアドレスと確認用メールアドレスが一致しません。")
+        
+        # 他のユーザーがすでにこのメールアドレスを使用していないか確認
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("このメールアドレスはすでに使用されています。")
+
+        return cleaned_data
+    
+    
+    
