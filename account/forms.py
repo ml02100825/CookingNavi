@@ -1,6 +1,7 @@
 # UserCreationFormクラスをインポート
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
+
 # models.pyで定義したUserをインポート
 from .models import User
 
@@ -27,4 +28,4 @@ class CustomUserCreation2Form(forms.ModelForm):
 class LoginForm(AuthenticationForm):
     class Meta:
         model = User
-
+      
