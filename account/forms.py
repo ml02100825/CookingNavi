@@ -28,3 +28,6 @@ class LoginForm(AuthenticationForm):
     class Meta:
         model = User
 
+class UsernameForm(forms.Form):
+    new_username = forms.CharField(max_length=100, label="新しいユーザー名")
+    confirm_username = forms.CharField(max_length=100, label="ユーザー名（確認）")
