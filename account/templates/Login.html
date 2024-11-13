@@ -1,22 +1,8 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CookingNavi/login</title>
-    <link rel="stylesheet" href="css/home.css">
-</head>
-<body>
+{% extends 'base2.html' %}
 
-    <!-- ヘッダー -->
-    <header class="header">
-        <div class="app-name">クッキングnavi</div>
-        <div class="nav-links">
-            <a href="#" class="home-link">ホーム</a>
-            <a href="login" class="login">ログイン</a>
-            <a href="#" class="up-link">サインアップ</a>
-        </div>
-    </header>
+{% block title %}ログイン{% endblock %}
+
+{% block content %}
 
     <!-- メインコンテンツ -->
     <main>
@@ -25,12 +11,12 @@
             <form method="post">
                 {% csrf_token %}
                 <h1>Login</h1>
-                
+            
                 {% if form.errors %}
                     <p style="color: red;">Invalid username or password.</p>
                 {% endif %}
                 
-                <label for="id_username">Username</label>
+                <label for="id_username">Email</label>
                 <input type="text" name="username" id="id_username" required>
                 
                 <label for="id_password">Password</label>
@@ -42,10 +28,4 @@
         </div>
     </main>
 
-    <!-- フッター -->
-    <footer class="footer">
-        <p>&copy; 2024 CookingNavi</p>
-    </footer>
-
-</body>
-</html>
+    {% endblock %}

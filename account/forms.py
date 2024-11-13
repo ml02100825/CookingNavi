@@ -34,9 +34,10 @@ class CustomUserCreation2Form(forms.ModelForm):
         fields = ('name','birthdate', 'gender', 'allergies', 'height', 'weight')
     
 
-class LoginForm(AuthenticationForm):
-    class Meta:
-        model = User
+class LoginForm(forms.Form):
+    username=forms.EmailField(label='名前',max_length=30)
+    password=forms.CharField(label='パスワード',widget=forms.PasswordInput())
+
       
 
 class UsernameForm(forms.Form):

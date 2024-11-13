@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views.generic.base import TemplateView
-from django.contrib.auth import login
+from django.contrib.auth import login,authenticate
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from django.views.generic.edit import FormView
 from django.contrib.auth.views import LoginView, LogoutView
-from .forms import CustomUserCreation1Form, CustomUserCreation2Form, ChangeEmailForm,UsernameForm
+from .forms import CustomUserCreation1Form, CustomUserCreation2Form, ChangeEmailForm,UsernameForm,LoginForm
 from .models import User, Userallergy
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -14,21 +14,38 @@ from django.db import connection
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import connection
 import logging
+from django.contrib.auth.hashers import check_password
 
 class CustomLoginView(LoginView):
     template_name = 'login.html'
-    redirect_authenticated_user = True
-    success_url = reverse_lazy('cookapp:index')
+    def get(self, request, *args, **kwargs):
+        form = LoginForm()
+        return render(request, self.template_name, {'form': form})
+    
+    def post(self, request, *args, **kwargs):
+        logging.debug('debug message')
+        form =  LoginForm(request.POST)
+        if form.is_valid():
+            logging.debug('if文動いてる')
+            username = form.cleaned_data['username'] # 入力されたデータをセッションに保存
+            password= form.cleaned_data['password']
+            user = authenticate(username = username, password = password)
+            if user:
+                if user.is_active:
+                    login(request, user)
+                    return redirect('cookapp:home')
+    # redirect_authenticated_user = True
+    # success_url = reverse_lazy('cookapp:index')
 
-    def get_success_url(self):
-        return self.success_url
-
+    # def get_success_url(self):
+    #     return self.success_url
 class SignUpPage1View(TemplateView):
     template_name = 'administrator/sign up/sign up.html'
 
     def get(self, request, *args, **kwargs):
         form = CustomUserCreation1Form()
         return render(request, self.template_name, {'form': form})
+    
 
     def post(self, request, *args, **kwargs):
         logging.debug('debug message')
