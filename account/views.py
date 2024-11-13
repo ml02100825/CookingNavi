@@ -6,7 +6,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from django.views.generic.edit import FormView
 from django.contrib.auth.views import LoginView, LogoutView
-from .forms import CustomUserCreation1Form, CustomUserCreation2Form, ChangeEmailForm,UsernameForm,LoginForm
+from .forms import CustomUserCreation1Form, CustomUserCreation2Form, EmailForm,UsernameForm,LoginForm
 from .models import User, Userallergy
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -109,39 +109,43 @@ class CustomLogoutView(LogoutView):
 class IndexView(TemplateView):
     template_name = 'top/top.html'
 
-class Username2View(TemplateView):
-    template_name = 'acount/name/username_henko.html'
+class UsernameView(TemplateView):
+    template_name = 'acount/email/username_henko.html'
 
-class UsernameView(FormView):
-    form_class = UsernameForm
-    login_url = reverse_lazy('account:login')
+    def get(self, request, *args, **kwargs):
+        form = UsernameForm()
+        return render(request, self.template_name, {'form': form})
+    
+    def post(self, request, *args, **kwargs):
+        form = UsernameForm(request.POST)
+        if form.is_valid():
+            new_username = form.cleaned_data['new_username']
+            
+            # メールアドレスの更新
+            user = request.user
+            user.Name = new_username
+            user.save()
 
-    def form_valid(self, form):
-        new_username = form.cleaned_data["new_username"]
-        confirm_username = form.cleaned_data["confirm_username"]
-
-        if new_username == confirm_username:
-            with connection.cursor() as cursor:
-                cursor.execute("UPDATE user SET Name = %s WHERE Name = %s", [new_username, self.request.user.id])
-            return redirect("account:username_ok")
-        else:
-            form.add_error(None, "ユーザー名が一致しません")
-            return self.form_invalid(form)
+            messages.success(request, 'ユーザー名が正常に変更されました。')
+            return redirect('account:username_henko_ok')  # プロフィールページなどにリダイレクト
+        
+        return render(request, self.template_name, {'form': form})
+    
 
 class UsernameOkView(TemplateView):
     template_name = "acount/name/username_henko_ok.html"
 
 class EmailView(TemplateView):
-    template_name = 'acount/acount/email/email_henko.html'
+    template_name = 'acount/email/email_henko.html'
 
     def get(self, request, *args, **kwargs):
-        form = ChangeEmailForm()
+        form = EmailForm()
         return render(request, self.template_name, {'form': form})
     
     def post(self, request, *args, **kwargs):
-        form = ChangeEmailForm(request.POST)
+        form = EmailForm(request.POST)
         if form.is_valid():
-            new_email = form.cleaned_data['email']
+            new_email = form.cleaned_data['new_email']
             
             # メールアドレスの更新
             user = request.user
@@ -149,12 +153,12 @@ class EmailView(TemplateView):
             user.save()
 
             messages.success(request, 'メールアドレスが正常に変更されました。')
-            return redirect('account:profile')  # プロフィールページなどにリダイレクト
+            return redirect('account:email_henko_ok')  # プロフィールページなどにリダイレクト
         
         return render(request, self.template_name, {'form': form})
     
 
-class EmailHenkoView(TemplateView):
+class EmailOkView(TemplateView):
     template_name='acount/email/email_henko_ok.html'
 
 class PasswordView(TemplateView):
