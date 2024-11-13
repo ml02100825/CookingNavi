@@ -5,7 +5,10 @@
 {% block content %}
     <h1 class="admin-title">管理者画面</h1>
     <div class="button-container">
+        <form action="{% url 'administrator:recipe' %}" >
+        {% csrf_token %}
         <button class="recipe-btn">レシピ機能</button>
+        </form>
         <button class="forum-btn">掲示板機能</button>
     </div>
 {% endblock %}
