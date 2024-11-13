@@ -1,16 +1,9 @@
 from django.shortcuts import render, redirect
-<<<<<<< HEAD
-from django.views.generic.base import TemplateView
-from django.contrib.auth import login
-
-
-=======
 from django.contrib import messages
 from django.views.generic.base import TemplateView
 from django.contrib.auth import login
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
->>>>>>> c042f57416497582c148553bce91665cfbaf96d4
 from django.views.generic.edit import FormView
 from django.contrib.auth.views import LoginView, LogoutView
 from .forms import CustomUserCreation1Form, CustomUserCreation2Form, ChangeEmailForm,UsernameForm
@@ -18,11 +11,8 @@ from .models import User, Userallergy
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import connection
-<<<<<<< HEAD
-=======
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import connection
->>>>>>> c042f57416497582c148553bce91665cfbaf96d4
 import logging
 from .forms import UsernameForm
 
@@ -91,10 +81,6 @@ class SignUpPage2View(TemplateView):
 
 class CustomSignUpView(TemplateView):
     template_name = 'administrator/sign up/sign up_completion.html'
-<<<<<<< HEAD
-=======
-
->>>>>>> c042f57416497582c148553bce91665cfbaf96d4
 
 class CustomLogoutView(LogoutView):
     template_name = 'logout.html'
@@ -151,8 +137,4 @@ class EmailHenkoView(TemplateView):
     template_name='acount/email/email_henko_ok.html'
 
 class PasswordView(TemplateView):
-<<<<<<< HEAD
     template_name = 'acount/password/password_henko.html'
-=======
-    template_name = 'acount/password/password_henko.html'
->>>>>>> c042f57416497582c148553bce91665cfbaf96d4

@@ -53,3 +53,7 @@ class UsernameForm(forms.Form):
             self.add_error('confirm_username', "ユーザー名が一致しません。")
         
         return cleaned_data
+
+class ChangeEmailForm(forms.Form):
+    new_email = forms.EmailField(max_length=254, label="新しいメールアドレス")
+    confirm_email = forms.CharField(max_length=254, label="新しいメールアドレス（確認用）")
