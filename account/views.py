@@ -141,7 +141,7 @@ class EmailView(TemplateView):
     def post(self, request, *args, **kwargs):
         form = EmailForm(request.POST)
         if form.is_valid():
-            new_email = form.cleaned_data['email']
+            new_email = form.cleaned_data['new_email']
             
             # メールアドレスの更新
             user = request.user
