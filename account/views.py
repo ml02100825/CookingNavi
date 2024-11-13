@@ -112,7 +112,7 @@ class IndexView(TemplateView):
 class Username2View(TemplateView):
     template_name = 'acount/name/username_henko.html'
 
-class UsernameView(LoginRequiredMixin, FormView):
+class UsernameView(FormView):
     form_class = UsernameForm
     login_url = reverse_lazy('account:login')
 
