@@ -4,19 +4,18 @@
 {% load static %} 
 
 {% block title %}トップページ{% endblock %}
-<link rel="stylesheet" href="{% static 'css/top/top.css' %}">
-
-{% load static %}
 
 {% block content %}
 <!-- メインコンテンツ -->
+<link rel="stylesheet" href="{% static 'css/top/top.css' %}">
+
 <main>
     <!-- 画像とボタンを配置するためのコンテナ -->
     <div class="image-container">
-        <img src="{% static 'png/top.jpg' %}" alt="Top Image" class="top-image">
+        {% comment %} <img src="{% static 'png/top.jpg' %}" alt="Top Image" class="top-image"> {% endcomment %}
         <div class="button-container">
             <a href="{% url 'account:signup1' %}" class="button">新規登録</a>
-            <a href="{% url 'account:login' %}" class="button">ログイン</a>
+            <a href="{% url 'account:Login1' %}" class="button">ログイン</a>
         </div>
     </div>
 </main>
