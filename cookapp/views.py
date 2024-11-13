@@ -27,7 +27,10 @@ class FamilyInfoView(TemplateView):
     template_name='kazoku/kazoku.html'
 
 class BodyInfoUpdateView(TemplateView):
-    template_name='sintai/sinta.html'
+    template_name='sintai/sintai_henko.html'
 
 class NotificationSettingView(TemplateView):
     template_name='/.html'
+
+class SubscriptionSettingView(TemplateView):
+    template_name='sabusuku/setting/sabusuku_setting.html'
