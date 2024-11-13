@@ -1,10 +1,14 @@
 {% extends 'base2.html' %}
 
+{% load static %}
+
 {% block title %}ログイン{% endblock %}
 
 {% block content %}
 
     <!-- メインコンテンツ -->
+    <link rel="stylesheet" href="{% static 'css/login/login.css' %}">
+
     <main>
         <div class="login-container">
             <h1>ログイン</h1>

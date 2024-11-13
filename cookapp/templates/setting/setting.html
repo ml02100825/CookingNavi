@@ -9,21 +9,21 @@
     <h2>設定</h2>
     <a href="{% url 'cookapp:acount_setting' %}"><button type="button">アカウント設定</button></a>
     <a href="{% url 'cookapp:family_info' %}"><button type="button">家族情報</button></a>
-    <a href="{% url 'cookapp:body_info_update' %}"><button type="button">身体情報変更</button></a>
-    <a href="{% url 'cookapp:notification_setting' %}"><button type="button">通知設定</button></a>
-    <a href="{% url 'cookapp:subscription_setting' %}"><button type="button">サブスク設定</button></a>
+    <a href="{% url 'cookapp:body_info_update' %}"><button type="button">身体情報変更</button>
+    <button type="button">通知設定</button>
+    <button type="button">サブスク設定</button>
 
     <!-- お知らせ・質問セクション -->
     <h2>お知らせ・質問</h2>
-    <button type="button" onclick="location.href='{% url 'cookapp:announcements' %}'">お知らせ</button>
-    <button type="button" onclick="location.href='{% url 'cookapp:faq' %}'">よくあるご質問</button>
+    <button type="button">お知らせ</button>
+    <button type="button">よくあるご質問</button>
 
     <!-- 規約セクション -->
     <h2>規約</h2>
-    <button type="button" onclick="location.href='{% url 'cookapp:terms' %}'">利用規約</button>
+    <button type="button"></button>利用規約</button>
 
     <!-- その他の操作 -->
-    <button type="button" onclick="location.href='{% url 'cookapp:cancel_subscription' %}'">サブスク解約</button>
-    <button class="delete" onclick="location.href='{% url 'cookapp:delete_account' %}'">アカウント退会</button>
+    <button type="button"></button>サブスク解約</button>
+    <button type="button"></button>アカウント退会</button>
 </main>
 {% endblock %}

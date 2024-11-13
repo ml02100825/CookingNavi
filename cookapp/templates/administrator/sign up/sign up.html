@@ -1,8 +1,12 @@
 {% extends '../base2.html' %}
+{% load static %}
 
 {% block title %}（管理者）新規登録{% endblock %}
 
 {% block content %}
+
+<link rel="stylesheet" href="{% static 'css/sign up/sign up.css' %}">
+
 <div class="login-container">
     <h1>新規登録</h1>
     <form method="post">
