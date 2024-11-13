@@ -12,3 +12,4 @@ class RecipeView(TemplateView):
     template_name = 'administrator/recipe/recipe.html'
 class RecipeAddView(TemplateView):
     template_name = 'administrator/recipe/add/recipe_add.html'
+    
