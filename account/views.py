@@ -129,7 +129,7 @@ class UsernameOkView(TemplateView):
     template_name = "acount/name/username_henko_ok.html"
 
 class EmailView(TemplateView):
-    template_name = 'acount/templates/acount/email/email_henko.html'
+    template_name = 'acount/acount/email/email_henko.html'
 
     def get(self, request, *args, **kwargs):
         form = ChangeEmailForm()
@@ -150,28 +150,7 @@ class EmailView(TemplateView):
         
         return render(request, self.template_name, {'form': form})
     
-class EmailHenkoView(TemplateView):
-    template_name='acount/email/email_henko_ok.html'
 
-    def get(self, request, *args, **kwargs):
-        form = ChangeEmailForm()
-        return render(request, self.template_name, {'form': form})
-    
-    def post(self, request, *args, **kwargs):
-        form = ChangeEmailForm(request.POST)
-        if form.is_valid():
-            new_email = form.cleaned_data['email']
-            
-            # メールアドレスの更新
-            user = request.user
-            user.email = new_email
-            user.save()
-
-            messages.success(request, 'メールアドレスが正常に変更されました。')
-            return redirect('account:profile')  # プロフィールページなどにリダイレクト
-        
-        return render(request, self.template_name, {'form': form})
-    
 class EmailHenkoView(TemplateView):
     template_name='acount/email/email_henko_ok.html'
 

@@ -58,3 +58,14 @@ class UsernameForm(forms.Form):
 class ChangeEmailForm(forms.Form):
     new_email = forms.EmailField(max_length=254, label="新しいメールアドレス")
     confirm_email = forms.CharField(max_length=254, label="新しいメールアドレス（確認用）")
+
+    def clean(self):
+        cleaned_data = super().clean()
+        new_username = cleaned_data.get("new_username")
+        confirm_username = cleaned_data.get("confirm_username")
+
+        # 入力されたユーザー名が一致するか確認
+        if new_username != confirm_username:
+            self.add_error('confirm_username', "ユーザー名が一致しません。")
+        
+        return cleaned_data
