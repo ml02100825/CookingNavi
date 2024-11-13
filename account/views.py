@@ -11,8 +11,6 @@ from .models import User, Userallergy
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import connection
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db import connection
 import logging
 from .forms import UsernameForm
 from django.contrib.auth.hashers import check_password
@@ -34,6 +32,8 @@ class CustomLoginView(LoginView):
             if user:
                 if user.is_active:
                     login(request, user)
+                    redirect_authenticated_user = True
+                    
                     if user.is_superuser:
                         return redirect('administrator:home')
                     else:

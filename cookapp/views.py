@@ -8,6 +8,10 @@ class IndexView(TemplateView):
     
     template_name='index.html'
 
+class CustomLogin1View(TemplateView):
+
+    template_name='Login1.html'
+
 class HomeView(TemplateView):
     template_name='home/home.html'
 
