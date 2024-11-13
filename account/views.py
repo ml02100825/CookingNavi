@@ -6,7 +6,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from django.views.generic.edit import FormView
 from django.contrib.auth.views import LoginView, LogoutView
-from .forms import CustomUserCreation1Form, CustomUserCreation2Form, ChangeEmailForm,UsernameForm,LoginForm
+from .forms import CustomUserCreation1Form, CustomUserCreation2Form, EmailForm,UsernameForm,LoginForm
 from .models import User, Userallergy
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -132,14 +132,14 @@ class UsernameOkView(TemplateView):
     template_name = "acount/name/username_henko_ok.html"
 
 class EmailView(TemplateView):
-    template_name = 'acount/acount/email/email_henko.html'
+    template_name = 'acount/email/email_henko.html'
 
     def get(self, request, *args, **kwargs):
-        form = ChangeEmailForm()
+        form = EmailForm()
         return render(request, self.template_name, {'form': form})
     
     def post(self, request, *args, **kwargs):
-        form = ChangeEmailForm(request.POST)
+        form = EmailForm(request.POST)
         if form.is_valid():
             new_email = form.cleaned_data['email']
             
@@ -149,12 +149,12 @@ class EmailView(TemplateView):
             user.save()
 
             messages.success(request, 'メールアドレスが正常に変更されました。')
-            return redirect('account:profile')  # プロフィールページなどにリダイレクト
+            return redirect('account:email_henko_ok')  # プロフィールページなどにリダイレクト
         
         return render(request, self.template_name, {'form': form})
     
 
-class EmailHenkoView(TemplateView):
+class EmailOkView(TemplateView):
     template_name='acount/email/email_henko_ok.html'
 
 class PasswordView(TemplateView):
