@@ -74,23 +74,23 @@ class SignUpPage2View(TemplateView):
             password = request.session.get('password1')
            
             # ユーザー作成
-            email = email 
-            password =password
-            userallergy = Userallergy.objects.create
             
+            hashed_password = make_password(password)
+            userallergy = Userallergy.objects.create
+            name = form.cleaned_data['name']
             # フォームの入力内容でユーザーの詳細情報を更新
             birthdate = form.cleaned_data['birthdate']
             gender = form.cleaned_data['gender']
     
             height = form.cleaned_data['height']
             weight = form.cleaned_data['weight']
-            user = User()
+            user = User(name = name,email = email, password = hashed_password, age = birthdate, gender = gender, height = height,weight = weight)
             user.save()
-            userid = user.user_id
+           
             allergies = form.cleaned_data['allergies']
-            for i in allergies:
+            for i in range(len(allergies)):
                 allergy = allergies[i]
-                Userallergy.objects.create(user = userid,allergy_category = allergy)
+                Userallergy.objects.create(user = user,allergy_category = allergy)
             # ログイン処理
             login(request, user)
             return redirect('account:signup_completion')
