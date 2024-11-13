@@ -1,6 +1,7 @@
 # UserCreationFormクラスをインポート
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
+
 # models.pyで定義したUserをインポート
 from .models import User
 
@@ -12,6 +13,7 @@ class CustomUserCreation1Form(UserCreationForm):
     class Meta:
         model = User
         fields = ('email', 'password1', 'password2')
+
 
 class CustomUserCreation2Form(forms.ModelForm):
     name = forms.CharField(label="ユーザ名", max_length=30)
@@ -31,7 +33,27 @@ class CustomUserCreation2Form(forms.ModelForm):
         model = User
         fields = ('name','birthdate', 'gender', 'allergies', 'height', 'weight')
     
+
 class LoginForm(AuthenticationForm):
     class Meta:
         model = User
+      
 
+class UsernameForm(forms.Form):
+    new_username = forms.CharField(max_length=150, label="新しいユーザー名")
+    confirm_username = forms.CharField(max_length=150, label="新しいユーザー名（確認用）")
+
+    def clean(self):
+        cleaned_data = super().clean()
+        new_username = cleaned_data.get("new_username")
+        confirm_username = cleaned_data.get("confirm_username")
+
+        # 入力されたユーザー名が一致するか確認
+        if new_username != confirm_username:
+            self.add_error('confirm_username', "ユーザー名が一致しません。")
+        
+        return cleaned_data
+
+class ChangeEmailForm(forms.Form):
+    new_email = forms.EmailField(max_length=254, label="新しいメールアドレス")
+    confirm_email = forms.CharField(max_length=254, label="新しいメールアドレス（確認用）")

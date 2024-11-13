@@ -1,35 +1,34 @@
-
 from django.shortcuts import render, redirect
-
-# Create your views here.
-# Create your views here.
+from django.contrib import messages
 from django.views.generic.base import TemplateView
 from django.contrib.auth import login
 from django.contrib.auth.hashers import make_password
-
-
+from django.contrib import messages
+from django.views.generic.edit import FormView
 from django.contrib.auth.views import LoginView, LogoutView
-from .forms import CustomUserCreation1Form, CustomUserCreation2Form
+from .forms import CustomUserCreation1Form, CustomUserCreation2Form, ChangeEmailForm,UsernameForm
 from .models import User, Userallergy
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db import connection
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db import connection
 import logging
+from .forms import UsernameForm
 
 class CustomLoginView(LoginView):
-    template_name = 'login.html'  # ログインページのテンプレート
-    redirect_authenticated_user = True  # ログイン済みユーザーをリダイレクト
-    success_url = reverse_lazy('cookapp:index')  # ログイン後のリダイレクト先
-    
+    template_name = 'login.html'
+    redirect_authenticated_user = True
+    success_url = reverse_lazy('cookapp:index')
 
     def get_success_url(self):
-        # カスタムリダイレクト先を指定
         return self.success_url
-    
 
 class SignUpPage1View(TemplateView):
     template_name = 'administrator/sign up/sign up.html'
 
     def get(self, request, *args, **kwargs):
-        form = CustomUserCreation1Form() # もしセッションにデータがあれば、それをフォームに渡す
+        form = CustomUserCreation1Form()
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
@@ -44,7 +43,6 @@ class SignUpPage1View(TemplateView):
           logging.debug('フォームが無効です: %s', form.errors) 
         return render(request, self.template_name, {'form': form})
 
-
 class SignUpPage2View(TemplateView):
     template_name = 'administrator/sign up/sign up2.html'
 
@@ -55,50 +53,88 @@ class SignUpPage2View(TemplateView):
     def post(self, request, *args, **kwargs):
         form = CustomUserCreation2Form(request.POST)
         if form.is_valid():
-            # セッションからメールアドレスとパスワードを取得
             email = request.session.get('email')
             password = request.session.get('password1')
-          
+           
+            # ユーザー作成
+            email = email 
+            password =password
             userallergy = Userallergy.objects.create
-            hashed_password = make_password(password)
+            
             # フォームの入力内容でユーザーの詳細情報を更新
             birthdate = form.cleaned_data['birthdate']
             gender = form.cleaned_data['gender']
-            name = form.cleaned_data['name']
+    
             height = form.cleaned_data['height']
             weight = form.cleaned_data['weight']
-            user = User(name = name,email = email, password = hashed_password, age = birthdate, gender = gender, height = height,weight = weight)
+            user = User()
             user.save()
-          
+            userid = user.user_id
             allergies = form.cleaned_data['allergies']
-            for i in range(len(allergies)):
+            for i in allergies:
                 allergy = allergies[i]
-                Userallergy.objects.create(user = user,allergy_category = allergy)
+                Userallergy.objects.create(user = userid,allergy_category = allergy)
             # ログイン処理
-            user.backend = 'account.backends.EmailBackend' 
             login(request, user)
-            return redirect('account:signup_completion')  # 登録完了ページへリダイレクト
-        
+            return redirect('account:signup_completion')
         return render(request, self.template_name, {'form': form})
 
-# 登録完了ページ
 class CustomSignUpView(TemplateView):
     template_name = 'administrator/sign up/sign up_completion.html'
-    
 
 class CustomLogoutView(LogoutView):
-    template_name = 'logout.html'  # ログアウトページのテンプレート
-
+    template_name = 'logout.html'
+    next_page = reverse_lazy('account:top')
 
 class IndexView(TemplateView):
-    
-    template_name='top/top.html'
+    template_name = 'top/top.html'
 
-class UsernameView(TemplateView):
-    template_name='acount/name/username_henko.html'
+class Username2View(TemplateView):
+    template_name = 'acount/name/username_henko.html'
+
+class UsernameView(LoginRequiredMixin, FormView):
+    form_class = UsernameForm
+    login_url = reverse_lazy('account:login')
+
+    def form_valid(self, form):
+        new_username = form.cleaned_data["new_username"]
+        confirm_username = form.cleaned_data["confirm_username"]
+
+        if new_username == confirm_username:
+            with connection.cursor() as cursor:
+                cursor.execute("UPDATE user SET Name = %s WHERE Name = %s", [new_username, self.request.user.id])
+            return redirect("account:username_ok")
+        else:
+            form.add_error(None, "ユーザー名が一致しません")
+            return self.form_invalid(form)
+
+class UsernameOkView(TemplateView):
+    template_name = "acount/name/username_henko_ok.html"
 
 class EmailView(TemplateView):
-    template_name='acount/email/email_henko.html'
+    template_name = 'acount/templates/acount/email/email_henko.html'
+
+    def get(self, request, *args, **kwargs):
+        form = ChangeEmailForm()
+        return render(request, self.template_name, {'form': form})
+    
+    def post(self, request, *args, **kwargs):
+        form = ChangeEmailForm(request.POST)
+        if form.is_valid():
+            new_email = form.cleaned_data['email']
+            
+            # メールアドレスの更新
+            user = request.user
+            user.email = new_email
+            user.save()
+
+            messages.success(request, 'メールアドレスが正常に変更されました。')
+            return redirect('account:profile')  # プロフィールページなどにリダイレクト
+        
+        return render(request, self.template_name, {'form': form})
+    
+class EmailHenkoView(TemplateView):
+    template_name='acount/email/email_henko_ok.html'
 
 class PasswordView(TemplateView):
-    template_name='acount/password/password_henko.html'
+    template_name = 'acount/password/password_henko.html'

@@ -1,38 +1,14 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ユーザ名変更完了</title>
-    <link rel="stylesheet" href="css/home.css">
-    <link rel="stylesheet" href="../../css/style.css">
-</head>
-<body>
+<!-- ユーザ名変更完了 -->
+{% extends '../../baseuser.html' %}
 
-<!-- ヘッダー -->
-<header class="header">
-    <div class="app-name">クッキングnavi</div>
-    <div class="nav-right">
-        <div class="nav-links">
-            <a href="#" class="home-link">ホーム</a>
-            <a href="#">ログアウト</a>
-        </div>
-        <div class="user-icon"></div>
-    </div>
-</header>
+{% block title %}ユーザ名変更完了{% endblock %}
 
-<!-- メインコンテンツ -->
-<main>
-    <div class="login-complete-container">
+{% block content %}
+<main class="main-content">
+    <div class="username-complete-container">
         <h1>ユーザ名変更完了</h1>
-        <a href="#" class="btn">戻る</a>
+        <p>ユーザ名の変更が正常に完了しました。</p>
+        <a href="{% url 'cookapp:settings' %}" class="btn">戻る</a>
     </div>
 </main>
-
-<!-- フッター -->
-<footer class="footer">
-    <p>&copy; 2024 CookingNavi</p>
-</footer>
-
-</body>
-</html>
+{% endblock %}
