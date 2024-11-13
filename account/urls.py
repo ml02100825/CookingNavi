@@ -13,5 +13,6 @@ urlpatterns = [
     path('email/', views.EmailView.as_view(), name='email'),
     path('email_henko_ok/', views.EmailOkView.as_view(), name='email_henko_ok'),
     path('password/', views.PasswordView.as_view(), name='password'),
+    path('password_henko_ok/', views.PasswordOkView.as_view(), name='password_henko_ok'),
     path('', views.IndexView.as_view(), name='top'),
 ]
