@@ -10,7 +10,6 @@ urlpatterns = [
     path('signup_completion/', views.CustomSignUpView.as_view(), name='signup_completion'),
     path('logout/', views.CustomLogoutView.as_view(), name='logout'),
     path('username/', views.UsernameView.as_view(), name='username'),
-    path('username2/', views.Username2View.as_view(), name='username2'),
     path('email/', views.EmailView.as_view(), name='email'),
     path('email_henko_ok/', views.EmailOkView.as_view(), name='email_henko_ok'),
     path('password/', views.PasswordView.as_view(), name='password'),

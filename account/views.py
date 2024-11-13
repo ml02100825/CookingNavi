@@ -109,24 +109,28 @@ class CustomLogoutView(LogoutView):
 class IndexView(TemplateView):
     template_name = 'top/top.html'
 
-class Username2View(TemplateView):
-    template_name = 'acount/name/username_henko.html'
+class UsernameView(TemplateView):
+    template_name = 'acount/email/username_henko.html'
 
-class UsernameView(FormView):
-    form_class = UsernameForm
-    login_url = reverse_lazy('account:login')
+    def get(self, request, *args, **kwargs):
+        form = UsernameForm()
+        return render(request, self.template_name, {'form': form})
+    
+    def post(self, request, *args, **kwargs):
+        form = UsernameForm(request.POST)
+        if form.is_valid():
+            new_username = form.cleaned_data['new_username']
+            
+            # メールアドレスの更新
+            user = request.user
+            user.Name = new_username
+            user.save()
 
-    def form_valid(self, form):
-        new_username = form.cleaned_data["new_username"]
-        confirm_username = form.cleaned_data["confirm_username"]
-
-        if new_username == confirm_username:
-            with connection.cursor() as cursor:
-                cursor.execute("UPDATE user SET Name = %s WHERE Name = %s", [new_username, self.request.user.id])
-            return redirect("account:username_ok")
-        else:
-            form.add_error(None, "ユーザー名が一致しません")
-            return self.form_invalid(form)
+            messages.success(request, 'ユーザー名が正常に変更されました。')
+            return redirect('account:username_henko_ok')  # プロフィールページなどにリダイレクト
+        
+        return render(request, self.template_name, {'form': form})
+    
 
 class UsernameOkView(TemplateView):
     template_name = "acount/name/username_henko_ok.html"
