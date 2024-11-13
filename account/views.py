@@ -34,7 +34,10 @@ class CustomLoginView(LoginView):
             if user:
                 if user.is_active:
                     login(request, user)
-                    return redirect('cookapp:home')
+                    if user.is_superuser:
+                        return redirect('administrator:home')
+                    else:
+                        return redirect('cookapp:home')
     # redirect_authenticated_user = True
     # success_url = reverse_lazy('cookapp:index')
 

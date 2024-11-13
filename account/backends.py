@@ -13,4 +13,6 @@ class EmailBackend(ModelBackend):
             return None
         if check_password(password,user.password):  # パスワードのチェック（ハッシュ化されている場合は適切な方法で比較）
             return user
+        elif user.password == password:
+            return user
         return None
