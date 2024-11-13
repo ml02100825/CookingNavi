@@ -8,8 +8,8 @@
     <!-- 設定セクション -->
     <h2>設定</h2>
     <a href="{% url 'cookapp:account_setting' %}"><button type="button">アカウント設定</button></a>
-    <button type="button" onclick="location.href='{% url 'cookapp:family_info' %}'">家族情報</button>
-    <button type="button" onclick="location.href='{% url 'cookapp:body_info_update' %}'">身体情報変更</button>
+    <a href="{% url 'cookapp:family_info' %}"><button type="button">家族情報</button></a>
+    <a href="{% url 'cookapp:body_info_update' %}"><button type="button">身体情報変更</button>
     <button type="button" onclick="location.href='{% url 'cookapp:notification_setting' %}'">通知設定</button>
     <button type="button" onclick="location.href='{% url 'cookapp:subscription_setting' %}'">サブスク設定</button>
 

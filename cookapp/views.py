@@ -26,3 +26,12 @@ class SettingView(TemplateView):
 
 class AcountSettingView(TemplateView):
     template_name='acount/acount_setting.html'
+
+class FamilyInfoView(TemplateView):
+    template_name='kazoku/kazoku.html'
+
+class BodyInfoUpdateView(TemplateView):
+    template_name='sintai/sinta.html'
+
+class NotificationSettingView(TemplateView):
+    template_name='/.html'

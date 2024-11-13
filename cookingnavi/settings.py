@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "cookapp.apps.CookappConfig",
     "account.apps.AccountConfig",
+    "administrator.apps.AdministratorConfig",
 ]
 
 MIDDLEWARE = [
