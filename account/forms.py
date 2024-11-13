@@ -16,7 +16,6 @@ class CustomUserCreation1Form(UserCreationForm):
 
 
 class CustomUserCreation2Form(forms.ModelForm):
-    name = forms.CharField(label="ユーザ名", max_length=30)
     birthdate = forms.DateField(label="生年月日", widget=forms.SelectDateWidget(years=range(1900, 2025)))
     gender = forms.ChoiceField(label="性別", choices=[('1', '男性'), ('2', '女性'), ('3', 'その他')])
     allergies = forms.MultipleChoiceField(label="アレルギー", choices=[('1', 'えび'), ('2', 'かに'), ('3', 'くるみ'),
@@ -31,7 +30,7 @@ class CustomUserCreation2Form(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('name','birthdate', 'gender', 'allergies', 'height', 'weight')
+        fields = ('birthdate', 'gender', 'allergies', 'height', 'weight')
     
 
 class LoginForm(forms.Form):
@@ -41,27 +40,20 @@ class LoginForm(forms.Form):
       
 
 class UsernameForm(forms.Form):
-    new_username = forms.CharField(max_length=100, label="新しいユーザー名")
-    confirm_username = forms.CharField(max_length=100, label="ユーザー名（確認）")
-
-class ChangeEmailForm(forms.Form):
-    email = forms.EmailField(label="新しいメールアドレス")
-    confirm_email = forms.EmailField(label="メールアドレス（確認）")
+    new_username = forms.CharField(max_length=150, label="新しいユーザー名")
+    confirm_username = forms.CharField(max_length=150, label="新しいユーザー名（確認用）")
 
     def clean(self):
         cleaned_data = super().clean()
-        email = cleaned_data.get('email')
-        confirm_email = cleaned_data.get('confirm_email')
-        
-        # メールアドレスと確認用メールアドレスが一致しているかを確認
-        if email != confirm_email:
-            raise forms.ValidationError("新しいメールアドレスと確認用メールアドレスが一致しません。")
-        
-        # 他のユーザーがすでにこのメールアドレスを使用していないか確認
-        if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("このメールアドレスはすでに使用されています。")
+        new_username = cleaned_data.get("new_username")
+        confirm_username = cleaned_data.get("confirm_username")
 
+        # 入力されたユーザー名が一致するか確認
+        if new_username != confirm_username:
+            self.add_error('confirm_username', "ユーザー名が一致しません。")
+        
         return cleaned_data
-    
-    
-    
+
+class ChangeEmailForm(forms.Form):
+    new_email = forms.EmailField(max_length=254, label="新しいメールアドレス")
+    confirm_email = forms.CharField(max_length=254, label="新しいメールアドレス（確認用）")

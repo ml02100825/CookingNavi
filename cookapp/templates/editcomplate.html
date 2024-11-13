@@ -1,0 +1,34 @@
+{% extends 'baseuser.html' %}
+
+{% block title %}編集完了{% endblock %}
+
+{% block content %}
+    <!-- 編集完了メッセージ -->
+    <div class="edit-complete-container">
+        <h2>編集が完了しました！</h2>
+        <p>投稿内容が正常に保存されました。</p>
+
+        <!-- 完了した写真 -->
+        <div class="completed-image">
+            <img src="{% static 'images/success.jpg' %}" alt="編集完了画像" class="success-image">
+        </div>
+
+        <!-- 投稿に戻る、またはホームに戻るボタン -->
+        <div class="button-group">
+            <button class="back-to-posts-btn" onclick="goToPosts()">投稿一覧に戻る</button>
+            <button class="go-home-btn" onclick="goHome()">ホームに戻る</button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function goToPosts() {
+            window.location.href = "/user/posts";  // 投稿一覧ページのURLに変更
+        }
+
+        function goHome() {
+            window.location.href = "/";  // ホームページのURLに変更
+        }
+    </script>
+{% endblock %}

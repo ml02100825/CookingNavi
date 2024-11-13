@@ -14,6 +14,7 @@ from django.db import connection
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import connection
 import logging
+from .forms import UsernameForm
 from django.contrib.auth.hashers import check_password
 
 class CustomLoginView(LoginView):
@@ -71,31 +72,32 @@ class SignUpPage2View(TemplateView):
         if form.is_valid():
             email = request.session.get('email')
             password = request.session.get('password1')
-          
+           
+            # ユーザー作成
+            email = email 
+            password =password
             userallergy = Userallergy.objects.create
-            hashed_password = make_password(password)
+            
             # フォームの入力内容でユーザーの詳細情報を更新
             birthdate = form.cleaned_data['birthdate']
             gender = form.cleaned_data['gender']
-            name = form.cleaned_data['name']
+    
             height = form.cleaned_data['height']
             weight = form.cleaned_data['weight']
-            user = User(name = name,email = email, password = hashed_password, age = birthdate, gender = gender, height = height,weight = weight)
+            user = User()
             user.save()
-          
+            userid = user.user_id
             allergies = form.cleaned_data['allergies']
-            for i in range(len(allergies)):
+            for i in allergies:
                 allergy = allergies[i]
-                Userallergy.objects.create(user = user,allergy_category = allergy)
+                Userallergy.objects.create(user = userid,allergy_category = allergy)
             # ログイン処理
-            user.backend = 'account.backends.EmailBackend' 
             login(request, user)
             return redirect('account:signup_completion')
         return render(request, self.template_name, {'form': form})
 
 class CustomSignUpView(TemplateView):
     template_name = 'administrator/sign up/sign up_completion.html'
-
 
 class CustomLogoutView(LogoutView):
     template_name = 'logout.html'
@@ -127,7 +129,29 @@ class UsernameOkView(TemplateView):
     template_name = "acount/name/username_henko_ok.html"
 
 class EmailView(TemplateView):
-    template_name='acount/email/email_henko.html'
+    template_name = 'acount/templates/acount/email/email_henko.html'
+
+    def get(self, request, *args, **kwargs):
+        form = ChangeEmailForm()
+        return render(request, self.template_name, {'form': form})
+    
+    def post(self, request, *args, **kwargs):
+        form = ChangeEmailForm(request.POST)
+        if form.is_valid():
+            new_email = form.cleaned_data['email']
+            
+            # メールアドレスの更新
+            user = request.user
+            user.email = new_email
+            user.save()
+
+            messages.success(request, 'メールアドレスが正常に変更されました。')
+            return redirect('account:profile')  # プロフィールページなどにリダイレクト
+        
+        return render(request, self.template_name, {'form': form})
+    
+class EmailHenkoView(TemplateView):
+    template_name='acount/email/email_henko_ok.html'
 
     def get(self, request, *args, **kwargs):
         form = ChangeEmailForm()
