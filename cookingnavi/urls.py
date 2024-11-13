@@ -21,4 +21,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("cook/", include('cookapp.urls')),
     path("", include('account.urls')),
+    path("administrator/", include('administrator.urls')),
 ]
