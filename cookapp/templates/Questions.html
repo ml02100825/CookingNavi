@@ -1,0 +1,32 @@
+{% extends 'baseuser.html' %}
+{% load static %}
+
+{% block title %}よくあるご質問{% endblock %}
+
+{% block content %}
+{% comment %} <link rel="stylesheet" href="{% static 'css/.css' %}"> {% endcomment %}
+<div class="faq-wrapper">
+    <h2>よくあるご質問</h2>
+
+    <div class="faq-item">
+        <button class="faq-question" onclick="toggleAnswer(this)">Q. ○○したい時はどうすればいい？</button>
+        <div class="faq-answer">
+            <p>ここに回答が入ります。</p>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <button class="faq-question" onclick="toggleAnswer(this)">Q. ○○の通知を切りたい</button>
+        <div class="faq-answer">
+            <p>ここに回答が入ります。<br>さらに詳細な情報を追加することもできます。</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleAnswer(button) {
+        const answer = button.nextElementSibling;
+        answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+    }
+</script>
+{% endblock %}
