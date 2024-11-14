@@ -31,7 +31,6 @@ class CustomLoginView(LoginView):
             if user:
                 if user.is_active:
                     login(request, user)
-                    redirect_authenticated_user = True
                     
                     if user.is_superuser:
                         return redirect('administrator:home')
