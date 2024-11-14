@@ -1,0 +1,54 @@
+<!-- subscription_settings.html -->
+{% extends '../../baseuser.html' %}
+
+{% block title %}サブスクリプション設定{% endblock %}
+
+{% block content %}
+<div class="subscription-container">
+    <h1>サブスクリプション設定</h1>
+
+    <!-- 主な機能 -->
+    <div class="subscription-features">
+        <h2>サブスクリプションの主な機能</h2>
+        <ul>
+            <li>プレミアムコンテンツへの無制限アクセス</li>
+            <li>新しい機能の優先アクセス</li>
+            <li>デバイス間の同期</li>
+        </ul>
+    </div>
+
+    <!-- 広告削除について -->
+    <div class="ad-removal">
+        <h2>広告削除について</h2>
+        <p>サブスクリプションに登録すると、全ての広告が非表示になります。</p>
+    </div>
+
+    <!-- サブスク登録ボタン -->
+    <div class="subscription-button">
+        <button onclick="subscribe()">サブスクリプション登録</button>
+    </div>
+
+    <!-- アカウント作成ボタン -->
+    <div class="create-account">
+        <button onclick="redirectToSignup()">アカウントを作っていない方はこちら</button>
+    </div>
+</div>
+
+<script>
+    // Djangoのテンプレートタグで直接値を挿入
+    const userLoggedIn = "{{ user.is_authenticated|yesno:'true,false' }}"; // 文字列 "true" または "false" で取得
+
+    function subscribe() {
+        if (userLoggedIn === "false") {
+            alert('アカウントが作成されていません');
+        } else {
+            // サブスク登録処理 (仮にリダイレクト)
+            window.location.href = '/subscribe/';
+        }
+    }
+
+    function redirectToSignup() {
+        window.location.href = '/signup/'; // アカウント作成ページへのURL
+    }
+</script>
+{% endblock %}

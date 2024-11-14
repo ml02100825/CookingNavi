@@ -2,10 +2,8 @@
 
 /* 健康管理ボタンのスタイル */
 .health-management-btn {
-    position: absolute; /* 絶対位置指定 */
     top: 2%; /* 上部に配置 */
     left: 50%; /* 左側50% */
-    transform: translateX(-50%); /* ボタンを中央揃えにする */
 }
 
 /* 健康管理ボタンのスタイル */
@@ -30,7 +28,7 @@
 .forum-btn {
     position: absolute; /* 絶対位置指定 */
     top: 35%; /* 健康管理ボタンの下に配置 */
-    left: 20%; /* 左側に寄せる */
+    left: 5%; /* 左側に寄せる */
 }
 
 /* 掲示板ボタンのスタイル */
@@ -55,7 +53,7 @@
 .meal-history-btn {
     position: absolute; /* 絶対位置指定 */
     top: 35%; /* 掲示板ボタンと同じ位置 */
-    right: 20%; /* 右側に配置 */
+    right: 5%; /* 右側に配置 */
 }
 
 /* 食事履歴ボタンのスタイル */
@@ -80,7 +78,7 @@
 .shopping-list-btn {
     position: absolute; /* 絶対位置指定 */
     top: 60%; /* 掲示板ボタンの下に配置 */
-    left: 18%; /* 左側に寄せる */
+    left: -5%; /* 左側に寄せる */
 }
 
 /* 買い物リストボタンのスタイル */
@@ -105,7 +103,7 @@
 .health-graph-btn {
     position: absolute; /* 絶対位置指定 */
     top: 60%; /* 食事履歴ボタンの下に配置 */
-    right: 18%; /* 右側に配置 */
+    right: -5%; /* 右側に配置 */
 }
 
 /* 健康グラフボタンのスタイル */
