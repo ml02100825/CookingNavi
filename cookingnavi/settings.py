@@ -127,6 +127,7 @@ USE_TZ = True
 
 LOGIN_URL = 'account:login'
 
+SESSION_COOKIE_DOMAIN = '.example.com'
 
 
 # Static files (CSS, JavaScript, Images)
