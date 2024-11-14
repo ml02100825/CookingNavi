@@ -4,7 +4,6 @@ from django.views.generic.base import TemplateView
 from django.contrib.auth import login,authenticate
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
-from django.views.generic.edit import FormView
 from django.contrib.auth.views import LoginView, LogoutView
 from .forms import CustomUserCreation1Form, CustomUserCreation2Form, EmailForm, UsernameForm, PasswordForm, LoginForm
 from .models import User, Userallergy
@@ -111,7 +110,7 @@ class IndexView(TemplateView):
     template_name = 'top/top.html'
 
 
-class UsernameView(TemplateView):
+class UsernameView(LoginRequiredMixin, TemplateView):
     template_name = 'acount/name/username_henko.html'
     def get(self, request, *args, **kwargs):
         form = UsernameForm()
@@ -136,7 +135,7 @@ class UsernameOkView(TemplateView):
     template_name = "acount/name/username_henko_ok.html"
 
 
-class EmailView(TemplateView):
+class EmailView(LoginRequiredMixin, TemplateView):
     template_name = 'acount/email/email_henko.html'
     def get(self, request, *args, **kwargs):
         form = EmailForm()
@@ -161,7 +160,7 @@ class EmailOkView(TemplateView):
     template_name = 'acount/email/email_henko_ok.html'
 
 
-class PasswordView(TemplateView):
+class PasswordView(LoginRequiredMixin, TemplateView):
     template_name = 'acount/password/password_henko.html'
     def get(self, request, *args, **kwargs):
         form = PasswordForm()
