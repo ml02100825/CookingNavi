@@ -101,8 +101,14 @@ class CustomSignUpView(TemplateView):
 
 
 class CustomLogoutView(LogoutView):
+    # ログアウト後に表示するテンプレート（オプション）
     template_name = 'cookapp/templates/administrator/logout/logout.html'
-    next_page = reverse_lazy('account:top')
+    
+    # ログアウト後に遷移するページ
+    next_page = reverse_lazy('account:logout_ok')  
+
+class LogoutOkView(TemplateView):
+    template_name = 'cookapp/templates/administrator/logout/logout_completion.html'
 
 
 class IndexView(TemplateView):

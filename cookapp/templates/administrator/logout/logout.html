@@ -11,10 +11,13 @@
 
         <!-- ボタンコンテナ -->
         <div class="button-container">
-            <form method="POST" action="{% url 'logout' %}"></form>
+            <!-- ログアウトフォーム -->
+            <form method="POST" action="{% url 'account:logout' %}">
                 {% csrf_token %}
                 <button type="submit" class="logout-btn">はい</button>
             </form>
+
+            <!-- キャンセルフォーム（ログイン画面に戻る） -->
             <form action="{% url 'home' %}" method="get">
                 <button type="submit" class="cancel-btn">いいえ</button>
             </form>
