@@ -11,7 +11,7 @@
 
         <!-- ボタンコンテナ -->
         <div class="button-container">
-            <form action="{% url 'logout_complete' %}" method="post">
+            <form method="POST" action="{% url 'logout' %}"></form>
                 {% csrf_token %}
                 <button type="submit" class="logout-btn">はい</button>
             </form>
