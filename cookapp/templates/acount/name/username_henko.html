@@ -24,7 +24,6 @@
         <!-- ユーザー名変更フォーム -->
         <form action="{% url 'account:username' %}" method="post">
             {% csrf_token %}
-            {{ form.as_p }}
             <div>
                 <label>新しいユーザ名：</label>
                 <div>
