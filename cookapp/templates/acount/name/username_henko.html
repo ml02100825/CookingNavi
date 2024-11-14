@@ -22,7 +22,7 @@
         <h2>ユーザ変更</h2>
  
         <!-- ユーザー名変更フォーム -->
-        <form action="{% url 'account:username' %}" method="post">
+        <form action="{% url 'cookapp:username' %}" method="post">
             {% csrf_token %}
             <div>
                 <label>新しいユーザ名：</label>

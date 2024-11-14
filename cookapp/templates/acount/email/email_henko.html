@@ -7,7 +7,7 @@
 <main class="main-content">
     <h2>メールアドレス変更</h2>
 
-    <form action="{% url 'account:email' %}" method="post">
+    <form action="{% url 'cookapp:email' %}" method="post">
         {% csrf_token %}
         <div>
             <label>新しいメールアドレス：</label>
