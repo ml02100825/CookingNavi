@@ -103,7 +103,7 @@ class CustomSignUpView(TemplateView):
 
 
 class CustomLogoutView(LogoutView):
-    template_name = 'logout.html'
+    template_name = 'cookapp/templates/administrator/logout/logout.html'
     next_page = reverse_lazy('account:top')
 
 
