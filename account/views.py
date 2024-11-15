@@ -19,17 +19,26 @@ class CustomLoginView(LoginView):
         form =  LoginForm(request.POST)
         if form.is_valid():
             logging.debug('if文動いてる')
-            username = form.cleaned_data['username'] # 入力されたデータをセッションに保存
+            email = form.cleaned_data['username'] # 入力されたデータをセッションに保存
             password= form.cleaned_data['password']
-            user = authenticate(username = username, password = password)
+            user = authenticate(request, username=email, password=password)
             if user:
                 if user.is_active:
                     login(request, user)
                     
+                    if request.user.is_authenticated:
+ 
+                        logging.debug('loginできてる')
+                    request.session['user_id'] = user.user_id
+                    request.session.modified = True 
+                    logging.debug(f"Session info: {request.session.items()}")  # セッション内容をログに出力
                     if user.is_superuser:
                         return redirect('administrator:home')
                     else:
+                        logging.debug(f"User is authenticated: {request.user.is_authenticated}")
                         return redirect('cookapp:home')
+            else:
+                form.add_error(None, "Invalid username or password.")
     # redirect_authenticated_user = True
     # success_url = reverse_lazy('cookapp:index')
 
@@ -86,6 +95,7 @@ class SignUpPage2View(TemplateView):
 
             # ログイン処理
             login(request, user)
+   
             return redirect('account:signup_completion')
         return render(request, self.template_name, {'form': form})
 

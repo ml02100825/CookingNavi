@@ -3,7 +3,10 @@ from .forms import EmailForm, UsernameForm, PasswordForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 from django.contrib import messages
+from account.models import User
+import logging
 
+logger = logging.getLogger(__name__)
 
 class IndexView(TemplateView):
     template_name='index.html'
@@ -13,6 +16,20 @@ class CustomLogin1View(TemplateView):
 
 class HomeView(TemplateView):
     template_name='home/home.html'
+    def get(self, request, *args, **kwargs):
+        logging.debug(f"Session info: {self.request.session.items()}")  # セッション内容をログに出力
+        logging.debug(f"User is authenticated: {request.user.is_authenticated}")
+        return super().get(request, *args, **kwargs)
+    # def get_context_data(self, **kwargs):
+    #     logging.debug(f"User ID: {self.request.user.id}")
+    #     user = self.request.user  # または request.user
+
+    #     # ユーザーIDでデータベースから再取得することも可能
+    #     id = self.request.session.get('_auth_user_id')
+    #     user = User.objects.get(user_id=id)
+    #     context = super().get_context_data(**kwargs)
+    #     context['user'] = user  # ログインしているユーザー情報を渡す
+    #     return context
 
 class HealthMainView(TemplateView):
     template_name='health_management_main.html'
@@ -22,8 +39,28 @@ class HealthSelectionView(TemplateView):
 
 class SettingView(TemplateView):
     template_name='setting/setting.html'
+    
 
 class AcountSettingView(TemplateView):
+    def dispatch(self,request, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            logger.error("Error 401: Unauthorized access attempt to AccountSettingView.")
+            logging.debug(f"Session info: {request.session.items()}")  # セッション内容をログに出力
+             # ログインしていない場合はリダイレクト
+        return super().dispatch(request,*args, **kwargs)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if 'user_id' in self.request.session:
+            id = self.request.session['user_id']
+            try:
+                user = User.objects.get(user_id=id)
+                context['user'] = user
+            except User.DoesNotExist:
+                context['user'] = None
+        else:
+            context['user'] = None
+             
+        return context
     template_name='acount/acount_setting.html'
 
 class FamilyInfoView(TemplateView):
@@ -39,7 +76,7 @@ class SubscriptionSettingView(TemplateView):
     template_name='sabusuku/setting/sabusuku_setting.html'
 
 
-class UsernameView(LoginRequiredMixin, TemplateView):
+class UsernameView(TemplateView):
     template_name = 'acount/name/username_henko.html'
     def get(self, request, *args, **kwargs):
         form = UsernameForm()
@@ -52,7 +89,7 @@ class UsernameView(LoginRequiredMixin, TemplateView):
             
             # メールアドレスの更新
             user = request.user
-            user.Name = new_username
+            user.username = new_username
             user.save()
 
             messages.success(request, 'ユーザー名が正常に変更されました。')

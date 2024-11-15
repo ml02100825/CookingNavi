@@ -15,6 +15,7 @@ urlpatterns = [
     path('notification_setting/', views.NotificationSettingView.as_view(), name='notification_setting'),
     path('subscription_setting/', views.SubscriptionSettingView.as_view(), name='subscription_setting'),
     path('username/', views.UsernameView.as_view(), name='username'),
+      path('username_henko_ok/', views.UsernameView.as_view(), name='username_henko_ok'),
     path('email/', views.EmailView.as_view(), name='email'),
     path('email_henko_ok/', views.EmailOkView.as_view(), name='email_henko_ok'),
     path('password/', views.PasswordView.as_view(), name='password'),

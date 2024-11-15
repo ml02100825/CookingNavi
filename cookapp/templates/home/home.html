@@ -19,7 +19,13 @@
 
         <!-- メインコンテンツエリア -->
         <div class="main-content">
-            
+            {% if user.is_authenticated %}
+            <p>こんにちは、{{ user.username }}さん！</p>
+        {% else %}
+            <p>ログインしていません</p>
+        {% endif %}
+            <p>Session ID: {{ request.session.session_key }}</p>
+           <p> {{ user.email }}</p>
             <!-- 健康管理ボタン -->
             <div class="health-management-btn">
                 <a href="{% url 'cookapp:health_management_main' %}"><button>健康管理</button></a>
