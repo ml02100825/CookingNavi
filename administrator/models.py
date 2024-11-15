@@ -20,7 +20,7 @@ class Cook(models.Model):
     cookname = models.CharField(db_column='CookName', max_length=10)  # Field name made lowercase.
     type = models.CharField(db_column='Type', max_length=1)  # Field name made lowercase.
     recipe_text = models.TextField(db_column='RECIPE_TEXT')  # Field name made lowercase.
-    carorie = models.FloatField(db_column='Carorie', db_comment='カロリー')  # Field name made lowercase.
+    calorie = models.FloatField(db_column='Calorie', db_comment='カロリー')  # Field name made lowercase.
     protein = models.FloatField(db_column='Protein', db_comment='たんぱく質')  # Field name made lowercase.
     lipids = models.FloatField(db_column='LIPIDS', db_comment='脂質')  # Field name made lowercase.
     carbohydrates = models.FloatField(db_column='Carbohydrates', db_comment='炭水化物')  # Field name made lowercase.
@@ -30,3 +30,4 @@ class Cook(models.Model):
     class Meta:
         managed = False
         db_table = 'cook'
+        
