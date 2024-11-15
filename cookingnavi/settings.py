@@ -127,7 +127,10 @@ USE_TZ = True
 
 LOGIN_URL = 'account:login'
 
-SESSION_COOKIE_DOMAIN = '.example.com'
+# SESSION_COOKIE_NAME = 'sessionid'
+SESSION_COOKIE_DOMAIN =None
+SESSION_COOKIE_AGE = 1209600  # 2週間
+# SESSION_SAVE_EVERY_REQUEST = True
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # セッションをデータベースに保存
 
@@ -169,3 +172,4 @@ else:
     
 STATIC_URL = "static/"
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), )
+AUTH_USER_MODEL = 'account.User'

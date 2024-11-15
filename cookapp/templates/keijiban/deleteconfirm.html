@@ -1,0 +1,20 @@
+{% extends 'baseuser.html' %}
+
+{% block title %}投稿削除{% endblock %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>投稿削除確認</title>
+</head>
+<body>
+    <h1>投稿削除</h1>
+    <p>本当に「{{ post.title }}」を削除してもよろしいですか？</p>
+    
+    <!-- 削除実行リンク -->
+    <a href="{% url 'delete_post' post.id %}">はい</a>
+    <!-- キャンセルリンク（一覧ページに戻る） -->
+    <a href="{% url 'myBulletinBroard.html' %}">いいえ</a>
+</body>
+</html>
+{% endblock %}

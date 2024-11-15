@@ -1,0 +1,73 @@
+{% extends 'baseuser.html' %}
+{% load static %}
+{% block title %}編集完了{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/health_management_main.css' %}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>健康管理</title>
+
+</head>
+<body>
+
+    <!-- Schedule Table -->
+    <h1>健康管理</h1>
+    <table class="schedule-table">
+        <tr>
+            <th><a href="{% url 'cookapp:health_selection' %}" ><button class="day-button">月</button></a></th>
+            <th><a href="{% url 'cookapp:health_selection' %}" ><button class="day-button">火</button></a></th>
+            <th><a href="{% url 'cookapp:health_selection' %}" ><button class="day-button">水</button></a></th>
+            <th><a href="{% url 'cookapp:health_selection' %}" ><button class="day-button">木</button></a></th>
+            <th><a href="{% url 'cookapp:health_selection' %}" ><button class="day-button">金</button></a></th>
+            <th><a href="{% url 'cookapp:health_selection' %}" ><button class="day-button">土</button></a></th>
+            <th><a href="{% url 'cookapp:health_selection' %}" ><button class="day-button">日</button></a></th>
+        </tr>
+        <tr>
+            <td>
+                <button class="time-slot-button">朝</button>
+                <button class="time-slot-button">昼</button>
+                <button class="time-slot-button">晩</button>
+            </td>
+            <td>
+                <button class="time-slot-button">朝</button>
+                <button class="time-slot-button">昼</button>
+                <button class="time-slot-button">晩</button>
+            </td>
+            <td>
+                <button class="time-slot-button">朝</button>
+                <button class="time-slot-button">昼</button>
+                <button class="time-slot-button">晩</button>
+            </td>
+            <td>
+                <button class="time-slot-button">朝</button>
+                <button class="time-slot-button">昼</button>
+                <button class="time-slot-button">晩</button>
+            </td>
+            <td>
+                <button class="time-slot-button">朝</button>
+                <button class="time-slot-button">昼</button>
+                <button class="time-slot-button">晩</button>
+            </td>
+            <td>
+                <button class="time-slot-button">朝</button>
+                <button class="time-slot-button">昼</button>
+                <button class="time-slot-button">晩</button>
+            </td>
+            <td>
+                <button class="time-slot-button">朝</button>
+                <button class="time-slot-button">昼</button>
+                <button class="time-slot-button">晩</button>
+            </td>
+        </tr>
+    </table>
+
+    <!-- フッター -->
+    <footer class="footer">
+        <p>&copy; 2024 クッキングnavi. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
+{% endblock %}
