@@ -89,7 +89,7 @@ class UsernameView(TemplateView):
             
             # メールアドレスの更新
             user = request.user
-            user.username = new_username
+            user.name = new_username
             user.save()
 
             messages.success(request, 'ユーザー名が正常に変更されました。')
