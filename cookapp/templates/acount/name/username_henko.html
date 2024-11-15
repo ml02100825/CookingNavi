@@ -29,7 +29,6 @@
     {% endif %}
         <form action="{% url 'cookapp:username' %}" method="post">
             {% csrf_token %}
-            {{ form.as_p }}
             <div>
                 <label>新しいユーザ名：</label>
                 <div>
