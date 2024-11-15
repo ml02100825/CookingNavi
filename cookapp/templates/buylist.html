@@ -1,0 +1,87 @@
+{% extends 'baseuser.html' %}
+
+{% block title %}買い物リスト{% endblock %}
+
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>買い物リスト</title>
+
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo">クッキングnavi</div>
+        <div>
+            <a href="#">ホーム</a> | <a href="#">ログアウト</a>
+        </div>
+    </div>
+
+    <div class="content">
+        <h2>買い物リスト</h2>
+        
+        <div class="date-select">
+            <label for="start-date">開始日:</label>
+            <input type="date" id="start-date" name="start-date">
+            <label for="end-date">終了日:</label>
+            <input type="date" id="end-date" name="end-date">
+            <button onclick="showIngredients()">表示</button>
+        </div>
+
+        <ul class="ingredients-list" id="ingredients-list">
+            <!-- Ingredients will be displayed here based on the selected date range -->
+        </ul>
+    </div>
+
+    <div class="footer">
+        Copyright © 2024 Website. All rights reserved.
+    </div>
+
+    <script>
+        function showIngredients() {
+            const startDate = document.getElementById('start-date').value;
+            const endDate = document.getElementById('end-date').value;
+            const ingredientsList = document.getElementById('ingredients-list');
+
+            // Clear previous list
+            ingredientsList.innerHTML = '';
+
+            if (startDate && endDate) {
+                // Sample data: Replace with dynamic data based on the selected date range
+                const ingredientsData = {
+                    "2024-10-24": ["にんじん", "じゃがいも", "玉ねぎ", "カレー粉"],
+                    "2024-10-23": ["パン", "チーズ", "ハム"],
+                    "2024-10-22": ["ごはん", "肉", "野菜"]
+                };
+
+                const selectedIngredients = new Set();
+
+                // Loop through dates and add ingredients within the range
+                for (let date in ingredientsData) {
+                    if (date >= startDate && date <= endDate) {
+                        ingredientsData[date].forEach(ingredient => selectedIngredients.add(ingredient));
+                    }
+                }
+
+                // Display ingredients or a message if none found
+                if (selectedIngredients.size > 0) {
+                    selectedIngredients.forEach(ingredient => {
+                        const li = document.createElement('li');
+                        li.textContent = ingredient;
+                        ingredientsList.appendChild(li);
+                    });
+                } else {
+                    const li = document.createElement('li');
+                    li.textContent = "該当する材料がありません";
+                    ingredientsList.appendChild(li);
+                }
+            } else {
+                alert("開始日と終了日を選択してください。");
+            }
+        }
+    </script>
+
+</body>
+</html>
+{% endblock %}
