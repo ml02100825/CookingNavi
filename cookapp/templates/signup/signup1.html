@@ -1,0 +1,20 @@
+{% extends '../base2.html' %}
+{% load static %}
+
+{% block title %}新規登録{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/signup/signup1.css' %}">
+
+<div class="login-container">
+    <h1>新規登録</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+       
+
+        <button type="submit">次へ</button>
+    </form>
+</div>
+{% endblock %}
