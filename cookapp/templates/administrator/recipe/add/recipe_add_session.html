@@ -1,0 +1,12 @@
+<!-- dashboard.html -->
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- セッションエラーが発生した場合のリダイレクトボタン -->
+<div class="session-error">
+    <h2>セッションエラー</h2>
+    <p>セッションが切れました。再度ログインしてください。</p>
+    <a href="{% url 'login' %}" class="button">ログインへ</a>
+</div>
+{% endblock %}

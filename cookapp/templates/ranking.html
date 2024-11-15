@@ -1,0 +1,29 @@
+{% extends 'baseuser.html' %}
+
+{% block title %}いいねランキング{% endblock %}
+
+{% block content %}
+    <div class="content-container">
+        <h2>いいねランキング</h2>
+        <div class="post-grid">
+            {% for post in posts %}
+                <div class="post-card">
+                    <img src="{{ post.image_url }}" alt="料理写真">
+                    <div class="post-details">
+                        <p class="post-title">
+                            {{ post.title }}
+                            <span class="like-count">❤ {{ post.like_count }}</span>
+                        </p>
+                        <p>{{ post.user.username }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <footer class="footer">
+        <p>&copy; 2024 クッキングnavi. All Rights Reserved.</p>
+    </footer>
+{% endblock %}

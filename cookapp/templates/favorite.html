@@ -1,0 +1,96 @@
+{% extends 'baseuser.html' %}
+
+{% block title %}みんなの料理掲示板{% endblock %}
+
+{% block content %}
+    
+    <div class="search-bar-container">
+        <div class="search-container">
+            <input type="text" class="search-bar" placeholder="料理を検索する..." id="search-input">
+            <button class="search-btn" onclick="searchRecipes()">検索</button>
+        </div>
+        <button class="post-recipe-btn">レシピを投稿する</button>
+    </div>
+
+    <div class="content-container">
+        <div class="sidebar">
+            <button onclick="filterPosts('myPosts')">自分が投稿したもの</button>
+            <button onclick="filterPosts('favorites')">お気に入り</button>
+            <button onclick="filterPosts('likes')">いいね順</button>
+        </div>
+
+        <div class="main-content" id="post-grid">
+          
+            <div class="post-card" data-post-id="1">
+                <img src="https://via.placeholder.com/150" alt="料理写真">
+                <div class="post-details">
+                    <p class="post-title">
+                        唐揚げ
+                        <button class="like-btn" onclick="toggleLike(this, 1)">❤</button>
+                    </p>
+                    <p>ユーザーA</p>
+                </div>
+            </div>
+
+            <div class="post-card" data-post-id="2">
+                <img src="https://via.placeholder.com/150" alt="料理写真">
+                <div class="post-details">
+                    <p class="post-title">
+                        カレーライス
+                        <button class="like-btn" onclick="toggleLike(this, 2)">❤</button>
+                    </p>
+                    <p>ユーザーB</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <footer class="footer">
+        <p>&copy; 2024 クッキングnavi. All Rights Reserved.</p>
+    </footer>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        // お気に入りの投稿IDを保持する配列
+        const favoritePosts = new Set();
+
+        // 「いいね」ボタンの状態をトグルし、IDをfavoritePostsに追加または削除
+        function toggleLike(button, postId) {
+            button.classList.toggle("liked");
+            if (favoritePosts.has(postId)) {
+                favoritePosts.delete(postId);
+            } else {
+                favoritePosts.add(postId);
+            }
+        }
+
+        // フィルター処理を行う関数
+        function filterPosts(filterType) {
+            const postGrid = document.getElementById("post-grid");
+            const postCards = postGrid.getElementsByClassName("post-card");
+
+            if (filterType === "favorites") {
+                // お気に入りフィルタの場合、お気に入りに登録されている投稿のみを表示
+                Array.from(postCards).forEach(card => {
+                    const postId = parseInt(card.getAttribute("data-post-id"), 10);
+                    card.style.display = favoritePosts.has(postId) ? "block" : "none";
+                });
+            } else {
+                // 他のフィルタの場合はすべて表示（例として単純に全投稿を表示）
+                Array.from(postCards).forEach(card => {
+                    card.style.display = "block";
+                });
+            }
+        }
+
+        // 検索機能
+        function searchRecipes() {
+            const searchTerm = document.getElementById("search-input").value;
+            alert("検索キーワード: " + searchTerm);
+        }
+    </script>
+{% endblock %}
