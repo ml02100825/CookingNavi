@@ -1,123 +1,15 @@
-<!DOCTYPE html>
-<html lang="ja">
+{% extends 'baseuser.html' %}
+
+{% block title %}編集完了{% endblock %}
+
+{% block content %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>健康管理</title>
-    <link rel="stylesheet" href="css/home.css">
-    <link rel="stylesheet" href="css/style.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
 
-        .header {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .app-name {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #007bff;
-        }
-
-        .nav-right .nav-links a {
-            margin-left: 15px;
-            color: #333;
-            text-decoration: none;
-            font-size: 1em;
-        }
-
-        .nav-right .nav-links a:hover {
-            color: #007bff;
-        }
-
-        .schedule-table {
-            width: 80%;
-            max-width: 600px;
-            margin: 20px 0;
-            border-collapse: collapse;
-            text-align: center;
-        }
-
-        .schedule-table th,
-        .schedule-table td {
-            border: 1px solid #333;
-            padding: 15px;
-            font-size: 1em;
-        }
-
-        .schedule-table th {
-            background-color: #f2f2f2;
-        }
-
-        .day-button, .time-slot-button {
-            background-color: #007bff;
-            color: white;
-            border: 2px solid #0056b3;
-            padding: 10px 20px;
-            font-size: 1em;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s, border-color 0.3s;
-        }
-
-        .day-button:hover, .time-slot-button:hover {
-            background-color: #0056b3;
-            border-color: #003d80;
-        }
-
-        .time-slot-button {
-            margin: 5px; /* ボタン間のスペースを追加 */
-        }
-
-        .not-decided {
-            color: gray;
-            font-size: 1em;
-        }
-
-        h1 {
-            font-size: 2em;
-            color: #333;
-            margin-top: 20px;
-        }
-
-        .footer {
-            width: 100%;
-            text-align: center;
-            padding: 10px 0;
-            background-color: #f8f9fa;
-            position: fixed;
-            bottom: 0;
-            font-size: 0.9em;
-            color: #555;
-        }
-    </style>
 </head>
 <body>
-
-    <!-- ヘッダー -->
-    <header class="header">
-        <div class="app-name">クッキングnavi</div>
-        <div class="nav-right">
-            <div class="nav-links">
-                <a href="#" class="home-link">ホーム</a>
-                <a href="#">ログイン</a>
-                <a href="#">サインアップ</a>
-            </div>
-            <div class="user-icon"></div>
-        </div>
-    </header>
 
     <!-- Schedule Table -->
     <h1>健康管理</h1>
@@ -177,3 +69,4 @@
 
 </body>
 </html>
+{% endblock %}
