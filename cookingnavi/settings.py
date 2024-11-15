@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "cookapp.apps.CookappConfig",
     "account.apps.AccountConfig",
+    "administrator.apps.AdministratorConfig",
 ]
 
 MIDDLEWARE = [
@@ -124,6 +125,12 @@ USE_I18N = True
 
 USE_TZ = True
 
+LOGIN_URL = 'account:login'
+
+SESSION_COOKIE_DOMAIN = '.example.com'
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # セッションをデータベースに保存
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -137,7 +144,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTHENTICATION_BACKENDS = [
   
     'account.backends.EmailBackend',  # カスタムバックエンドを指定
-    'django.contrib.auth.backends.ModelBackend'
+   
 ]
 
 LOGOUT_REDIRECT_URL = reverse_lazy('cookapp:index')

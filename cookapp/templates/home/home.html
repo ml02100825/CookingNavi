@@ -1,11 +1,15 @@
 {% extends '../baseuser.html' %}
 
+{% load static %}
+
 {% block title %}ホームページ{% endblock %}
 
 {% block content %}
 <main>
     <div class="content-area">
         
+        <link rel="stylesheet" href="{% static 'css/home/home.css' %}">
+
         <!-- 左側のサイドバー（広告部分） -->
         <aside class="sidebar left-sidebar">
             <div class="advertisement">

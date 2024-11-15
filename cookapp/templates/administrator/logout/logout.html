@@ -1,20 +1,23 @@
 {% extends '../base.html' %}
-
-{% block title %}（管理者）ログアウト{% endblock %}
-
+ 
+{% block title %}ログアウト{% endblock %}
+ 
 {% block content %}
 <div class="logout-container">
     <div class="logout-box">
         <h2>ログアウト</h2>
         <!-- ログアウト確認メッセージ -->
         <p>ログアウトしますか？</p>
-
+ 
         <!-- ボタンコンテナ -->
         <div class="button-container">
-            <form action="{% url 'logout_complete' %}" method="post">
+            <!-- ログアウトフォーム -->
+            <form method="POST" action="{% url 'account:logout' %}">
                 {% csrf_token %}
                 <button type="submit" class="logout-btn">はい</button>
             </form>
+ 
+            <!-- キャンセルフォーム（ログイン画面に戻る） -->
             <form action="{% url 'home' %}" method="get">
                 <button type="submit" class="cancel-btn">いいえ</button>
             </form>

@@ -10,13 +10,13 @@ body {
 
 /* ヘッダーのスタイル */
 .header {
-    display: flex; /* ヘッダーをフレックスボックスで配置 */
-    justify-content: space-between; /* ヘッダー内要素を左右に配置 */
-    align-items: center; /* アイテムを縦方向に中央揃え */
-    padding: 15px 30px; /* ヘッダー内の余白 */
-    background-color: #4CAF50; /* 背景色を緑色に設定 */
-    color: white; /* 文字色を白に設定 */
-    font-size: 1.2em; /* フォントサイズを1.2emに設定 */
+    background-color: rgba(173, 216, 230, 0.5); /* さらに薄い水色 */
+    color: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 少し影を追加 */
 }
 
 .app-name {
@@ -74,7 +74,7 @@ body {
 }
 
 .login-container button {
-    background-color: #4CAF50; /* ボタンの背景色を緑に設定 */
+    background-color: #000000; /* ボタンの背景色を緑に設定 */
     color: white; /* ボタン文字色を白に設定 */
     border: none; /* ボタンの枠線を削除 */
     padding: 12px; /* ボタン内の余白を12pxに設定 */
@@ -91,11 +91,12 @@ body {
 
 /* フッターのスタイル */
 .footer {
-    text-align: center; /* テキストを中央揃え */
-    padding: 20px; /* 内側の余白を20pxに設定 */
-    background-color: #333; /* 背景色をダークグレーに設定 */
-    color: white; /* 文字色を白に設定 */
-    position: fixed; /* フッターを画面の下部に固定 */
-    width: 100%; /* 幅を100%に設定 */
-    bottom: 0; /* 画面の下に配置 */
+    background-color: #fff; /* フッターの背景色を白に */
+    color: #007bff; /* フッターの文字色を青に */
+    text-align: center;
+    padding: 10px;
+    border-top: 1px solid rgba(0, 123, 255, 0.5); /* 枠線を細くして色を薄く */
+    width: 100%; /* フッターを画面いっぱいに広げる */
+    position: absolute; /* フッターをページの一番下に固定 */
+    bottom: 0;
 }
