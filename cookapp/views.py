@@ -70,10 +70,16 @@ class BodyInfoUpdateView(TemplateView):
     template_name='sintai/sintai_henko.html'
 
 class NotificationSettingView(TemplateView):
-    template_name='/.html'
+    template_name='notification/notification.html'
 
 class SubscriptionSettingView(TemplateView):
     template_name='sabusuku/setting/sabusuku_setting.html'
+
+class OsiraseView(TemplateView):
+    template_name='osirase/osirase.html'
+
+class QuestionsView(TemplateView):
+    template_name='questions/questions.html'
 
 
 class UsernameView(TemplateView):
