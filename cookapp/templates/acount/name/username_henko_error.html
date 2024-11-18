@@ -1,0 +1,51 @@
+{% extends '../../baseuser.html' %}
+
+{% block title %}クッキングナビ - ユーザ変更{% endblock %}
+
+{% block content %}
+<main class="main-content">
+
+    <h2>ユーザ名変更</h2>
+
+    <!-- 認証済みのユーザーかどうかの表示 -->
+    {% if user.is_authenticated %}
+        <p>こんにちは、{{ user.username }}さん！</p>
+    {% else %}
+        <p>ログインしていません</p>
+    {% endif %}
+
+    <!-- ユーザ名変更フォーム -->
+    <form action="{% url 'cookapp:username' %}" method="post">
+        {% csrf_token %}
+
+        <!-- エラーメッセージ表示 -->
+        {% if form.errors %}
+        <div class="error-container">
+            <p class="error-message">
+                ユーザ名には半角英字、アンダースコア（_）、ピリオド（.）のみを使用してください
+            </p>
+        </div>
+        {% endif %}
+
+        <!-- 新しいユーザ名 -->
+        <div class="form-group">
+            <label for="id_new_username">ユーザ名：</label>
+            <div class="input-container {% if form.errors %} error-field {% endif %}">
+                <input 
+                    type="text" 
+                    id="id_new_username" 
+                    name="new_username" 
+                    placeholder="新しいユーザ名を入力" 
+                    value="{{ request.POST.new_username }}" 
+                    required>
+            </div>
+        </div>
+
+        <!-- ボタン -->
+        <div class="button-group">
+            <button type="button" onclick="window.history.back()">プロフィール画面へ</button>
+        </div>
+    </form>
+
+</main>
+{% endblock %}
