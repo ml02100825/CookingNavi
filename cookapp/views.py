@@ -149,3 +149,6 @@ class PasswordView(LoginRequiredMixin, TemplateView):
 
 class PasswordOkView(TemplateView):
     template_name = 'acount/password/password_henko_ok.html'
+
+class KazokuaddView(TemplateView):
+    template_name = 'kazoku/add/kazoku_add.html'

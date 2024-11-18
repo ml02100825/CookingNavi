@@ -20,4 +20,5 @@ urlpatterns = [
     path('email_henko_ok/', views.EmailOkView.as_view(), name='email_henko_ok'),
     path('password/', views.PasswordView.as_view(), name='password'),
     path('password_henko_ok/', views.PasswordOkView.as_view(), name='password_henko_ok'),
+    path('kazoku_add/', views.KazokuaddView.as_view(), name='kazoku_add'),
 ]

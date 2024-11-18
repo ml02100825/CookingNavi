@@ -5,10 +5,10 @@
 {% block content %}
 <main class="main-content">
     <h2>家族情報追加</h2>
-    <form action="{% url 'cookapp:add_family' %}" method="post" class="registration-form">
+    <form action="{% url 'cookapp:kazoku_add' %}" method="post" class="registration-form">
         {% csrf_token %}
         
-        <label for="username">ユーザー名</label>
+        <label for="username">名前</label>
         <input type="text" id="username" name="username" required placeholder="ユーザー名を入力してください">
 
         <label for="birthdate">生年月日</label>
