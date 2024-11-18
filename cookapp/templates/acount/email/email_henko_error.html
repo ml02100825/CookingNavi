@@ -1,0 +1,47 @@
+{% extends 'baseuser.html' %}
+
+{% block title %}クッキングナビ - メールアドレス変更{% endblock %}
+
+{% block content %}
+<main class="main-content">
+    <h2>メールアドレス変更</h2>
+
+    <form action="{% url 'cookapp:email' %}" method="post">
+        {% csrf_token %}
+        
+        <!-- 新しいメールアドレス -->
+        <div>
+            <label for="id_new_email">新しいメールアドレス：</label>
+            <div style="position: relative;">
+                <span style="position: absolute; left: 5px; top: 50%; transform: translateY(-50%);">📧</span>
+                <input type="email" id="id_new_email" name="new_email" placeholder="mail@example.com" required>
+                {% if form.new_email.errors %}
+                    <p style="color: red; margin: 5px 0 0 25px;">
+                        {{ form.new_email.errors|striptags }}
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- メールアドレス（確認） -->
+        <div>
+            <label for="id_confirm_email">メールアドレス（確認）：</label>
+            <div style="position: relative;">
+                <span style="position: absolute; left: 5px; top: 50%; transform: translateY(-50%);">📧</span>
+                <input type="email" id="id_confirm_email" name="confirm_email" placeholder="mail@example.com" required>
+                {% if form.confirm_email.errors %}
+                    <p style="color: red; margin: 5px 0 0 25px;">
+                        {{ form.confirm_email.errors|striptags }}
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- ボタン -->
+        <div style="margin-top: 20px;">
+            <button type="button" onclick="window.history.back()">戻る</button>
+            <button type="submit">変更</button>
+        </div>
+    </form>
+</main>
+{% endblock %}
