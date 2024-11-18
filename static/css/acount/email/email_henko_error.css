@@ -1,0 +1,71 @@
+/* メインコンテンツのスタイリング */
+.main-content {
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* ラベルとフォームグループ */
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.label {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/* 入力コンテナ */
+.input-container {
+    position: relative;
+}
+
+.input-container .icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: gray;
+}
+
+.input-container input {
+    width: 100%;
+    padding: 10px 10px 10px 35px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+/* エラーメッセージ */
+.error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 5px;
+    text-align: left;
+}
+
+/* ボタンのグループ */
+.button-group {
+    margin-top: 20px;
+}
+
+.button-group button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.button-group button[type="button"] {
+    background-color: #ccc;
+    color: #000;
+}
+
+.button-group button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+}

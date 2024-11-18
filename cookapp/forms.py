@@ -55,3 +55,14 @@ class PasswordForm(forms.Form):
             self.add_error('confirm_password', "パスワードが一致しません。")
         
         return cleaned_data
+    
+
+class FamilyForm(forms.Form):
+    family_name = forms.CharField(label='名前', max_length=20)
+    family_age = forms.CharField(label='年齢', max_length=3)
+    family_gender = forms.ChoiceField(
+        label='性別',
+        choices=[('0', '男性'), ('1', '女性'), ('2', 'その他')],
+    )
+    family_height = forms.FloatField(label='身長')
+    family_weight = forms.FloatField(label='体重')
