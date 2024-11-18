@@ -1,0 +1,50 @@
+{% extends '../baseuser2.html' %}
+
+{% block title %}登録確認{% endblock %}
+
+{% block content %}
+<h2>登録内容の確認</h2>
+<form action="#" method="post" class="registration-confirmation-form">
+    {% csrf_token %}
+    
+    <!-- 生年月日表示 -->
+    <div class="confirmation-field">
+        <label for="birthdate">生年月日</label>
+        <p id="birthdate">{{ birthdate }}</p> <!-- 入力内容を表示 -->
+        <input type="hidden" name="birthdate" value="{{ birthdate }}"> <!-- 確認画面で保持用 -->
+    </div>
+    
+    <!-- 性別表示 -->
+    <div class="confirmation-field">
+        <label for="gender">性別</label>
+        <p id="gender">{{ gender }}</p> <!-- 入力内容を表示 -->
+        <input type="hidden" name="gender" value="{{ gender }}"> <!-- 確認画面で保持用 -->
+    </div>
+
+    <!-- アレルギー表示 -->
+    <div class="confirmation-field">
+        <label for="allergies">アレルギー</label>
+        <p id="allergies">{{ allergies }}</p> <!-- 入力内容を表示 -->
+        <input type="hidden" name="allergies" value="{{ allergies }}"> <!-- 確認画面で保持用 -->
+    </div>
+
+    <!-- 身長表示 -->
+    <div class="confirmation-field">
+        <label for="height">身長 (cm)</label>
+        <p id="height">{{ height }}</p> <!-- 入力内容を表示 -->
+        <input type="hidden" name="height" value="{{ height }}"> <!-- 確認画面で保持用 -->
+    </div>
+
+    <!-- 体重表示 -->
+    <div class="confirmation-field">
+        <label for="weight">体重 (kg)</label>
+        <p id="weight">{{ weight }}</p> <!-- 入力内容を表示 -->
+        <input type="hidden" name="weight" value="{{ weight }}"> <!-- 確認画面で保持用 -->
+    </div>
+
+    <!-- ボタン: 修正と登録確認 -->
+    <div class="button-group">
+        <button type="submit">登録</button> <!-- 登録ボタンでフォーム送信 -->
+    </div>
+</form>
+{% endblock %}
