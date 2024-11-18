@@ -1,0 +1,12 @@
+{% extends '../baseuser2.html' %}
+
+{% block title %}ログアウト完了{% endblock %}
+
+{% block content %}
+
+<div class="login-complete-container">
+    <h1>ログアウト完了</h1>
+    <p>ログアウトが成功しました。</p>
+    <a href="{% url 'account:login' %}" class="btn">ログインへ</a>
+</div>
+{% endblock %}
