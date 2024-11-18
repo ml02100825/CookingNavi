@@ -21,4 +21,5 @@ urlpatterns = [
     path('password/', views.PasswordView.as_view(), name='password'),
     path('password_henko_ok/', views.PasswordOkView.as_view(), name='password_henko_ok'),
     path('kazoku_add/', views.KazokuaddView.as_view(), name='kazoku_add'),
+    path('kazoku_add_ok/', views.KazokuaddOkView.as_view(), name='kazoku_add_ok')
 ]
