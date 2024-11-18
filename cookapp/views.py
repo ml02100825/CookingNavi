@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import EmailForm, UsernameForm, PasswordForm
+from .forms import EmailForm, UsernameForm, PasswordForm, BodyInfoUpdateForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 from django.contrib import messages
@@ -65,9 +65,6 @@ class AcountSettingView(TemplateView):
 
 class FamilyInfoView(TemplateView):
     template_name='kazoku/kazoku.html'
-
-class BodyInfoUpdateView(TemplateView):
-    template_name='sintai/sintai_henko.html'
 
 class NotificationSettingView(TemplateView):
     template_name='notification/notification.html'
@@ -155,3 +152,38 @@ class PasswordView(LoginRequiredMixin, TemplateView):
 
 class PasswordOkView(TemplateView):
     template_name = 'acount/password/password_henko_ok.html'
+
+
+class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
+    template_name='sintai/sintai_henko.html'
+    def get(self, request, *args, **kwargs):
+        form = BodyInfoUpdateForm()
+        return render(request, self.template_name, {'form': form})
+    
+    def post(self, request, * args, **kwargs):
+        form = BodyInfoUpdateForm(request.POST)
+        if form.is_valid():
+            name = form.changed_data['username']
+            birthdate = form.changed_data['birthdate']
+            gender = form.changed_data['gender']
+            allergies = form.changed_data['allergies']
+            height = form.changed_data['height']
+            weight = form.changed_data['weight']
+
+            if name != request.user.username:
+                messages.error(request, "ログイン中のユーザーと異なるユーザー名を入力しました。")
+            else:
+                user = request.user
+                user.age = birthdate
+                user.gender = gender
+                user.allergies = allergies
+                user.height = height
+                user.weight = weight
+                user.save()
+
+                return redirect('cookapp:body_info_ok')
+        
+        return render(request, self.template_name, {'form': form})
+        
+class BodyInfoOkView(TemplateView):
+    template_name = 'sintai/sintai_henko_ok.html'
