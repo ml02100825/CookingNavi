@@ -1,4 +1,4 @@
-{% extends 'baseuser.html' %}
+{% extends '../../baseuser.html' %}
 
 {% block title %}クッキングナビ - メールアドレス変更{% endblock %}
 
@@ -9,37 +9,42 @@
     <form action="{% url 'cookapp:email' %}" method="post">
         {% csrf_token %}
         
+        <!-- 現在のメールアドレス -->
+        <div class="form-group">
+            <label for="id_current_email">現在のメールアドレス：</label>
+            <div class="input-container">
+                <span class="icon">📧</span>
+                <input type="email" id="id_current_email" name="current_email" placeholder="現在のメールアドレス" required>
+            </div>
+        </div>
+        
         <!-- 新しいメールアドレス -->
-        <div>
+        <div class="form-group">
             <label for="id_new_email">新しいメールアドレス：</label>
-            <div style="position: relative;">
-                <span style="position: absolute; left: 5px; top: 50%; transform: translateY(-50%);">📧</span>
-                <input type="email" id="id_new_email" name="new_email" placeholder="mail@example.com" required>
+            <div class="input-container">
+                <span class="icon">📧</span>
+                <input type="email" id="id_new_email" name="new_email" placeholder="新しいメールアドレス" required>
                 {% if form.new_email.errors %}
-                    <p style="color: red; margin: 5px 0 0 25px;">
-                        {{ form.new_email.errors|striptags }}
-                    </p>
+                    <p class="error-message">{{ form.new_email.errors|striptags }}</p>
                 {% endif %}
             </div>
         </div>
         
-        <!-- メールアドレス（確認） -->
-        <div>
-            <label for="id_confirm_email">メールアドレス（確認）：</label>
-            <div style="position: relative;">
-                <span style="position: absolute; left: 5px; top: 50%; transform: translateY(-50%);">📧</span>
-                <input type="email" id="id_confirm_email" name="confirm_email" placeholder="mail@example.com" required>
+        <!-- 確認用メールアドレス -->
+        <div class="form-group">
+            <label for="id_confirm_email">新しいメールアドレス（確認）：</label>
+            <div class="input-container">
+                <span class="icon">📧</span>
+                <input type="email" id="id_confirm_email" name="confirm_email" placeholder="確認用メールアドレス" required>
                 {% if form.confirm_email.errors %}
-                    <p style="color: red; margin: 5px 0 0 25px;">
-                        {{ form.confirm_email.errors|striptags }}
-                    </p>
+                    <p class="error-message">{{ form.confirm_email.errors|striptags }}</p>
                 {% endif %}
             </div>
         </div>
-        
+
         <!-- ボタン -->
-        <div style="margin-top: 20px;">
-            <button type="button" onclick="window.history.back()">戻る</button>
+        <div class="button-group">
+            <button type="button" onclick="window.history.back();">戻る</button>
             <button type="submit">変更</button>
         </div>
     </form>
