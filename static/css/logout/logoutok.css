@@ -16,7 +16,7 @@ body {
     justify-content: space-between; /* ヘッダー内の要素を左右に分ける */
     align-items: center; /* 中央揃え */
     padding: 15px 30px; /* 上下15px、左右30pxのパディング */
-    background-color: #4CAF50; /* ヘッダー背景色を緑に設定 */
+    background-color: #4c6faf; /* ヘッダー背景色を緑に設定 */
     color: white; /* ヘッダー内の文字色を白に設定 */
     font-size: 1.2em; /* フォントサイズを設定 */
 }
@@ -77,7 +77,6 @@ body {
 /* ログインボタンのスタイル */
 .login-complete-container .btn {
     display: block; /* ボタンをブロック要素にして横幅を100%にする */
-    background-color: #4CAF50; /* ボタンの背景色を緑に設定 */
     color: white; /* ボタンの文字色を白に設定 */
     text-decoration: none; /* リンクの下線を削除 */
     padding: 12px 30px; /* ボタンの上下12px、左右30pxのパディング */
