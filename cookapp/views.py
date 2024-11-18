@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
-from .forms import EmailForm, UsernameForm, PasswordForm, BodyInfoUpdateForm
+from .forms import EmailForm, UsernameForm, PasswordForm, BodyInfoUpdateForm, FamilyForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 from django.contrib import messages
 from account.models import User
+from .models import Familymember
 import logging
 
 logger = logging.getLogger(__name__)
@@ -187,3 +188,45 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
         
 class BodyInfoOkView(TemplateView):
     template_name = 'sintai/sintai_henko_ok.html'
+
+    
+class KazokuaddView(LoginRequiredMixin, TemplateView):
+    template_name = 'kazoku/add/kazoku_add.html'
+
+    def get(self, request, *args, **kwargs):
+        form = FamilyForm()  # 新しいフォームを作成
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = FamilyForm(request.POST)
+        if form.is_valid():
+            # フォームからデータを取得
+            family_name = form.cleaned_data['family_name']
+            family_age = form.cleaned_data['family_age']
+            family_gender = form.cleaned_data['family_gender']
+            family_height = form.cleaned_data['family_height']
+            family_weight = form.cleaned_data['family_weight']
+
+            # 家族情報を登録
+            family_member = Familymember(
+                family_name=family_name,
+                family_age=family_age,
+                family_gender=family_gender,
+                family_height=family_height,
+                family_weight=family_weight,
+                user=request.user
+            )
+            family_member.save()  # save()を使ってデータベースに保存
+
+            # メッセージを表示
+            messages.success(request, '家族情報が正常に追加されました。')
+
+            # 成功後のリダイレクト
+            return redirect('cookapp:kazoku_add_ok')  # 成功時のリダイレクトURL
+
+        # フォームが無効な場合、そのままフォームを表示
+        return render(request, self.template_name, {'form': form})
+    
+class KazokuaddOkView(TemplateView):
+    template_name = 'cookapp/templates/kazoku/add/kazoku_add_ok.html'
+    

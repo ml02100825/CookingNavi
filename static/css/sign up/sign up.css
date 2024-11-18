@@ -84,19 +84,3 @@ body {
     border-radius: 5px; /* ボタンの角を丸くする */
     margin-top: 20px; /* ボタン上に20pxの余白を追加 */
 }
-
-.login-container button:hover {
-    background-color: #45a049; /* ホバー時のボタン背景色を少し濃くする */
-}
-
-/* フッターのスタイル */
-.footer {
-    background-color: #fff; /* フッターの背景色を白に */
-    color: #007bff; /* フッターの文字色を青に */
-    text-align: center;
-    padding: 10px;
-    border-top: 1px solid rgba(0, 123, 255, 0.5); /* 枠線を細くして色を薄く */
-    width: 100%; /* フッターを画面いっぱいに広げる */
-    position: absolute; /* フッターをページの一番下に固定 */
-    bottom: 0;
-}
