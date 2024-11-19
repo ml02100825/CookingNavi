@@ -1,5 +1,7 @@
 from django.contrib.auth.hashers import check_password
 from django import forms
+from django.forms.widgets import DateInput
+from django.utils import timezone
 
 class UsernameForm(forms.Form):
     new_username = forms.CharField(max_length=150, label="新しいユーザー名")
@@ -58,7 +60,14 @@ class PasswordForm(forms.Form):
     
 class FamilyForm(forms.Form):
     family_name = forms.CharField(label='名前', max_length=20)
-    family_age = forms.CharField(label='年齢', max_length=3)
+    
+    # 生年月日入力 (カレンダーウィジェット)
+    birth_date = forms.DateField(
+        label='生年月日',
+        widget=DateInput(attrs={'type': 'date'}),  # HTML5 のカレンダーウィジェット
+        input_formats=['%Y-%m-%d'],  # 入力形式を指定
+    )
+    
     family_gender = forms.ChoiceField(
         label='性別',
         choices=[('0', '男性'), ('1', '女性'), ('2', 'その他')],
@@ -75,3 +84,12 @@ class FamilyForm(forms.Form):
         ],
         required=False  # オプショナル
     )
+    
+    # 年齢計算用のメソッド
+    def calculate_age(self):
+        birth_date = self.cleaned_data.get('birth_date')
+        if birth_date:
+            today = timezone.now().date()
+            age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
+            return age
+        return None
