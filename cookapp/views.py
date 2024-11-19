@@ -152,7 +152,7 @@ class PasswordView(LoginRequiredMixin, TemplateView):
                 user.save()
 
                 messages.success(request, 'パスワードが正常に変更されました。')
-                return redirect('cookapp:password_henko_ok')  # プロフィールページなどにリダイレクト
+            return redirect('cookapp:password_henko_ok')  # プロフィールページなどにリダイレクト
         
         return render(request, self.template_name, {'form': form})
 
@@ -169,31 +169,27 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
     def post(self, request, * args, **kwargs):
         form = BodyInfoUpdateForm(request.POST)
         if form.is_valid():
-            name = form.cleaned_data['name']
             birthdate = form.cleaned_data['birthdate']
             gender = form.cleaned_data['gender']
             allergies = form.cleaned_data['allergies']
             height = form.cleaned_data['height']
             weight = form.cleaned_data['weight']
 
-            if name != request.user.name:
-                messages.error(request, "ログイン中のユーザーと異なるユーザー名を入力しました。")
-            else:
-                user = request.user
-                user.age = birthdate
-                user.gender = gender
-                user.height = height
-                user.weight = weight
-                user.save()
+            user = request.user
+            user.age = birthdate
+            user.gender = gender
+            user.height = height
+            user.weight = weight
+            user.save()
                 
-                # 既存のアレルギー情報を削除して、新しい情報を追加
-                user_allergies = Userallergy.objects.filter(user=user)
-                user_allergies.delete()  # 現在のアレルギー情報を削除
+            # 既存のアレルギー情報を削除して、新しい情報を追加
+            user_allergies = Userallergy.objects.filter(user=user)
+            user_allergies.delete()  # 現在のアレルギー情報を削除
 
-                # 新しいアレルギー情報を追加
-                for allergy in allergies:
-                    Userallergy.objects.create(user=user, allergy_category=allergy)
-                    print(f"Added new allergy {allergy} for user {user}")
+            # 新しいアレルギー情報を追加
+            for allergy in allergies:
+                Userallergy.objects.create(user=user, allergy_category=allergy)
+                print(f"Added new allergy {allergy} for user {user}")
 
             return redirect('cookapp:body_info_ok')
         
