@@ -43,6 +43,7 @@ class Userallergy(models.Model):
         managed = False
         db_table = 'userallergy'
 
+
 class Familymember(models.Model):
     family_id = models.AutoField(verbose_name='家族ID', db_column='Family_ID', primary_key=True)
     family_name = models.CharField(verbose_name="名前", db_column='Family_Name', max_length=20)

@@ -12,6 +12,7 @@ urlpatterns = [
     path('acount_setting/', views.AcountSettingView.as_view(), name='acount_setting'),
     path('family_info/', views.FamilyInfoView.as_view(), name='family_info'),
     path('body_info_update/', views.BodyInfoUpdateView.as_view(), name='body_info_update'),
+    path('body_info_ok/', views.BodyInfoOkView.as_view(), name='body_info_ok'),
     path('notification_setting/', views.NotificationSettingView.as_view(), name='notification_setting'),
     path('subscription_setting/', views.SubscriptionSettingView.as_view(), name='subscription_setting'),
     path('osirase/', views.OsiraseView.as_view(), name='osirase'),

@@ -1,9 +1,9 @@
 from django.shortcuts import get_object_or_404, render, redirect
-from .forms import EmailForm, UsernameForm, PasswordForm, FamilyForm
+from .forms import EmailForm, UsernameForm, PasswordForm, BodyInfoUpdateForm, FamilyForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 from django.contrib import messages
-from account.models import User
+from account.models import User, Userallergy
 from .models import Familymember, Familyallergy
 import logging
 from django.utils import timezone
@@ -67,9 +67,6 @@ class AcountSettingView(TemplateView):
 
 class FamilyInfoView(TemplateView):
     template_name='kazoku/kazoku.html'
-
-class BodyInfoUpdateView(TemplateView):
-    template_name='sintai/sintai_henko.html'
 
 class NotificationSettingView(TemplateView):
     template_name='notification/notification.html'
@@ -143,21 +140,71 @@ class PasswordView(LoginRequiredMixin, TemplateView):
     def post(self, request, *args, **kwargs):
         form = PasswordForm(request.POST)
         if form.is_valid():
+            current_password = form.cleaned_data['current_password']
             new_password = form.cleaned_data['new_password']
-            
-            # パスワードの更新
-            user = request.user
-            user.password = new_password
-            user.save()
 
-            messages.success(request, 'パスワードが正常に変更されました。')
-            return redirect('cookapp:password_henko_ok')  # プロフィールページなどにリダイレクト
+            if current_password != request.user.password:
+                messages.error(request, "ログイン中のユーザーと異なるパスワードを入力しました。")
+            else:
+                # パスワードの更新
+                user = request.user
+                user.set_password(new_password)
+                user.save()
+
+                messages.success(request, 'パスワードが正常に変更されました。')
+                return redirect('cookapp:password_henko_ok')  # プロフィールページなどにリダイレクト
         
         return render(request, self.template_name, {'form': form})
 
 class PasswordOkView(TemplateView):
     template_name = 'acount/password/password_henko_ok.html'
 
+
+class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
+    template_name='sintai/sintai_henko.html'
+    def get(self, request, *args, **kwargs):
+        form = BodyInfoUpdateForm()
+        return render(request, self.template_name, {'form': form})
+    
+    def post(self, request, * args, **kwargs):
+        form = BodyInfoUpdateForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            birthdate = form.cleaned_data['birthdate']
+            gender = form.cleaned_data['gender']
+            allergies = form.cleaned_data['allergies']
+            height = form.cleaned_data['height']
+            weight = form.cleaned_data['weight']
+
+            if name != request.user.name:
+                messages.error(request, "ログイン中のユーザーと異なるユーザー名を入力しました。")
+            else:
+                user = request.user
+                user.age = birthdate
+                user.gender = gender
+                user.height = height
+                user.weight = weight
+                user.save()
+                for i in range(len(allergies)):
+                    allergy = allergies[i]
+                    try:
+                        # 既存のアレルギー情報を検索して更新する
+                        user_allergy = Userallergy.objects.get(user=user, allergy_category=allergy)
+                        user_allergy.allergy_category = allergy
+                        user_allergy.save()  # 更新を保存
+                        print(f"Updated allergy for user {user} with allergy {allergy}")
+                    except Userallergy.DoesNotExist:
+                        # レコードが見つからなかった場合の処理
+                        print(f"Allergy {allergy} for user {user} not found, skipping.")
+
+            return redirect('cookapp:body_info_ok')
+        
+        return render(request, self.template_name, {'form': form})
+        
+class BodyInfoOkView(TemplateView):
+    template_name = 'sintai/sintai_henko_ok.html'
+
+    
 class KazokuaddView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/add/kazoku_add.html'
 
