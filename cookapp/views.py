@@ -7,7 +7,6 @@ from account.models import User, Userallergy
 from .models import Familymember, Familyallergy
 import logging
 from django.utils import timezone
-from .models import Familymember
 
 logger = logging.getLogger(__name__)
 
@@ -144,7 +143,7 @@ class PasswordView(LoginRequiredMixin, TemplateView):
             current_password = form.cleaned_data['current_password']
             new_password = form.cleaned_data['new_password']
 
-            if current_password != request.user.password:
+            if not request.user.check_password(current_password):
                 messages.error(request, "ログイン中のユーザーと異なるパスワードを入力しました。")
             else:
                 # パスワードの更新
@@ -153,7 +152,7 @@ class PasswordView(LoginRequiredMixin, TemplateView):
                 user.save()
 
                 messages.success(request, 'パスワードが正常に変更されました。')
-            return redirect('cookapp:password_henko_ok')  # プロフィールページなどにリダイレクト
+                return redirect('cookapp:password_henko_ok')  # プロフィールページなどにリダイレクト
         
         return render(request, self.template_name, {'form': form})
 
