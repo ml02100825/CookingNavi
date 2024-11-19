@@ -34,7 +34,7 @@ class HomeView(TemplateView):
     #     return context
 
 class HealthMainView(TemplateView):
-    template_name='health_management_main.html'
+    template_name='health/health_management_main.html'
 
 class HealthSelectionView(TemplateView):
     template_name='health_selection.html'
