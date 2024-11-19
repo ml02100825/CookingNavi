@@ -7,7 +7,6 @@ from account.models import User, Userallergy
 from .models import Familymember, Familyallergy
 import logging
 from django.utils import timezone
-from .models import Familymember
 
 logger = logging.getLogger(__name__)
 
@@ -35,7 +34,7 @@ class HomeView(TemplateView):
     #     return context
 
 class HealthMainView(TemplateView):
-    template_name='health_management_main.html'
+    template_name='health/health_management_main.html'
 
 class HealthSelectionView(TemplateView):
     template_name='health_selection.html'
@@ -144,7 +143,7 @@ class PasswordView(LoginRequiredMixin, TemplateView):
             current_password = form.cleaned_data['current_password']
             new_password = form.cleaned_data['new_password']
 
-            if current_password != request.user.password:
+            if not request.user.check_password(current_password):
                 messages.error(request, "ログイン中のユーザーと異なるパスワードを入力しました。")
             else:
                 # パスワードの更新
