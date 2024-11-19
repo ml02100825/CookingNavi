@@ -58,10 +58,14 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "cookingnavi.urls"
 
+import os
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            os.path.join(BASE_DIR, 'cookapp/templates'),  # cookappのtemplatesディレクトリを追加
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -73,6 +77,8 @@ TEMPLATES = [
         },
     },
 ]
+
+
 
 WSGI_APPLICATION = "cookingnavi.wsgi.application"
 
@@ -170,6 +176,6 @@ else:
         filemode = 'a'
     )
     
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), )
 AUTH_USER_MODEL = 'account.User'
