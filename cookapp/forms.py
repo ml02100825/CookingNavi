@@ -56,7 +56,6 @@ class PasswordForm(forms.Form):
         
         return cleaned_data
     
-
 class FamilyForm(forms.Form):
     family_name = forms.CharField(label='名前', max_length=20)
     family_age = forms.CharField(label='年齢', max_length=3)
@@ -66,3 +65,13 @@ class FamilyForm(forms.Form):
     )
     family_height = forms.FloatField(label='身長')
     family_weight = forms.FloatField(label='体重')
+
+    # アレルギー情報（アレルギー名ではなくIDで処理）
+    allergy_id = forms.ChoiceField(
+        label='アレルギー',
+        choices=[
+            ('18', 'エビ'),  # 18 = エビ
+            ('1', '小麦'),  # 1 = 小麦
+        ],
+        required=False  # オプショナル
+    )
