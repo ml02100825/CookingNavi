@@ -61,13 +61,8 @@ class Familymember(models.Model):
 
 class Familyallergy(models.Model):
     family_allergy_id = models.AutoField(verbose_name='家族アレルギーID', db_column='FamilyAllergyID', primary_key=True)
-<<<<<<< HEAD
     allergy_id = models.IntegerField(verbose_name='アレルギーID', db_column='Allergy_ID', max_length=3)
     family_id = models.CharField(verbose_name='家族ID', db_column='Family_ID', max_length=3)
-=======
-    allerg_id = models.CharField(verbose_name='アレルギーID', db_column='Allergy_ID', max_length=3)
-    family_id = models.CharField(verbose_name='家族ID', db_column='Family_ID',max_length=50)
->>>>>>> 77bfebe53e2e59f52aa64ad02fbc9bb7f8bfd9e8
     class Meta:
         managed = False
         db_table = 'familyallergy'
