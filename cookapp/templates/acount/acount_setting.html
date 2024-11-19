@@ -1,40 +1,45 @@
-{% extends '../baseuser.html' %}
-
-{% block title %}家族情報{% endblock %}
-
-{% block content %}
-<main>
-    <header class="header">
-        <div class="app-name">クッキングnavi</div>
-        <div class="nav-right">
-            <div class="nav-links">
-                <a href="#" class="home-link">ホーム</a>
-                <a href="#">ログアウト</a>
-            </div>
-            <div class="user-icon"></div>
+<!-- アカウント設定 -->
+ 
+ 
+<header class="header">
+    <div class="app-name">クッキングnavi</div>
+    <div class="nav-right">
+        <div class="nav-links">
+        <div>
+            <a href="#">ホーム</a>
+            <a href="#">ログアウト</a>
         </div>
-
-        <div class="family-section">
-            <h3>家族一覧</h3>
-
-            <!-- 家族メンバーが存在する場合に表示 -->
-            {% if family_members %}
-                {% for member in family_members %}
-                    <div class="family-member">
-                        <p>名前: {{ member.family_name }}</p>
-                        <button type="button">家族情報確認</button>
-                        <a href="{% url 'cookapp:kazoku_henko' %}" ><button type="button">家族情報変更</button></a>
-                        <a href="{% url 'cookapp:kazoku_add' %}" ><button type="button">家族情報追加</button></a>
-                    </div>
-                {% endfor %}
-
+        <div>👤</div>
+    </div>
+</header>
+{% if user.is_authenticated %}
+<p>こんにちは、{{ user.name }}さん！</p>
+{% else %}
+<p>ログインしていません</p>
+{% endif %}
+    <div>
+        <p>Session ID: {{ request.session.session_key }}</p>
+        <h2>アカウント設定</h2>
+       
+        <div>
+            <label>ユーザー名 ：</label>
+            <p>{{ user.name}}</p>
+            <a href="{% url 'cookapp:username' %}" ><button>変更</button></a>
         </div>
-    </header>
+       
+        <div>
+            <label>メールアドレス：</label>
+            <p>{{ user.email}}</p>
+            <a href="{% url 'cookapp:email' %}" ><button>変更</button></a>
+        </div>
+       
+        <div>
+            <label>パスワード：</label>
+            <span>XXXXXXXXX</span>
+            <a href="{% url 'cookapp:password' %}" ><button>変更</button></a>
+        </div>
+    </div>
+</div>
+
+
 </main>
-{% endblock %}
-
-{% block footer %}
-    <footer class="footer">
-        <p>&copy; 2024 クッキングnavi.</p>
-    </footer>
-{% endblock %}
