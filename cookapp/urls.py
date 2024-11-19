@@ -12,6 +12,7 @@ urlpatterns = [
     path('acount_setting/', views.AcountSettingView.as_view(), name='acount_setting'),
     path('family_info/', views.FamilyInfoView.as_view(), name='family_info'),
     path('body_info_update/', views.BodyInfoUpdateView.as_view(), name='body_info_update'),
+    path('body_info_ok/', views.BodyInfoOkView.as_view(), name='body_info_ok'),
     path('notification_setting/', views.NotificationSettingView.as_view(), name='notification_setting'),
     path('subscription_setting/', views.SubscriptionSettingView.as_view(), name='subscription_setting'),
     path('osirase/', views.OsiraseView.as_view(), name='osirase'),
@@ -23,5 +24,6 @@ urlpatterns = [
     path('password/', views.PasswordView.as_view(), name='password'),
     path('password_henko_ok/', views.PasswordOkView.as_view(), name='password_henko_ok'),
     path('kazoku_add/', views.KazokuaddView.as_view(), name='kazoku_add'),
-    path('kazoku_add_ok/', views.KazokuaddOkView.as_view(), name='kazoku_add_ok')
+    path('kazoku_add_ok/', views.KazokuaddOkView.as_view(), name='kazoku_add_ok'),
+    path('kazoku_henko/', views.KazokuHenkoView.as_view(), name='kazoku_henko'),
 ]

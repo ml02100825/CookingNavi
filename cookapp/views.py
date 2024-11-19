@@ -1,11 +1,13 @@
-from django.shortcuts import render, redirect
-from .forms import EmailForm, UsernameForm, PasswordForm, FamilyForm
+from django.shortcuts import get_object_or_404, render, redirect
+from .forms import EmailForm, UsernameForm, PasswordForm, BodyInfoUpdateForm, FamilyForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 from django.contrib import messages
-from account.models import User
-from .models import Familymember
+from account.models import User, Userallergy
+from .models import Familymember, Familyallergy
 import logging
+from django.utils import timezone
+from .models import Familymember
 
 logger = logging.getLogger(__name__)
 
@@ -66,9 +68,6 @@ class AcountSettingView(TemplateView):
 
 class FamilyInfoView(TemplateView):
     template_name='kazoku/kazoku.html'
-
-class BodyInfoUpdateView(TemplateView):
-    template_name='sintai/sintai_henko.html'
 
 class NotificationSettingView(TemplateView):
     template_name='notification/notification.html'
@@ -142,58 +141,119 @@ class PasswordView(LoginRequiredMixin, TemplateView):
     def post(self, request, *args, **kwargs):
         form = PasswordForm(request.POST)
         if form.is_valid():
+            current_password = form.cleaned_data['current_password']
             new_password = form.cleaned_data['new_password']
-            
-            # パスワードの更新
-            user = request.user
-            user.password = new_password
-            user.save()
 
-            messages.success(request, 'パスワードが正常に変更されました。')
-            return redirect('cookapp:password_henko_ok')  # プロフィールページなどにリダイレクト
+            if current_password != request.user.password:
+                messages.error(request, "ログイン中のユーザーと異なるパスワードを入力しました。")
+            else:
+                # パスワードの更新
+                user = request.user
+                user.set_password(new_password)
+                user.save()
+
+                messages.success(request, 'パスワードが正常に変更されました。')
+                return redirect('cookapp:password_henko_ok')  # プロフィールページなどにリダイレクト
         
         return render(request, self.template_name, {'form': form})
 
 class PasswordOkView(TemplateView):
     template_name = 'acount/password/password_henko_ok.html'
 
+
+class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
+    template_name='sintai/sintai_henko.html'
+    def get(self, request, *args, **kwargs):
+        form = BodyInfoUpdateForm()
+        return render(request, self.template_name, {'form': form})
+    
+    def post(self, request, * args, **kwargs):
+        form = BodyInfoUpdateForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            birthdate = form.cleaned_data['birthdate']
+            gender = form.cleaned_data['gender']
+            allergies = form.cleaned_data['allergies']
+            height = form.cleaned_data['height']
+            weight = form.cleaned_data['weight']
+
+            if name != request.user.name:
+                messages.error(request, "ログイン中のユーザーと異なるユーザー名を入力しました。")
+            else:
+                user = request.user
+                user.age = birthdate
+                user.gender = gender
+                user.height = height
+                user.weight = weight
+                user.save()
+                
+                # 既存のアレルギー情報を削除して、新しい情報を追加
+                user_allergies = Userallergy.objects.filter(user=user)
+                user_allergies.delete()  # 現在のアレルギー情報を削除
+
+                # 新しいアレルギー情報を追加
+                for allergy in allergies:
+                    Userallergy.objects.create(user=user, allergy_category=allergy)
+                    print(f"Added new allergy {allergy} for user {user}")
+
+            return redirect('cookapp:body_info_ok')
+        
+        return render(request, self.template_name, {'form': form})
+        
+class BodyInfoOkView(TemplateView):
+    template_name = 'sintai/sintai_henko_ok.html'
+
+    
 class KazokuaddView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/add/kazoku_add.html'
 
     def get(self, request, *args, **kwargs):
-        form = FamilyForm()  # 新しいフォームを作成
+        form = FamilyForm()
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
         form = FamilyForm(request.POST)
         if form.is_valid():
-            # フォームからデータを取得
+            # フォームデータを取得
             family_name = form.cleaned_data['family_name']
-            family_age = form.cleaned_data['family_age']
+            birth_date = form.cleaned_data['birth_date']
             family_gender = form.cleaned_data['family_gender']
             family_height = form.cleaned_data['family_height']
             family_weight = form.cleaned_data['family_weight']
+            allergy_id = form.cleaned_data.get('allergy_id')  # 選択されたアレルギーIDを取得
+
+            # 生年月日から年齢を計算
+            family_age = form.calculate_age()
 
             # 家族情報を登録
-            family_member = Familymember(
+            family_member = Familymember.objects.create(
                 family_name=family_name,
-                family_age=family_age,
+                family_age=family_age,  # 計算した年齢を登録
                 family_gender=family_gender,
                 family_height=family_height,
                 family_weight=family_weight,
-                user=request.user
+                user=request.user._wrapped if hasattr(request.user, '_wrapped') else request.user  # SimpleLazyObject を解決
             )
-            family_member.save()  # save()を使ってデータベースに保存
 
-            # メッセージを表示
-            messages.success(request, '家族情報が正常に追加されました。')
+            # 家族アレルギー情報を登録（アレルギーIDが選択されている場合）
+            if allergy_id:  # アレルギーが選択されている場合のみ登録
+                Familyallergy.objects.create(
+                    family_id=family_member.family_id,  # 追加した family_member の ID を使用
+                    allergy_id=allergy_id
+                )
 
-            # 成功後のリダイレクト
-            return redirect('cookapp:kazoku_add_ok')  # 成功時のリダイレクトURL
+            # メッセージ表示
+            messages.success(request, '家族情報が正常に登録されました。')
 
-        # フォームが無効な場合、そのままフォームを表示
+            # 登録完了後のリダイレクト
+            return redirect('cookapp:kazoku_add_ok')
+
+        # フォームが無効な場合
         return render(request, self.template_name, {'form': form})
     
 class KazokuaddOkView(TemplateView):
-    template_name = 'cookapp/templates/kazoku/add/kazoku_add_ok.html'
+    template_name = 'kazoku/add/kazoku_add_ok.html'
+
+class KazokuHenkoView(LoginRequiredMixin, TemplateView):
+    template_name = 'kazoku/henko/kazoku_henko.html'
     
