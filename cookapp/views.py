@@ -1,10 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from .forms import EmailForm, UsernameForm, PasswordForm, BodyInfoUpdateForm, FamilyForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 from django.contrib import messages
 from account.models import User, Userallergy
-from .models import Familymember
+from .models import Familymember, Familyallergy
 import logging
 
 logger = logging.getLogger(__name__)
@@ -208,39 +208,46 @@ class KazokuaddView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/add/kazoku_add.html'
 
     def get(self, request, *args, **kwargs):
-        form = FamilyForm()  # 新しいフォームを作成
+        form = FamilyForm()
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
         form = FamilyForm(request.POST)
         if form.is_valid():
-            # フォームからデータを取得
+            # フォームデータを取得
             family_name = form.cleaned_data['family_name']
             family_age = form.cleaned_data['family_age']
             family_gender = form.cleaned_data['family_gender']
             family_height = form.cleaned_data['family_height']
             family_weight = form.cleaned_data['family_weight']
+            allergy_id = form.cleaned_data.get('allergy_id')  # 選択されたアレルギーIDを取得
 
             # 家族情報を登録
-            family_member = Familymember(
+            family_member = Familymember.objects.create(
                 family_name=family_name,
                 family_age=family_age,
                 family_gender=family_gender,
                 family_height=family_height,
                 family_weight=family_weight,
-                user=request.user
+                user=request.user._wrapped if hasattr(request.user, '_wrapped') else request.user  # SimpleLazyObject を解決
             )
-            family_member.save()  # save()を使ってデータベースに保存
 
-            # メッセージを表示
-            messages.success(request, '家族情報が正常に追加されました。')
+            # 家族アレルギー情報を登録（アレルギーIDが選択されている場合）
+            if allergy_id:  # アレルギーが選択されている場合のみ登録
+                Familyallergy.objects.create(
+                    family_id=family_member.family_id,  # 追加した family_member の ID を使用
+                    allergy_id=allergy_id
+                )
 
-            # 成功後のリダイレクト
-            return redirect('cookapp:kazoku_add_ok')  # 成功時のリダイレクトURL
+            # メッセージ表示
+            messages.success(request, '家族情報が正常に登録されました。')
 
-        # フォームが無効な場合、そのままフォームを表示
+            # 登録完了後のリダイレクト
+            return redirect('cookapp:kazoku_add_ok')
+
+        # フォームが無効な場合
         return render(request, self.template_name, {'form': form})
     
 class KazokuaddOkView(TemplateView):
-    template_name = 'cookapp/templates/kazoku/add/kazoku_add_ok.html'
+    template_name = 'kazoku/add/kazoku_add_ok.html'
     
