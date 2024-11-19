@@ -7,6 +7,7 @@ from account.models import User, Userallergy
 from .models import Familymember, Familyallergy
 import logging
 from django.utils import timezone
+from .models import Familymember
 
 logger = logging.getLogger(__name__)
 
@@ -248,4 +249,7 @@ class KazokuaddView(LoginRequiredMixin, TemplateView):
     
 class KazokuaddOkView(TemplateView):
     template_name = 'kazoku/add/kazoku_add_ok.html'
+
+class KazokuHenkoView(LoginRequiredMixin, TemplateView):
+    template_name = 'kazoku/henko/kazoku_henko.html'
     

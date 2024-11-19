@@ -19,9 +19,9 @@
         <div class="family-section">
             <h3>家族一覧</h3>
             <div class="family-member">
-                <p>名前: </p>
+                <p>名前: {{ member.family_name }}</p>
                 <button type="button">家族情報確認</button>
-                <button type="button">家族情報変更</button>
+                <a href="{% url 'cookapp:kazoku_henko' %}" ><button type="button">家族情報変更</button></a>
                 <a href="{% url 'cookapp:kazoku_add' %}" ><button type="button">家族情報追加</button></a>
             </div>
         </div>
@@ -35,4 +35,4 @@
     <footer class="footer">
         <p>&copy; 2024 クッキングnavi.</p>
     </footer>
-{% endblock %}
+{% endblock %}s
