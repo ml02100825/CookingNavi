@@ -186,17 +186,15 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
                 user.height = height
                 user.weight = weight
                 user.save()
-                for i in range(len(allergies)):
-                    allergy = allergies[i]
-                    try:
-                        # 既存のアレルギー情報を検索して更新する
-                        user_allergy = Userallergy.objects.get(user=user, allergy_category=allergy)
-                        user_allergy.allergy_category = allergy
-                        user_allergy.save()  # 更新を保存
-                        print(f"Updated allergy for user {user} with allergy {allergy}")
-                    except Userallergy.DoesNotExist:
-                        # レコードが見つからなかった場合の処理
-                        print(f"Allergy {allergy} for user {user} not found, skipping.")
+                
+                # 既存のアレルギー情報を削除して、新しい情報を追加
+                user_allergies = Userallergy.objects.filter(user=user)
+                user_allergies.delete()  # 現在のアレルギー情報を削除
+
+                # 新しいアレルギー情報を追加
+                for allergy in allergies:
+                    Userallergy.objects.create(user=user, allergy_category=allergy)
+                    print(f"Added new allergy {allergy} for user {user}")
 
             return redirect('cookapp:body_info_ok')
         
