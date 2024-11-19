@@ -17,17 +17,6 @@ body {
     min-height: 100vh; /* ビューポートの高さを最低限確保 */
 }
 
-/* ヘッダー */
-.header {
-    background-color: #ff6b6b; /* 背景色を赤系に */
-    color: white; /* 文字色を白に */
-    padding: 15px; /* パディングを設定 */
-    width: 100%; /* 幅を全体に */
-    display: flex; /* フレックスボックス */
-    align-items: center; /* 縦方向中央揃え */
-    justify-content: space-between; /* 子要素を左右に配置 */
-}
-
 .app-name {
     font-size: 1.5em; /* フォントサイズを大きく */
     font-weight: bold; /* 太字 */
@@ -165,16 +154,4 @@ body {
 
 .back-button:hover {
     background-color: #e63946; /* ホバー時の色 */
-}
-
-/* フッター */
-.footer {
-    background-color: #333; /* 背景色を濃いグレーに */
-    color: #fff; /* 文字色を白に */
-    text-align: center; /* テキストを中央揃え */
-    padding: 10px; /* 内側の余白 */
-    font-size: 0.9em; /* フォントサイズを少し小さく */
-    width: 100%; /* フッターを画面幅に合わせる */
-    position: fixed; /* フッターを画面下部に固定 */
-    bottom: 0; /* フッターを下に配置 */
 }

@@ -11,18 +11,6 @@ body {
     background-color: #f9f9f9; /* 背景色をライトグレーに設定 */
 }
 
-/* ヘッダー */
-.header {
-    display: flex; /* Flexboxでレイアウト */
-    justify-content: space-between; /* 両端に要素を配置 */
-    align-items: center; /* 要素を上下中央揃え */
-    background-color: #5865f2; /* ヘッダーの背景色 */
-    color: white; /* ヘッダーの文字色 */
-    padding: 15px 20px; /* ヘッダーの内側の余白 */
-    width: 100%; /* ヘッダーを画面全幅に広げる */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 影をつけて立体感を出す */
-}
-
 .app-name {
     font-size: 1.5em; /* アプリ名のフォントサイズ */
     font-weight: bold; /* アプリ名を太字にする */
@@ -95,8 +83,4 @@ button.register:hover {
     width: 100%; /* フッターを画面全幅に広げる */
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1); /* フッターの影 */
     margin-top: 30px; /* 上に間隔を追加 */
-}
-
-.footer p {
-    margin: 0; /* 上下の余白をゼロにする */
 }

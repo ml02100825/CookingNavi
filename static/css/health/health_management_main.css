@@ -10,17 +10,6 @@ body {
     align-items: center; /* 子要素を水平中央に配置 */
 }
 
-/* ヘッダーのスタイル */
-.header {
-    display: flex; /* フレックスボックスで子要素を並べる */
-    justify-content: space-between; /* 子要素を両端に配置 */
-    align-items: center; /* 子要素を垂直中央に配置 */
-    background-color: #f8f8f8; /* ヘッダーの背景色 */
-    padding: 10px 20px; /* ヘッダーの内側の余白 */
-    width: 100%; /* ヘッダーを画面いっぱいに広げる */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 影を追加して立体感を出す */
-}
-
 /* アプリ名のスタイル */
 .app-name {
     font-size: 1.5em; /* フォントサイズ */
@@ -100,14 +89,4 @@ body {
 
 .back-button:hover {
     background-color: #4752c4; /* ホバー時の背景色 */
-}
-
-/* フッター */
-.footer {
-    background-color: #f8f8f8; /* フッターの背景色 */
-    color: #333; /* フッターのテキストカラー */
-    padding: 10px; /* フッター内の余白 */
-    text-align: center; /* テキストを中央揃え */
-    width: 100%; /* フッターを画面いっぱいに広げる */
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1); /* 上側に影をつける */
 }

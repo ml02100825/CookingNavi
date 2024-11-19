@@ -16,16 +16,6 @@ body {
     min-height: 100vh; /* ページ全体の高さを設定 */
 }
 
-/* ヘッダー */
-.header {
-    background-color: #ff6b6b; /* 背景色を赤系に設定 */
-    color: white; /* ヘッダーテキストの色を白に設定 */
-    padding: 15px; /* ヘッダー内の余白を追加 */
-    display: flex;
-    align-items: center; /* 中央揃え */
-    justify-content: space-between; /* 左右に要素を配置 */
-}
-
 .app-name {
     font-size: 1.5em; /* アプリ名を目立たせる */
     font-weight: bold; /* アプリ名を強調 */
@@ -88,14 +78,4 @@ main {
 
 .login-complete-container .btn:hover {
     background-color: #e63946; /* ホバー時にボタン色を濃い赤に */
-}
-
-/* フッター */
-.footer {
-    background-color: #333; /* フッター背景色をダークグレーに */
-    color: white; /* フッターテキストを白に */
-    text-align: center; /* 中央揃え */
-    padding: 10px; /* フッターの内側余白 */
-    font-size: 0.9em; /* テキストサイズを小さく調整 */
-    margin-top: auto; /* フッターを画面下部に配置 */
 }

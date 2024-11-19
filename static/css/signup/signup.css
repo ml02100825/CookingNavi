@@ -8,17 +8,6 @@ body {
     background-color: #f4f4f9; /* 背景色を淡いグレーに設定 */
 }
 
-/* ヘッダーのスタイル */
-.header {
-    background-color: rgba(173, 216, 230, 0.5); /* さらに薄い水色 */
-    color: #333;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 少し影を追加 */
-}
-
 .app-name {
     font-weight: bold; /* アプリ名を太字に */
 }
