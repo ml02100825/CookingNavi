@@ -8,6 +8,7 @@ from .models import Familymember, Familyallergy
 import logging
 from django.utils import timezone
 
+
 logger = logging.getLogger(__name__)
 
 class IndexView(TemplateView):
@@ -39,6 +40,9 @@ class HealthMainView(TemplateView):
 class HealthSelectionView(TemplateView):
     template_name='health/health_selection.html'
 
+class HealthSelectionComplateView(TemplateView):
+    template_name='health/health_selectioncomplate.html'
+
 class SettingView(TemplateView):
     template_name='setting/setting.html'
     
@@ -65,14 +69,59 @@ class AcountSettingView(TemplateView):
         return context
     template_name='acount/acount_setting.html'
 
-class FamilyInfoView(TemplateView):
-    template_name='kazoku/kazoku.html'
 
 class NotificationSettingView(TemplateView):
     template_name='notification/notification.html'
 
+
 class SubscriptionSettingView(TemplateView):
     template_name='sabusuku/setting/sabusuku_setting.html'
+
+class SubscriptionLoginView(TemplateView):
+    template_name='sabusuku/touroku/sabusuku_login.html'
+
+class SubscriptionLoginOkView(LoginRequiredMixin, TemplateView):
+    template_name='sabusuku/touroku/sabusuku_login_ok.html'
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        # サブスク登録処理
+        if user.subscribeflag:
+            # subscribeflag が True の場合（入会済み）
+            messages.warning(request, 'すでに入会済みです。')
+            return redirect('cookapp:subscription_login')
+        else:
+            # subscribeflag が False の場合（未入会）
+            user.subscribeflag = True  # サブスクフラグをTrueに設定
+            user.subjoin = timezone.now().date()  # 入会日を現在の日付に設定
+            user.save()
+
+            # サブスク登録完了ページに遷移
+            return render(request, self.template_name)
+
+    
+class SubscriptionKaiyakuView(TemplateView):
+    template_name='sabusuku/kaiyaku/sabusuku_kaiyaku.html'
+
+class SubscriptionKaiyakuOkView(LoginRequiredMixin, TemplateView):
+    template_name='sabusuku/kaiyaku/sabusuku_kaiyaku_ok.html'
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        # サブスク退会処理
+        if user.subscribeflag:
+            # subscribeflag が True の場合（入会済み）
+            user.subscribeflag = False  # サブスクフラグをFalseに戻す
+            user.unsub = timezone.now().date()  # 退会日を現在の日付に設定
+            user.save()
+
+            # サブスク解約完了ページに遷移
+            return render(request, self.template_name)
+        else:
+            # subscribeflag が False の場合（未入会）
+            messages.warning(request, '未入会です。')
+            return redirect('cookapp:subscription_kaiyaku')
+
 
 class OsiraseView(TemplateView):
     template_name='osirase/osirase.html'
@@ -81,7 +130,7 @@ class QuestionsView(TemplateView):
     template_name='questions/questions.html'
 
 
-class UsernameView(TemplateView):
+class UsernameView(LoginRequiredMixin, TemplateView):
     template_name = 'acount/name/username_henko.html'
     def get(self, request, *args, **kwargs):
         form = UsernameForm()
@@ -204,6 +253,23 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
 class BodyInfoOkView(TemplateView):
     template_name = 'sintai/sintai_henko_ok.html'
 
+class FamilyInfoView(LoginRequiredMixin, TemplateView):
+    template_name = 'kazoku/kazoku.html'
+
+    def get(self, request, *args, **kwargs):
+        # ログインユーザーに関連する家族情報を取得
+        family_members = Familymember.objects.filter(user=request.user)
+
+        # family_name を明示的に取り出して渡す
+        family_names = [member.family_name for member in family_members]
+        
+        # コンテキストに家族情報を追加
+        context = {
+            'family_members': family_names,  # family_names をテンプレートに渡す
+        }
+
+        return render(request, self.template_name, context)
+
     
 class KazokuaddView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/add/kazoku_add.html'
@@ -211,10 +277,7 @@ class KazokuaddView(LoginRequiredMixin, TemplateView):
     # views.py
     def get(self, request, *args, **kwargs):
         form = FamilyForm()
-        family_members = Familymember.objects.filter(user=request.user)
-        # family_name を明示的に取り出して渡す
-        family_names = [member.family_name for member in family_members]
-        return render(request, self.template_name, {'form': form, 'family_names': family_names})
+        return render(request, self.template_name, {'form': form,})
 
     def post(self, request, *args, **kwargs):
         form = FamilyForm(request.POST)
@@ -262,3 +325,5 @@ class KazokuaddOkView(TemplateView):
 class KazokuHenkoView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/henko/kazoku_henko.html'
     
+class DietaryHistoryView(LoginRequiredMixin, TemplateView):
+    template_name = 'shokujirireki/dietaryhistory.html'

@@ -1,60 +1,44 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>食事履歴</title>
-   
-</head>
-<body>
+{% extends 'baseuser.html' %}
+{% load static %}
 
-    <div class="header">
-        <div class="logo">クッキングnavi</div>
-        <div>
-            <a href="#">ホーム</a> | <a href="#">ログアウト</a>
-        </div>
-    </div>
+{% block title %}健康管理{% endblock %}
 
-    <div class="content">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>朝</th>
-                    <th>昼</th>
-                    <th>晩</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td rowspan="2" class="date-cell">
-                        <button class="date-button">10月24日</button>
-                    </td>
-                    <td><button class="meal-button" onclick="location.href='curry.html'">カレー</button></td>
-                    <td><button class="meal-button" onclick="location.href='nikujaga.html'">肉じゃが</button></td>
-                    <td><button class="meal-button" onclick="location.href='hayashi.html'">ハヤシライス</button></td>
-                </tr>
-                <tr>
-                    <td rowspan="2" class="date-cell">
-                        <button class="date-button">10月23日</button>
-                    </td>
-                    <td><button class="meal-button" onclick="location.href='bread.html'">パン</button></td>
-                    <td><button class="meal-button" onclick="location.href='rice.html'">ごはん</button></td>
-                    <td><button class="meal-button" onclick="location.href='spaghetti.html'">スパゲッティ</button></td>
-                </tr>
-                <tr>
-                    <td rowspan="2" class="date-cell">
-                        <button class="date-button">10月22日</button>
-                    </td>
-                    <td><button class="meal-button" onclick="location.href='korokke.html'">コロッケ</button></td>
-                    <td><button class="meal-button" onclick="location.href='bread.html'">パン</button></td>
-                    <td><button class="meal-button" onclick="location.href='meat.html'">肉</button></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="footer">
-        Copyright © 2024 Website. All rights reserved.
-    </div>
-
-</body>
-</html>
+{% block content %}
+<div class="content">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>朝</th>
+                <th>昼</th>
+                <th>晩</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td rowspan="2" class="date-cell">
+                    <button class="date-button">10月24日</button>
+                </td>
+                <td><button class="meal-button">カレー</button></td>
+                <td><button class="meal-button">肉じゃが</button></td>
+                <td><button class="meal-button">ハヤシライス</button></td>
+            </tr>
+            <tr>
+                <td rowspan="2" class="date-cell">
+                    <button class="date-button">10月23日</button>
+                </td>
+                <td><button class="meal-button">パン</button></td>
+                <td><button class="meal-button">ごはん</button></td>
+                <td><button class="meal-button">スパゲッティ</button></td>
+            </tr>
+            <tr>
+                <td rowspan="2" class="date-cell">
+                    <button class="date-button">10月22日</button>
+                </td>
+                <td><button class="meal-button">コロッケ</button></td>
+                <td><button class="meal-button">パン</button></td>
+                <td><button class="meal-button">肉</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

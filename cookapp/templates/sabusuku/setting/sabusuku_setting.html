@@ -25,12 +25,12 @@
 
     <!-- サブスク登録ボタン -->
     <div class="subscription-button">
-        <button onclick="subscribe()">サブスクリプション登録</button>
+        <a href="{% url 'cookapp:subscription_login' %}" ><button>サブスクリプション登録</button></a>
     </div>
 
     <!-- アカウント作成ボタン -->
     <div class="create-account">
-        <button onclick="redirectToSignup()">アカウントを作っていない方はこちら</button>
+        <a href="{% url 'account:signup1' %}" ><button>アカウントを作っていない方はこちら</button></a>
     </div>
 </div>
 
