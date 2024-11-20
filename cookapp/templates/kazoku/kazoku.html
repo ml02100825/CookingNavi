@@ -3,9 +3,7 @@
 {% block title %}家族情報{% endblock %}
 
 {% block content %}
-<!-- メインコンテンツ -->
 <main>
-    <!-- ヘッダー -->
     <header class="header">
         <div class="app-name">クッキングnavi</div>
         <div class="nav-right">
@@ -16,7 +14,6 @@
             <div class="user-icon"></div>
         </div>
 
-        <!-- 家族一覧項目と名前を追加 -->
         <div class="family-section">
             <h3>家族一覧</h3>
 
@@ -24,12 +21,11 @@
             {% if family_members %}
                 {% for member in family_members %}
                     <div class="family-member">
-                        <p>名前: {{ member.family_name }}</p>
+                        <p>名前: {{ member }}</p>
                     </div>
                 {% endfor %}
             {% endif %}
             
-            <!-- 家族メンバーがいない場合もボタンは表示 -->
             <button type="button">家族情報確認</button>
             <a href="{% url 'cookapp:kazoku_henko' %}"><button type="button">家族情報変更</button></a>
             <a href="{% url 'cookapp:kazoku_add' %}"><button type="button">家族情報追加</button></a>
@@ -40,8 +36,7 @@
 {% endblock %}
 
 {% block footer %}
-    <!-- フッター -->
-    <footer class="footer">
-        <p>&copy; 2024 クッキングnavi.</p>
-    </footer>
+<footer class="footer">
+    <p>&copy; 2024 クッキングnavi.</p>
+</footer>
 {% endblock %}

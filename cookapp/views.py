@@ -66,22 +66,6 @@ class AcountSettingView(TemplateView):
         return context
     template_name='acount/acount_setting.html'
 
-class FamilyInfoView(LoginRequiredMixin, TemplateView):
-    template_name = 'kazoku/kazoku.html'
-
-    def get(self, request, *args, **kwargs):
-        # ログインユーザーに関連する家族情報を取得
-        family_members = Familymember.objects.filter(user=request.user)
-
-        # family_name を明示的に取り出して渡す
-        family_names = [member.family_name for member in family_members]
-        
-        # コンテキストに家族情報を追加
-        context = {
-            'family_members': family_names,  # family_names をテンプレートに渡す
-        }
-
-        return render(request, self.template_name, context)
 
 class NotificationSettingView(TemplateView):
     template_name='notification/notification.html'
@@ -219,6 +203,23 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
 class BodyInfoOkView(TemplateView):
     template_name = 'sintai/sintai_henko_ok.html'
 
+class FamilyInfoView(LoginRequiredMixin, TemplateView):
+    template_name = 'kazoku/kazoku.html'
+
+    def get(self, request, *args, **kwargs):
+        # ログインユーザーに関連する家族情報を取得
+        family_members = Familymember.objects.filter(user=request.user)
+
+        # family_name を明示的に取り出して渡す
+        family_names = [member.family_name for member in family_members]
+        
+        # コンテキストに家族情報を追加
+        context = {
+            'family_members': family_names,  # family_names をテンプレートに渡す
+        }
+
+        return render(request, self.template_name, context)
+
     
 class KazokuaddView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/add/kazoku_add.html'
@@ -226,10 +227,7 @@ class KazokuaddView(LoginRequiredMixin, TemplateView):
     # views.py
     def get(self, request, *args, **kwargs):
         form = FamilyForm()
-        family_members = Familymember.objects.filter(user=request.user)
-        # family_name を明示的に取り出して渡す
-        family_names = [member.family_name for member in family_members]
-        return render(request, self.template_name, {'form': form, 'family_names': family_names})
+        return render(request, self.template_name, {'form': form,})
 
     def post(self, request, *args, **kwargs):
         form = FamilyForm(request.POST)
