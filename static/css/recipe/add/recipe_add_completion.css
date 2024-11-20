@@ -11,18 +11,6 @@ body {
     align-items: center; /* 中央揃え */
 }
 
-/* ヘッダー */
-.header {
-    display: flex; /* フレックスボックスで横並び */
-    justify-content: space-between; /* 両端に配置 */
-    align-items: center; /* 垂直方向に中央揃え */
-    background-color: #5865f2; /* 背景色を青紫色に設定 */
-    color: white; /* 文字色を白に設定 */
-    padding: 15px 20px; /* パディングを上下15px、左右20px */
-    width: 100%; /* 幅を100%に設定 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 下に影をつけて浮き上がる効果 */
-}
-
 .app-name {
     font-size: 1.5em; /* フォントサイズを1.5倍に設定 */
     font-weight: bold; /* 太字に設定 */
@@ -84,15 +72,4 @@ body {
 
 .login-complete-container .btn:hover {
     background-color: #0056b3; /* ホバー時に背景色を暗くする */
-}
-
-/* フッター */
-.footer {
-    background-color: #5865f2; /* 背景色を青紫色に設定 */
-    color: white; /* 文字色を白に設定 */
-    padding: 15px; /* 内部に15pxの余白を追加 */
-    text-align: center; /* 中央揃え */
-    width: 100%; /* 幅を100%に設定 */
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1); /* 上部に影をつける */
-    margin-top: 30px; /* 上部に30pxの余白を追加 */
 }

@@ -16,17 +16,6 @@ body {
     min-height: 100vh; /* ビューポート全体をカバーする高さ */
 }
 
-/* ヘッダー */
-.header {
-    background-color: #ff6b6b; /* ヘッダーの背景色を赤に */
-    color: white;
-    padding: 15px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
 .app-name {
     font-size: 1.5em;
     font-weight: bold;
@@ -84,14 +73,4 @@ main {
 
 .btn:hover {
     background-color: #e63946; /* ホバー時の色を少し濃くする */
-}
-
-/* フッター */
-.footer {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 10px;
-    font-size: 0.9em;
-    width: 100%;
 }

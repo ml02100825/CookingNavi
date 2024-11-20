@@ -1,113 +1,72 @@
-/* 主菜選択 */
+/* health_management_main.css */
 
-/* ページ全体のスタイル */
+/* General reset */
 body {
-    font-family: Arial, sans-serif; /* フォントの設定 */
-    margin: 0; /* ページの外側の余白を削除 */
-    padding: 0; /* ページの内側の余白を削除 */
-    display: flex; /* 子要素をフレックスボックスで整列 */
-    flex-direction: column; /* 子要素を縦方向に並べる */
-    align-items: center; /* 子要素を水平中央に配置 */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
 }
 
-/* ヘッダーのスタイル */
-.header {
-    display: flex; /* フレックスボックスで子要素を並べる */
-    justify-content: space-between; /* 子要素を両端に配置 */
-    align-items: center; /* 子要素を垂直中央に配置 */
-    background-color: #f8f8f8; /* ヘッダーの背景色 */
-    padding: 10px 20px; /* ヘッダーの内側の余白 */
-    width: 100%; /* ヘッダーを画面いっぱいに広げる */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 影を追加して立体感を出す */
+/* Header */
+h1 {
+    text-align: center;
+    font-size: 2em;
+    margin: 20px 0;
+    color: #4CAF50;
 }
 
-/* アプリ名のスタイル */
-.app-name {
-    font-size: 1.5em; /* フォントサイズ */
-    font-weight: bold; /* フォントの太さを強調 */
-    color: #333; /* テキストカラー */
+/* Table styling */
+.schedule-table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    text-align: center;
 }
 
-/* ナビゲーションリンク */
-.nav-links a {
-    margin-right: 15px; /* 各リンク間の間隔 */
-    color: #333; /* リンクテキストのカラー */
-    text-decoration: none; /* 下線を削除 */
+.schedule-table th {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
 }
 
-/* メインコンテンツ */
-.main-content {
-    margin: 20px 0; /* 上下の余白 */
-    width: 100%; /* 幅を最大に */
-    max-width: 800px; /* コンテンツ幅の最大値 */
+.schedule-table td {
+    border: 1px solid #ddd;
+    padding: 15px;
+    background-color: #fff;
 }
 
-/* 見出し */
-.main-content h1 {
-    font-size: 2em; /* 見出しのフォントサイズ */
-    color: #333; /* 見出しのテキストカラー */
-    margin-bottom: 20px; /* 下部余白 */
+/* Buttons */
+.day-button,
+.time-slot-button {
+    width: 60px;
+    height: 40px;
+    font-size: 16px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s ease;
 }
 
-/* 画像コンテナ */
-.image-container {
-    display: flex; /* 画像を横並びで配置 */
-    justify-content: space-around; /* 画像間のスペースを均等に */
-    align-items: center; /* 画像を垂直方向で中央揃え */
-    margin-bottom: 20px; /* 下部余白 */
-    gap: 20px; /* 各画像アイテム間の間隔 */
+/* Day buttons */
+.day-button {
+    background-color: #4CAF50;
+    color: white;
 }
 
-/* 画像アイテム */
-.image-item {
-    text-align: center; /* 画像とラベルを中央揃え */
+.day-button:hover {
+    background-color: #45a049;
 }
 
-/* 画像のスタイル */
-.image-item img {
-    width: 200px; /* 画像の幅 */
-    height: auto; /* 縦横比を維持 */
-    border-radius: 10px; /* 角を丸くする */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* 影をつけて立体感を出す */
+/* Time slot buttons */
+.time-slot-button {
+    background-color: #f1f1f1;
+    color: #333;
 }
 
-/* ラベル */
-.image-item label {
-    margin-top: 10px; /* 画像との間隔 */
-    font-size: 1.1em; /* ラベルのフォントサイズ */
-    color: #333; /* ラベルのテキストカラー */
-    display: block; /* ブロック要素として配置 */
+.time-slot-button:hover {
+    background-color: #ddd;
 }
 
-/* 登録完了メッセージ */
-.confirmation-message {
-    font-size: 1.1em; /* メッセージのフォントサイズ */
-    color: #007bff; /* メッセージのテキストカラー */
-    margin-bottom: 20px; /* 下部余白 */
-}
-
-/* 戻るボタン */
-.back-button {
-    background-color: #5865f2; /* ボタンの背景色 */
-    color: white; /* テキストの色 */
-    border: none; /* ボーダーを削除 */
-    padding: 10px 20px; /* ボタン内の余白 */
-    font-size: 1em; /* フォントサイズ */
-    border-radius: 5px; /* ボタンの角を丸くする */
-    cursor: pointer; /* ホバー時のカーソルをポインターにする */
-    transition: background-color 0.3s; /* 背景色の変化を滑らかにする */
-}
-
-.back-button:hover {
-    background-color: #4752c4; /* ホバー時の背景色 */
-}
-
-/* フッター */
-.footer {
-    background-color: #f8f8f8; /* フッターの背景色 */
-    color: #333; /* フッターのテキストカラー */
-    padding: 10px; /* フッター内の余白 */
-    text-align: center; /* テキストを中央揃え */
-    width: 100%; /* フッターを画面いっぱいに広げる */
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1); /* 上側に影をつける */
-}
