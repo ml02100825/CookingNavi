@@ -1,13 +1,16 @@
-from django.urls import path, include
-from . import  views
+from django.urls import path
+from . import views
 
 app_name = "cookapp"
+
 urlpatterns = [
     path('index/', views.IndexView.as_view(), name='index'),
     path('Login1/', views.CustomLogin1View.as_view(), name='Login1'),
     path('home/', views.HomeView.as_view(), name='home'),
     path('health_management_main/', views.HealthMainView.as_view(), name='health_management_main'),
     path('health_selection/', views.HealthSelectionView.as_view(), name='health_selection'),
+    path('health_selectioncomplate/', views.HealthSelectionComplateView.as_view(), name='health_selectioncomplate'),
+    path('health_menuconfirmation/', views.HealthMenuConfirmationView.as_view(), name='health_menuconfirmation'),
     path('setting/', views.SettingView.as_view(), name='setting'),
     path('acount_setting/', views.AcountSettingView.as_view(), name='acount_setting'),
     path('family_info/', views.FamilyInfoView.as_view(), name='family_info'),
@@ -30,6 +33,6 @@ urlpatterns = [
     path('kazoku_add/', views.KazokuaddView.as_view(), name='kazoku_add'),
     path('kazoku_add_ok/', views.KazokuaddOkView.as_view(), name='kazoku_add_ok'),
     path('kazoku_henko/', views.KazokuHenkoView.as_view(), name='kazoku_henko'),
-    path('shokujirireki/', views. DietaryHistoryView.as_view(), name='dietaryhistory'),
     path('health_graph/', views. HealthGraphView.as_view(), name='health_graph'),
+    path('shokujirireki/', views.DietaryHistoryView.as_view(), name='dietaryhistory'),
 ]

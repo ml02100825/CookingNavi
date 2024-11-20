@@ -40,6 +40,12 @@ class HealthMainView(TemplateView):
 class HealthSelectionView(TemplateView):
     template_name='health/health_selection.html'
 
+class HealthSelectionComplateView(TemplateView):
+    template_name='health/health_selectioncomplate.html'
+
+class HealthMenuConfirmationView(TemplateView):
+    template_name='health/health_menuconfirmation.html'
+
 class SettingView(TemplateView):
     template_name='setting/setting.html'
     
@@ -321,9 +327,9 @@ class KazokuaddOkView(TemplateView):
 
 class KazokuHenkoView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/henko/kazoku_henko.html'
-    
-class DietaryHistoryView(LoginRequiredMixin, TemplateView):
-    template_name = 'shokujirireki/dietaryhistory.html'
 
-class HealthGraphView(LoginRequiredMixin, TemplateView):
+class HealthGraphView(TemplateView):
     template_name = 'kenkougurahu/healthgraph.html'
+
+class DietaryHistoryView(TemplateView):
+    template_name = 'shokujirireki/dietaryhistory.html'
