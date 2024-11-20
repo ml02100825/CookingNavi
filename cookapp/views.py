@@ -71,8 +71,55 @@ class FamilyInfoView(TemplateView):
 class NotificationSettingView(TemplateView):
     template_name='notification/notification.html'
 
+
 class SubscriptionSettingView(TemplateView):
     template_name='sabusuku/setting/sabusuku_setting.html'
+
+class SubscriptionLoginView(TemplateView):
+    template_name='sabusuku/touroku/sabusuku_login.html'
+
+class SubscriptionLoginOkView(LoginRequiredMixin, TemplateView):
+    template_name='sabusuku/touroku/sabusuku_login_ok.html'
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        # サブスク登録処理
+        if user.subscribeflag:
+            # subscribeflag が True の場合（入会済み）
+            messages.warning(request, 'すでに入会済みです。')
+            return redirect('cookapp:subscription_login')
+        else:
+            # subscribeflag が False の場合（未入会）
+            user.subscribeflag = True  # サブスクフラグをTrueに設定
+            user.subjoin = timezone.now().date()  # 入会日を現在の日付に設定
+            user.save()
+
+            # サブスク登録完了ページに遷移
+            return render(request, self.template_name)
+
+    
+class SubscriptionKaiyakuView(TemplateView):
+    template_name='sabusuku/kaiyaku/sabusuku_kaiyaku.html'
+
+class SubscriptionKaiyakuOkView(LoginRequiredMixin, TemplateView):
+    template_name='sabusuku/kaiyaku/sabusuku_kaiyaku_ok.html'
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        # サブスク退会処理
+        if user.subscribeflag:
+            # subscribeflag が True の場合（入会済み）
+            user.subscribeflag = False  # サブスクフラグをFalseに戻す
+            user.unsub = timezone.now().date()  # 退会日を現在の日付に設定
+            user.save()
+
+            # サブスク解約完了ページに遷移
+            return render(request, self.template_name)
+        else:
+            # subscribeflag が False の場合（未入会）
+            messages.warning(request, '未入会です。')
+            return redirect('cookapp:subscription_kaiyaku')
+
 
 class OsiraseView(TemplateView):
     template_name='osirase/osirase.html'
@@ -81,7 +128,7 @@ class QuestionsView(TemplateView):
     template_name='questions/questions.html'
 
 
-class UsernameView(TemplateView):
+class UsernameView(LoginRequiredMixin, TemplateView):
     template_name = 'acount/name/username_henko.html'
     def get(self, request, *args, **kwargs):
         form = UsernameForm()

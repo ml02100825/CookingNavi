@@ -22,15 +22,13 @@
             <h2>アカウント設定</h2>
             
             <div>
-                <label>ユーザー名 ：</label>
-                <p>{{ user.name}}</p>
-                <a href="{% url 'cookapp:username' %}" ><button>変更</button></a>
+                <p>ユーザー名：{{user.name}}
+                <a href="{% url 'cookapp:username' %}" ><button>変更</button></a></p>
             </div>
             
             <div>
-                <label>メールアドレス：</label>
-                <p>{{ user.email}}</p>
-                <a href="{% url 'cookapp:email' %}" ><button>変更</button></a>
+                <p>メールアドレス：{{user.email}}
+                <a href="{% url 'cookapp:email' %}" ><button>変更</button></a></p>
             </div>
             
             <div>

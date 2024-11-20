@@ -8,11 +8,24 @@
     <div class="subscription-container">
         <h1>サブスクに登録しますか？</h1>
         <p>月額料金200円</p>
+        
+        <div class="messages">
+            {% for message in messages %}
+                <div class="message {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+
         <div class="subscription-buttons">
-            <a href="sabusuku_login_ok.html" class="btn yes-btn">はい</a>
+            <form method="POST" action="{% url 'cookapp:subscription_login_ok' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn yes-btn">はい</button>
+            </form>
             <a href="" class="btn no-btn">いいえ</a>
         </div>
-        <a href="#" class="btn">サブスク設定</a>
+        
+        <a href="{% url 'cookapp:subscription_setting' %}" >サブスク設定</a>
     </div>
 </main>
 {% endblock %}
