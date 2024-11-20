@@ -9,6 +9,7 @@ urlpatterns = [
     path('health_management_main/', views.HealthMainView.as_view(), name='health_management_main'),
     path('health_selection/', views.HealthSelectionView.as_view(), name='health_selection'),
     path('health_selectioncomplate/', views.HealthSelectionComplateView.as_view(), name='health_selectioncomplate'),
+    path('health_menuconfirmation/', views.HealthMenuConfirmationView.as_view(), name='health_menuconfirmation'),
     path('setting/', views.SettingView.as_view(), name='setting'),
     path('acount_setting/', views.AcountSettingView.as_view(), name='acount_setting'),
     path('family_info/', views.FamilyInfoView.as_view(), name='family_info'),
