@@ -8,6 +8,7 @@ from .models import Familymember, Familyallergy
 import logging
 from django.utils import timezone
 
+
 logger = logging.getLogger(__name__)
 
 class IndexView(TemplateView):
@@ -262,3 +263,5 @@ class KazokuaddOkView(TemplateView):
 class KazokuHenkoView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/henko/kazoku_henko.html'
     
+class DietaryHistoryView(LoginRequiredMixin, TemplateView):
+    template_name = 'shokujirireki/dietaryhistory.html'

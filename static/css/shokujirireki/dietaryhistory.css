@@ -1,0 +1,67 @@
+/* ===== 全体の基本設定 ===== */
+body {
+    font-family: Arial, sans-serif; /* フォントを設定 */
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9; /* 背景色を淡いグレーに設定 */
+    color: #333; /* テキストの基本色をダークグレーに設定 */
+}
+
+/* ===== テーブル全体のスタイリング ===== */
+.table {
+    width: 100%; /* テーブルをページ幅いっぱいに広げる */
+    border-collapse: collapse; /* テーブルのセル間の隙間をなくす */
+    text-align: center; /* テキストを中央揃えにする */
+    margin-top: 20px; /* テーブル上部に余白を設ける */
+    background-color: #fff; /* 背景色を白に設定 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 薄い影をつけて立体感を演出 */
+}
+
+.table th, .table td {
+    border: 1px solid #ddd; /* セルの境界線を薄いグレーに設定 */
+    padding: 10px; /* セル内の余白を設定 */
+}
+
+/* テーブルのヘッダー（列名）部分 */
+.table th {
+    background-color: #4CAF50; /* ヘッダーの背景色を緑に設定 */
+    color: white; /* ヘッダーの文字色を白に設定 */
+    font-size: 1em; /* フォントサイズを設定 */
+}
+
+/* 日付セルの特別なスタイリング */
+.table .date-cell {
+    background-color: #f4f4f4; /* 日付セルの背景を薄いグレーに設定 */
+    font-weight: bold; /* 文字を太字に設定 */
+    vertical-align: middle; /* 内容を上下中央揃えに設定 */
+}
+
+/* ===== ボタン全体のスタイリング ===== */
+.date-button, .meal-button {
+    padding: 10px 20px; /* ボタン内の余白を設定 */
+    font-size: 14px; /* ボタンの文字サイズを設定 */
+    border: none; /* ボタンの境界線を削除 */
+    border-radius: 5px; /* ボタンの角を丸くする */
+    cursor: pointer; /* マウスオーバー時にポインタ表示 */
+    transition: all 0.3s ease; /* ホバー時の変化を滑らかにする */
+}
+
+/* ===== 日付ボタンのスタイリング ===== */
+.date-button {
+    background-color: #4CAF50; /* 背景色を緑に設定 */
+    color: white; /* テキストを白に設定 */
+}
+
+.date-button:hover {
+    background-color: #45a049; /* ホバー時の背景色を濃い緑に変更 */
+}
+
+/* ===== 食事ボタンのスタイリング ===== */
+.meal-button {
+    background-color: #f1f1f1; /* 背景色を薄いグレーに設定 */
+    color: #333; /* テキストを濃いグレーに設定 */
+}
+
+.meal-button:hover {
+    background-color: #ddd; /* ホバー時の背景色を少し濃いグレーに変更 */
+}
