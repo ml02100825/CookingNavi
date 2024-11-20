@@ -22,10 +22,10 @@
                 {% csrf_token %}
                 <button type="submit" class="btn yes-btn">はい</button>
             </form>
-            <a href="" class="btn no-btn">いいえ</a>
+            <a href="{% url 'cookapp:subscription_setting' %}"><button type="button">いいえ</button></a>
         </div>
         
-        <a href="{% url 'cookapp:subscription_setting' %}" >サブスク設定</a>
+        <a href="{% url 'cookapp:setting' %}" >サブスク設定</a>
     </div>
 </main>
 {% endblock %}

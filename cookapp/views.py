@@ -324,3 +324,6 @@ class KazokuHenkoView(LoginRequiredMixin, TemplateView):
     
 class DietaryHistoryView(LoginRequiredMixin, TemplateView):
     template_name = 'shokujirireki/dietaryhistory.html'
+
+class HealthGraphView(LoginRequiredMixin, TemplateView):
+    template_name = 'kenkougurahu/healthgraph.html'
