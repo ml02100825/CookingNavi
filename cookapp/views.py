@@ -208,11 +208,13 @@ class BodyInfoOkView(TemplateView):
 class KazokuaddView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/add/kazoku_add.html'
 
+    # views.py
     def get(self, request, *args, **kwargs):
         form = FamilyForm()
-        # ログインユーザーに関連する家族情報を取得
         family_members = Familymember.objects.filter(user=request.user)
-        return render(request, self.template_name, {'form': form, 'family_members': family_members})  # family_members を渡す
+        # family_name を明示的に取り出して渡す
+        family_names = [member.family_name for member in family_members]
+        return render(request, self.template_name, {'form': form, 'family_names': family_names})
 
     def post(self, request, *args, **kwargs):
         form = FamilyForm(request.POST)
