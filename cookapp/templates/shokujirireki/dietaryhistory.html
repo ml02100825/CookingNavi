@@ -1,9 +1,12 @@
 {% extends 'baseuser.html' %}
 {% load static %}
 
-{% block title %}健康管理{% endblock %}
+{% block title %}食事履歴{% endblock %}
 
 {% block content %}
+<!-- CSSファイルが正しく読み込まれるか確認 -->
+<link rel="stylesheet" href="{% static 'css/shokujirireki/dietaryhistory.css' %}">
+
 <div class="content">
     <table class="table">
         <thead>

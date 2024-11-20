@@ -24,7 +24,7 @@
                 {% csrf_token %}
                 <button type="submit" class="btn yes-btn">はい</button>
             </form>
-            <a href="" class="btn no-btn">いいえ</a>
+            <a href="{% url 'cookapp:setting' %}"><button type="button">いいえ</button></a>
         </div>
 
     </div>
