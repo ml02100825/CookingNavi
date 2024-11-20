@@ -1,14 +1,16 @@
 {% extends 'baseuser.html' %}
-
+{% load static %}
 {% block title %}主菜選択{% endblock %}
 
 {% block content %}
     <div class="container">
-        <!-- Main Meal Selection Section -->
+        <!-- 主菜選択フォーム -->
         <main>
+            <!-- staticをロード -->
+            {% load static %}
+            <link rel="stylesheet" href="{% static 'css/health/health_selection.css' %}">
             <div class="meal-selection">
                 <h2>主菜選択</h2>
-                <!-- 主菜選択フォーム -->
                 <form id="dish-form">
                     <label for="dish">主菜を選んでください:</label>
                     <select id="dish" name="dish" required onchange="updateIngredients()">
@@ -20,7 +22,6 @@
                         <option value="パスタ">パスタ</option>
                     </select>
                 </form>
-                <!-- 材料リスト -->
                 <div id="ingredients" class="ingredients-list"><strong>材料:</strong> 主菜を選んでください。</div>
             </div>
 
@@ -37,18 +38,16 @@
                 </div>
             </div>
 
-            <div>
+            <div class="action-buttons">
                 <button onclick="goBack()">戻る</button>
+                <button class="register" onclick="registerMeal()">登録</button>
             </div>
-
-            <button class="register">登録</button>
         </main>
     </div>
 {% endblock %}
 
 {% block scripts %}
     <script>
-        // 主菜ごとの材料データ
         const ingredientsData = {
             "唐揚げ": ["鶏肉", "しょうゆ", "にんにく", "しょうが", "片栗粉"],
             "焼き魚": ["魚（さば、さんま等）", "塩", "レモン"],
@@ -57,26 +56,44 @@
             "パスタ": ["パスタ", "トマトソース", "にんにく", "オリーブオイル", "バジル"]
         };
 
-        // 選択した主菜の材料を表示
+        let selectedDish = "";
+        let selectedMealTime = "";
+
         function updateIngredients() {
             const dish = document.getElementById("dish").value;
             const ingredientsList = document.getElementById("ingredients");
-
-            // 選択された主菜に応じた材料を取得
+            selectedDish = dish;
             const ingredients = ingredientsData[dish] || [];
-
-            // 材料リストを更新
             ingredientsList.innerHTML = ingredients.length
                 ? `<strong>材料:</strong> ${ingredients.join(", ")}`
                 : "<strong>材料:</strong> 主菜を選んでください。";
         }
 
-        // 時間帯を選択する関数
         function setMealTime(mealTime) {
+            selectedMealTime = mealTime;
             document.getElementById("dish-status").innerText = `主菜は${mealTime}に設定されました。`;
+            highlightMealTime(mealTime);
         }
 
-        // 戻るボタンの処理
+        function highlightMealTime(mealTime) {
+            const buttons = document.querySelectorAll(".meal-time-selection button");
+            buttons.forEach(btn => {
+                if (btn.innerText === mealTime) {
+                    btn.classList.add("selected");
+                } else {
+                    btn.classList.remove("selected");
+                }
+            });
+        }
+
+        function registerMeal() {
+            if (!selectedDish || !selectedMealTime) {
+                alert("主菜と時間帯を選択してください。");
+            } else {
+                alert(`主菜「${selectedDish}」を${selectedMealTime}に登録しました。`);
+            }
+        }
+
         function goBack() {
             history.back();
         }
