@@ -1,80 +1,152 @@
-/* 主菜選択のスタイル */
-
-/* 全体のレイアウト */
+/* 全体のレイアウト設定 */
 body {
-    font-family: Arial, sans-serif; /* フォント設定 */
-    background-color: #f4f4f9; /* 背景色の設定 */
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff; /* 軽い青色の背景 */
     margin: 0;
     padding: 0;
-    display: flex; /* 中央寄せのためフレックスレイアウトを使用 */
-    justify-content: center; /* 水平方向に中央揃え */
-    align-items: center; /* 垂直方向に中央揃え */
-    height: 100vh; /* 画面全体の高さを確保 */
 }
 
-/* メインのコンテナボックス */
+/* コンテナのスタイリング */
 .container {
-    background-color: white; /* 背景色を白に設定 */
-    padding: 0px; /* 内側の余白 */
-    border-radius: 8px; /* 角を丸く */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 影を付ける */
-    width: 100%; /* 幅を100%に設定 */
-    max-width: 600px; /* 最大幅を600pxに制限 */
+    width: 80%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center; /* 全体を中央揃え */
 }
 
-/* メインコンテンツの内側の余白 */
-main {
-    padding: 0px;
+/* ヘッダー */
+h2 {
+    font-size: 2rem;
+    color: #ff6347; /* トマト色 */
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
 }
 
-/* 各セクションの余白設定 */
-.meal-selection,
-.meal-time-selection {
-    margin-bottom: 20px; /* 下に余白を追加 */
+/* 主菜選択フォーム */
+#dish-form {
+    margin-bottom: 20px;
+    text-align: center;
 }
 
-/* ボタンのスタイル */
-button {
-    background-color: #4CAF50; /* 背景色を緑色に設定 */
-    color: white; /* 文字色を白に */
-    border: none; /* 枠線をなしに */
-    padding: 10px; /* 内側の余白 */
-    font-size: 16px; /* フォントサイズ設定 */
-    cursor: pointer; /* カーソルをポインタに */
-    margin-right: 10px; /* ボタンの右側に余白 */
-    border-radius: 5px; /* ボタンの角を丸く */
+#dish {
+    padding: 10px;
+    font-size: 1.2rem;
+    border-radius: 6px;
+    border: 2px solid #4caf50; /* 緑色 */
+    margin-top: 10px;
+    background-color: #e8f5e9; /* 薄い緑 */
+    width: 80%;
+    max-width: 300px;
 }
 
-/* ボタンホバー時のスタイル */
-button:hover {
-    background-color: #45a049; /* ホバー時の背景色 */
-}
-
-/* ドロップダウンリストのスタイル */
-select {
-    padding: 5px; /* 内側の余白 */
-    font-size: 16px; /* フォントサイズ */
-    width: 100%; /* 幅を100%に設定 */
-    max-width: 300px; /* 最大幅を300pxに制限 */
-    margin: 10px 0; /* 上下に余白 */
-}
-
-/* 食事状態のセクションの余白設定 */
-.meal-status {
-    margin-top: 20px; /* 上部に余白を追加 */
-}
-
-/* 材料リストのスタイル */
+/* 材料リスト */
 .ingredients-list {
-    margin-top: 20px; /* 上部に余白を追加 */
-    font-size: 16px; /* フォントサイズ */
-    color: #333; /* テキストカラー */
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f0f8ff; /* 薄い青 */
+    border: 2px solid #ff6347; /* トマト色 */
+    border-radius: 6px;
+    font-size: 1.1rem;
+    color: #333;
 }
 
-/* ボタンを横並びにするためのコンテナ */
-.button-container {
-    display: flex; /* Flexboxを使用してボタンを横並びに */
-    justify-content: flex-start; /* 左詰めに配置 */
-    gap: 10px; /* ボタン間の間隔を設定 */
-    margin-top: 20px; /* ボタン上部の余白 */
+/* 時間帯選択 */
+.meal-time-selection {
+    margin-top: 30px;
+    text-align: center;
+}
+
+button {
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    background-color: #ff9800; /* オレンジ */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 10px;
+    width: 150px; /* ボタンの幅を均等に */
+}
+
+button:hover {
+    background-color: #e65100; /* オレンジの濃い色 */
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* ボタンエリア */
+.meal-status {
+    margin-top: 20px;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.action-buttons {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.register {
+    background-color: #4caf50; /* 緑 */
+    margin-top: 20px;
+    padding: 12px 30px;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    width: 200px;
+}
+
+.register:hover {
+    background-color: #388e3c; /* 緑の濃い色 */
+}
+
+/* 戻るボタン */
+button#back-btn {
+    background-color: #3f51b5; /* ブルー */
+    margin-top: 15px;
+}
+
+button#back-btn:hover {
+    background-color: #303f9f; /* ブルーの濃い色 */
+}
+
+/* フッター */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: 40px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+/* モバイル対応 */
+@media screen and (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+
+    h2 {
+        font-size: 1.6rem;
+    }
+
+    button {
+        font-size: 1rem;
+        padding: 10px 20px;
+        width: 120px; /* スマホ用にボタンを小さく */
+    }
+
+    .ingredients-list {
+        font-size: 0.9rem;
+    }
 }

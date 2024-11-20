@@ -11,18 +11,6 @@ body {
     align-items: center;
 }
 
-/* ヘッダー */
-.header {
-    display: flex; /* Flexboxでレイアウト */
-    justify-content: space-between; /* 左右に配置 */
-    align-items: center; /* 垂直方向に中央揃え */
-    background-color: #5865f2; /* ヘッダーの背景色 */
-    color: white; /* 文字色を白に */
-    padding: 15px 20px; /* 内側余白 */
-    width: 100%; /* ヘッダーを画面全幅に */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 影をつけて立体感 */
-}
-
 .app-name {
     font-size: 1.5em; /* アプリ名のフォントサイズ */
     font-weight: bold; /* 太字に */
@@ -86,15 +74,4 @@ body {
 
 .login-container button:hover {
     background-color: #0056b3; /* ボタンホバー時の背景色 */
-}
-
-/* フッター */
-.footer {
-    background-color: #5865f2; /* フッターの背景色 */
-    color: white; /* 文字色 */
-    padding: 15px; /* 内側余白 */
-    text-align: center; /* 中央揃え */
-    width: 100%; /* 全幅に */
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1); /* 上に影を追加 */
-    margin-top: 30px; /* 上に余白 */
 }

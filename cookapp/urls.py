@@ -30,4 +30,5 @@ urlpatterns = [
     path('kazoku_add/', views.KazokuaddView.as_view(), name='kazoku_add'),
     path('kazoku_add_ok/', views.KazokuaddOkView.as_view(), name='kazoku_add_ok'),
     path('kazoku_henko/', views.KazokuHenkoView.as_view(), name='kazoku_henko'),
+    path('shokujirireki/', views. DietaryHistoryView.as_view(), name='dietaryhistory'),
 ]

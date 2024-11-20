@@ -8,6 +8,7 @@ from .models import Familymember, Familyallergy
 import logging
 from django.utils import timezone
 
+
 logger = logging.getLogger(__name__)
 
 class IndexView(TemplateView):
@@ -37,7 +38,7 @@ class HealthMainView(TemplateView):
     template_name='health/health_management_main.html'
 
 class HealthSelectionView(TemplateView):
-    template_name='health_selection.html'
+    template_name='health/health_selection.html'
 
 class SettingView(TemplateView):
     template_name='setting/setting.html'
@@ -65,8 +66,6 @@ class AcountSettingView(TemplateView):
         return context
     template_name='acount/acount_setting.html'
 
-class FamilyInfoView(TemplateView):
-    template_name='kazoku/kazoku.html'
 
 class NotificationSettingView(TemplateView):
     template_name='notification/notification.html'
@@ -216,27 +215,33 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
     def post(self, request, * args, **kwargs):
         form = BodyInfoUpdateForm(request.POST)
         if form.is_valid():
+            name = form.cleaned_data['name']
             birthdate = form.cleaned_data['birthdate']
             gender = form.cleaned_data['gender']
             allergies = form.cleaned_data['allergies']
             height = form.cleaned_data['height']
             weight = form.cleaned_data['weight']
 
-            user = request.user
-            user.age = birthdate
-            user.gender = gender
-            user.height = height
-            user.weight = weight
-            user.save()
-                
-            # 既存のアレルギー情報を削除して、新しい情報を追加
-            user_allergies = Userallergy.objects.filter(user=user)
-            user_allergies.delete()  # 現在のアレルギー情報を削除
-
-            # 新しいアレルギー情報を追加
-            for allergy in allergies:
-                Userallergy.objects.create(user=user, allergy_category=allergy)
-                print(f"Added new allergy {allergy} for user {user}")
+            if name != request.user.name:
+                messages.error(request, "ログイン中のユーザーと異なるユーザー名を入力しました。")
+            else:
+                user = request.user
+                user.age = birthdate
+                user.gender = gender
+                user.height = height
+                user.weight = weight
+                user.save()
+                for i in range(len(allergies)):
+                    allergy = allergies[i]
+                    try:
+                        # 既存のアレルギー情報を検索して更新する
+                        user_allergy = Userallergy.objects.get(user=user, allergy_category=allergy)
+                        user_allergy.allergy_category = allergy
+                        user_allergy.save()  # 更新を保存
+                        print(f"Updated allergy for user {user} with allergy {allergy}")
+                    except Userallergy.DoesNotExist:
+                        # レコードが見つからなかった場合の処理
+                        print(f"Allergy {allergy} for user {user} not found, skipping.")
 
             return redirect('cookapp:body_info_ok')
         
@@ -245,13 +250,31 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
 class BodyInfoOkView(TemplateView):
     template_name = 'sintai/sintai_henko_ok.html'
 
+class FamilyInfoView(LoginRequiredMixin, TemplateView):
+    template_name = 'kazoku/kazoku.html'
+
+    def get(self, request, *args, **kwargs):
+        # ログインユーザーに関連する家族情報を取得
+        family_members = Familymember.objects.filter(user=request.user)
+
+        # family_name を明示的に取り出して渡す
+        family_names = [member.family_name for member in family_members]
+        
+        # コンテキストに家族情報を追加
+        context = {
+            'family_members': family_names,  # family_names をテンプレートに渡す
+        }
+
+        return render(request, self.template_name, context)
+
     
 class KazokuaddView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/add/kazoku_add.html'
 
+    # views.py
     def get(self, request, *args, **kwargs):
         form = FamilyForm()
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form,})
 
     def post(self, request, *args, **kwargs):
         form = FamilyForm(request.POST)
@@ -299,3 +322,5 @@ class KazokuaddOkView(TemplateView):
 class KazokuHenkoView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/henko/kazoku_henko.html'
     
+class DietaryHistoryView(LoginRequiredMixin, TemplateView):
+    template_name = 'shokujirireki/dietaryhistory.html'

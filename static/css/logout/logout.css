@@ -10,17 +10,6 @@ body {
     min-height: 100vh; /* 画面の高さに合わせて最小高さを設定 */
 }
 
-/* ヘッダーのスタイル */
-.header {
-    display: flex; /* Flexboxでレイアウト */
-    justify-content: space-between; /* ヘッダー内で左右にアイテムを配置 */
-    align-items: center; /* 垂直方向に中央揃え */
-    padding: 15px 30px; /* パディングの設定 */
-    background-color: #4CAF50; /* ヘッダー背景色を緑に */
-    color: white; /* 文字色を白に */
-    font-size: 1.2em; /* フォントサイズを設定 */
-}
-
 .app-name {
     font-weight: bold; /* アプリ名を太字に */
 }
@@ -97,13 +86,4 @@ body {
 
 .logout-btn:hover, .cancel-btn:hover {
     background-color: #45a049; /* ホバー時にボタンの色を少し濃く */
-}
-
-/* フッターのスタイル */
-.footer {
-    text-align: center; /* フッター内の文字を中央揃え */
-    padding: 20px; /* パディングを設定 */
-    background-color: #333; /* フッターの背景色をダークグレーに */
-    color: white; /* フッターの文字色を白に */
-    margin-top: auto; /* ページの下部に配置 */
 }
