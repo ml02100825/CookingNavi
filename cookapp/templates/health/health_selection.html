@@ -1,84 +1,78 @@
-{% extends 'baseuser.html' %}
+{% extends "baseuser.html" %}
+{% load static %}
 
-{% block title %}主菜選択{% endblock %}
-
-{% block content %}
-    <div class="container">
-        <!-- Main Meal Selection Section -->
-        <main>
-            <div class="meal-selection">
-                <h2>主菜選択</h2>
-                <!-- 主菜選択フォーム -->
-                <form id="dish-form">
-                    <label for="dish">主菜を選んでください:</label>
-                    <select id="dish" name="dish" required onchange="updateIngredients()">
-                        <option value="">選択してください</option>
-                        <option value="唐揚げ">唐揚げ</option>
-                        <option value="焼き魚">焼き魚</option>
-                        <option value="ステーキ">ステーキ</option>
-                        <option value="カレー">カレー</option>
-                        <option value="パスタ">パスタ</option>
-                    </select>
-                </form>
-                <!-- 材料リスト -->
-                <div id="ingredients" class="ingredients-list"><strong>材料:</strong> 主菜を選んでください。</div>
-            </div>
-
-            <div class="meal-time-selection">
-                <h3>時間帯</h3>
-                <p>登録した主菜は以下の時間帯で表示されます。</p>
-
-                <button id="morning-btn" onclick="setMealTime('朝')">朝</button>
-                <button id="afternoon-btn" onclick="setMealTime('昼')">昼</button>
-                <button id="evening-btn" onclick="setMealTime('晩')">晩</button>
-
-                <div id="meal-status" class="meal-status">
-                    <p id="dish-status">主菜は未定です。</p>
-                </div>
-            </div>
-
-            <div>
-                <button onclick="goBack()">戻る</button>
-            </div>
-
-            <button class="register">登録</button>
-        </main>
-    </div>
+{% block title %}
+主菜選択 | クッキングnavi
 {% endblock %}
 
-{% block scripts %}
-    <script>
-        // 主菜ごとの材料データ
-        const ingredientsData = {
-            "唐揚げ": ["鶏肉", "しょうゆ", "にんにく", "しょうが", "片栗粉"],
-            "焼き魚": ["魚（さば、さんま等）", "塩", "レモン"],
-            "ステーキ": ["牛肉", "塩", "コショウ", "オリーブオイル"],
-            "カレー": ["カレールー", "にんじん", "じゃがいも", "玉ねぎ", "鶏肉"],
-            "パスタ": ["パスタ", "トマトソース", "にんにく", "オリーブオイル", "バジル"]
-        };
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/health/health_selection.css' %}">
+<div class="title">📅 主菜選択</div>
 
-        // 選択した主菜の材料を表示
-        function updateIngredients() {
-            const dish = document.getElementById("dish").value;
-            const ingredientsList = document.getElementById("ingredients");
+<div class="form-group">
+    <label for="date-range">日付</label>
+    <input type="date" id="date-range" name="date-range" value="2024-10-16">
+</div>
 
-            // 選択された主菜に応じた材料を取得
-            const ingredients = ingredientsData[dish] || [];
+<form id="meal-form">
+    <div class="form-group">
+        <label>③ 朝・昼・晩</label>
+        <select>
+            <option value="morning">朝</option>
+            <option value="noon">昼</option>
+            <option value="evening">晩</option>
+        </select>
+    </div>
 
-            // 材料リストを更新
-            ingredientsList.innerHTML = ingredients.length
-                ? `<strong>材料:</strong> ${ingredients.join(", ")}`
-                : "<strong>材料:</strong> 主菜を選んでください。";
-        }
+    <div class="form-group">
+        <label>④ メニュー</label>
+        <select>
+            <option value="curry">カレー</option>
+            <option value="nikujaga">肉じゃが</option>
+            <option value="sushi">寿司</option>
+        </select>
+    </div>
 
-        // 時間帯を選択する関数
-        function setMealTime(mealTime) {
-            document.getElementById("dish-status").innerText = `主菜は${mealTime}に設定されました。`;
-        }
+    <div id="ingredients-container">
+        <div class="form-group ingredient">
+            <label>⑤ 材料</label>
+            <input type="text" placeholder="材料を入力" name="ingredient[]">
+        </div>
+    </div>
 
-        // 戻るボタンの処理
-        function goBack() {
-            history.back();
-        }
-    </script>
+    <div class="form-group">
+        <button type="button" id="add-ingredient-btn">材料を追加</button>
+    </div>
+
+    <div class="buttons">
+        <button type="button">戻る</button>
+        <button type="submit" class="register-btn">登録</button>
+    </div>
+</form>
+
+<script>
+    // JavaScript to dynamically add more ingredient fields
+    document.getElementById('add-ingredient-btn').addEventListener('click', function() {
+        var ingredientsContainer = document.getElementById('ingredients-container');
+        
+        // Create a new input group for ingredient
+        var newIngredientGroup = document.createElement('div');
+        newIngredientGroup.classList.add('form-group', 'ingredient');
+        
+        // Create new label and input for ingredient
+        var newLabel = document.createElement('label');
+        newLabel.textContent = '材料';
+        var newInput = document.createElement('input');
+        newInput.type = 'text';
+        newInput.placeholder = '材料を入力';
+        newInput.name = 'ingredient[]';
+
+        // Append label and input to the new group
+        newIngredientGroup.appendChild(newLabel);
+        newIngredientGroup.appendChild(newInput);
+        
+        // Append the new ingredient group to the container
+        ingredientsContainer.appendChild(newIngredientGroup);
+    });
+</script>
 {% endblock %}
