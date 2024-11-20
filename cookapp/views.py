@@ -8,6 +8,7 @@ from .models import Familymember, Familyallergy
 import logging
 from django.utils import timezone
 
+
 logger = logging.getLogger(__name__)
 
 class IndexView(TemplateView):
@@ -65,8 +66,6 @@ class AcountSettingView(TemplateView):
         return context
     template_name='acount/acount_setting.html'
 
-class FamilyInfoView(TemplateView):
-    template_name='kazoku/kazoku.html'
 
 class NotificationSettingView(TemplateView):
     template_name='notification/notification.html'
@@ -204,15 +203,31 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
 class BodyInfoOkView(TemplateView):
     template_name = 'sintai/sintai_henko_ok.html'
 
+class FamilyInfoView(LoginRequiredMixin, TemplateView):
+    template_name = 'kazoku/kazoku.html'
+
+    def get(self, request, *args, **kwargs):
+        # ログインユーザーに関連する家族情報を取得
+        family_members = Familymember.objects.filter(user=request.user)
+
+        # family_name を明示的に取り出して渡す
+        family_names = [member.family_name for member in family_members]
+        
+        # コンテキストに家族情報を追加
+        context = {
+            'family_members': family_names,  # family_names をテンプレートに渡す
+        }
+
+        return render(request, self.template_name, context)
+
     
 class KazokuaddView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/add/kazoku_add.html'
 
+    # views.py
     def get(self, request, *args, **kwargs):
         form = FamilyForm()
-        # ログインユーザーに関連する家族情報を取得
-        family_members = Familymember.objects.filter(user=request.user)
-        return render(request, self.template_name, {'form': form, 'family_members': family_members})  # family_members を渡す
+        return render(request, self.template_name, {'form': form,})
 
     def post(self, request, *args, **kwargs):
         form = FamilyForm(request.POST)
@@ -260,3 +275,5 @@ class KazokuaddOkView(TemplateView):
 class KazokuHenkoView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/henko/kazoku_henko.html'
     
+class DietaryHistoryView(LoginRequiredMixin, TemplateView):
+    template_name = 'shokujirireki/dietaryhistory.html'
