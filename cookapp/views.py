@@ -65,8 +65,22 @@ class AcountSettingView(TemplateView):
         return context
     template_name='acount/acount_setting.html'
 
-class FamilyInfoView(TemplateView):
-    template_name='kazoku/kazoku.html'
+class FamilyInfoView(LoginRequiredMixin, TemplateView):
+    template_name = 'kazoku/kazoku.html'
+
+    def get(self, request, *args, **kwargs):
+        # ログインユーザーに関連する家族情報を取得
+        family_members = Familymember.objects.filter(user=request.user)
+
+        # family_name を明示的に取り出して渡す
+        family_names = [member.family_name for member in family_members]
+        
+        # コンテキストに家族情報を追加
+        context = {
+            'family_members': family_names,  # family_names をテンプレートに渡す
+        }
+
+        return render(request, self.template_name, context)
 
 class NotificationSettingView(TemplateView):
     template_name='notification/notification.html'
