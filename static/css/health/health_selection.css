@@ -1,152 +1,81 @@
-/* 全体のレイアウト設定 */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f8ff; /* 軽い青色の背景 */
-    margin: 0;
-    padding: 0;
+    background-image: url('{% static "png/top.jpg" %}'); /* 画像のパス */
+    background-size: cover; /* 背景画像を画面全体にフィットさせる */
+    background-position: center center; /* 背景画像を中央に配置 */
+    background-repeat: no-repeat; /* 画像が繰り返されないようにする */
+    margin: 0; /* 余白を削除 */
+    padding: 0; /* 余白を削除 */
 }
 
-/* コンテナのスタイリング */
+/* メインコンテンツのスタイル */
 .container {
-    width: 80%;
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center; /* 全体を中央揃え */
-}
-
-/* ヘッダー */
-h2 {
-    font-size: 2rem;
-    color: #ff6347; /* トマト色 */
-    text-align: center;
-    margin-bottom: 20px;
-    font-weight: bold;
-}
-
-/* 主菜選択フォーム */
-#dish-form {
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-#dish {
-    padding: 10px;
-    font-size: 1.2rem;
-    border-radius: 6px;
-    border: 2px solid #4caf50; /* 緑色 */
-    margin-top: 10px;
-    background-color: #e8f5e9; /* 薄い緑 */
-    width: 80%;
-    max-width: 300px;
-}
-
-/* 材料リスト */
-.ingredients-list {
-    margin-top: 20px;
+    max-width: 350px; /* フォームの幅を制限 */
+    margin: 0 auto;
     padding: 15px;
-    background-color: #f0f8ff; /* 薄い青 */
-    border: 2px solid #ff6347; /* トマト色 */
-    border-radius: 6px;
-    font-size: 1.1rem;
+    font-family: Arial, sans-serif;
+    background-color: rgba(255, 255, 255, 0.8); /* 背景を白く少し透過 */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+/* タイトルスタイル */
+.title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
     color: #333;
 }
 
-/* 時間帯選択 */
-.meal-time-selection {
-    margin-top: 30px;
-    text-align: center;
+/* 他のフォームスタイル */
+.form-group {
+    margin-bottom: 12px;
 }
 
+/* 入力フォームのスタイル */
+input[type="text"],
+input[type="number"],
+input[type="file"],
+select,
+textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* ボタンのスタイル */
 button {
-    padding: 12px 25px;
-    font-size: 1.1rem;
-    background-color: #ff9800; /* オレンジ */
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #4CAF50;
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
-    margin: 10px;
-    width: 150px; /* ボタンの幅を均等に */
+    margin-bottom: 8px;
 }
 
 button:hover {
-    background-color: #e65100; /* オレンジの濃い色 */
+    background-color: #45a049;
 }
 
-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
-/* ボタンエリア */
-.meal-status {
-    margin-top: 20px;
-    font-size: 1.1rem;
-    color: #333;
-}
-
-.action-buttons {
-    margin-top: 30px;
-    text-align: center;
-}
-
-.register {
-    background-color: #4caf50; /* 緑 */
-    margin-top: 20px;
-    padding: 12px 30px;
-    font-size: 1.2rem;
-    border-radius: 8px;
-    width: 200px;
-}
-
-.register:hover {
-    background-color: #388e3c; /* 緑の濃い色 */
-}
-
-/* 戻るボタン */
-button#back-btn {
-    background-color: #3f51b5; /* ブルー */
-    margin-top: 15px;
-}
-
-button#back-btn:hover {
-    background-color: #303f9f; /* ブルーの濃い色 */
-}
-
-/* フッター */
-footer {
-    background-color: #333;
+/* 追加された材料ボタン */
+#add-ingredient-btn {
+    background-color: #3f51b5;
     color: white;
-    text-align: center;
-    padding: 10px;
-    margin-top: 40px;
-    position: relative;
-    bottom: 0;
+    font-size: 14px;
+    padding: 8px;
+    border-radius: 5px;
     width: 100%;
+    cursor: pointer;
+    border: none;
 }
 
-/* モバイル対応 */
-@media screen and (max-width: 768px) {
-    .container {
-        width: 90%;
-    }
-
-    h2 {
-        font-size: 1.6rem;
-    }
-
-    button {
-        font-size: 1rem;
-        padding: 10px 20px;
-        width: 120px; /* スマホ用にボタンを小さく */
-    }
-
-    .ingredients-list {
-        font-size: 0.9rem;
-    }
+#add-ingredient-btn:hover {
+    background-color: #303f9f;
 }

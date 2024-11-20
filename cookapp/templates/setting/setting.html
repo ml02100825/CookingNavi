@@ -23,7 +23,7 @@
     <button type="button">利用規約</button></a>
 
     <!-- その他の操作 -->
-    <button type="button">サブスク解約</button>
+    <a href="{% url 'cookapp:subscription_kaiyaku' %}"><button type="button">サブスク解約</button></a>
     <button type="button">アカウント退会</button>
 </main>
 {% endblock %}
