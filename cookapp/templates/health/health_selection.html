@@ -39,8 +39,8 @@
             </div>
 
             <div class="action-buttons">
-                <button onclick="goBack()">戻る</button>
-                <button class="register" onclick="registerMeal()">登録</button>
+                <th><a href="{% url 'cookapp:health_management_main' %}" ><button class="day-button">戻る</button></a></th>
+                <th><a href="{% url 'cookapp:health_selectioncomplate' %}" ><button class="day-button">登録</button></a></th>
             </div>
         </main>
     </div>

@@ -40,6 +40,9 @@ class HealthMainView(TemplateView):
 class HealthSelectionView(TemplateView):
     template_name='health/health_selection.html'
 
+class HealthSelectionComplateView(TemplateView):
+    template_name='health/health_selectioncomplate.html'
+
 class SettingView(TemplateView):
     template_name='setting/setting.html'
     
