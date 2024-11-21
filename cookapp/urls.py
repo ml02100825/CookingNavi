@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 from django.urls import path, include
 from . import  views
 from .views import KazokuHenkoView
-=======
-from django.urls import path
-from . import views
->>>>>>> 6b24cf603415614128c4a55d324f8646628f6676
 
 app_name = "cookapp"
 
