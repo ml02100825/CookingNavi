@@ -1,0 +1,64 @@
+/* 全体のスタイル */
+body {
+    font-family: Arial, sans-serif; /* 読みやすいフォント */
+    margin: 0; /* ページの余白を削除 */
+    padding: 0; /* パディングを削除 */
+    background-color: #f9f9f9; /* 背景を薄いグレーに設定 */
+    color: #333; /* テキストの基本色 */
+}
+
+/* 通知設定のラッパー */
+.notification-container {
+    max-width: 800px; /* 最大幅を設定 */
+    margin: 50px auto; /* 上下中央揃え */
+    padding: 20px; /* 内側の余白 */
+    background-color: #ffffff; /* 背景色を白に設定 */
+    border-radius: 8px; /* 角を丸める */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+}
+
+/* タイトル */
+.notification-container h1 {
+    font-size: 28px; /* タイトルの大きさ */
+    text-align: center; /* 中央揃え */
+    margin-bottom: 20px; /* 下に余白 */
+    color: #4CAF50; /* 緑色で信頼感を演出 */
+}
+
+/* 設定項目 */
+.setting-item {
+    margin-bottom: 20px; /* 各設定項目の間に余白を追加 */
+    padding: 15px; /* 内側の余白 */
+    background-color: #f9f9f9; /* 設定項目の背景色 */
+    border-radius: 8px; /* 角を丸める */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* 軽い影を追加 */
+}
+
+/* 設定の説明文 */
+.setting-item p {
+    font-size: 16px; /* フォントサイズを16pxに設定 */
+    margin-bottom: 10px; /* 下に余白 */
+}
+
+/* ボタンのスタイル */
+button {
+    font-size: 16px; /* ボタン文字サイズ */
+    padding: 8px 15px; /* ボタン内側の余白 */
+    margin-right: 10px; /* ボタン間の余白 */
+    border: none; /* ボタンの枠線を削除 */
+    border-radius: 5px; /* ボタンを丸くする */
+    cursor: pointer; /* マウスオーバー時にカーソルをポインタに */
+    transition: background-color 0.3s ease; /* 背景色の変化にアニメーションを追加 */
+}
+
+/* ONボタンのスタイル */
+button:hover {
+    background-color: #4CAF50; /* ホバー時に緑色に */
+    color: white; /* 文字色を白に */
+}
+
+/* OFFボタンのスタイル */
+button:active {
+    background-color: #f44336; /* クリック時に赤色に */
+    color: white; /* 文字色を白に */
+}
