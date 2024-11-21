@@ -1,5 +1,6 @@
 from django.urls import path, include
 from . import  views
+from .views import KazokuHenkoView
 
 app_name = "cookapp"
 urlpatterns = [
@@ -25,6 +26,7 @@ urlpatterns = [
     path('password_henko_ok/', views.PasswordOkView.as_view(), name='password_henko_ok'),
     path('kazoku_add/', views.KazokuaddView.as_view(), name='kazoku_add'),
     path('kazoku_add_ok/', views.KazokuaddOkView.as_view(), name='kazoku_add_ok'),
-    path('kazoku_henko/', views.KazokuHenkoView.as_view(), name='kazoku_henko'),
     path('shokujirireki/', views. DietaryHistoryView.as_view(), name='dietaryhistory'),
+    path('kazoku/henko/<int:family_id>/', KazokuHenkoView.as_view(), name='kazoku_henko'),
+    path('kazoku_henko_ok/<int:family_id>/', views.KazokuHenkoOkView.as_view(), name='kazoku_henko_ok'),
 ]
