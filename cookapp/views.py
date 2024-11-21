@@ -276,11 +276,12 @@ class FamilyInfoView(LoginRequiredMixin, TemplateView):
 class KazokuaddView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/add/kazoku_add.html'
 
-    # views.py
+    # GETリクエストの処理
     def get(self, request, *args, **kwargs):
         form = FamilyForm()
         return render(request, self.template_name, {'form': form,})
 
+    # POSTリクエストの処理
     def post(self, request, *args, **kwargs):
         form = FamilyForm(request.POST)
         if form.is_valid():
@@ -290,7 +291,7 @@ class KazokuaddView(LoginRequiredMixin, TemplateView):
             family_gender = form.cleaned_data['family_gender']
             family_height = form.cleaned_data['family_height']
             family_weight = form.cleaned_data['family_weight']
-            allergy_id = form.cleaned_data.get('allergy_id')  # 選択されたアレルギーIDを取得
+            allergy_id = form.cleaned_data.get('allergy_id')  # アレルギーIDを取得
 
             # 生年月日から年齢を計算
             family_age = form.calculate_age()
@@ -305,11 +306,11 @@ class KazokuaddView(LoginRequiredMixin, TemplateView):
                 user=request.user._wrapped if hasattr(request.user, '_wrapped') else request.user  # SimpleLazyObject を解決
             )
 
-            # 家族アレルギー情報を登録（アレルギーIDが選択されている場合）
-            if allergy_id:  # アレルギーが選択されている場合のみ登録
+            # 家族アレルギー情報を登録（allergy_idを直接登録）
+            if allergy_id:  # アレルギーIDが選択されている場合のみ登録
                 Familyallergy.objects.create(
-                    family_id=family_member.family_id,  # 追加した family_member の ID を使用
-                    allergy_id=allergy_id
+                    family_id=family_member.family_id,  # 新たに作成した家族情報のID
+                    allergy_id=allergy_id  # 直接取得したallergy_idを登録
                 )
 
             # メッセージ表示
@@ -320,6 +321,7 @@ class KazokuaddView(LoginRequiredMixin, TemplateView):
 
         # フォームが無効な場合
         return render(request, self.template_name, {'form': form})
+
     
 class KazokuaddOkView(TemplateView):
     template_name = 'kazoku/add/kazoku_add_ok.html'
