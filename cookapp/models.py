@@ -68,14 +68,14 @@ class Familyallergy(models.Model):
         managed = False
         db_table = 'familyallergy'
 
-# class Allergy(models.Model):
-#     allergy_id = models.AutoField(verbose_name='アレルギーID', db_column='ALLERGY_ID', max_length=11, primary_key=True)
-#     material_id = models.IntegerField(verbose_name='材料ID', db_column='MATERIAL_ID', max_length=11)
-#     allergy_category = models.CharField(verbose_name='アレルギーカテゴリー', db_column='ALLERGY_CATEGORY', max_length=30)
-#     allergy_name = models.CharField(verbose_name='アレルギー名', db_column='ALLERGY_NAME', max_length=30)
-#     class Meta:
-#         managed = False
-#         db_table = 'allergy'
+class Allergy(models.Model):
+    allergy_id = models.AutoField(verbose_name='アレルギーID', db_column='ALLERGY_ID', max_length=11, primary_key=True)
+    material_id = models.IntegerField(verbose_name='材料ID', db_column='MATERIAL_ID', max_length=11)
+    allergy_category = models.CharField(verbose_name='アレルギーカテゴリー', db_column='ALLERGY_CATEGORY', max_length=30)
+    allergy_name = models.CharField(verbose_name='アレルギー名', db_column='ALLERGY_NAME', max_length=30)
+    class Meta:
+        managed = False
+        db_table = 'allergy'
 
 class Weight(models.Model):
     weight_id = models.AutoField(verbose_name='体重ID', db_column='Weight_ID', primary_key=True)
