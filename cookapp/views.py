@@ -3,7 +3,7 @@ from .forms import EmailForm, UsernameForm, PasswordForm, BodyInfoUpdateForm, Fa
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 from django.contrib import messages
-from .models import User, Userallergy, Familymember, Familyallergy, Weight
+from .models import User, Userallergy, Familymember, Familyallergy, Weight, Allergy
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 import logging
@@ -264,12 +264,11 @@ class FamilyInfoView(LoginRequiredMixin, TemplateView):
         # ログインユーザーに関連する家族情報を取得
         family_members = Familymember.objects.filter(user=request.user)
 
-        # family_name を明示的に取り出して渡す
-        family_names = [member.family_name for member in family_members]
+        # family_name と family_id を渡す
+        family_data = [{'name': member.family_name, 'id': member.family_id} for member in family_members]
         
-        # コンテキストに家族情報を追加
         context = {
-            'family_members': family_names,  # family_names をテンプレートに渡す
+            'family_members': family_data,
         }
 
         return render(request, self.template_name, context)
@@ -326,8 +325,79 @@ class KazokuaddView(LoginRequiredMixin, TemplateView):
 class KazokuaddOkView(TemplateView):
     template_name = 'kazoku/add/kazoku_add_ok.html'
 
+
 class KazokuHenkoView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/henko/kazoku_henko.html'
+
+    def get(self, request, *args, **kwargs):
+        family_id = kwargs.get('family_id')
+
+        # Familymemberのデータを取得
+        family_member = get_object_or_404(Familymember, family_id=family_id, user=request.user)
+
+        # フォームに初期値を設定
+        initial_data = {
+            'family_name': family_member.family_name,
+            'family_gender': family_member.family_gender,
+            'family_height': family_member.family_height,
+            'family_weight': family_member.family_weight,
+        }
+
+        # フォームのインスタンスを作成
+        form = FamilyForm(initial=initial_data)
+
+        return render(request, self.template_name, {'form': form, 'family_member': family_member})
+
+    def post(self, request, *args, **kwargs):
+        family_id = kwargs.get('family_id')
+
+        # Familymemberテーブルからデータを取得
+        family_member = get_object_or_404(Familymember, family_id=family_id, user=request.user)
+
+        # フォームデータをバリデーション
+        form = FamilyForm(request.POST)
+        if form.is_valid():
+            # Familymemberテーブルのデータを更新
+            family_member.family_name = form.cleaned_data['family_name']
+            family_member.family_gender = form.cleaned_data['family_gender']
+            family_member.family_height = form.cleaned_data['family_height']
+            family_member.family_weight = form.cleaned_data['family_weight']
+
+            # 生年月日から年齢を再計算して保存
+            family_member.family_age = form.calculate_age()
+            family_member.save()
+
+            # Familyallergyテーブルのアレルギー情報を更新
+            allergy_id = form.cleaned_data.get('allergy_id')  # フォームにallergy_idフィールドがあることを前提
+            if allergy_id:
+                # 該当するレコードを取得または新規作成
+                family_allergy, created = Familyallergy.objects.get_or_create(family_id=family_id)
+
+                # allergy_idを設定
+                family_allergy.allergy_id = allergy_id
+                family_allergy.save()
+
+            # メッセージ表示
+            messages.success(request, '家族情報が正常に更新されました。')
+
+            # 変更後のリダイレクト
+            return redirect('cookapp:kazoku_henko_ok', family_id=family_member.family_id)
+
+        # バリデーションエラーの場合
+        return render(request, self.template_name, {'form': form, 'family_member': family_member})
+
+class KazokuHenkoOkView(LoginRequiredMixin, TemplateView):
+    template_name = 'kazoku/henko/kazoku_henko_ok.html'
+
+    def get(self, request, family_id, *args, **kwargs):
+        family_member = get_object_or_404(Familymember, family_id=family_id, user=request.user)
+        # ここで必要な処理を行い、テンプレートにデータを渡します
+        return render(request, self.template_name, {'family_member': family_member})
+
+
+class DietaryHistoryView(LoginRequiredMixin, TemplateView):
+    template_name = 'shokujirireki/dietaryhistory.html'
+
 
 class HealthGraphView(TemplateView):
     template_name = 'kenkougurahu/healthgraph.html'
@@ -372,6 +442,3 @@ class HealthGraphView(TemplateView):
             'dates': dates,
             'weights': weight_values
         })
-
-class DietaryHistoryView(TemplateView):
-    template_name = 'shokujirireki/dietaryhistory.html'

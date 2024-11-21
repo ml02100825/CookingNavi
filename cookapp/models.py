@@ -50,7 +50,7 @@ class Familymember(models.Model):
     family_age = models.CharField(verbose_name='年齢', db_column='Family_Age', max_length=3)
     family_gender = models.CharField(verbose_name='性別', db_column='Family_Gender', max_length=3)
     family_height = models.FloatField(verbose_name='身長', db_column='Family_height')
-    family_weight = models.FloatField(verbose_name='体重', db_column='Family_weight')
+    family_weight = models.FloatField(verbose_name='体重', db_column='Family_weight') 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,  # AUTH_USER_MODEL を参照
         on_delete=models.CASCADE,
@@ -87,3 +87,12 @@ class Weight(models.Model):
     class Meta:
         managed = False
         db_table = 'weight'
+        
+class Allergy(models.Model):
+    allergy_id = models.AutoField(verbose_name='アレルギーID', db_column='ALLERGY_ID', max_length=11, primary_key=True)
+    material_id = models.IntegerField(verbose_name='材料ID', db_column='MATERIAL_ID', max_length=11)
+    allergy_category = models.CharField(verbose_name='アレルギーカテゴリー', db_column='ALLERGY_CATEGORY', max_length=30)
+    allergy_name = models.CharField(verbose_name='アレルギー名', db_column='ALLERGY_NAME', max_length=30)
+    class Meta:
+        managed = False
+        db_table = 'allergy'

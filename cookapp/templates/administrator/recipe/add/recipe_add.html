@@ -1,15 +1,35 @@
-<!-- recipe_add.html -->
-{% extends '../../base.html' %}
+{% load static %}
 
 {% block title %}（管理者）レシピ追加{% endblock %}
 
 {% block content %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'js/save_material.js' %}"></script>
+<script src="{% static 'js/send_materials.js' %}"></script>
+<script src="{% static 'js/delete_material.js' %}"></script>
+
 <!-- メインコンテンツ -->
 <div class="login-container">
     <h1>管理者画面</h1>
     <h2>～レシピ追加～</h2>
-    <form action="#" method="post" enctype="multipart/form-data">
-        <label for="recipe-name">メニュー名</label>
+    <form action="#" method="post" >
+        {% csrf_token %}
+        
+        料理名{{ form.name }}<br>
+       種別 {{ form.type }}<br>
+     作り方 {{ form.recipe_text }}<br>
+       画像１ {{ form.image1 }}<br>
+       画像２ {{ form.image2 }}<br>
+       画像３  {{ form.image3 }}<br>
+        <br>
+       
+        <input type="text" id="material-input" name="material-input" value="" >
+       
+
+    <br>
+      材料  {{ form.materials }} <button id ="materialbutton" type="button">追加</button>
+      <h3 id="materials"></h3>
+        <!-- <label for="recipe-name">メニュー名</label>
         <input type="text" id="recipe-name" name="recipe-name" required>
 
         <label for="ingredients">材料名</label>
@@ -20,7 +40,7 @@
 
         <button type="submit">戻る</button>
 
-        <button type="submit">レシピ追加</button>
+        <button type="submit">レシピ追加</button> -->
     </form>
 </div>
 {% endblock %}

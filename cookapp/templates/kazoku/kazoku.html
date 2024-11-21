@@ -17,22 +17,25 @@
         <div class="family-section">
             <h3>家族一覧</h3>
 
-            <!-- 家族メンバーが存在する場合は家族名を表示 -->
             {% if family_members %}
                 {% for member in family_members %}
                     <div class="family-member">
-                        <p>名前: {{ member }}</p>
+                        <p>名前: {{ member.name }}</p>
+                        <!-- 家族情報変更ボタン -->
+                        <a href="{% url 'cookapp:kazoku_henko' family_id=member.id %}">
+                            <button type="button">家族情報変更</button>
+                        </a>
                     </div>
                 {% endfor %}
             {% endif %}
             
             <button type="button">家族情報確認</button>
-            <a href="{% url 'cookapp:kazoku_henko' %}"><button type="button">家族情報変更</button></a>
-            <a href="{% url 'cookapp:kazoku_add' %}"><button type="button">家族情報追加</button></a>
+            <a href="{% url 'cookapp:kazoku_add' %}">
+                <button type="button">家族情報追加</button>
+            </a>
         </div>
     </header>
 </main>
-
 {% endblock %}
 
 {% block footer %}
