@@ -1,0 +1,133 @@
+/* 編集フォーム全体の設定 */
+.edit-container {
+    background-color: #fff; /* 背景色を白に */
+    border-radius: 8px; /* 角を丸める */
+    padding: 20px; /* 内側の余白 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 影を追加して浮かせる効果 */
+    max-width: 800px; /* 最大幅を設定 */
+    margin: 20px auto; /* 上下に余白、中央に配置 */
+}
+
+/* ユーザー情報（アイコンと名前）のスタイル */
+.user-info {
+    display: flex; /* 横並び */
+    align-items: center; /* 垂直方向中央揃え */
+    margin-bottom: 20px; /* 下に余白 */
+}
+
+.user-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #e63946;
+    border-radius: 50%;
+    margin-right: 10px; /* アイコンと名前の間にスペース */
+}
+
+/* メニュー名の入力フォーム */
+.form-group {
+    margin-bottom: 15px; /* 各フォーム項目の間隔 */
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* 画像編集スライダー */
+.image-edit-slider {
+    margin-bottom: 20px; /* 下に余白 */
+}
+
+.image-container {
+    display: flex; /* 画像を横並びに */
+    justify-content: center; /* 中央揃え */
+    gap: 10px; /* 画像間のスペース */
+}
+
+.post-image {
+    width: 100%;
+    max-width: 200px; /* 最大幅を設定 */
+    height: auto;
+    display: block;
+}
+
+.hidden {
+    display: none; /* 非表示 */
+}
+
+.arrow-buttons {
+    display: flex; /* ボタンを横並び */
+    justify-content: space-between;
+    margin-top: 10px; /* 上にスペース */
+}
+
+.arrow-button {
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 1.5em;
+    border-radius: 50%;
+}
+
+.arrow-button:hover {
+    background-color: #e63946;
+}
+
+.image-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px; /* 上にスペース */
+}
+
+.add-image-btn, .delete-image-btn {
+    padding: 10px 20px;
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.add-image-btn:hover, .delete-image-btn:hover {
+    background-color: #e63946;
+}
+
+/* 作り方編集エリア */
+.recipe-method-edit {
+    margin-bottom: 20px; /* 下に余白 */
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical; /* 縦方向のみリサイズ可能 */
+}
+
+/* ボタン群 */
+.button-group {
+    display: flex;
+    justify-content: flex-end; /* 右寄せ */
+}
+
+.save-button {
+    padding: 10px 20px;
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.save-button:hover {
+    background-color: #e63946;
+}
