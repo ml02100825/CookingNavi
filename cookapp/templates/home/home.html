@@ -29,8 +29,11 @@
             <div class="buttons-container">
                 <!-- 食事履歴ボタン -->
                 <div class="meal-history-btn">
-                    <button>食事履歴</button>
+                    <a href="{% url 'cookapp:dietaryhistory' %}">
+                        <button>食事履歴</button>
+                    </a>
                 </div>
+                
 
                 <!-- 掲示板ボタン -->
                 <div class="forum-btn">
@@ -44,7 +47,7 @@
 
                 <!-- 健康グラフボタン -->
                 <div class="health-graph-btn">
-                    <button>健康グラフ</button>
+                    <a href="{% url 'cookapp:health_graph' %}"><button>健康グラフ</button></a>
                 </div>
             </div>
 

@@ -1,28 +1,30 @@
 {% extends 'baseuser.html' %}
 {% load static %}
-{% block title %}健康管理{% endblock %}
+{% block title %}編集完了{% endblock %}
 
 {% block content %}
+<!DOCTYPE html>
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>健康管理</title>
     <link rel="stylesheet" href="{% static 'css/health/health_management_main.css' %}">
 </head>
-
 <body>
-
-    <!-- Schedule Table -->
+    <!-- Header -->
     <h1>健康管理</h1>
+    
+    <!-- Schedule Table -->
     <table class="schedule-table">
         <tr>
-            <th><a href="{% url 'cookapp:health_selection' %}" ><button class="day-button">月</button></a></th>
-            <th><a href="{% url 'cookapp:health_selection' %}" ><button class="day-button">火</button></a></th>
-            <th><a href="{% url 'cookapp:health_selection' %}" ><button class="day-button">水</button></a></th>
-            <th><a href="{% url 'cookapp:health_selection' %}" ><button class="day-button">木</button></a></th>
-            <th><a href="{% url 'cookapp:health_selection' %}" ><button class="day-button">金</button></a></th>
-            <th><a href="{% url 'cookapp:health_selection' %}" ><button class="day-button">土</button></a></th>
-            <th><a href="{% url 'cookapp:health_selection' %}" ><button class="day-button">日</button></a></th>
+            <th><a href="{% url 'cookapp:health_selection' %}"><button class="day-button">月</button></a></th>
+            <th><a href="{% url 'cookapp:health_selection' %}"><button class="day-button">火</button></a></th>
+            <th><a href="{% url 'cookapp:health_selection' %}"><button class="day-button">水</button></a></th>
+            <th><a href="{% url 'cookapp:health_selection' %}"><button class="day-button">木</button></a></th>
+            <th><a href="{% url 'cookapp:health_selection' %}"><button class="day-button">金</button></a></th>
+            <th><a href="{% url 'cookapp:health_selection' %}"><button class="day-button">土</button></a></th>
+            <th><a href="{% url 'cookapp:health_selection' %}"><button class="day-button">日</button></a></th>
         </tr>
         <tr>
             <td>
@@ -63,6 +65,10 @@
         </tr>
     </table>
 
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 クッキングnavi. All Rights Reserved.</p>
+    </footer>
 </body>
 </html>
 {% endblock %}

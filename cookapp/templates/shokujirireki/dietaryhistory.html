@@ -1,8 +1,12 @@
 {% extends 'baseuser.html' %}
 {% load static %}
-{% block title %}健康管理{% endblock %}
+
+{% block title %}食事履歴{% endblock %}
 
 {% block content %}
+<!-- CSSファイルが正しく読み込まれるか確認 -->
+<link rel="stylesheet" href="{% static 'css/shokujirireki/dietaryhistory.css' %}">
+
 <div class="content">
     <table class="table">
         <thead>
@@ -17,25 +21,25 @@
                 <td rowspan="2" class="date-cell">
                     <button class="date-button">10月24日</button>
                 </td>
-                <td><button class="meal-button" onclick="location.href='{% url %}'">カレー</button></td>
-                <td><button class="meal-button" onclick="location.href='{% url %}'">肉じゃが</button></td>
-                <td><button class="meal-button" onclick="location.href='{% url %}'">ハヤシライス</button></td>
+                <td><button class="meal-button">カレー</button></td>
+                <td><button class="meal-button">肉じゃが</button></td>
+                <td><button class="meal-button">ハヤシライス</button></td>
             </tr>
             <tr>
                 <td rowspan="2" class="date-cell">
                     <button class="date-button">10月23日</button>
                 </td>
-                <td><button class="meal-button" onclick="location.href='{% url %}'">パン</button></td>
-                <td><button class="meal-button" onclick="location.href='{% url %}'">ごはん</button></td>
-                <td><button class="meal-button" onclick="location.href='{% url %}'">スパゲッティ</button></td>
+                <td><button class="meal-button">パン</button></td>
+                <td><button class="meal-button">ごはん</button></td>
+                <td><button class="meal-button">スパゲッティ</button></td>
             </tr>
             <tr>
                 <td rowspan="2" class="date-cell">
                     <button class="date-button">10月22日</button>
                 </td>
-                <td><button class="meal-button" onclick="location.href='{% url %}'">コロッケ</button></td>
-                <td><button class="meal-button" onclick="location.href='{% url %}'">パン</button></td>
-                <td><button class="meal-button" onclick="location.href='{% url %}'">肉</button></td>
+                <td><button class="meal-button">コロッケ</button></td>
+                <td><button class="meal-button">パン</button></td>
+                <td><button class="meal-button">肉</button></td>
             </tr>
         </tbody>
     </table>
