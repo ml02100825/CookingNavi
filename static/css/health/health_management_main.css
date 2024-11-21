@@ -1,10 +1,10 @@
-/* 主菜選択 */
-
-/* ページ全体のスタイル */
+/* General reset */
 body {
     font-family: Arial, sans-serif; /* フォントの設定 */
     margin: 0; /* ページの外側の余白を削除 */
     padding: 0; /* ページの内側の余白を削除 */
+    background-color: #f9f9f9; /* 背景色 */
+    color: #333; /* デフォルトのテキストカラー */
     display: flex; /* 子要素をフレックスボックスで整列 */
     flex-direction: column; /* 子要素を縦方向に並べる */
     align-items: center; /* 子要素を水平中央に配置 */
@@ -47,6 +47,11 @@ body {
     font-size: 2em; /* 見出しのフォントサイズ */
     color: #333; /* 見出しのテキストカラー */
     margin-bottom: 20px; /* 下部余白 */
+}
+
+/* Health Management Heading */
+h1.health-management-heading {
+    color: #4CAF50; /* 健康管理関連の見出しカラー */
 }
 
 /* 画像コンテナ */
@@ -110,4 +115,60 @@ body {
     text-align: center; /* テキストを中央揃え */
     width: 100%; /* フッターを画面いっぱいに広げる */
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1); /* 上側に影をつける */
+}
+
+/* Health Management Table Styling */
+.schedule-table {
+    width: 90%; /* テーブルの幅 */
+    margin: 20px auto; /* テーブルを中央に配置 */
+    border-collapse: collapse; /* ボーダーを重ねて表示 */
+    text-align: center; /* テーブル内のテキストを中央揃え */
+}
+
+.schedule-table th {
+    background-color: #4CAF50; /* ヘッダーの背景色 */
+    color: white; /* ヘッダーの文字色 */
+    padding: 10px; /* パディング */
+}
+
+.schedule-table td {
+    border: 1px solid #ddd; /* ボーダーのスタイル */
+    padding: 15px; /* パディング */
+    background-color: #fff; /* 背景色 */
+}
+
+/* Day Buttons */
+.day-button {
+    width: 60px;
+    height: 40px;
+    font-size: 16px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #4CAF50; /* ボタン背景色 */
+    color: white; /* ボタン文字色 */
+    transition: 0.3s ease;
+}
+
+.day-button:hover {
+    background-color: #45a049; /* ホバー時の色 */
+}
+
+/* Time Slot Buttons */
+.time-slot-button {
+    width: 60px;
+    height: 40px;
+    font-size: 16px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #f1f1f1; /* 背景色 */
+    color: #333; /* 文字色 */
+    transition: 0.3s ease;
+}
+
+.time-slot-button:hover {
+    background-color: #ddd; /* ホバー時の背景色 */
 }

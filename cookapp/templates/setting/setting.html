@@ -9,21 +9,21 @@
     <h2>設定</h2>
     <a href="{% url 'cookapp:acount_setting' %}"><button type="button">アカウント設定</button></a>
     <a href="{% url 'cookapp:family_info' %}"><button type="button">家族情報</button></a>
-    <a href="{% url 'cookapp:body_info_update' %}"><button type="button">身体情報変更</button>
-    <button type="button">通知設定</button>
-    <button type="button">サブスク設定</button>
+    <a href="{% url 'cookapp:body_info_update' %}"><button type="button">身体情報変更</button></a>
+    <a href="{% url 'cookapp:notification_setting' %}"><button type="button">通知設定</button></a>
+    <a href="{% url 'cookapp:subscription_setting' %}"><button type="button">サブスク設定</button></a>
 
     <!-- お知らせ・質問セクション -->
     <h2>お知らせ・質問</h2>
-    <button type="button">お知らせ</button>
-    <button type="button">よくあるご質問</button>
+    <a href="{% url 'cookapp:osirase' %}"><button type="button">お知らせ</button></a>
+    <a href="{% url 'cookapp:questions' %}"><button type="button">よくあるご質問</button></a>
 
     <!-- 規約セクション -->
     <h2>規約</h2>
-    <button type="button"></button>利用規約</button>
+    <button type="button">利用規約</button></a>
 
     <!-- その他の操作 -->
-    <button type="button"></button>サブスク解約</button>
-    <button type="button"></button>アカウント退会</button>
+    <a href="{% url 'cookapp:subscription_kaiyaku' %}"><button type="button">サブスク解約</button></a>
+    <button type="button">アカウント退会</button>
 </main>
 {% endblock %}

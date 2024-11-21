@@ -1,53 +1,4 @@
 /* 新規登録（身長・体重・年齢・アレルギー）入力画面のスタイル */
-/* 全体のスタイル */
-body {
-    font-family: Arial, sans-serif; /* Arialフォントを使用 */
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f9; /* 背景色を薄いグレーに設定 */
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* フッターが常に画面下部に配置されるように高さを設定 */
-}
-
-/* ヘッダーのスタイル */
-.header {
-    display: flex;
-    justify-content: space-between; /* ヘッダー内容を左右に配置 */
-    align-items: center;
-    padding: 15px 30px; /* 上下15px、左右30pxの余白 */
-    background-color: #4CAF50; /* ヘッダーの背景色を緑色に設定 */
-    color: white; /* 文字色を白に設定 */
-    font-size: 1.2em; /* 文字サイズを少し大きく設定 */
-}
-
-.app-name {
-    font-weight: bold; /* アプリ名を太字に設定 */
-}
-
-.nav-right {
-    display: flex;
-    align-items: center; /* アイテムを中央揃え */
-}
-
-.nav-links a {
-    color: white; /* リンクの文字色を白に設定 */
-    text-decoration: none; /* リンクの下線を削除 */
-    margin-left: 15px; /* リンク間の余白 */
-    font-weight: bold; /* リンクを太字に設定 */
-}
-
-.nav-links a:hover {
-    text-decoration: underline; /* ホバー時に下線を表示 */
-}
-
-.user-icon {
-    width: 30px;
-    height: 30px;
-    background-color: #333; /* アイコン背景色をダークグレーに設定 */
-    border-radius: 50%; /* アイコンを丸くする */
-    margin-left: 15px; /* アイコンとリンクの間に余白 */
-}
 
 /* メインコンテンツのスタイル */
 .main-content {
@@ -115,19 +66,4 @@ body {
 /* 2つ目のボタン（登録ボタン）との間隔を狭める */
 .registration-form button:last-of-type {
     margin-top: 15px; /* ボタン間の隙間を小さく設定 */
-}
-
-/* ホバー時のスタイル */
-.registration-form button:hover {
-    background-color: #45a049;
-}
-
-
-/* フッターのスタイル */
-.footer {
-    text-align: center; /* テキストを中央揃え */
-    padding: 20px; /* 上下左右に20pxの余白 */
-    background-color: #333; /* 背景色をダークグレーに */
-    color: white; /* テキスト色を白に */
-    margin-top: auto; /* フッターが常に画面下部に配置されるように */
 }

@@ -1,55 +1,47 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>クッキングナビ - ユーザ変更</title>
-</head>
-<body>
+{% extends '../../baseuser.html' %}
 
-    <header class="header">
-        <div class="app-name">クッキングnavi</div>
-        <div class="nav-right">
-            <div class="nav-links">
-                <a href="#">ホーム</a>
-                <a href="#">ログアウト</a>
-                <div>👤</div>
+{% block title %}クッキングナビ - ユーザ名変更{% endblock %}
+
+{% block content %}
+<main class="main-content">
+
+    <h2>ユーザ変更</h2>
+
+    <!-- 認証済みのユーザーかどうかの表示 -->
+    {% if user.is_authenticated %}
+        <p>こんにちは、{{ user.username }}さん！</p>
+    {% else %}
+        <p>ログインしていません</p>
+    {% endif %}
+
+    <!-- ユーザ名変更フォーム -->
+    <form action="{% url 'cookapp:username' %}" method="post">
+        {% csrf_token %}
+        
+        <!-- 新しいユーザ名 -->
+        <div class="form-group">
+            <label for="id_new_username">新しいユーザ名：</label>
+            <div class="input-container">
+                <span class="icon">👤</span>
+                <input type="text" id="id_new_username" name="new_username" placeholder="ゴリ ゴリオ" required>
             </div>
         </div>
-    </header>
         
-    <div>
-        <h2>ユーザ変更</h2>
- 
-        <!-- ユーザー名変更フォーム -->
+        <!-- 確認用ユーザ名 -->
+        <div class="form-group">
+            <label for="id_confirm_username">ユーザ名（確認）：</label>
+            <div class="input-container">
+                <span class="icon">👤</span>
+                <input type="text" id="id_confirm_username" name="confirm_username" placeholder="ゴリ ゴリオ" required>
+            </div>
+        </div>
 
-        <form action="{% url 'cookapp:username' %}" method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <div>
-                <label>新しいユーザ名：</label>
-                <div>
-                    <span>📧</span>
-                    <input type="text" name="new_username" placeholder="ゴリ ゴリオ" required>
-                </div>
-            </div>
-            
-            <div>
-                <label>ユーザ名（確認）：</label>
-                <div>
-                    <span>📧</span>
-                    <input type="text" name="confirm_username" placeholder="ゴリ ゴリオ" required>
-                </div>
-            </div>
-            
-            <div>
-                <button type="button" onclick="window.history.back()">戻る</button>
-                <button type="submit">変更</button>
-            </div>
-        </form>
-    </div>
-    
-    
+        <!-- ボタン -->
+        <div class="button-group">
+            <button type="button" onclick="window.history.back()">戻る</button>
+            <button type="submit">変更</button>
+        </div>
+    </form>
 
 </main>
-
+{% endblock %}

@@ -15,17 +15,6 @@ body {
     line-height: 1.6; /* 行間を1.6倍に設定 */
 }
 
-/* ヘッダー */
-.header {
-    display: flex; /* 横並びのレイアウト */
-    flex-direction: column; /* ヘッダー内のアイテムは縦並び */
-    justify-content: center; /* アイテムを中央に配置 */
-    align-items: center; /* アイテムを縦方向で中央に配置 */
-    background-color: #333; /* 背景色をダークグレーに設定 */
-    color: white; /* 文字色を白に設定 */
-    padding: 20px; /* 上下に20px、左右に10pxの余白 */
-}
-
 .app-name {
     font-size: 2em; /* アプリ名のフォントサイズを大きく設定 */
     font-weight: bold; /* アプリ名を太字に設定 */
@@ -107,8 +96,4 @@ body {
     color: white; /* 文字色を白に設定 */
     padding: 20px 0; /* 上下に20pxの余白を追加 */
     margin-top: 40px; /* 上部に40pxの余白を追加 */
-}
-
-.footer p {
-    font-size: 1em; /* フォントサイズを設定 */
 }

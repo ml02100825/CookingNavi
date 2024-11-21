@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 class User(AbstractBaseUser):
     user_id = models.AutoField(verbose_name="ユーザID", db_column='User_ID', primary_key=True,)  # Field name made lowercase.
-    username = models.CharField(verbose_name="ユーザ名", db_column='UserName', max_length=30)  # Field name made lowercase.
+    name = models.CharField(verbose_name="ユーザ名", db_column='Name', max_length=30)  # Field name made lowercase.
     password = models.CharField(verbose_name="パスワード", db_column='Password', max_length=512)  # Field name made lowercase.
     email = models.EmailField(verbose_name="メールアドレス", db_column='email', unique=True, max_length=128)  # Field name made lowercase.
     gender = models.CharField(verbose_name="性別", db_column='Gender', max_length=1)  # Field name made lowercase.

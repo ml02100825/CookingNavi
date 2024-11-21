@@ -1,10 +1,13 @@
-from django.shortcuts import render, redirect
-from .forms import EmailForm, UsernameForm, PasswordForm
+from django.shortcuts import get_object_or_404, render, redirect
+from .forms import EmailForm, UsernameForm, PasswordForm, BodyInfoUpdateForm, FamilyForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 from django.contrib import messages
-from account.models import User
+from account.models import User, Userallergy
+from .models import Familymember, Familyallergy
 import logging
+from django.utils import timezone
+
 
 logger = logging.getLogger(__name__)
 
@@ -32,10 +35,16 @@ class HomeView(TemplateView):
     #     return context
 
 class HealthMainView(TemplateView):
-    template_name='health_management_main.html'
+    template_name='health/health_management_main.html'
 
 class HealthSelectionView(TemplateView):
-    template_name='health_selection.html'
+    template_name='health/health_selection.html'
+
+class HealthSelectionComplateView(TemplateView):
+    template_name='health/health_selectioncomplate.html'
+
+class HealthMenuConfirmationView(TemplateView):
+    template_name='health/health_menuconfirmation.html'
 
 class SettingView(TemplateView):
     template_name='setting/setting.html'
@@ -63,20 +72,68 @@ class AcountSettingView(TemplateView):
         return context
     template_name='acount/acount_setting.html'
 
-class FamilyInfoView(TemplateView):
-    template_name='kazoku/kazoku.html'
-
-class BodyInfoUpdateView(TemplateView):
-    template_name='sintai/sintai_henko.html'
 
 class NotificationSettingView(TemplateView):
-    template_name='/.html'
+    template_name='notification/notification.html'
+
 
 class SubscriptionSettingView(TemplateView):
     template_name='sabusuku/setting/sabusuku_setting.html'
 
+class SubscriptionLoginView(TemplateView):
+    template_name='sabusuku/touroku/sabusuku_login.html'
 
-class UsernameView(TemplateView):
+class SubscriptionLoginOkView(LoginRequiredMixin, TemplateView):
+    template_name='sabusuku/touroku/sabusuku_login_ok.html'
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        # サブスク登録処理
+        if user.subscribeflag:
+            # subscribeflag が True の場合（入会済み）
+            messages.warning(request, 'すでに入会済みです。')
+            return redirect('cookapp:subscription_login')
+        else:
+            # subscribeflag が False の場合（未入会）
+            user.subscribeflag = True  # サブスクフラグをTrueに設定
+            user.subjoin = timezone.now().date()  # 入会日を現在の日付に設定
+            user.save()
+
+            # サブスク登録完了ページに遷移
+            return render(request, self.template_name)
+
+    
+class SubscriptionKaiyakuView(TemplateView):
+    template_name='sabusuku/kaiyaku/sabusuku_kaiyaku.html'
+
+class SubscriptionKaiyakuOkView(LoginRequiredMixin, TemplateView):
+    template_name='sabusuku/kaiyaku/sabusuku_kaiyaku_ok.html'
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        # サブスク退会処理
+        if user.subscribeflag:
+            # subscribeflag が True の場合（入会済み）
+            user.subscribeflag = False  # サブスクフラグをFalseに戻す
+            user.unsub = timezone.now().date()  # 退会日を現在の日付に設定
+            user.save()
+
+            # サブスク解約完了ページに遷移
+            return render(request, self.template_name)
+        else:
+            # subscribeflag が False の場合（未入会）
+            messages.warning(request, '未入会です。')
+            return redirect('cookapp:subscription_kaiyaku')
+
+
+class OsiraseView(TemplateView):
+    template_name='osirase/osirase.html'
+
+class QuestionsView(TemplateView):
+    template_name='questions/questions.html'
+
+
+class UsernameView(LoginRequiredMixin, TemplateView):
     template_name = 'acount/name/username_henko.html'
     def get(self, request, *args, **kwargs):
         form = UsernameForm()
@@ -89,7 +146,7 @@ class UsernameView(TemplateView):
             
             # メールアドレスの更新
             user = request.user
-            user.username = new_username
+            user.name = new_username
             user.save()
 
             messages.success(request, 'ユーザー名が正常に変更されました。')
@@ -135,17 +192,144 @@ class PasswordView(LoginRequiredMixin, TemplateView):
     def post(self, request, *args, **kwargs):
         form = PasswordForm(request.POST)
         if form.is_valid():
+            current_password = form.cleaned_data['current_password']
             new_password = form.cleaned_data['new_password']
-            
-            # パスワードの更新
-            user = request.user
-            user.password = new_password
-            user.save()
 
-            messages.success(request, 'パスワードが正常に変更されました。')
-            return redirect('cookapp:password_henko_ok')  # プロフィールページなどにリダイレクト
+            if not request.user.check_password(current_password):
+                messages.error(request, "ログイン中のユーザーと異なるパスワードを入力しました。")
+            else:
+                # パスワードの更新
+                user = request.user
+                user.set_password(new_password)
+                user.save()
+
+                messages.success(request, 'パスワードが正常に変更されました。')
+                return redirect('cookapp:password_henko_ok')  # プロフィールページなどにリダイレクト
         
         return render(request, self.template_name, {'form': form})
 
 class PasswordOkView(TemplateView):
     template_name = 'acount/password/password_henko_ok.html'
+
+
+class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
+    template_name='sintai/sintai_henko.html'
+    def get(self, request, *args, **kwargs):
+        form = BodyInfoUpdateForm()
+        return render(request, self.template_name, {'form': form})
+    
+    def post(self, request, * args, **kwargs):
+        form = BodyInfoUpdateForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            birthdate = form.cleaned_data['birthdate']
+            gender = form.cleaned_data['gender']
+            allergies = form.cleaned_data['allergies']
+            height = form.cleaned_data['height']
+            weight = form.cleaned_data['weight']
+
+            if name != request.user.name:
+                messages.error(request, "ログイン中のユーザーと異なるユーザー名を入力しました。")
+            else:
+                user = request.user
+                user.age = birthdate
+                user.gender = gender
+                user.height = height
+                user.weight = weight
+                user.save()
+                for i in range(len(allergies)):
+                    allergy = allergies[i]
+                    try:
+                        # 既存のアレルギー情報を検索して更新する
+                        user_allergy = Userallergy.objects.get(user=user, allergy_category=allergy)
+                        user_allergy.allergy_category = allergy
+                        user_allergy.save()  # 更新を保存
+                        print(f"Updated allergy for user {user} with allergy {allergy}")
+                    except Userallergy.DoesNotExist:
+                        # レコードが見つからなかった場合の処理
+                        print(f"Allergy {allergy} for user {user} not found, skipping.")
+
+            return redirect('cookapp:body_info_ok')
+        
+        return render(request, self.template_name, {'form': form})
+        
+class BodyInfoOkView(TemplateView):
+    template_name = 'sintai/sintai_henko_ok.html'
+
+class FamilyInfoView(LoginRequiredMixin, TemplateView):
+    template_name = 'kazoku/kazoku.html'
+
+    def get(self, request, *args, **kwargs):
+        # ログインユーザーに関連する家族情報を取得
+        family_members = Familymember.objects.filter(user=request.user)
+
+        # family_name を明示的に取り出して渡す
+        family_names = [member.family_name for member in family_members]
+        
+        # コンテキストに家族情報を追加
+        context = {
+            'family_members': family_names,  # family_names をテンプレートに渡す
+        }
+
+        return render(request, self.template_name, context)
+
+    
+class KazokuaddView(LoginRequiredMixin, TemplateView):
+    template_name = 'kazoku/add/kazoku_add.html'
+
+    # views.py
+    def get(self, request, *args, **kwargs):
+        form = FamilyForm()
+        return render(request, self.template_name, {'form': form,})
+
+    def post(self, request, *args, **kwargs):
+        form = FamilyForm(request.POST)
+        if form.is_valid():
+            # フォームデータを取得
+            family_name = form.cleaned_data['family_name']
+            birth_date = form.cleaned_data['birth_date']
+            family_gender = form.cleaned_data['family_gender']
+            family_height = form.cleaned_data['family_height']
+            family_weight = form.cleaned_data['family_weight']
+            allergy_id = form.cleaned_data.get('allergy_id')  # 選択されたアレルギーIDを取得
+
+            # 生年月日から年齢を計算
+            family_age = form.calculate_age()
+
+            # 家族情報を登録
+            family_member = Familymember.objects.create(
+                family_name=family_name,
+                family_age=family_age,  # 計算した年齢を登録
+                family_gender=family_gender,
+                family_height=family_height,
+                family_weight=family_weight,
+                user=request.user._wrapped if hasattr(request.user, '_wrapped') else request.user  # SimpleLazyObject を解決
+            )
+
+            # 家族アレルギー情報を登録（アレルギーIDが選択されている場合）
+            if allergy_id:  # アレルギーが選択されている場合のみ登録
+                Familyallergy.objects.create(
+                    family_id=family_member.family_id,  # 追加した family_member の ID を使用
+                    allergy_id=allergy_id
+                )
+
+            # メッセージ表示
+            messages.success(request, '家族情報が正常に登録されました。')
+
+            # 登録完了後のリダイレクト
+            return redirect('cookapp:kazoku_add_ok')
+
+        # フォームが無効な場合
+        return render(request, self.template_name, {'form': form})
+    
+class KazokuaddOkView(TemplateView):
+    template_name = 'kazoku/add/kazoku_add_ok.html'
+
+class KazokuHenkoView(LoginRequiredMixin, TemplateView):
+    template_name = 'kazoku/henko/kazoku_henko.html'
+
+class HealthGraphView(TemplateView):
+    template_name = 'kenkougurahu/healthgraph.html'
+
+class DietaryHistoryView(TemplateView):
+    template_name = 'shokujirireki/dietaryhistory.html'

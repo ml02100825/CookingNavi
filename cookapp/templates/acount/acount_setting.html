@@ -1,46 +1,45 @@
 <!-- アカウント設定 -->
-
-
-    <header class="header">
-        <div class="app-name">クッキングnavi</div>
-        <div class="nav-right">
-            <div class="nav-links">
-            <div>
-                <a href="#">ホーム</a>
-                <a href="#">ログアウト</a>
-            </div>
-            <div>👤</div>
-        </div>
-    </header>
-    {% if user.is_authenticated %}
-    <p>こんにちは、{{ user.username }}さん！</p>
-{% else %}
-    <p>ログインしていません</p>
-{% endif %}
+ 
+ 
+<header class="header">
+    <div class="app-name">クッキングnavi</div>
+    <div class="nav-right">
+        <div class="nav-links">
         <div>
-            <p>Session ID: {{ request.session.session_key }}</p>
-            <h2>アカウント設定</h2>
-            
-            <div>
-                <label>ユーザー名 ：</label>
-                <p>{{ user.name}}</p>
-                <a href="{% url 'cookapp:username' %}" ><button>変更</button></a>
-            </div>
-            
-            <div>
-                <label>メールアドレス：</label>
-                <p>{{ user.name}}</p>
-                <a href="{% url 'cookapp:email' %}" ><button>変更</button></a>
-            </div>
-            
-            <div>
-                <label>パスワード：</label>
-                <span>XXXXXXXXX</span>
-                <a href="{% url 'cookapp:password' %}" ><button>変更</button></a>
-            </div>
+            <a href="#">ホーム</a>
+            <a href="#">ログアウト</a>
+        </div>
+        <div>👤</div>
+    </div>
+</header>
+{% if user.is_authenticated %}
+<p>こんにちは、{{ user.name }}さん！</p>
+{% else %}
+<p>ログインしていません</p>
+{% endif %}
+    <div>
+        <p>Session ID: {{ request.session.session_key }}</p>
+        <h2>アカウント設定</h2>
+       
+        <div>
+            <label>ユーザー名 ：</label>
+            <p>{{ user.name}}</p>
+            <a href="{% url 'cookapp:username' %}" ><button>変更</button></a>
+        </div>
+       
+        <div>
+            <label>メールアドレス：</label>
+            <p>{{ user.email}}</p>
+            <a href="{% url 'cookapp:email' %}" ><button>変更</button></a>
+        </div>
+       
+        <div>
+            <label>パスワード：</label>
+            <span>XXXXXXXXX</span>
+            <a href="{% url 'cookapp:password' %}" ><button>変更</button></a>
         </div>
     </div>
-    
+</div>
+
 
 </main>
-

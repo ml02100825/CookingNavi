@@ -4,19 +4,31 @@
 
 {% block content %}
 <!-- ログアウトコンテンツ -->
-<div class="kaiyaku-container">
-    <div class="kaiyaku-box">
+<main>
+    <div class="kaiyaku-container">
         <h2>サブスク解約</h2>
         <!-- ログアウト確認メッセージ -->
         <p>サブスクを解約しますか？</p>
+        
+        <div class="messages">
+            {% for message in messages %}
+                <div class="message {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
 
         <!-- ボタンコンテナ -->
-        <div class="button-container">
-            <button class="kaiyaku-btn">はい</button>
-            <button class="cancel-btn">いいえ</button>
+        <div class="subscription-buttons">
+            <form method="POST" action="{% url 'cookapp:subscription_kaiyaku_ok' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn yes-btn">はい</button>
+            </form>
+            <a href="{% url 'cookapp:setting' %}"><button type="button">いいえ</button></a>
         </div>
+
     </div>
-</div>
+</main>
 {% endblock %}
 
 {% block footer %}

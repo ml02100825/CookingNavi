@@ -1,0 +1,31 @@
+.error-container {
+    background-color: #fdd;
+    color: #900;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #f00;
+    border-radius: 5px;
+}
+
+.error-message {
+    font-size: 14px;
+    margin: 0;
+}
+
+.error-field input {
+    border: 1px solid #f00;
+    background-color: #fff6f6;
+}
+
+.button-group button {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button-group button:hover {
+    background-color: #0056b3;
+}

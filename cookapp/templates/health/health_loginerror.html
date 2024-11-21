@@ -1,0 +1,21 @@
+{% extends 'baseuser.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>ログインエラー</title>
+    
+</head>
+<body>
+
+    <div class="error-container">
+        <h2>セッションが切れました</h2>
+        <p>再度ログインしてください。</p>
+        <a href="login.html" class="login-button">ログイン</a>
+    </div>
+
+</body>
+</html>
+{% endblock %}
