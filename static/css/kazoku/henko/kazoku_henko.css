@@ -1,0 +1,49 @@
+/* 家族情報変更ページ */
+.main-content {
+    background-color: #fff; /* 背景色を白に */
+    border-radius: 8px; /* 角を丸める */
+    padding: 20px; /* 内側の余白 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 影を追加 */
+    max-width: 800px; /* 最大幅 */
+    margin: 20px auto; /* 上下に余白、中央に配置 */
+}
+
+/* ヘッダー */
+.main-content h2 {
+    font-size: 2em;
+    color: #333; /* 濃い灰色 */
+    margin-bottom: 20px; /* 下に余白 */
+    text-align: center; /* 中央揃え */
+}
+
+/* フォーム */
+.registration-form {
+    display: flex;
+    flex-direction: column; /* フォーム要素を縦に並べる */
+    gap: 15px; /* 各要素間にスペース */
+    align-items: center; /* 要素を中央に揃える */
+}
+
+.registration-form input, .registration-form select, .registration-form textarea {
+    padding: 10px;
+    font-size: 1em;
+    width: 100%;
+    max-width: 500px; /* 入力フィールドの最大幅 */
+    border: 1px solid #ccc; /* 薄い灰色の枠線 */
+    border-radius: 4px; /* 角を丸める */
+}
+
+.registration-form button {
+    padding: 10px 20px;
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.2em;
+    margin-top: 20px; /* ボタン上に余白 */
+}
+
+.registration-form button:hover {
+    background-color: #e63946;
+}

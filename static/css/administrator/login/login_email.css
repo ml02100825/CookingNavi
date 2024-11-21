@@ -1,0 +1,95 @@
+/* 全体のレイアウト設定 */
+body {
+    font-family: Arial, sans-serif; /* フォントファミリーを指定 */
+    background-color: #f4f7fc; /* 背景色を淡い色に設定 */
+    display: flex; /* フレックスボックスを使用して中央揃え */
+    justify-content: center; /* 横方向の中央揃え */
+    align-items: center; /* 縦方向の中央揃え */
+    height: 100vh; /* ビューポートの高さに合わせて調整 */
+    margin: 0; /* デフォルトの余白を削除 */
+}
+
+/* パスワードリセットフォームのコンテナ */
+.login-container {
+    background-color: #fff; /* 背景色を白に設定 */
+    padding: 40px; /* 内部のパディングを設定 */
+    border-radius: 8px; /* 角丸にして丸みを持たせる */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 影をつけて立体感を出す */
+    width: 100%; /* 幅を100%にして、レスポンシブ対応 */
+    max-width: 400px; /* 最大幅を400pxに設定 */
+}
+
+/* 見出し */
+.login-container h1 {
+    text-align: center; /* 中央揃え */
+    color: #333; /* 文字色をダークグレーに設定 */
+    font-size: 24px; /* フォントサイズを24pxに設定 */
+    margin-bottom: 20px; /* 下部に余白を設定 */
+}
+
+/* ラベル */
+.login-container label {
+    display: block; /* ラベルをブロック要素にして全体を占める */
+    margin-bottom: 10px; /* 下に10pxの余白を設定 */
+    font-size: 16px; /* フォントサイズを16pxに設定 */
+    color: #555; /* ラベルの文字色を少し薄いグレーに設定 */
+}
+
+/* 入力フィールド */
+input[type="email"] {
+    width: 100%; /* 幅を100%に設定 */
+    padding: 12px; /* 内部のパディングを12pxに設定 */
+    margin: 10px 0; /* 上下の余白を10pxに設定 */
+    border: 1px solid #ccc; /* 枠線を1pxの灰色に設定 */
+    border-radius: 4px; /* 角を4px丸める */
+    font-size: 16px; /* フォントサイズを16pxに設定 */
+    box-sizing: border-box; /* 内部のパディングを含めてサイズを設定 */
+}
+
+/* ボタンのグループ */
+.button-group {
+    display: flex; /* フレックスボックスでボタンを横並びに */
+    justify-content: space-between; /* ボタン間のスペースを均等に */
+    margin-top: 20px; /* 上部に余白を追加 */
+}
+
+/* 戻るボタン */
+button[type="button"] {
+    padding: 12px 20px; /* パディングを12px 20pxに設定 */
+    background-color: #f0f0f0; /* 背景色を淡いグレーに設定 */
+    border: 1px solid #ccc; /* 枠線を1pxの灰色に設定 */
+    border-radius: 4px; /* 角を4px丸める */
+    font-size: 16px; /* フォントサイズを16pxに設定 */
+    cursor: pointer; /* カーソルをポインタに設定 */
+    transition: background-color 0.3s ease; /* ホバー時のアニメーションを設定 */
+}
+
+/* 戻るボタンのホバー時 */
+button[type="button"]:hover {
+    background-color: #ddd; /* ホバー時に背景色を少し濃く */
+}
+
+/* 送信ボタン */
+button[type="submit"] {
+    padding: 12px 20px; /* パディングを12px 20pxに設定 */
+    background-color: #4CAF50; /* 背景色を緑色に設定 */
+    color: white; /* 文字色を白に設定 */
+    border: none; /* 枠線なし */
+    border-radius: 4px; /* 角を4px丸める */
+    font-size: 16px; /* フォントサイズを16pxに設定 */
+    cursor: pointer; /* カーソルをポインタに設定 */
+    transition: background-color 0.3s ease; /* ホバー時のアニメーションを設定 */
+}
+
+/* 送信ボタンのホバー時 */
+button[type="submit"]:hover {
+    background-color: #45a049; /* ホバー時に背景色を少し濃く */
+}
+
+/* フォームの送信後に表示するエラーメッセージ */
+.error-message {
+    color: red; /* エラーメッセージの文字色を赤に設定 */
+    font-size: 14px; /* フォントサイズを14pxに設定 */
+    text-align: center; /* 中央揃え */
+    margin-top: 10px; /* 上部に10pxの余白を追加 */
+}
