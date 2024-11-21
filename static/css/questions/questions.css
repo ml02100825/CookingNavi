@@ -1,0 +1,95 @@
+/* 全体のスタイル */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.faq-wrapper {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* FAQアイテムのスタイル */
+.faq-item {
+    margin-bottom: 20px;
+}
+
+/* チェックボックスを非表示にする */
+.faq-toggle {
+    display: none;
+}
+
+/* 質問のスタイル */
+.faq-question {
+    display: inline-block;
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2rem;
+    text-align: left;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.faq-question:hover {
+    background-color: #0056b3;
+}
+
+/* 回答のスタイル */
+.faq-answer {
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-left: 5px solid #007BFF;
+    display: none; /* 初期状態では非表示 */
+    border-radius: 0 0 5px 5px;
+}
+
+.faq-answer p {
+    margin: 0;
+    font-size: 1rem;
+    color: #555;
+}
+
+/* チェックボックスがチェックされている場合、回答を表示 */
+.faq-toggle:checked + .faq-question + .faq-answer {
+    display: block;
+}
+
+/* 戻るボタンのスタイル */
+.back-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    /* 画面の中央に配置 */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); /* 完全に中央に配置 */
+}
+
+.back-button:hover {
+    background-color: #0056b3;
+}

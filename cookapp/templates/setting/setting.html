@@ -1,9 +1,12 @@
 <!-- settings.html -->
 {% extends '../baseuser.html' %}
+{% load static %}
 
 {% block title %}設定{% endblock %}
 
 {% block content %}
+
+<link rel="stylesheet" href="{% static 'css/setting/setting.css' %}">
 <main class="main-content">
     <!-- 設定セクション -->
     <h2>設定</h2>
