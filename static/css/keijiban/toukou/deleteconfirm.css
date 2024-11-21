@@ -1,0 +1,57 @@
+/* 全体のスタイル */
+body {
+    font-family: Arial, sans-serif; /* フォントを指定 */
+    margin: 0; /* ページの余白を削除 */
+    padding: 0; /* パディングを削除 */
+    background-color: #f4f7fc; /* 背景色を薄いグレー */
+    color: #333; /* テキスト色をダークグレー */
+}
+
+/* 確認メッセージコンテナ */
+.delete-confirm-container {
+    max-width: 400px; /* 最大幅を400pxに設定 */
+    margin: 100px auto; /* 上下中央揃え */
+    padding: 30px; /* 内側の余白 */
+    background-color: #fff; /* 背景色を白 */
+    border-radius: 10px; /* 角を丸く */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+    text-align: center; /* テキストを中央揃え */
+}
+
+/* 削除確認メッセージ */
+.delete-confirm-container h1 {
+    color: #f44336; /* 警告メッセージは赤色 */
+    font-size: 24px; /* フォントサイズ */
+    margin-bottom: 20px; /* 下に余白 */
+}
+
+/* 削除する投稿タイトル */
+.delete-confirm-container p {
+    color: #666; /* メッセージの色を少し薄いグレーに */
+    font-size: 16px; /* フォントサイズ */
+    margin-bottom: 30px; /* 下に余白 */
+}
+
+/* はい・いいえ ボタン */
+.delete-confirm-buttons a {
+    display: inline-block; /* インラインブロックにして横並びに */
+    padding: 10px 20px; /* 内側の余白 */
+    text-decoration: none; /* 下線を消す */
+    border-radius: 5px; /* 角を丸く */
+    font-size: 16px; /* ボタンの文字サイズ */
+    margin: 0 10px; /* ボタン間の余白 */
+}
+
+.delete-confirm-buttons .yes-btn {
+    background-color: #f44336; /* はいボタンは赤色 */
+    color: white; /* 文字色を白に */
+}
+
+.delete-confirm-buttons .no-btn {
+    background-color: #4CAF50; /* いいえボタンは緑色 */
+    color: white; /* 文字色を白に */
+}
+
+.delete-confirm-buttons a:hover {
+    opacity: 0.8; /* ホバー時に少し透明に */
+}

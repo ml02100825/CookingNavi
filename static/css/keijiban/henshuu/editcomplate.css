@@ -1,0 +1,58 @@
+/* 編集完了メッセージのコンテナ */
+.edit-complete-container {
+    background-color: #fff; /* 背景色を白に */
+    border-radius: 8px; /* 角を丸める */
+    padding: 20px; /* 内側の余白 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 影を追加して浮かせる効果 */
+    max-width: 800px; /* 最大幅を設定 */
+    margin: 20px auto; /* 上下に余白、中央に配置 */
+    text-align: center; /* 中央揃え */
+}
+
+/* 編集完了メッセージのタイトル */
+.edit-complete-container h2 {
+    font-size: 2em;
+    color: #2d2d2d; /* 黒に近い色 */
+    margin-bottom: 10px; /* 下にスペース */
+}
+
+/* 編集完了メッセージの本文 */
+.edit-complete-container p {
+    font-size: 1.2em;
+    color: #555; /* 少し薄い灰色 */
+    margin-bottom: 20px; /* 下にスペース */
+}
+
+/* 完了した画像 */
+.completed-image {
+    margin-bottom: 20px; /* 下に余白 */
+}
+
+.success-image {
+    width: 100%;
+    max-width: 400px; /* 画像の最大幅 */
+    height: auto;
+    display: block;
+    margin: 0 auto; /* 中央揃え */
+}
+
+/* ボタン群 */
+.button-group {
+    display: flex;
+    justify-content: center; /* 中央に配置 */
+    gap: 20px; /* ボタン間のスペース */
+}
+
+.back-to-posts-btn, .go-home-btn {
+    padding: 10px 20px;
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.back-to-posts-btn:hover, .go-home-btn:hover {
+    background-color: #e63946;
+}

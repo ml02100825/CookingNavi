@@ -13,16 +13,19 @@ body {
     color: #333; /* 文字色を濃いグレーに設定 */
 }
 
+/* アプリ名 */
 .app-name {
     font-size: 1.5em; /* アプリ名のフォントサイズを少し大きく設定 */
     font-weight: bold; /* アプリ名を太字に設定 */
 }
 
+/* ナビゲーション（右側） */
 .nav-right {
     display: flex; /* Flexboxで子要素を横に並べる */
     align-items: center; /* 縦方向中央揃え */
 }
 
+/* ナビゲーションリンク */
 .nav-links a {
     color: white; /* ナビゲーションリンクの文字色を白に設定 */
     margin-left: 15px; /* リンク同士の間隔を15pxに設定 */
@@ -33,6 +36,7 @@ body {
     text-decoration: underline; /* ホバー時にアンダーラインを追加 */
 }
 
+/* ユーザーアイコン */
 .user-icon {
     width: 35px; /* ユーザーアイコンの幅を35pxに設定 */
     height: 35px; /* ユーザーアイコンの高さを35pxに設定 */
@@ -55,6 +59,7 @@ body {
     gap: 10px; /* 各アイテムの間隔を10pxに */
 }
 
+/* 検索バー */
 .search-bar {
     padding: 10px; /* テキストボックスの内側余白 */
     font-size: 1em; /* フォントサイズを設定 */
@@ -62,6 +67,7 @@ body {
     border-radius: 4px; /* 角を丸める */
 }
 
+/* ボタン（検索、投稿など） */
 .search-btn, .post-recipe-btn {
     padding: 10px 20px; /* ボタンの上下に10px、左右に20pxの余白 */
     font-size: 1em; /* フォントサイズを設定 */
@@ -82,6 +88,7 @@ body {
     padding: 20px; /* 全体の余白 */
 }
 
+/* サイドバー */
 .sidebar {
     width: 200px; /* サイドバーの幅を200pxに */
     padding: 20px; /* 内側の余白 */
@@ -91,6 +98,7 @@ body {
     gap: 10px; /* ボタン同士の間隔を10pxに */
 }
 
+/* サイドバーのボタン */
 .sidebar button {
     padding: 10px; /* ボタン内の余白 */
     font-size: 1em; /* フォントサイズを設定 */
@@ -106,7 +114,7 @@ body {
     color: white; /* ホバー時に文字色を白に */
 }
 
-/* 投稿グリッド */
+/* メインコンテンツ */
 .main-content {
     flex: 1; /* メインコンテンツが残りの幅を占める */
     display: grid; /* グリッドレイアウトを使用 */
@@ -115,6 +123,7 @@ body {
     padding: 10px; /* 内側の余白 */
 }
 
+/* 投稿カード */
 .post-card {
     background-color: #fff; /* 背景色を白に */
     border-radius: 8px; /* カードの角を丸める */
@@ -133,10 +142,12 @@ body {
     height: auto; /* アスペクト比を保持 */
 }
 
+/* 投稿詳細 */
 .post-details {
     padding: 10px; /* 内側の余白 */
 }
 
+/* 投稿タイトル */
 .post-title {
     font-weight: bold; /* タイトルを太字に */
     margin-bottom: 5px; /* 下に余白 */
@@ -145,6 +156,7 @@ body {
     align-items: center; /* 縦方向中央揃え */
 }
 
+/* いいねボタン */
 .like-btn {
     background: none; /* ボタンの背景を削除 */
     border: none; /* 境界線を削除 */
@@ -153,6 +165,7 @@ body {
     color: #ff6b6b; /* 色を赤系に */
 }
 
+/* いいね時の色 */
 .like-btn.liked {
     color: #e63946; /* いいね時の色を暗い赤に */
 }

@@ -1,0 +1,80 @@
+/* ログイン画面のスタイル */
+ 
+/* ログインコンテナのスタイル */
+.login-container {
+    width: 100%; /* 幅を100%に設定 */
+    max-width: 400px; /* 最大幅を400pxに設定 */
+    padding: 20px; /* 内部の余白を20pxに設定 */
+    border-radius: 8px; /* 角を丸くする */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* ボックスに影をつける */
+    background-color: #f9f9f9; /* 背景色を明るいグレーに設定 */
+    text-align: center; /* テキストを中央揃えにする */
+   
+    /* 画面の中央に配置 */
+    position: absolute; /* 絶対位置指定 */
+    top: 50%;  /* 画面の高さの50%に配置 */
+    left: 50%;  /* 画面の幅の50%に配置 */
+    transform: translate(-50%, -50%);  /* 要素を中央に調整 */
+}
+ 
+/* ログインタイトルのスタイル */
+.login-container h1 {
+    margin-bottom: 20px; /* タイトル下の余白を設定 */
+    font-size: 1.8em; /* フォントサイズを1.8倍に設定 */
+    color: #333; /* 文字色をダークグレーに設定 */
+}
+ 
+/* ラベルのスタイル */
+.login-container label {
+    display: block; /* ラベルをブロック要素にして改行させる */
+    margin-bottom: 5px; /* ラベル下の余白を設定 */
+    text-align: left; /* ラベルを左揃えにする */
+    font-weight: bold; /* フォントを太字にする */
+    color: #555; /* 文字色をグレーに設定 */
+}
+ 
+/* 入力フォームのスタイル */
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    width: 100%; /* 入力フォームの幅を100%に設定 */
+    padding: 10px; /* 内部の余白を10pxに設定 */
+    margin-bottom: 15px; /* 入力フォーム下の余白を設定 */
+    border: 1px solid #ddd; /* 薄いグレーの枠線 */
+    border-radius: 4px; /* 角を丸くする */
+    font-size: 1em; /* フォントサイズを1emに設定 */
+}
+ 
+/* ボタンのスタイル */
+.login-container button {
+    width: 100%; /* ボタンの幅を100%に設定 */
+    padding: 10px; /* ボタン内の余白を10pxに設定 */
+    border: none; /* 枠線をなしに設定 */
+    background-color: #333; /* 背景色をダークグレーに設定 */
+    color: #fff; /* 文字色を白に設定 */
+    font-size: 1em; /* フォントサイズを1emに設定 */
+    border-radius: 4px; /* 角を丸くする */
+    cursor: pointer; /* ポインターを表示 */
+}
+ 
+/* ボタンのホバー時のスタイル */
+.login-container button:hover {
+    background-color: #555; /* ホバー時に背景色を少し明るくする */
+}
+
+/* パスワード忘れた場合リンクのスタイル */
+.forgot-password {
+    margin-top: 10px; /* 上部に余白を設定 */
+}
+ 
+/* パスワード忘れた場合のリンクスタイル */
+.forgot-password a {
+    color: #333; /* リンクの文字色をダークグレーに設定 */
+    text-decoration: none; /* 下線をなしにする */
+    font-size: 0.9em; /* フォントサイズを0.9emに設定 */
+}
+ 
+/* パスワード忘れた場合のリンクホバー時のスタイル */
+.forgot-password a:hover {
+    text-decoration: underline; /* ホバー時に下線を表示 */
+    color: #555; /* ホバー時に文字色を少し明るくする */
+}

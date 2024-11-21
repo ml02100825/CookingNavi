@@ -1,0 +1,103 @@
+/* 全体のスタイル */
+body {
+    font-family: Arial, sans-serif; /* フォントを指定 */
+    margin: 0; /* ページの余白を削除 */
+    padding: 0; /* パディングを削除 */
+    background-color: #f4f7fc; /* 背景色を薄いグレー */
+    color: #333; /* テキスト色をダークグレー */
+}
+
+/* コンテナ */
+.content-container {
+    display: flex; /* 横並びレイアウト */
+    justify-content: space-between; /* 子要素を左右に分ける */
+    margin: 20px; /* 外側の余白 */
+}
+
+/* サイドバー */
+.sidebar {
+    width: 250px; /* サイドバーの幅 */
+    padding: 20px; /* 内側の余白 */
+    background-color: #fff; /* 背景色 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+    border-radius: 8px; /* 角を丸く */
+}
+
+/* サイドバーのボタン */
+.sidebar button {
+    width: 100%; /* ボタンの幅を100%に */
+    padding: 10px;
+    margin: 10px 0; /* 上下の余白 */
+    background-color: #4CAF50; /* 緑色 */
+    color: white; /* 白い文字 */
+    border: none;
+    border-radius: 5px; /* 角を丸く */
+    font-size: 16px;
+    cursor: pointer; /* ポインターカーソル */
+}
+
+.sidebar button:hover {
+    background-color: #45a049; /* ホバー時に色を濃く */
+}
+
+/* 投稿グリッド */
+.post-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3列のグリッド */
+    gap: 20px; /* 各アイテム間にスペース */
+    width: 100%; /* グリッドが親要素にフィットするように */
+}
+
+/* 投稿カード */
+.post-card {
+    background-color: #fff; /* 背景色を白 */
+    border-radius: 8px; /* 角を丸く */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+    text-align: center; /* テキスト中央揃え */
+    padding: 10px; /* 内側の余白 */
+}
+
+.post-card img {
+    max-width: 100%; /* 画像をカードの幅に合わせる */
+    border-radius: 8px; /* 画像の角を丸く */
+}
+
+.post-title {
+    font-size: 18px;
+    margin: 10px 0; /* 上下に余白 */
+}
+
+/* ボタンコンテナ */
+.button-container {
+    display: flex; /* 横並び */
+    justify-content: space-around; /* ボタンの間隔 */
+    margin-top: 10px; /* 上に余白 */
+}
+
+/* 投稿ボタン */
+.button-container button {
+    padding: 8px 15px;
+    background-color: #4CAF50; /* 緑色 */
+    color: white; /* 白い文字 */
+    border: none;
+    border-radius: 5px; /* 角を丸く */
+    cursor: pointer; /* ポインターカーソル */
+}
+
+.button-container button:hover {
+    background-color: #45a049; /* ホバー時に色を濃く */
+}
+
+/* フッター */
+.footer {
+    background-color: #fff; /* 背景色を白 */
+    text-align: center; /* 中央揃え */
+    padding: 20px 0; /* 上下に余白 */
+    margin-top: 30px; /* 上部にスペース */
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+}
+
+.footer p {
+    margin: 0;
+    color: #333; /* ダークグレーの文字色 */
+}
