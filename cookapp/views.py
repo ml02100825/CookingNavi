@@ -329,6 +329,12 @@ class KazokuaddOkView(TemplateView):
     template_name = 'kazoku/add/kazoku_add_ok.html'
 
 
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
+from django.utils import timezone
+from .forms import FamilyForm
+from .models import Familymember, Familyallergy, Allergy  # Allergy モデルをインポート
+
 class KazokuHenkoView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/henko/kazoku_henko.html'
 
@@ -338,9 +344,6 @@ class KazokuHenkoView(LoginRequiredMixin, TemplateView):
         # Familymemberのデータを取得
         family_member = get_object_or_404(Familymember, family_id=family_id, user=request.user)
 
-        # Familyallergyのデータを取得（もしあれば）
-        family_allergy = Familyallergy.objects.filter(family_id=family_id).first()
-
         # フォームに初期値を設定
         initial_data = {
             'family_name': family_member.family_name,
@@ -348,12 +351,6 @@ class KazokuHenkoView(LoginRequiredMixin, TemplateView):
             'family_height': family_member.family_height,
             'family_weight': family_member.family_weight,
         }
-
-        # アレルギーIDを設定（既存のアレルギーがあればそのIDを設定）
-        if family_allergy:
-            initial_data['allergy_id'] = family_allergy.allergy_id
-        else:
-            initial_data['allergy_id'] = ''  # まだアレルギーが設定されていない場合
 
         # フォームのインスタンスを作成
         form = FamilyForm(initial=initial_data)
@@ -381,7 +378,7 @@ class KazokuHenkoView(LoginRequiredMixin, TemplateView):
 
             # Familyallergyテーブルのアレルギー情報を更新
             allergy_id = form.cleaned_data.get('allergy_id')  # フォームにallergy_idフィールドがあることを前提
-            if allergy_id is not None:  # allergy_idがNoneでない場合のみ保存
+            if allergy_id:
                 # 該当するレコードを取得または新規作成
                 family_allergy, created = Familyallergy.objects.get_or_create(family_id=family_id)
 
@@ -397,7 +394,7 @@ class KazokuHenkoView(LoginRequiredMixin, TemplateView):
 
         # バリデーションエラーの場合
         return render(request, self.template_name, {'form': form, 'family_member': family_member})
-    
+
 class KazokuHenkoOkView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/henko/kazoku_henko_ok.html'
 
