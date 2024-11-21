@@ -1,146 +1,171 @@
-/* 全体のスタイル */
-body {
-    font-family: Arial, sans-serif; /* フォントを指定 */
-    margin: 0; /* ページの余白を削除 */
-    padding: 0; /* パディングを削除 */
-    background-color: #f4f7fc; /* 背景色を薄いグレー */
-    color: #333; /* テキスト色をダークグレー */
+/* みんなの料理掲示板 */
+
+/* 全体の基本設定 */
+* {
+    margin: 0; /* マージンをリセット */
+    padding: 0; /* パディングをリセット */
+    box-sizing: border-box; /* ボックスサイズをborder-boxに設定 */
 }
 
-/* 検索バーコンテナ */
+body {
+    font-family: Arial, sans-serif; /* ページ全体のフォントを設定 */
+    background-color: #f4f4f9; /* 背景色を薄いグレーに設定 */
+    color: #333; /* 文字色を濃いグレーに設定 */
+}
+
+/* アプリ名 */
+.app-name {
+    font-size: 1.5em; /* アプリ名のフォントサイズを少し大きく設定 */
+    font-weight: bold; /* アプリ名を太字に設定 */
+}
+
+/* ナビゲーション（右側） */
+.nav-right {
+    display: flex; /* Flexboxで子要素を横に並べる */
+    align-items: center; /* 縦方向中央揃え */
+}
+
+/* ナビゲーションリンク */
+.nav-links a {
+    color: white; /* ナビゲーションリンクの文字色を白に設定 */
+    margin-left: 15px; /* リンク同士の間隔を15pxに設定 */
+    text-decoration: none; /* アンダーラインを削除 */
+}
+
+.nav-links a:hover {
+    text-decoration: underline; /* ホバー時にアンダーラインを追加 */
+}
+
+/* ユーザーアイコン */
+.user-icon {
+    width: 35px; /* ユーザーアイコンの幅を35pxに設定 */
+    height: 35px; /* ユーザーアイコンの高さを35pxに設定 */
+    background-color: #e63946; /* 背景色を暗い赤に設定 */
+    border-radius: 50%; /* 丸く表示 */
+    margin-left: 15px; /* 左側に15pxの余白 */
+}
+
+/* 検索バー */
 .search-bar-container {
-    display: flex;
-    justify-content: space-between; /* 検索バーと投稿ボタンの間隔 */
-    margin: 20px;
+    display: flex; /* Flexboxで中央配置 */
+    justify-content: center; /* 水平方向中央揃え */
+    align-items: center; /* 垂直方向中央揃え */
+    padding: 20px; /* 内側の余白を20px */
+    background-color: #fff; /* 背景色を白に設定 */
 }
 
 .search-container {
-    display: flex;
-    justify-content: space-between; /* 入力フィールドとボタンを左右に配置 */
-    width: 70%;
+    display: flex; /* 検索バーとボタンを横並びに */
+    gap: 10px; /* 各アイテムの間隔を10pxに */
 }
 
+/* 検索バー */
 .search-bar {
-    width: 80%; /* 検索バーの幅 */
-    padding: 8px 12px; /* 内側の余白 */
-    font-size: 16px;
-    border-radius: 5px; /* 角を丸く */
-    border: 1px solid #ddd; /* 境界線を追加 */
+    padding: 10px; /* テキストボックスの内側余白 */
+    font-size: 1em; /* フォントサイズを設定 */
+    border: 1px solid #ccc; /* 灰色の境界線 */
+    border-radius: 4px; /* 角を丸める */
 }
 
-.search-btn {
-    padding: 8px 12px;
-    background-color: #4CAF50; /* 緑色 */
-    color: white;
-    border: none;
-    border-radius: 5px; /* 角を丸く */
-    cursor: pointer;
-    font-size: 16px;
+/* ボタン（検索、投稿など） */
+.search-btn, .post-recipe-btn {
+    padding: 10px 20px; /* ボタンの上下に10px、左右に20pxの余白 */
+    font-size: 1em; /* フォントサイズを設定 */
+    color: white; /* ボタンの文字色を白に設定 */
+    background-color: #ff6b6b; /* 背景色を赤系に設定 */
+    border: none; /* 境界線なし */
+    border-radius: 4px; /* 角を丸める */
+    cursor: pointer; /* マウスカーソルをポインターに */
 }
 
-.search-btn:hover {
-    background-color: #45a049; /* ホバー時に色を濃く */
+.search-btn:hover, .post-recipe-btn:hover {
+    background-color: #e63946; /* ホバー時に背景色を暗い赤に変更 */
 }
 
-.post-recipe-btn {
-    padding: 10px 20px;
-    background-color: #4CAF50; /* 緑色 */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.post-recipe-btn:hover {
-    background-color: #45a049; /* ホバー時に色を濃く */
-}
-
-/* コンテンツのメイン部分 */
+/* サイドバーとメインコンテンツ */
 .content-container {
-    display: flex; /* 横並びレイアウト */
-    justify-content: space-between; /* サイドバーとメインコンテンツのスペース */
-    margin: 20px;
+    display: flex; /* Flexboxでサイドバーとメインコンテンツを横並びに */
+    padding: 20px; /* 全体の余白 */
 }
 
 /* サイドバー */
 .sidebar {
-    width: 250px; /* サイドバーの幅 */
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px; /* 角を丸く */
+    width: 200px; /* サイドバーの幅を200pxに */
+    padding: 20px; /* 内側の余白 */
+    background-color: #f0f0f0; /* 背景色を明るいグレーに設定 */
+    display: flex; /* Flexboxでボタンを縦に並べる */
+    flex-direction: column;
+    gap: 10px; /* ボタン同士の間隔を10pxに */
 }
 
+/* サイドバーのボタン */
 .sidebar button {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
+    padding: 10px; /* ボタン内の余白 */
+    font-size: 1em; /* フォントサイズを設定 */
+    color: #333; /* ボタンの文字色を濃いグレーに */
+    background-color: #fff; /* 背景色を白に */
+    border: 1px solid #ddd; /* 薄い境界線 */
+    border-radius: 4px; /* 角を丸める */
+    cursor: pointer; /* マウスカーソルをポインターに */
 }
 
 .sidebar button:hover {
-    background-color: #45a049;
+    background-color: #ff6b6b; /* ホバー時に背景色を赤系に変更 */
+    color: white; /* ホバー時に文字色を白に */
 }
 
 /* メインコンテンツ */
 .main-content {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3列のグリッド */
-    gap: 20px;
-    width: 100%;
+    flex: 1; /* メインコンテンツが残りの幅を占める */
+    display: grid; /* グリッドレイアウトを使用 */
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* 各投稿の幅を調整 */
+    gap: 15px; /* 各カードの間隔 */
+    padding: 10px; /* 内側の余白 */
 }
 
 /* 投稿カード */
 .post-card {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    padding: 10px;
+    background-color: #fff; /* 背景色を白に */
+    border-radius: 8px; /* カードの角を丸める */
+    overflow: hidden; /* コンテンツがはみ出ないように */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 影を追加して浮かせる効果 */
+    text-align: center; /* 中央揃え */
+    transition: transform 0.2s; /* ホバー時のアニメーション効果 */
+}
+
+.post-card:hover {
+    transform: scale(1.05); /* ホバー時に拡大 */
 }
 
 .post-card img {
-    max-width: 100%;
-    border-radius: 8px;
+    width: 100%; /* 画像の幅を100%に */
+    height: auto; /* アスペクト比を保持 */
 }
 
+/* 投稿詳細 */
 .post-details {
-    padding: 10px 0;
+    padding: 10px; /* 内側の余白 */
 }
 
+/* 投稿タイトル */
 .post-title {
-    font-size: 18px;
-    margin: 10px 0;
+    font-weight: bold; /* タイトルを太字に */
+    margin-bottom: 5px; /* 下に余白 */
+    display: flex; /* タイトルといいねボタンを横並びに */
+    justify-content: space-between; /* 両端に配置 */
+    align-items: center; /* 縦方向中央揃え */
 }
 
+/* いいねボタン */
 .like-btn {
-    font-size: 18px;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    color: #f44336; /* 赤色 */
+    background: none; /* ボタンの背景を削除 */
+    border: none; /* 境界線を削除 */
+    cursor: pointer; /* カーソルをポインターに */
+    font-size: 1.2em; /* フォントサイズを少し大きく */
+    color: #ff6b6b; /* 色を赤系に */
 }
 
+/* いいね時の色 */
 .like-btn.liked {
-    color: #e91e63; /* いいねの色を変更 */
-}
-
-/* フッター */
-.footer {
-    background-color: #fff;
-    text-align: center;
-    padding: 20px 0;
-    margin-top: 30px;
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.footer p {
-    margin: 0;
-    color: #333;
+    color: #e63946; /* いいね時の色を暗い赤に */
 }
