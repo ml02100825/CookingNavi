@@ -22,11 +22,7 @@
         <h2>ユーザ変更</h2>
  
         <!-- ユーザー名変更フォーム -->
-        {% if user.is_authenticated %}
-        <p>こんにちは、{{ user.username }}さん！</p>
-    {% else %}
-        <p>ログインしていません</p>
-    {% endif %}
+
         <form action="{% url 'cookapp:username' %}" method="post">
             {% csrf_token %}
             {{ form.as_p }}
