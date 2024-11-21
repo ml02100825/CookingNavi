@@ -1,0 +1,72 @@
+/* 新規登録フォームのスタイル */
+.registration-form {
+    width: 100%; /* 幅を100%に設定 */
+    max-width: 500px; /* 最大幅を500pxに設定 */
+    margin: 0 auto; /* 中央揃え */
+    padding: 30px; /* パディングを30pxに設定 */
+    background-color: #fff; /* 背景色を白に設定 */
+    border-radius: 8px; /* 角を丸める */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 軽い影をつける */
+}
+
+/* 見出しのスタイル */
+h2 {
+    font-size: 24px; /* フォントサイズを24pxに設定 */
+    color: #333; /* 文字色を濃いグレーに設定 */
+    margin-bottom: 20px; /* 下部に余白を追加 */
+    text-align: center; /* 見出しを中央揃え */
+}
+
+/* 入力フィールドのスタイル */
+.registration-form input[type="text"],
+.registration-form input[type="email"],
+.registration-form input[type="password"],
+.registration-form input[type="number"],
+.registration-form input[type="date"] {
+    width: 100%; /* 幅を100%に設定 */
+    padding: 12px 20px; /* パディングを12px 20pxに設定 */
+    margin-bottom: 15px; /* 下部に余白を追加 */
+    border: 1px solid #ccc; /* 薄い灰色の境界線 */
+    border-radius: 4px; /* 角を丸める */
+    box-sizing: border-box; /* 幅とパディングを含むボックスサイズ */
+}
+
+/* ボタンのスタイル */
+.registration-form button {
+    width: 48%; /* ボタンの幅を48%に設定 */
+    padding: 12px 20px; /* パディングを12px 20pxに設定 */
+    margin: 10px 1%; /* 左右に余白を追加 */
+    border-radius: 4px; /* 角を丸める */
+    font-size: 16px; /* フォントサイズを16pxに設定 */
+    cursor: pointer; /* マウスカーソルをポインターに */
+    transition: background-color 0.3s ease; /* ホバー時のアニメーション */
+}
+
+/* 戻るボタンのスタイル */
+.registration-form button:first-child {
+    background-color: #f44336; /* 戻るボタンは赤色に設定 */
+    color: white; /* 文字色は白に設定 */
+    border: none; /* 境界線なし */
+}
+
+.registration-form button:first-child:hover {
+    background-color: #d32f2f; /* ホバー時に赤を濃く */
+}
+
+/* 登録ボタンのスタイル */
+.registration-form button:last-child {
+    background-color: #4caf50; /* 登録ボタンは緑色に設定 */
+    color: white; /* 文字色は白に設定 */
+    border: none; /* 境界線なし */
+}
+
+.registration-form button:last-child:hover {
+    background-color: #45a049; /* ホバー時に緑を濃く */
+}
+
+/* フォームエラーメッセージのスタイル */
+.error-message {
+    color: red; /* エラーメッセージを赤色に設定 */
+    font-size: 14px; /* フォントサイズを14pxに設定 */
+    margin-top: 10px; /* 上部に余白を追加 */
+}

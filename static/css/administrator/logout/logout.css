@@ -1,0 +1,89 @@
+/* （管理者）ログアウト画面のスタイル */
+/* 全体のスタイル */
+body {
+    font-family: Arial, sans-serif; /* フォントをArialに設定 */
+    margin: 0; /* ページの余白をゼロに */
+    padding: 0; /* ページのパディングをゼロに */
+    background-color: #f4f4f9; /* 背景色を薄いグレーに設定 */
+    display: flex; /* Flexboxを使ってレイアウトを設定 */
+    flex-direction: column; /* 縦方向にレイアウト */
+    min-height: 100vh; /* 画面の高さに合わせて最小高さを設定 */
+}
+
+.app-name {
+    font-weight: bold; /* アプリ名を太字に */
+}
+
+.nav-right {
+    display: flex; /* Flexboxでナビゲーションアイテムを横並び */
+    align-items: center; /* 垂直方向に中央揃え */
+}
+
+.nav-links a {
+    color: white; /* ナビリンクの文字色を白に */
+    text-decoration: none; /* 下線を削除 */
+    margin-left: 15px; /* 左側に間隔を追加 */
+    font-weight: bold; /* リンク文字を太字に */
+}
+
+.nav-links a:hover {
+    text-decoration: underline; /* ホバー時に下線を表示 */
+}
+
+.user-icon {
+    width: 30px; /* ユーザーアイコンの幅 */
+    height: 30px; /* ユーザーアイコンの高さ */
+    background-color: #333; /* ユーザーアイコンの背景色をグレーに */
+    border-radius: 50%; /* アイコンを丸くする */
+    margin-left: 15px; /* アイコンとリンクの間に間隔を追加 */
+}
+
+/* ログアウトコンテンツのスタイル */
+.logout-container {
+    display: flex; /* Flexboxを使用 */
+    justify-content: center; /* 中央揃え */
+    align-items: center; /* 垂直方向に中央揃え */
+    flex-grow: 1; /* メインコンテンツが画面中央に表示されるように */
+    padding: 20px; /* パディングを設定 */
+}
+
+.logout-box {
+    background-color: white; /* 背景色を白に */
+    border-radius: 8px; /* 角を丸くする */
+    padding: 30px; /* 内部にパディングを追加 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 影を付けて浮き上がったような見た目に */
+    text-align: center; /* 文字を中央揃え */
+    max-width: 400px; /* 最大幅を400pxに設定 */
+    width: 100%; /* 幅は100% */
+    margin: 0 auto; /* 左右中央に配置 */
+}
+
+/* ボタンコンテナのスタイル */
+.button-container {
+    display: flex; /* Flexboxでボタンを横並びに */
+    justify-content: center; /* ボタンを中央揃え */
+    gap: 15px; /* ボタン間にスペースを追加 */
+    width: 100%; /* コンテナ幅を100%に設定 */
+}
+
+/* ログアウトボタンのスタイル */
+.logout-btn, .cancel-btn {
+    background-color: #4CAF50; /* ボタン背景色を緑に */
+    color: white; /* ボタン文字色を白に */
+    border: none; /* ボーダーを削除 */
+    padding: 12px 20px; /* ボタンのパディングを設定 */
+    font-size: 1em; /* フォントサイズを設定 */
+    cursor: pointer; /* カーソルをポインタに設定 */
+    border-radius: 5px; /* ボタンの角を丸くする */
+    width: auto; /* 幅を自動にしてボタンサイズを調整 */
+    min-width: 100px; /* 最小幅を100pxに設定 */
+    white-space: nowrap; /* テキストを改行なしで表示 */
+}
+
+.logout-btn:hover, .cancel-btn:hover {
+    background-color: #45a049; /* ホバー時にボタンの色を少し濃く */
+}
+
+.logout-btn:hover, .cancel-btn:hover {
+    background-color: #45a049; /* ホバー時にボタンの色を少し濃く */
+}

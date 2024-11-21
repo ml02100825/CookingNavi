@@ -1,0 +1,111 @@
+/* 全体のスタイル */
+body {
+    font-family: Arial, sans-serif; /* 見やすいフォント */
+    margin: 0; /* ページ全体の余白をなくす */
+    padding: 0; /* ページ全体のパディングをなくす */
+    background-color: #f9f9f9; /* 優しいグレーで背景を統一 */
+    color: #333; /* テキストの基本色 */
+}
+
+/* メインコンテンツを中央に配置 */
+main {
+    display: flex; /* フレックスボックスでレイアウトを調整 */
+    justify-content: center; /* 横方向の中央揃え */
+    align-items: center; /* 縦方向の中央揃え */
+    min-height: 80vh; /* 画面の大部分を占める高さ */
+}
+
+/* サブスク解約コンテナ */
+.kaiyaku-container {
+    background-color: #ffffff; /* 背景は白色 */
+    border-radius: 8px; /* 角を丸める */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 軽い影をつける */
+    padding: 20px; /* 内側に余白を追加 */
+    max-width: 400px; /* 最大幅を指定 */
+    width: 100%; /* 幅を可変にしてモバイル対応 */
+    text-align: center; /* コンテンツを中央揃え */
+}
+
+/* タイトルスタイル */
+.kaiyaku-container h2 {
+    font-size: 22px; /* 大きめのフォントサイズ */
+    margin-bottom: 15px; /* 下に余白をつける */
+    color: #E53935; /* 注意を促す赤色 */
+}
+
+/* メッセージテキストのスタイル */
+.kaiyaku-container p {
+    font-size: 16px; /* 標準的なフォントサイズ */
+    margin-bottom: 20px; /* ボタンとの間に余白 */
+}
+
+/* メッセージエリア */
+.messages {
+    margin-bottom: 20px; /* メッセージとボタンの間の余白 */
+}
+
+/* 各メッセージ */
+.message {
+    margin: 5px 0; /* メッセージ間の間隔 */
+    padding: 10px; /* メッセージ内の余白 */
+    border-radius: 4px; /* 角を丸くする */
+    font-size: 14px; /* 少し小さめのフォントサイズ */
+}
+
+/* メッセージの種類ごとのスタイル */
+.message.error {
+    background-color: #f8d7da; /* エラーメッセージ用の背景色 */
+    color: #721c24; /* エラーテキストの色 */
+    border: 1px solid #f5c6cb; /* エラーボーダー */
+}
+
+.message.success {
+    background-color: #d4edda; /* 成功メッセージ用の背景色 */
+    color: #155724; /* 成功テキストの色 */
+    border: 1px solid #c3e6cb; /* 成功ボーダー */
+}
+
+/* ボタンコンテナ */
+.subscription-buttons {
+    display: flex; /* 横並び配置 */
+    justify-content: space-around; /* ボタン間のスペースを均等に */
+    align-items: center; /* ボタンの縦方向を揃える */
+}
+
+/* ボタン共通スタイル */
+.subscription-buttons button {
+    font-size: 16px; /* ボタン内のフォントサイズ */
+    padding: 10px 20px; /* ボタン内の余白 */
+    border-radius: 4px; /* ボタンの角を丸める */
+    border: none; /* ボーダーをなくす */
+    cursor: pointer; /* ホバー時にポインターを変更 */
+    transition: background-color 0.3s ease; /* ホバー時の背景色変化をスムーズに */
+}
+
+/* はいボタンのスタイル */
+.yes-btn {
+    background-color: #E53935; /* 解約を表す赤色 */
+    color: #ffffff; /* 白文字 */
+}
+
+.yes-btn:hover {
+    background-color: #d32f2f; /* ホバー時に濃い赤色 */
+}
+
+.yes-btn:active {
+    background-color: #b71c1c; /* クリック時にさらに濃い赤色 */
+}
+
+/* いいえボタンのスタイル */
+.subscription-buttons button[type="button"] {
+    background-color: #757575; /* 無難なグレー */
+    color: #ffffff; /* 白文字 */
+}
+
+.subscription-buttons button[type="button"]:hover {
+    background-color: #616161; /* ホバー時に濃いグレー */
+}
+
+.subscription-buttons button[type="button"]:active {
+    background-color: #424242; /* クリック時にさらに濃いグレー */
+}

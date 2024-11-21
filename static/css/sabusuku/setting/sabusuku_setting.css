@@ -1,0 +1,84 @@
+/* 全体のスタイル */
+body {
+    font-family: Arial, sans-serif; /* 読みやすいフォント */
+    margin: 0; /* 余白なし */
+    padding: 0; /* パディングなし */
+    background-color: #f9f9f9; /* 優しいグレー背景 */
+    color: #333; /* テキストの標準色 */
+}
+
+/* コンテナ全体のスタイル */
+.subscription-container {
+    max-width: 800px; /* コンテナの最大幅 */
+    margin: 20px auto; /* 上下に余白をつけて中央揃え */
+    padding: 20px; /* 内側に余白を追加 */
+    background-color: #ffffff; /* 白い背景 */
+    border-radius: 8px; /* 角を丸める */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+}
+
+/* タイトルスタイル */
+.subscription-container h1 {
+    font-size: 26px; /* メインタイトルの大きなフォント */
+    color: #E53935; /* 強調の赤色 */
+    text-align: center; /* 中央揃え */
+    margin-bottom: 20px; /* 下の余白 */
+}
+
+/* 各セクションタイトルのスタイル */
+.subscription-container h2 {
+    font-size: 20px; /* セクションタイトル用のサイズ */
+    margin-bottom: 10px; /* 下に余白 */
+    color: #333; /* 標準的な色 */
+}
+
+/* サブスクリプション機能のリスト */
+.subscription-features ul {
+    list-style-type: disc; /* デフォルトのディスク形式 */
+    margin-left: 20px; /* 左側に余白 */
+    padding-left: 20px; /* 内側に余白 */
+}
+
+.subscription-features li {
+    font-size: 16px; /* リスト項目のフォントサイズ */
+    margin-bottom: 8px; /* 項目間に余白 */
+}
+
+/* 広告削除の説明スタイル */
+.ad-removal p {
+    font-size: 16px; /* テキストの標準サイズ */
+    margin-top: 10px; /* 上に余白 */
+    margin-bottom: 20px; /* 下に余白 */
+    line-height: 1.6; /* 行間を少し広げる */
+}
+
+/* ボタンコンテナのスタイル */
+.subscription-button,
+.create-account {
+    text-align: center; /* 中央揃え */
+    margin-top: 20px; /* 上に余白 */
+}
+
+/* 共通ボタンスタイル */
+.subscription-button button,
+.create-account button {
+    font-size: 16px; /* ボタン内のフォントサイズ */
+    padding: 10px 20px; /* ボタン内の余白 */
+    border-radius: 4px; /* 角を丸める */
+    border: none; /* ボーダーをなくす */
+    cursor: pointer; /* ポインタを変更 */
+    background-color: #E53935; /* メインカラー */
+    color: #ffffff; /* 白文字 */
+    transition: background-color 0.3s ease; /* 背景色のスムーズな変更 */
+}
+
+/* ホバー時のボタン */
+.subscription-button button:hover,
+.create-account button:hover {
+    background-color: #d32f2f; /* 濃い赤色 */
+}
+
+.subscription-button button:active,
+.create-account button:active {
+    background-color: #b71c1c; /* さらに濃い赤色 */
+}

@@ -37,7 +37,10 @@
 
                 <!-- 掲示板ボタン -->
                 <div class="forum-btn">
-                    <button>掲示板</button>
+                    <a href="{% url 'bbs:BulletinBoard' %}">
+                        <button>掲示板</button>
+                    </a>
+                    
                 </div>
 
                 <!-- 買い物リストボタン -->
@@ -47,7 +50,7 @@
 
                 <!-- 健康グラフボタン -->
                 <div class="health-graph-btn">
-                    <a href="{% url 'cookapp:health_graph' %}"><button>健康グラフ</button></a>
+                  
                 </div>
             </div>
 
