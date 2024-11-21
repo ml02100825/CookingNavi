@@ -22,4 +22,5 @@ urlpatterns = [
     path("cook/", include('cookapp.urls')),
     path("", include('account.urls')),
     path("administrator/", include('administrator.urls')),
+    path("bbs/",include('bbs.urls'))
 ]
