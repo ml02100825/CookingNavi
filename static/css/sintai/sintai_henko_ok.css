@@ -1,0 +1,65 @@
+/* 身体情報確認画面 */
+
+/* 全体のスタイル */
+body {
+    /* フォントと背景色の設定 */
+    font-family: Arial, sans-serif;
+    margin: 0; /* ページ全体の余白をなくす */
+    padding: 0; /* ページ全体のパディングをなくす */
+    background-color: #f7f7f7; /* 優しいグレーで背景を整える */
+    color: #333; /* テキストの基本色 */
+}
+
+/* メインコンテンツの中央揃え */
+main {
+    display: flex; /* フレックスボックスでレイアウトを調整 */
+    justify-content: center; /* 横方向の中央揃え */
+    align-items: center; /* 縦方向の中央揃え */
+    min-height: 100vh; /* 画面全体の高さを確保 */
+}
+
+/* コンテンツを包むボックス */
+.sintai-complete-container {
+    background-color: #ffffff; /* 背景は白で統一 */
+    border-radius: 8px; /* 角を丸くして柔らかい印象に */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 軽い影を付けて浮き上がるようなデザインに */
+    padding: 20px; /* コンテンツに余白を追加 */
+    text-align: center; /* 中央揃え */
+    max-width: 400px; /* 最大幅を設定 */
+    width: 100%; /* モバイルにも対応するため幅を可変に */
+}
+
+/* タイトルのスタイル */
+.sintai-complete-container h1 {
+    font-size: 24px; /* 大きめのフォントサイズ */
+    margin-bottom: 10px; /* 下に少し余白 */
+    color: #4CAF50; /* 成功を表す緑色 */
+}
+
+/* メッセージテキストのスタイル */
+.sintai-complete-container p {
+    font-size: 16px; /* 標準的なフォントサイズ */
+    margin-bottom: 20px; /* ボタンとの間に余白を確保 */
+}
+
+/* ボタンのスタイル */
+.sintai-complete-container button {
+    background-color: #4CAF50; /* 緑色の背景で成功をイメージ */
+    color: #ffffff; /* テキストは白色でコントラストを高める */
+    border: none; /* ボーダーをなくす */
+    border-radius: 4px; /* ボタンの角を少し丸める */
+    padding: 10px 20px; /* ボタン内の余白を設定 */
+    font-size: 16px; /* ボタン内の文字サイズ */
+    cursor: pointer; /* ホバー時にカーソルを変更 */
+    transition: background-color 0.3s ease; /* 背景色の変化をスムーズに */
+}
+
+/* ボタンのホバー時のスタイル */
+.sintai-complete-container button:hover {
+    background-color: #45a049; /* 少し濃い緑に変更 */
+}
+
+/* ボタンのクリック時のスタイル */
+.sintai-complete-container button:active {
+    background-color: #3e8e41; /* さらに濃い緑に変更 */
+}
