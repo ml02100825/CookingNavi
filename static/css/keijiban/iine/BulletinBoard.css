@@ -1,0 +1,146 @@
+/* 全体のスタイル */
+body {
+    font-family: Arial, sans-serif; /* フォントを指定 */
+    margin: 0; /* ページの余白を削除 */
+    padding: 0; /* パディングを削除 */
+    background-color: #f4f7fc; /* 背景色を薄いグレー */
+    color: #333; /* テキスト色をダークグレー */
+}
+
+/* 検索バーコンテナ */
+.search-bar-container {
+    display: flex;
+    justify-content: space-between; /* 検索バーと投稿ボタンの間隔 */
+    margin: 20px;
+}
+
+.search-container {
+    display: flex;
+    justify-content: space-between; /* 入力フィールドとボタンを左右に配置 */
+    width: 70%;
+}
+
+.search-bar {
+    width: 80%; /* 検索バーの幅 */
+    padding: 8px 12px; /* 内側の余白 */
+    font-size: 16px;
+    border-radius: 5px; /* 角を丸く */
+    border: 1px solid #ddd; /* 境界線を追加 */
+}
+
+.search-btn {
+    padding: 8px 12px;
+    background-color: #4CAF50; /* 緑色 */
+    color: white;
+    border: none;
+    border-radius: 5px; /* 角を丸く */
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.search-btn:hover {
+    background-color: #45a049; /* ホバー時に色を濃く */
+}
+
+.post-recipe-btn {
+    padding: 10px 20px;
+    background-color: #4CAF50; /* 緑色 */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.post-recipe-btn:hover {
+    background-color: #45a049; /* ホバー時に色を濃く */
+}
+
+/* コンテンツのメイン部分 */
+.content-container {
+    display: flex; /* 横並びレイアウト */
+    justify-content: space-between; /* サイドバーとメインコンテンツのスペース */
+    margin: 20px;
+}
+
+/* サイドバー */
+.sidebar {
+    width: 250px; /* サイドバーの幅 */
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px; /* 角を丸く */
+}
+
+.sidebar button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.sidebar button:hover {
+    background-color: #45a049;
+}
+
+/* メインコンテンツ */
+.main-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3列のグリッド */
+    gap: 20px;
+    width: 100%;
+}
+
+/* 投稿カード */
+.post-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 10px;
+}
+
+.post-card img {
+    max-width: 100%;
+    border-radius: 8px;
+}
+
+.post-details {
+    padding: 10px 0;
+}
+
+.post-title {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.like-btn {
+    font-size: 18px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #f44336; /* 赤色 */
+}
+
+.like-btn.liked {
+    color: #e91e63; /* いいねの色を変更 */
+}
+
+/* フッター */
+.footer {
+    background-color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 30px;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.footer p {
+    margin: 0;
+    color: #333;
+}
