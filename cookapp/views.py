@@ -3,8 +3,9 @@ from .forms import EmailForm, UsernameForm, PasswordForm, BodyInfoUpdateForm, Fa
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 from django.contrib import messages
-from account.models import User, Userallergy
-from .models import Allergy, Familymember, Familyallergy
+from .models import User, Userallergy, Familymember, Familyallergy, Weight, Allergy
+from django.contrib.auth.models import User
+from django.http import JsonResponse
 import logging
 from django.utils import timezone
 
@@ -326,10 +327,6 @@ class KazokuaddView(LoginRequiredMixin, TemplateView):
 class KazokuaddOkView(TemplateView):
     template_name = 'kazoku/add/kazoku_add_ok.html'
 
-from django.shortcuts import get_object_or_404, render, redirect
-from django.contrib import messages
-from .models import Familymember, Familyallergy
-from .forms import FamilyForm
 
 class KazokuHenkoView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/henko/kazoku_henko.html'
@@ -402,3 +399,48 @@ class KazokuHenkoOkView(LoginRequiredMixin, TemplateView):
 
 class DietaryHistoryView(LoginRequiredMixin, TemplateView):
     template_name = 'shokujirireki/dietaryhistory.html'
+
+
+class HealthGraphView(TemplateView):
+    template_name = 'kenkougurahu/healthgraph.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # ログインしているユーザーを取得
+        user = self.request.user
+
+        # ログインユーザーの家族情報を取得
+        family_members = Familymember.objects.filter(user=user)
+
+        # 家族メンバー情報をテンプレートに渡す
+        context['family_members'] = family_members
+        return context
+
+    def post(self, request, *args, **kwargs):
+        # ユーザーIDと開始日を取得
+        user_id = request.POST.get('user_id')
+        start_date = request.POST.get('start_date')
+
+        if not user_id or not start_date:
+            return JsonResponse({'error': 'ユーザーと日付を選択してください。'}, status=400)
+
+        # ユーザーの体重データを取得
+        weights = Weight.objects.filter(
+            user_id=user_id,
+            register_time__gte=start_date
+        ).order_by('register_time')
+
+        # 体重データが存在しない場合の処理
+        if not weights:
+            return JsonResponse({'error': '指定したユーザーの体重データはありません。'}, status=404)
+
+        # 日付と体重のリストを作成
+        dates = [weight.register_time.strftime('%Y-%m-%d') for weight in weights]
+        weight_values = [weight.weight for weight in weights]
+
+        # JSONでデータを返す
+        return JsonResponse({
+            'dates': dates,
+            'weights': weight_values
+        })

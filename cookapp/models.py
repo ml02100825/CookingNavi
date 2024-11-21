@@ -3,7 +3,7 @@ from django.db import models
 from django.conf import settings
 
 class User(models.Model):
-    user_id = models.AutoField(verbose_name="ユーザID", db_column='User_ID', primary_key=True,)  # Field name made lowercase.
+    user_id = models.AutoField(verbose_name="ユーザID", db_column='User_ID', primary_key=True)  # Field name made lowercase.
     name = models.CharField(verbose_name="ユーザ名", db_column='Name', max_length=30)  # Field name made lowercase.
     password = models.CharField(verbose_name="パスワード", db_column='Password', max_length=512)  # Field name made lowercase.
     email = models.EmailField(verbose_name="メールアドレス", db_column='email', unique=True, max_length=128)  # Field name made lowercase.
@@ -68,6 +68,26 @@ class Familyallergy(models.Model):
         managed = False
         db_table = 'familyallergy'
 
+# class Allergy(models.Model):
+#     allergy_id = models.AutoField(verbose_name='アレルギーID', db_column='ALLERGY_ID', max_length=11, primary_key=True)
+#     material_id = models.IntegerField(verbose_name='材料ID', db_column='MATERIAL_ID', max_length=11)
+#     allergy_category = models.CharField(verbose_name='アレルギーカテゴリー', db_column='ALLERGY_CATEGORY', max_length=30)
+#     allergy_name = models.CharField(verbose_name='アレルギー名', db_column='ALLERGY_NAME', max_length=30)
+#     class Meta:
+#         managed = False
+#         db_table = 'allergy'
+
+class Weight(models.Model):
+    weight_id = models.AutoField(verbose_name='体重ID', db_column='Weight_ID', primary_key=True)
+    weight = models.FloatField(verbose_name='体重', db_column='Weight')
+    register_time = models.DateTimeField(verbose_name='登録時間', db_column='RegisterTime')
+    user_id = models.CharField(verbose_name='ユーザID', db_column='User_ID', max_length=50)
+    family_id = models.CharField(verbose_name='家族ID', db_column='Family_ID', max_length=3)
+
+    class Meta:
+        managed = False
+        db_table = 'weight'
+        
 class Allergy(models.Model):
     allergy_id = models.AutoField(verbose_name='アレルギーID', db_column='ALLERGY_ID', max_length=11, primary_key=True)
     material_id = models.IntegerField(verbose_name='材料ID', db_column='MATERIAL_ID', max_length=11)
