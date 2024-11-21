@@ -69,14 +69,14 @@ class BodyInfoUpdateForm(forms.Form):
 
 class FamilyForm(forms.Form):
     family_name = forms.CharField(label='名前', max_length=20)
-    
+
     # 生年月日入力 (カレンダーウィジェット)
     birth_date = forms.DateField(
         label='生年月日',
         widget=DateInput(attrs={'type': 'date'}),  # HTML5 のカレンダーウィジェット
         input_formats=['%Y-%m-%d'],  # 入力形式を指定
     )
-    
+
     family_gender = forms.ChoiceField(
         label='性別',
         choices=[('0', '男性'), ('1', '女性'), ('2', 'その他')],
@@ -100,7 +100,7 @@ class FamilyForm(forms.Form):
         ],
         required=False  # オプショナル
     )
-    
+
     # 年齢計算用のメソッド
     def calculate_age(self):
         birth_date = self.cleaned_data.get('birth_date')
@@ -109,3 +109,9 @@ class FamilyForm(forms.Form):
             age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
             return age
         return None
+
+    def clean_allergy_id(self):
+        allergy_id = self.cleaned_data.get('allergy_id')
+        if allergy_id == '':
+            return None  # 'なし'が選ばれた場合はNoneとして扱う
+        return allergy_id
