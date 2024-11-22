@@ -13,7 +13,7 @@
         {% for member in family_members %}
             <option value="{{ member.family_id|default:member.user_id }}">
                 {% if member.user_id %}
-                    {{ member.name }} (自分)
+                    {{ member.name }} (自分) 
                 {% else %}
                     {{ member.family_name }}
                 {% endif %}
@@ -26,9 +26,6 @@
     <button onclick="displayGraph()">表示</button>
 </div>
 
-<!-- エラーメッセージを表示するための要素 -->
-<div id="error-message" style="color: red; display: none;"></div>
-
 <canvas id="weightChart" width="400" height="200"></canvas>
 
 {% endblock %}
@@ -40,13 +37,8 @@
         const selectedUser = document.getElementById('user-select').value;
         const startDate = document.getElementById('start-date').value;
 
-        // エラーメッセージを非表示にする
-        document.getElementById('error-message').style.display = 'none';
-
         if (!startDate) {
-            // 日付が選択されていない場合、エラーメッセージを表示
-            document.getElementById('error-message').innerText = "日付を選択してください。";
-            document.getElementById('error-message').style.display = 'block';
+            alert("日付を選択してください。");
             return;
         }
 
@@ -65,9 +57,7 @@
         .then(response => response.json())
         .then(data => {
             if (data.error) {
-                // サーバー側でエラーが発生した場合、エラーメッセージを表示
-                document.getElementById('error-message').innerText = data.error;
-                document.getElementById('error-message').style.display = 'block';
+                alert(data.error);
                 return;
             }
 
@@ -115,11 +105,8 @@
             });
         })
         .catch(error => {
-            // JavaScriptでのエラーをキャッチした場合もエラーメッセージを表示
             console.error("エラーが発生しました:", error);
-            document.getElementById('error-message').innerText = "データの取得に失敗しました。";
-            document.getElementById('error-message').style.display = 'block';
+            alert("データの取得に失敗しました。");
         });
     }
 </script>
-</html>
