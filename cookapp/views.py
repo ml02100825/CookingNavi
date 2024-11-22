@@ -8,6 +8,9 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 import logging
 from django.utils import timezone
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 
 
 logger = logging.getLogger(__name__)
@@ -329,12 +332,6 @@ class KazokuaddOkView(TemplateView):
     template_name = 'kazoku/add/kazoku_add_ok.html'
 
 
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib import messages
-from django.utils import timezone
-from .forms import FamilyForm
-from .models import Familymember, Familyallergy, Allergy  # Allergy モデルをインポート
-
 class KazokuHenkoView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/henko/kazoku_henko.html'
 
@@ -420,21 +417,25 @@ class HealthGraphView(TemplateView):
         # ログインユーザーの家族情報を取得
         family_members = Familymember.objects.filter(user=user)
 
+        # ログインユーザー自身を家族リストに追加
+        family_members = list(family_members)  # クエリセットをリストに変換
+        family_members.append(user)  # ログインユーザー自身を追加
+
         # 家族メンバー情報をテンプレートに渡す
         context['family_members'] = family_members
         return context
 
     def post(self, request, *args, **kwargs):
         # ユーザーIDと開始日を取得
-        user_id = request.POST.get('user_id')
+        family_id = request.POST.get('family_id')
         start_date = request.POST.get('start_date')
 
-        if not user_id or not start_date:
+        if not family_id or not start_date:
             return JsonResponse({'error': 'ユーザーと日付を選択してください。'}, status=400)
 
         # ユーザーの体重データを取得
         weights = Weight.objects.filter(
-            user_id=user_id,
+            user_id=family_id,
             register_time__gte=start_date
         ).order_by('register_time')
 
@@ -451,3 +452,19 @@ class HealthGraphView(TemplateView):
             'dates': dates,
             'weights': weight_values
         })
+
+@login_required
+def confirm_taikai(request):
+    if request.method == 'POST':
+        # ログアウトして退会処理
+        user = request.user
+        user.is_active = False  # ユーザーの無効化（退会状態にする）
+        user.save()
+        logout(request)  # ログアウト処理
+        return redirect('home')  # ホームページなど任意のページにリダイレクト
+
+    return render(request, 'admin/taikai.html')
+
+@login_required
+def dashboard(request):
+    return render(request, 'admin/dashboard.html')  # ダッシュボードのテンプレートを指定
