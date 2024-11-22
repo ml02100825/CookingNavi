@@ -1,0 +1,80 @@
+/* 全体のスタイル設定 */
+body {
+    font-family: Arial, sans-serif; /* フォントをArial、次にsans-serifに設定 */
+    background-color: #f4f4f4; /* 背景色を薄いグレーに設定 */
+    margin: 0; /* ページの余白をゼロに設定 */
+    padding: 0; /* ページ内のパディングをゼロに設定 */
+    display: flex; /* フレックスボックスレイアウトを使用 */
+    flex-direction: column; /* 要素を縦に並べる */
+    align-items: center; /* コンテンツを横方向に中央揃え */
+    justify-content: flex-start; /* コンテンツを縦方向に上寄せ */
+    height: 100vh; /* ビューポートの高さに合わせて全体を表示 */
+    box-sizing: border-box; /* パディングやボーダーが要素のサイズに含まれるように設定 */
+}
+
+/* ヘッダーのスタイル */
+h2 {
+    font-size: 28px; /* フォントサイズを28pxに設定 */
+    color: #333; /* 色を濃いグレーに設定 */
+    margin-top: 20px; /* 上に20pxのマージンを追加 */
+    margin-bottom: 10px; /* 下に10pxのマージンを追加 */
+}
+
+/* メニュー入力のラベルと入力フィールド */
+label {
+    font-size: 16px; /* フォントサイズを16pxに設定 */
+    color: #333; /* 色を濃いグレーに設定 */
+    margin-bottom: 5px; /* 下に5pxのマージンを追加 */
+}
+
+input[type="text"] {
+    font-size: 16px; /* フォントサイズを16pxに設定 */
+    padding: 8px; /* 内側の余白を8pxに設定 */
+    width: 80%; /* 横幅を80%に設定 */
+    max-width: 400px; /* 最大幅を400pxに設定 */
+    margin-bottom: 20px; /* 下に20pxのマージンを追加 */
+    border: 1px solid #ccc; /* 薄いグレーのボーダーを追加 */
+    border-radius: 5px; /* 角を丸くする */
+}
+
+/* タブのボタン */
+.tab-container {
+    display: flex; /* 横並びにする */
+    justify-content: center; /* 横方向に中央揃え */
+    margin-bottom: 20px; /* 下に20pxのマージンを追加 */
+}
+
+.tab-button {
+    background-color: #f0f0f0; /* 背景色を薄いグレーに設定 */
+    border: 1px solid #ccc; /* 薄いグレーのボーダーを設定 */
+    padding: 10px 20px; /* ボタン内の余白を上下10px、左右20pxに設定 */
+    margin-right: 10px; /* 右に10pxのマージンを追加 */
+    font-size: 16px; /* フォントサイズを16pxに設定 */
+    cursor: pointer; /* マウスカーソルをポインターに設定 */
+    border-radius: 5px; /* 角を丸くする */
+    transition: background-color 0.3s; /* ホバー時の背景色の変化に0.3秒の遷移効果を追加 */
+}
+
+/* タブボタンのホバー時のスタイル */
+.tab-button:hover {
+    background-color: #e0e0e0; /* ホバー時に背景色を少し濃いグレーに変更 */
+}
+
+/* アクティブなタブボタン */
+.tab-button.active {
+    background-color: #007bff; /* アクティブなタブボタンの背景色を青に設定 */
+    color: white; /* 文字色を白に設定 */
+}
+
+/* 内容表示ボックス */
+.content-box {
+    background-color: white; /* 背景色を白に設定 */
+    width: 80%; /* 横幅を80%に設定 */
+    max-width: 600px; /* 最大幅を600pxに設定 */
+    padding: 20px; /* 内側に20pxの余白を設定 */
+    border-radius: 5px; /* 角を丸くする */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 軽いシャドウ効果を追加 */
+    text-align: center; /* 中央揃えに設定 */
+    font-size: 16px; /* フォントサイズを16pxに設定 */
+    color: #333; /* 色を濃いグレーに設定 */
+}
