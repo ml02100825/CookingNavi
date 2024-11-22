@@ -25,5 +25,8 @@ urlpatterns = [
     path("", include('account.urls')),
     path("administrator/", include('administrator.urls')),
     path("bbs/",include('bbs.urls'))
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6ee9b75d97816af45401bd0a9fff98eccb7b4e2e
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
