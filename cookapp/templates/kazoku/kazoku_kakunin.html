@@ -36,7 +36,7 @@
                         <p>アレルギーなし</p>
                     {% endif %}
                     
-                    <a href="{% url 'cookapp:kazoku_henko' family_id=family_member.id %}">
+                    <a href="{% url 'cookapp:kazoku_henko' family_id=family_member.family_id %}">
                         <button type="button">家族情報変更</button>
                     </a>
                 </div>
