@@ -3,14 +3,11 @@ from .forms import EmailForm, UsernameForm, PasswordForm, BodyInfoUpdateForm, Fa
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 from django.contrib import messages
-from .models import User, Userallergy, Familymember, Familyallergy, Weight, Allergy
+from .models import User, Familymember, Familyallergy, Weight 
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 import logging
 from django.utils import timezone
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
 
 
 logger = logging.getLogger(__name__)
@@ -277,60 +274,48 @@ class FamilyInfoView(LoginRequiredMixin, TemplateView):
         return render(request, self.template_name, context)
 
     
-class KazokuaddView(LoginRequiredMixin, TemplateView):
-    template_name = 'kazoku/add/kazoku_add.html'
+class KazokuaddView(TemplateView):
+    template_name = 'kazoku/add/kazoku_add.html'  # ここでテンプレートを指定します
 
-    # GETリクエストの処理
-    def get(self, request, *args, **kwargs):
-        form = FamilyForm()
-        return render(request, self.template_name, {'form': form,})
-
-    # POSTリクエストの処理
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         form = FamilyForm(request.POST)
         if form.is_valid():
-            # フォームデータを取得
-            family_name = form.cleaned_data['family_name']
-            birth_date = form.cleaned_data['birth_date']
-            family_gender = form.cleaned_data['family_gender']
-            family_height = form.cleaned_data['family_height']
-            family_weight = form.cleaned_data['family_weight']
-            allergy_id = form.cleaned_data.get('allergy_id')  # アレルギーIDを取得
+            family_member_id = form.cleaned_data['family_id']  # フォームから送られる家族ID
+            allergy_id = form.cleaned_data['allergy_id']  # フォームから送られるアレルギーID
 
-            # 生年月日から年齢を計算
-            family_age = form.calculate_age()
+            try:
+                family_member = Familymember.objects.get(family_id=family_member_id)
+                allergy = Allergy.objects.get(allergy_id=allergy_id)
 
-            # 家族情報を登録
-            family_member = Familymember.objects.create(
-                family_name=family_name,
-                family_age=family_age,  # 計算した年齢を登録
-                family_gender=family_gender,
-                family_height=family_height,
-                family_weight=family_weight,
-                user=request.user._wrapped if hasattr(request.user, '_wrapped') else request.user  # SimpleLazyObject を解決
-            )
+                # Familyallergyインスタンスを作成
+                Familyallergy.objects.create(family_member=family_member, allergy=allergy)
 
-            # 家族アレルギー情報を登録（allergy_idを直接登録）
-            if allergy_id:  # アレルギーIDが選択されている場合のみ登録
-                # Allergy テーブルを参照せず、allergy_id をそのまま保存
-                Familyallergy.objects.create(
-                    family_id=family_member.family_id,  # 新たに作成した家族情報のID
-                    allergy_id=allergy_id  # 直接取得したallergy_idを登録
-                )
+                # 成功したらリダイレクト
+                return redirect('cookapp:kazoku')  # 家族情報ページにリダイレクト
 
-            # メッセージ表示
-            messages.success(request, '家族情報が正常に登録されました。')
+            except Familymember.DoesNotExist:
+                return redirect('cookapp:kazoku')  # 家族一覧ページにリダイレクト
 
-            # 登録完了後のリダイレクト
-            return redirect('cookapp:kazoku_add_ok')
+            except Allergy.DoesNotExist:
+                return redirect('cookapp:kazoku')  # アレルギー一覧ページにリダイレクト
 
-        # フォームが無効な場合
-        return render(request, self.template_name, {'form': form})
+        else:
+            return render(request, self.template_name, {'form': form})
+
+    def get(self, request):
+        form = FamilyForm()  # GETリクエストの場合、空のフォームを作成
+        return render(request, self.template_name, {'form': form})  # フォームをテンプレートに渡す
 
     
 class KazokuaddOkView(TemplateView):
     template_name = 'kazoku/add/kazoku_add_ok.html'
 
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
+from django.utils import timezone
+from .forms import FamilyForm
+from .models import Familymember, Familyallergy, Allergy  # Allergy モデルをインポート
 
 class KazokuHenkoView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/henko/kazoku_henko.html'
@@ -417,25 +402,21 @@ class HealthGraphView(TemplateView):
         # ログインユーザーの家族情報を取得
         family_members = Familymember.objects.filter(user=user)
 
-        # ログインユーザー自身を家族リストに追加
-        family_members = list(family_members)  # クエリセットをリストに変換
-        family_members.append(user)  # ログインユーザー自身を追加
-
         # 家族メンバー情報をテンプレートに渡す
         context['family_members'] = family_members
         return context
 
     def post(self, request, *args, **kwargs):
         # ユーザーIDと開始日を取得
-        family_id = request.POST.get('family_id')
+        user_id = request.POST.get('user_id')
         start_date = request.POST.get('start_date')
 
-        if not family_id or not start_date:
+        if not user_id or not start_date:
             return JsonResponse({'error': 'ユーザーと日付を選択してください。'}, status=400)
 
         # ユーザーの体重データを取得
         weights = Weight.objects.filter(
-            user_id=family_id,
+            user_id=user_id,
             register_time__gte=start_date
         ).order_by('register_time')
 
@@ -454,17 +435,12 @@ class HealthGraphView(TemplateView):
         })
     
 class KazokuKakuninView(TemplateView):
-    template_name = 'kazoku/kazoku_kakunin.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        family_id = kwargs.get('family_id')
-        family_member = Familymember.objects.get(id=family_id)
+    template_name = 'kazoku/kakunin/kazoku_kakunin.html'
+    def get(self, request, family_id):
+        try:
+            # family_idを使って家族情報を取得
+            family_member = Familymember.objects.get(family_id=family_id)
+        except Familymember.DoesNotExist:
+            return redirect('cookapp:kazoku')  # 家族情報が存在しない場合、家族一覧ページにリダイレクト
         
-        # Familyallergyから該当するアレルギー情報を取得
-        family_allergies = Familyallergy.objects.filter(family_member=family_member)
-
-        context['family_member'] = family_member
-        context['family_allergies'] = family_allergies
-
-        return context
+        return render(request, 'kazoku/kazoku_kakunin.html', {'family_member': family_member})
