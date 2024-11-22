@@ -1,10 +1,7 @@
 /* 全体のスタイル */
 body {
-    font-family: Arial, sans-serif; /* 読みやすいフォント */
     margin: 0; /* 余白なし */
     padding: 0; /* パディングなし */
-    background-color: #f9f9f9; /* 優しいグレー背景 */
-    color: #333; /* テキストの標準色 */
 }
 
 /* コンテナ全体のスタイル */
@@ -20,7 +17,7 @@ body {
 /* タイトルスタイル */
 .subscription-container h1 {
     font-size: 26px; /* メインタイトルの大きなフォント */
-    color: #E53935; /* 強調の赤色 */
+    color: #49e535; /* 強調の赤色 */
     text-align: center; /* 中央揃え */
     margin-bottom: 20px; /* 下の余白 */
 }
@@ -32,31 +29,28 @@ body {
     color: #333; /* 標準的な色 */
 }
 
-/* サブスクリプション機能のリスト */
-.subscription-features ul {
-    list-style-type: disc; /* デフォルトのディスク形式 */
-    margin-left: 20px; /* 左側に余白 */
-    padding-left: 20px; /* 内側に余白 */
+
+/* サブスクリプション機能セクションのスタイル */
+.subscription-features {
+    max-height: 300px; /* 最大の高さを設定 */
+    overflow-y: auto; /* 内容が溢れた場合、縦にスクロールできるように */
+    margin-bottom: 30px; /* セクション間の余白 */
+    padding-right: 10px; /* スクロールバーがある場合にテキストと重ならないように右に余白を追加 */
 }
 
-.subscription-features li {
-    font-size: 16px; /* リスト項目のフォントサイズ */
-    margin-bottom: 8px; /* 項目間に余白 */
-}
-
-/* 広告削除の説明スタイル */
-.ad-removal p {
-    font-size: 16px; /* テキストの標準サイズ */
-    margin-top: 10px; /* 上に余白 */
-    margin-bottom: 20px; /* 下に余白 */
-    line-height: 1.6; /* 行間を少し広げる */
+/* 広告削除の説明セクション */
+.ad-removal {
+    max-height: 200px; /* 最大の高さを設定 */
+    overflow-y: auto; /* 内容が溢れた場合、縦にスクロールできるように */
+    margin-bottom: 30px; /* セクション間の余白 */
+    padding-right: 10px; /* スクロールバーがある場合にテキストと重ならないように右に余白を追加 */
 }
 
 /* ボタンコンテナのスタイル */
 .subscription-button,
 .create-account {
     text-align: center; /* 中央揃え */
-    margin-top: 20px; /* 上に余白 */
+    margin-top: 40px; /* 上に余白を増やす */
 }
 
 /* 共通ボタンスタイル */
@@ -64,21 +58,24 @@ body {
 .create-account button {
     font-size: 16px; /* ボタン内のフォントサイズ */
     padding: 10px 20px; /* ボタン内の余白 */
-    border-radius: 4px; /* 角を丸める */
-    border: none; /* ボーダーをなくす */
+    border-radius: 10px; /* 角を丸める */
     cursor: pointer; /* ポインタを変更 */
-    background-color: #E53935; /* メインカラー */
-    color: #ffffff; /* 白文字 */
-    transition: background-color 0.3s ease; /* 背景色のスムーズな変更 */
+    background-color: #fff; /* メインカラー */
+    color: #0c0c0c; /* 白文字 */
 }
 
 /* ホバー時のボタン */
 .subscription-button button:hover,
 .create-account button:hover {
-    background-color: #d32f2f; /* 濃い赤色 */
+    background-color: #27ef0c; /* 濃い赤色 */
 }
 
 .subscription-button button:active,
 .create-account button:active {
-    background-color: #b71c1c; /* さらに濃い赤色 */
+    background-color: #27ef0c; /* さらに濃い赤色 */
+}
+
+/* ボタンがより下に配置されるようにするための調整 */
+.subscription-container {
+    padding-bottom: 40px; /* 下部の余白を追加してボタンを画面の下に寄せる */
 }

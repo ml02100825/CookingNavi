@@ -1,10 +1,7 @@
 /* 全体のスタイル */
 body {
-    font-family: Arial, sans-serif; /* 読みやすいフォント */
     margin: 0; /* ページの余白を削除 */
     padding: 0; /* パディングを削除 */
-    background-color: #f9f9f9; /* 背景を薄いグレーに設定 */
-    color: #333; /* テキストの基本色 */
 }
 
 /* 通知設定のラッパー */
@@ -32,12 +29,18 @@ body {
     background-color: #f9f9f9; /* 設定項目の背景色 */
     border-radius: 8px; /* 角を丸める */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* 軽い影を追加 */
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
 }
 
-/* 設定の説明文 */
+
 .setting-item p {
-    font-size: 16px; /* フォントサイズを16pxに設定 */
-    margin-bottom: 10px; /* 下に余白 */
+    margin-right: 10px;  /* space between text and buttons */
+}
+
+.button-container button {
+    margin-left: 10px; /* space between buttons */
 }
 
 /* ボタンのスタイル */
@@ -48,7 +51,6 @@ button {
     border: none; /* ボタンの枠線を削除 */
     border-radius: 5px; /* ボタンを丸くする */
     cursor: pointer; /* マウスオーバー時にカーソルをポインタに */
-    transition: background-color 0.3s ease; /* 背景色の変化にアニメーションを追加 */
 }
 
 /* ONボタンのスタイル */
