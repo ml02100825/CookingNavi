@@ -8,6 +8,9 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 import logging
 from django.utils import timezone
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 
 
 logger = logging.getLogger(__name__)
@@ -449,3 +452,19 @@ class HealthGraphView(TemplateView):
             'dates': dates,
             'weights': weight_values
         })
+
+@login_required
+def confirm_taikai(request):
+    if request.method == 'POST':
+        # ログアウトして退会処理
+        user = request.user
+        user.is_active = False  # ユーザーの無効化（退会状態にする）
+        user.save()
+        logout(request)  # ログアウト処理
+        return redirect('home')  # ホームページなど任意のページにリダイレクト
+
+    return render(request, 'admin/taikai.html')
+
+@login_required
+def dashboard(request):
+    return render(request, 'admin/dashboard.html')  # ダッシュボードのテンプレートを指定
