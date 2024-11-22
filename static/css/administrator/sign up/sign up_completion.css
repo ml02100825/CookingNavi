@@ -1,0 +1,41 @@
+/* 新規登録完了ページのスタイル */
+.login-complete-container {
+    width: 100%; /* 幅を100%に設定 */
+    max-width: 600px; /* 最大幅を600pxに設定 */
+    margin: 0 auto; /* 中央揃え */
+    padding: 40px; /* パディングを40pxに設定 */
+    background-color: #f9f9f9; /* 背景色を淡いグレーに設定 */
+    border-radius: 8px; /* 角を丸める */
+    text-align: center; /* コンテンツを中央揃え */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 軽い影をつける */
+}
+
+/* 見出しのスタイル */
+h1 {
+    font-size: 28px; /* フォントサイズを28pxに設定 */
+    color: #4caf50; /* 成功メッセージ用に緑色 */
+    margin-bottom: 20px; /* 下部に余白を追加 */
+}
+
+/* メッセージのスタイル */
+p {
+    font-size: 18px; /* フォントサイズを18pxに設定 */
+    color: #333; /* 文字色を濃いグレーに設定 */
+    margin-bottom: 30px; /* 下部に余白を追加 */
+}
+
+/* ホームリンクボタンのスタイル */
+.btn {
+    display: inline-block; /* インラインブロックにしてテキストリンクに */
+    padding: 12px 25px; /* パディングを設定 */
+    font-size: 16px; /* フォントサイズを16pxに設定 */
+    background-color: #4caf50; /* ボタンは緑色に設定 */
+    color: white; /* 文字色は白 */
+    text-decoration: none; /* アンダーラインを削除 */
+    border-radius: 4px; /* 角を丸める */
+    transition: background-color 0.3s ease; /* ホバー時のアニメーション */
+}
+
+.btn:hover {
+    background-color: #45a049; /* ホバー時に緑を少し濃く */
+}

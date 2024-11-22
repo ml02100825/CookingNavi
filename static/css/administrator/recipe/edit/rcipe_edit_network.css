@@ -1,0 +1,41 @@
+/* ネットワークエラーメッセージのスタイル */
+.network-error {
+    background-color: #fff; /* 背景色を白に設定 */
+    padding: 30px; /* 内部のパディングを設定 */
+    border-radius: 8px; /* 角を丸める */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 影をつけて立体感を出す */
+    text-align: center; /* テキストを中央揃え */
+    max-width: 500px; /* 最大幅を500pxに設定 */
+    margin: 20px auto; /* 上下に余白を、左右に自動的に配置 */
+}
+
+/* 見出しのスタイル */
+.network-error h2 {
+    font-size: 28px; /* フォントサイズを28pxに設定 */
+    color: #d9534f; /* 見出しの文字色を赤に設定 */
+    margin-bottom: 15px; /* 下部に余白を設定 */
+}
+
+/* メッセージのスタイル */
+.network-error p {
+    font-size: 18px; /* フォントサイズを18pxに設定 */
+    color: #555; /* 文字色を薄いグレーに設定 */
+    margin-bottom: 30px; /* 下部に余白を設定 */
+}
+
+/* ボタンのスタイル */
+.network-error .button {
+    padding: 12px 20px; /* パディングを12px 20pxに設定 */
+    background-color: #5bc0de; /* 背景色を青色に設定 */
+    color: white; /* 文字色を白に設定 */
+    border: none; /* 枠線なし */
+    border-radius: 4px; /* 角を丸める */
+    font-size: 16px; /* フォントサイズを16pxに設定 */
+    cursor: pointer; /* カーソルをポインタに設定 */
+    transition: background-color 0.3s ease; /* ホバー時のアニメーションを設定 */
+}
+
+/* ボタンのホバー時 */
+.network-error .button:hover {
+    background-color: #31b0d5; /* ホバー時に背景色を少し濃く */
+}
