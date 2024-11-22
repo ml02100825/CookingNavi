@@ -36,21 +36,8 @@ class User(models.Model):
     class Meta:
         managed = False
         db_table = 'user'
-
-
-class Userallergy(models.Model):
-    userallergy_id = models.AutoField(verbose_name="ユーザアレルギーID", db_column='USERALLERGY_ID', primary_key=True)
-    user = models.ForeignKey('User', models.CASCADE, db_column='USER_ID')
-    allergy_category = models.CharField(db_column='ALLERGY_CATEGORY', max_length=10)
-
-    def padded_id(self):
-        return f"{self.userallergy_id:010}"
-
-    class Meta:
-        managed = False
-        db_table = 'userallergy'
-
-
+    
+    
 class Familymember(models.Model):
     family_id = models.AutoField(verbose_name='家族ID', db_column='Family_ID', primary_key=True)
     family_name = models.CharField(verbose_name="名前", db_column='Family_Name', max_length=20)
@@ -71,13 +58,15 @@ class Familymember(models.Model):
 
 class Familyallergy(models.Model):
     family_allergy_id = models.AutoField(verbose_name='家族アレルギーID', db_column='FamilyAllergyID', primary_key=True)
-    allergy_id = models.IntegerField(verbose_name='アレルギーID', db_column='Allergy_ID')
-    family_id = models.IntegerField(verbose_name='家族ID', db_column='Family_ID')
-
+    allergy = models.ForeignKey('Allergy', verbose_name='アレルギー', db_column='Allergy_ID', on_delete=models.CASCADE)
+    family_member = models.ForeignKey('Familymember', verbose_name='家族', db_column='Family_ID', on_delete=models.CASCADE)
+    
     class Meta:
-        managed = False
+        managed = False  # DB管理外
         db_table = 'familyallergy'
 
+    def __str__(self):
+        return f'{self.family_member.family_name} - {self.allergy.allergy_name}'
 
 class Allergy(models.Model):
     allergy_id = models.AutoField(verbose_name='アレルギーID', db_column='ALLERGY_ID', primary_key=True)
@@ -100,3 +89,12 @@ class Weight(models.Model):
     class Meta:
         managed = False
         db_table = 'weight'
+
+class Userallergy(models.Model):
+    user_allergy_id = models.AutoField(verbose_name="ユーザアレルギーID", db_column='UserAllergyID', primary_key=True)
+    user = models.ForeignKey('User', verbose_name="ユーザ", db_column='User_ID', on_delete=models.CASCADE)
+    allergy = models.ForeignKey('Allergy', verbose_name="アレルギー", db_column='Allergy_ID', on_delete=models.CASCADE)
+    
+    class Meta:
+        managed = False
+        db_table = 'userallergy'

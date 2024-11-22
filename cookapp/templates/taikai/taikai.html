@@ -1,8 +1,11 @@
 {% extends '../baseuser.html' %}
 
+{%load static%}
+
 {% block title %}退会{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/taikai/taikai.css' %}">
 <div class="taikai-container">
     <div class="taikai-box">
         <h2>退会</h2>
