@@ -4,29 +4,27 @@
 {% block title %}よくあるご質問{% endblock %}
 
 {% block content %}
-{% comment %} <link rel="stylesheet" href="{% static 'css/.css' %}"> {% endcomment %}
+<link rel="stylesheet" href="{% static 'css/questions/questions.css' %}">
 <div class="faq-wrapper">
     <h2>よくあるご質問</h2>
 
     <div class="faq-item">
-        <button class="faq-question" onclick="toggleAnswer(this)">Q. ○○したい時はどうすればいい？</button>
+        <input type="checkbox" id="faq1" class="faq-toggle">
+        <label for="faq1" class="faq-question">Q. ○○したい時はどうすればいい？</label>
         <div class="faq-answer">
-            <p>ここに回答が入ります。</p>
+            <p>知らん</p>
         </div>
     </div>
 
     <div class="faq-item">
-        <button class="faq-question" onclick="toggleAnswer(this)">Q. ○○の通知を切りたい</button>
+        <input type="checkbox" id="faq2" class="faq-toggle">
+        <label for="faq2" class="faq-question">Q. ○○の通知を切りたい</label>
         <div class="faq-answer">
-            <p>ここに回答が入ります。<br>さらに詳細な情報を追加することもできます。</p>
+            <p>自分で考えろ</p>
         </div>
     </div>
+    
+    <!-- 戻るボタン -->
+    <a href="javascript:window.history.back();" class="back-button">戻る</a>
 </div>
-
-<script>
-    function toggleAnswer(button) {
-        const answer = button.nextElementSibling;
-        answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
-    }
-</script>
 {% endblock %}

@@ -1,152 +1,135 @@
-/* ホーム画面のスタイル */
-
-/* 健康管理ボタンのスタイル */
-.health-management-btn {
-    top: 2%; /* 上部に配置 */
-    left: 50%; /* 左側50% */
+/* Global Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
 }
 
-/* 健康管理ボタンのスタイル */
-.health-management-btn button {
-    font-size: 4.5em; /* ボタンのフォントサイズを大きく */
-    padding: 50px 100px; /* ボタンのパディングを大きく */
-    background-color: white; /* ボタンの背景色を白 */
-    color: #003366; /* 文字色を紺色に設定 */
-    border: 4px solid #003366; /* 紺色の枠線 */
-    border-radius: 15px; /* 角を丸くする */
-    cursor: pointer; /* ポインターを表示 */
-    transition: background-color 0.3s, color 0.3s; /* ホバー時のトランジション */
+body {
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
 }
 
-/* 健康管理ボタンホバー時のスタイル */
-.health-management-btn button:hover {
-    background-color: #003366; /* ホバー時に背景色を紺色に */
-    color: white; /* ホバー時に文字色を白に */
+.content-area {
+    display: flex;
+    flex-wrap: wrap; /* Allow for responsiveness */
+    justify-content: space-between;
+    padding: 20px;
 }
 
-/* 掲示板ボタンのスタイル */
-.forum-btn {
-    position: absolute; /* 絶対位置指定 */
-    top: 40%; /* 健康管理ボタンの下に配置 */
-    left: -5%; /* 左側に寄せる */
+.main-content {
+    flex: 1;
+    max-width: 800px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px;
 }
 
-/* 掲示板ボタンのスタイル */
-.forum-btn button {
-    font-size: 2em; /* フォントサイズを2emに設定 */
-    padding: 20px 50px; /* パディングを設定 */
-    background-color: white; /* 背景色を白に設定 */
-    color: black; /* 文字色を黒に設定 */
-    border: 3px solid black; /* 黒い枠線 */
-    border-radius: 15px; /* 角を丸くする */
-    cursor: pointer; /* ポインターを表示 */
-    transition: background-color 0.3s, color 0.3s; /* ホバー時のトランジション */
-}
-
-/* 掲示板ボタンホバー時のスタイル */
-.forum-btn button:hover {
-    background-color: black; /* ホバー時に背景色を黒に */
-    color: white; /* ホバー時に文字色を白に */
-}
-
-/* 食事履歴ボタンのスタイル */
-.meal-history-btn {
-    position: absolute; /* 絶対位置指定 */
-    top: 40%; /* 掲示板ボタンと同じ位置 */
-    right: -8%; /* 右側に配置 */
-}
-
-/* 食事履歴ボタンのスタイル */
-.meal-history-btn button {
-    font-size: 2em; /* フォントサイズを2emに設定 */
-    padding: 20px 50px; /* パディングを設定 */
-    background-color: white; /* 背景色を白に設定 */
-    color: black; /* 文字色を黒に設定 */
-    border: 3px solid black; /* 黒い枠線 */
-    border-radius: 15px; /* 角を丸くする */
-    cursor: pointer; /* ポインターを表示 */
-    transition: background-color 0.3s, color 0.3s; /* ホバー時のトランジション */
-}
-
-/* 食事履歴ボタンホバー時のスタイル */
-.meal-history-btn button:hover {
-    background-color: black; /* ホバー時に背景色を黒に */
-    color: white; /* ホバー時に文字色を白に */
-}
-
-/* 買い物リストボタンのスタイル */
-.shopping-list-btn {
-    position: absolute; /* 絶対位置指定 */
-    top: 65%; /* 掲示板ボタンの下に配置 */
-    left: -15%; /* 左側に寄せる */
-}
-
-/* 買い物リストボタンのスタイル */
-.shopping-list-btn button {
-    font-size: 2em; /* フォントサイズを2emに設定 */
-    padding: 20px 50px; /* パディングを設定 */
-    background-color: white; /* 背景色を白に設定 */
-    color: black; /* 文字色を黒に設定 */
-    border: 3px solid black; /* 黒い枠線 */
-    border-radius: 15px; /* 角を丸くする */
-    cursor: pointer; /* ポインターを表示 */
-    transition: background-color 0.3s, color 0.3s; /* ホバー時のトランジション */
-}
-
-/* 買い物リストボタンホバー時のスタイル */
-.shopping-list-btn button:hover {
-    background-color: black; /* ホバー時に背景色を黒に */
-    color: white; /* ホバー時に文字色を白に */
-}
-
-/* 健康グラフボタンのスタイル */
-.health-graph-btn {
-    position: absolute; /* 絶対位置指定 */
-    top: 65%; /* 食事履歴ボタンの下に配置 */
-    right: -15%; /* 右側に配置 */
-}
-
-/* 健康グラフボタンのスタイル */
-.health-graph-btn button {
-    font-size: 2em; /* フォントサイズを2emに設定 */
-    padding: 20px 50px; /* パディングを設定 */
-    background-color: white; /* 背景色を白に設定 */
-    color: black; /* 文字色を黒に設定 */
-    border: 3px solid black; /* 黒い枠線 */
-    border-radius: 15px; /* 角を丸くする */
-    cursor: pointer; /* ポインターを表示 */
-    transition: background-color 0.3s, color 0.3s; /* ホバー時のトランジション */
-}
-
-/* 健康グラフボタンホバー時のスタイル */
-.health-graph-btn button:hover {
-    background-color: black; /* ホバー時に背景色を黒に */
-    color: white; /* ホバー時に文字色を白に */
-}
-
-/* サイドバー（広告部分）のスタイル */
 .sidebar {
-    width: 300px; /* サイドバーの幅を300pxに設定 */
-    background-color: #f9f9f9; /* 背景色を明るいグレーに設定 */
-    border-left: 5px solid black; /* 黒い縦の枠線 */
-    padding: 10px; /* パディングを10pxに設定 */
-    height: calc(100vh - 80px); /* 画面全体に合わせる */
-    position: relative; /* サイドバーを相対位置指定 */
+    width: 250px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 20px;
 }
 
-/* 広告部分のスタイリング */
-.advertisement {
-    background-color: #eee; /* 背景色を淡いグレーに設定 */
-    padding: 10px; /* パディングを10pxに設定 */
-    text-align: center; /* テキストを中央揃えにする */
-}
-
-/* 左サイドバーのスタイル */
 .left-sidebar {
-    margin-right: 20px; /* メインコンテンツとの間に余白を設定 */
+    margin-right: 20px;
 }
 
-/* 右サイドバーのスタイル */
 .right-sidebar {
-    margin-left: 20px; /* メインコンテンツとの間に余白を設定 */
+    margin-left: 20px;
+}
+
+/* Heading */
+.main-heading {
+    font-size: 2rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Buttons Layout */
+.buttons-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.button-item {
+    display: flex;
+    justify-content: center;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    font-size: 1rem;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+/* Main button styling */
+.main-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.main-btn:hover {
+    background-color: #45a049;
+}
+
+/* Sub-buttons styling */
+.sub-btn {
+    background-color: #2196F3;
+    color: white;
+}
+
+.sub-btn:hover {
+    background-color: #1976D2;
+}
+
+/* Sidebar Styling */
+.advertisement {
+    background-color: #f1f1f1;
+    padding: 15px;
+    text-align: center;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.advertisement p {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .content-area {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .main-content {
+        max-width: 100%;
+        margin: 20px 0;
+    }
+
+    .sidebar {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .buttons-container {
+        grid-template-columns: 1fr;
+    }
 }

@@ -1,82 +1,93 @@
-/* クッキングナビ・アカウント設定 */
+/* General container for the account settings page */
+.account-settings {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+    color: #333;
+}
 
-/* 全体リセット */
-* {
+/* Title Styling */
+.account-settings h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Session ID and Greeting Message */
+.account-settings p {
+    font-size: 16px;
+    color: #666;
+    text-align: center;
+}
+
+/* User Authentication Check */
+.account-settings p:first-child {
+    margin-bottom: 20px;
+}
+
+/* Styling for each section (username, email, password) */
+.account-settings > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f2f2f2;
+    padding: 15px 0;
+}
+
+/* Label Styling */
+.account-settings label {
+    font-size: 16px;
+    color: #555;
+    font-weight: 600;
+}
+
+/* User information display */
+.account-settings p {
+    font-size: 16px;
+    color: #444;
     margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    text-align: left;
 }
 
-body {
-    font-family: Arial, sans-serif; /* 基本フォント設定 */
-    background-color: #f9f9f9; /* 背景色を薄いグレーに */
-    color: #333; /* 文字色を濃いグレーに */
-    display: flex; /* 全体をフレックスボックスに */
-    flex-direction: column; /* 縦方向に配置 */
-    align-items: center; /* 中央揃え */
-    min-height: 100vh; /* 最小高さをビューポートに合わせる */
+/* Change button styles */
+.account-settings button {
+    padding: 10px 20px;
+    background-color: #ff6f61;
+    color: white;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.app-name {
-    font-size: 1.5em; /* フォントサイズを大きく */
-    font-weight: bold; /* 太字 */
+/* Hover effect for buttons */
+.account-settings button:hover {
+    background-color: #e65a50;
 }
 
-.nav-links {
-    display: flex; /* 横並びに配置 */
-    align-items: center; /* 縦中央揃え */
+/* Remove border from buttons on focus */
+.account-settings button:focus {
+    outline: none;
 }
 
-.nav-links a {
-    color: white; /* リンクの文字色を白に */
-    margin-right: 15px; /* リンク間の余白 */
-    text-decoration: none; /* アンダーライン削除 */
+/* Add padding between div elements */
+.account-settings > div {
+    margin-bottom: 20px;
 }
 
-.nav-links a:hover {
-    text-decoration: underline; /* ホバー時にアンダーライン */
+/* Improve overall layout and spacing */
+.account-settings p, .account-settings label {
+    margin-bottom: 10px;
 }
 
-/* アカウント設定セクション */
-h2 {
-    font-size: 1.8em; /* フォントサイズを大きく */
-    color: #333; /* 文字色 */
-    margin: 20px 0; /* 上下に余白 */
-    text-align: center; /* テキストを中央揃え */
-}
-
-/* 設定項目コンテナ */
-div {
-    background-color: white; /* 背景色を白に */
-    max-width: 600px; /* 最大幅を600pxに */
-    width: 100%; /* 幅を全体に */
-    margin: 20px auto; /* 上下のマージンを設定して中央揃え */
-    padding: 20px; /* パディング */
-    border-radius: 8px; /* 角を丸める */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 影を追加 */
-}
-
-label {
-    font-weight: bold; /* 太字 */
-    margin-right: 10px; /* 右に余白 */
-}
-
-span {
-    margin-right: 10px; /* テキストとボタンの間に余白 */
-}
-
-/* 変更ボタン */
-button {
-    padding: 8px 15px; /* パディングでサイズ調整 */
-    font-size: 1em; /* フォントサイズ */
-    color: white; /* 文字色を白に */
-    background-color: #ff6b6b; /* 背景色を赤系に */
-    border: none; /* ボーダーを削除 */
-    border-radius: 4px; /* 角を丸める */
-    cursor: pointer; /* カーソルをポインターに */
-    transition: background-color 0.3s; /* ホバー時の背景色変化 */
-}
-
-button:hover {
-    background-color: #e63946; /* ホバー時の色を濃く */
+/* Adjustments for session info at the top */
+.account-settings p:first-of-type {
+    margin-bottom: 10px;
 }
