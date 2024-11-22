@@ -1,14 +1,17 @@
 {% extends '../../baseuser.html' %}
+{% load static %}
 
 {% block title %}サブスク解約{% endblock %}
 
 {% block content %}
 <!-- ログアウトコンテンツ -->
+<h2>サブスク解約</h2>
+
+<link rel="stylesheet" href="{% static 'css/sabusuku/kaiyaku/sabusuku_kaiyaku.css' %}">
 <main>
     <div class="kaiyaku-container">
-        <h2>サブスク解約</h2>
         <!-- ログアウト確認メッセージ -->
-        <p>サブスクを解約しますか？</p>
+        <h1>サブスクを解約しますか？</h1>
         
         <div class="messages">
             {% for message in messages %}
