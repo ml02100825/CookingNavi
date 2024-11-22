@@ -1,0 +1,67 @@
+/* 全体のスタイル */
+body {
+    margin: 0;
+    padding: 0;  
+}
+
+.kaiyaku-container {
+    text-align: center;  /* 内容を中央揃え */
+}
+
+
+/* メインコンテナ */
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* 「サブスク解約」ボタン */
+.cancel-button {
+    background-color: #ff6347;
+    color: #fff;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.3s;
+}
+
+.cancel-button:hover {
+    background-color: #e5533c;
+}
+
+/* 確認メッセージ */
+.confirmation-text {
+    font-size: 18px;
+    color: #333;
+    margin: 20px 0;
+}
+
+.subscription-buttons {
+    display: flex;
+    justify-content: center;  /* ボタンを中央に配置 */
+    gap: 130px;                /* ボタン間の間隔 */
+    margin-top: 110px;
+}
+
+.subscription-buttons button {
+    border-radius: 25px;      /* ボタンの角を丸くする */
+    padding: 10px 20px;       /* ボタン内側の余白を統一 */
+    background-color: #fff; /* 背景色 */
+    color: rgb(17, 16, 16);             /* 文字色 */
+    font-size: 16px;           /* フォントサイズ */
+    cursor: pointer;          /* カーソルを手のひらに */
+    transition: background-color 0.3s ease; /* ホバー時の背景色変化 */
+    width: 150px;             /* ボタンの横幅を統一 */
+}
+
+.subscription-buttons button:hover {
+    background-color: #f32909; /* ホバー時の背景色 */
+}

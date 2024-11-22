@@ -1,0 +1,88 @@
+/* 全体のスタイル */
+body {
+    font-family: Arial, sans-serif; /* フォントを指定 */
+    margin: 0; /* ページの余白を削除 */
+    padding: 0; /* パディングを削除 */
+    background-color: #f4f7fc; /* 背景色を薄いグレー */
+    color: #333; /* テキスト色をダークグレーに */
+}
+
+/* ログインフォームのコンテナ */
+.login-container {
+    max-width: 400px; /* 最大幅を400pxに設定 */
+    margin: 50px auto; /* 上下中央揃え */
+    padding: 30px; /* 内側の余白 */
+    background-color: #fff; /* 背景色を白 */
+    border-radius: 10px; /* 角を丸く */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+}
+
+/* ログインタイトル */
+.login-container h1 {
+    text-align: center; /* 中央揃え */
+    font-size: 28px; /* タイトルのフォントサイズ */
+    color: #4CAF50; /* 緑色に設定 */
+    margin-bottom: 20px; /* 下に余白 */
+}
+
+/* エラーメッセージ */
+p {
+    color: red; /* 赤色でエラーメッセージを表示 */
+    font-size: 14px; /* フォントサイズを小さく */
+    margin: 0 0 10px; /* 下に余白 */
+}
+
+/* フォームフィールド */
+.form-group {
+    margin-bottom: 15px; /* フォーム項目の間隔 */
+}
+
+/* 入力フィールド */
+input {
+    width: 100%; /* 入力欄を横幅いっぱいに */
+    padding: 10px; /* 内側の余白 */
+    border: 1px solid #ccc; /* 薄いグレーの枠線 */
+    border-radius: 5px; /* 角を丸く */
+    font-size: 16px; /* フォントサイズ */
+    background-color: #f9f9f9; /* 背景色 */
+    margin-top: 5px; /* 上に余白 */
+}
+
+input:focus {
+    outline: none; /* フォーカス時の枠線を消す */
+    border-color: #4CAF50; /* フォーカス時に緑色に */
+    background-color: #ffffff; /* 背景色を白に */
+}
+
+/* ログインボタン */
+button {
+    width: 100%; /* 横幅いっぱいに */
+    padding: 12px; /* 内側の余白 */
+    font-size: 16px; /* ボタン文字サイズ */
+    background-color: #4CAF50; /* 緑色 */
+    color: white; /* 文字色を白に */
+    border: none; /* 枠線を消す */
+    border-radius: 5px; /* 角を丸く */
+    cursor: pointer; /* ポインターカーソルに */
+    transition: background-color 0.3s ease; /* 背景色の変更にアニメーション */
+}
+
+button:hover {
+    background-color: #45a049; /* ホバー時に少し暗く */
+}
+
+/* パスワードを忘れた場合のリンク */
+.forgot-password {
+    text-align: center; /* 中央揃え */
+    margin-top: 20px; /* 上に余白 */
+}
+
+.forgot-password a {
+    color: #4CAF50; /* 緑色 */
+    text-decoration: none; /* 下線を消す */
+    font-size: 14px; /* フォントサイズを少し小さく */
+}
+
+.forgot-password a:hover {
+    text-decoration: underline; /* ホバー時に下線を追加 */
+}

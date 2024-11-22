@@ -1,134 +1,76 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>健康グラフ</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 20px;
-        }
+{% extends '../baseuser.html' %}
 
-        .header {
-            width: 100%;
-            background-color: #f0f4f7;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px;
-            font-size: 24px;
-        }
+{% load static %}
 
-        .header .logo {
-            font-weight: bold;
-            color: #2c3e50;
-        }
+{% block title %}健康グラフ{% endblock %}
 
-        .content {
-            width: 80%;
-            max-width: 600px;
-            margin-top: 20px;
-            text-align: center;
-        }
+{% block content %}
+<h2>健康グラフ</h2>
 
-        .selection {
-            margin-bottom: 20px;
-        }
-
-        .footer {
-            margin-top: 20px;
-            font-size: 12px;
-            color: #888;
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="header">
-        <div class="logo">クッキングnavi</div>
-        <div>
-            <a href="#">ホーム</a> | <a href="#">ログアウト</a>
+<div class="messages">
+    {% for message in messages %}
+        <div class="message {{ message.tags }}">
+            {{ message }}
         </div>
-    </div>
+    {% endfor %}
+</div>
 
-    <div class="content">
-        <h2>健康グラフ</h2>
+<div class="selection">
+    <label for="user-select">家族選択:</label>
+    <select id="user-select">
+        {% for member in family_members %}
+            <option value="{{ member.family_id|default:member.user_id }}">
+                {% if member.user_id %}
+                    {{ member.name }} (自分) 
+                {% else %}
+                    {{ member.family_name }}
+                {% endif %}
+            </option>
+        {% endfor %}
+    </select>
 
-        <div class="selection">
-            <label for="user-select">ユーザー選択:</label>
-            <select id="user-select">
-                <option value="user1">ユーザー1</option>
-                <option value="user2">ユーザー2</option>
-                <!-- 他のユーザーを追加できます -->
-            </select>
+    <label for="start-date">日付選択:</label>
+    <input type="date" id="start-date">
+    <button onclick="displayGraph()">表示</button>
+</div>
 
-            <label for="start-date">日付選択:</label>
-            <input type="date" id="start-date">
-            <button onclick="displayGraph()">表示</button>
-        </div>
+<canvas id="weightChart" width="400" height="200"></canvas>
 
-        <canvas id="weightChart" width="400" height="200"></canvas>
-    </div>
+{% endblock %}
 
-    <div class="footer">
-        Copyright © 2024 Website. All rights reserved.
-    </div>
+<script>
+    let weightChart; // グローバル変数でグラフインスタンスを保持
 
-    <script>
-        let weightChart; // グローバル変数でグラフインスタンスを保持
+    function displayGraph() {
+        const selectedUser = document.getElementById('user-select').value;
+        const startDate = document.getElementById('start-date').value;
 
-        function displayGraph() {
-            const selectedUser = document.getElementById('user-select').value;
-            const startDate = document.getElementById('start-date').value;
+        if (!startDate) {
+            alert("日付を選択してください。");
+            return;
+        }
 
-            if (!startDate) {
-                alert("日付を選択してください。");
+        // POSTリクエストで体重データを取得
+        fetch('/health_graph/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}', // CSRFトークンを送信
+            },
+            body: JSON.stringify({
+                family_id: selectedUser,
+                start_date: startDate,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert(data.error);
                 return;
             }
 
-            // サンプルデータ（ユーザー別の体重データ）
-            const weightData = {
-                user1: {
-                    "2024-10-24": 70,
-                    "2024-10-25": 71,
-                    "2024-10-26": 70.5,
-                    "2024-10-27": 70.2,
-                    "2024-10-28": 70.1,
-                    "2024-10-29": 69.9,
-                    "2024-10-30": 70.3
-                },
-                user2: {
-                    "2024-10-24": 65,
-                    "2024-10-25": 64.8,
-                    "2024-10-26": 65.2,
-                    "2024-10-27": 64.9,
-                    "2024-10-28": 64.5,
-                    "2024-10-29": 64.7,
-                    "2024-10-30": 64.6
-                }
-            };
-
-            // 開始日から1週間の日付を生成
-            const dates = [];
-            const weights = [];
-            let date = new Date(startDate);
-
-            for (let i = 0; i < 7; i++) {
-                const dateString = date.toISOString().split('T')[0];
-                dates.push(dateString);
-
-                // 選択したユーザーの体重データがあれば取得、なければ0
-                const weight = weightData[selectedUser][dateString] || 0;
-                weights.push(weight);
-
-                // 日付を1日進める
-                date.setDate(date.getDate() + 1);
-            }
+            const dates = data.dates;
+            const weights = data.weights;
 
             // 既存のグラフがあれば破棄して新しく生成
             if (weightChart) {
@@ -142,7 +84,7 @@
                 data: {
                     labels: dates,
                     datasets: [{
-                        label: `${selectedUser}の体重推移`,
+                        label: `体重推移`,
                         data: weights,
                         borderColor: 'rgba(75, 192, 192, 1)',
                         borderWidth: 2,
@@ -169,8 +111,10 @@
                     }
                 }
             });
-        }
-    </script>
-
-</body>
-</html>
+        })
+        .catch(error => {
+            console.error("エラーが発生しました:", error);
+            alert("データの取得に失敗しました。");
+        });
+    }
+</script>

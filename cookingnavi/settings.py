@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "cookapp.apps.CookappConfig",
     "account.apps.AccountConfig",
     "administrator.apps.AdministratorConfig",
+    "bbs.apps.BbsConfig",
 ]
 
 MIDDLEWARE = [

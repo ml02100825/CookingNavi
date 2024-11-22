@@ -1,0 +1,157 @@
+/* 全体設定 */
+body {
+    font-family: Arial, sans-serif; /* フォント設定 */
+    margin: 0; /* マージンをリセット */
+    padding: 0; /* パディングをリセット */
+    background-color: #f4f4f4; /* 背景色を薄いグレーに設定 */
+}
+
+/* サイドバー */
+.sidebar {
+    width: 200px; /* サイドバーの幅 */
+    padding: 20px; /* サイドバーの内側の余白 */
+    background-color: #fff; /* 背景色を白に設定 */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* サイドバーの右側に影をつける */
+    position: fixed; /* スクロールしても固定表示 */
+    top: 0; /* 上部に固定 */
+    left: 0; /* 左端に固定 */
+    height: 100%; /* 高さを画面いっぱいに設定 */
+}
+
+.sidebar button {
+    width: 100%; /* ボタンの幅をサイドバーに合わせて100% */
+    padding: 15px; /* ボタンの内側の余白 */
+    background-color: #008CBA; /* ボタンの背景色 */
+    color: white; /* ボタンの文字色 */
+    border: none; /* ボタンの枠線を削除 */
+    margin-bottom: 10px; /* ボタン間の余白 */
+    font-size: 16px; /* フォントサイズ */
+    cursor: pointer; /* カーソルをポインタに変更 */
+}
+
+.sidebar button:hover {
+    background-color: #005f6b; /* ボタンにカーソルを合わせたときに背景色を変更 */
+}
+
+/* メインコンテンツ */
+.content-container {
+    margin-left: 220px; /* サイドバー分の余白を左に作る */
+    padding: 20px; /* コンテンツの内側の余白 */
+}
+
+/* 検索バーのコンテナ */
+.search-bar-container {
+    display: flex; /* フレックスボックスを使用して横並びに */
+    justify-content: space-between; /* 両端に配置 */
+    margin-bottom: 20px; /* 下に余白を追加 */
+}
+
+.search-container {
+    display: flex; /* 検索バーとボタンを横並びにする */
+}
+
+.search-bar {
+    padding: 10px; /* 検索バーの内側の余白 */
+    font-size: 16px; /* フォントサイズ */
+    width: 300px; /* 検索バーの幅 */
+    border: 1px solid #ccc; /* 枠線を薄い灰色に設定 */
+    border-radius: 5px; /* 角を丸くする */
+}
+
+.search-btn {
+    padding: 10px 20px; /* ボタンの内側の余白 */
+    background-color: #008CBA; /* ボタンの背景色 */
+    color: white; /* ボタンの文字色 */
+    border: none; /* 枠線を削除 */
+    cursor: pointer; /* カーソルをポインタに変更 */
+    border-radius: 5px; /* 角を丸くする */
+}
+
+.search-btn:hover {
+    background-color: #005f6b; /* カーソルを合わせたときの背景色 */
+}
+
+.post-recipe-btn {
+    padding: 10px 20px; /* ボタンの内側の余白 */
+    background-color: #28a745; /* ボタンの背景色 */
+    color: white; /* ボタンの文字色 */
+    border: none; /* 枠線を削除 */
+    border-radius: 5px; /* 角を丸くする */
+    cursor: pointer; /* カーソルをポインタに変更 */
+}
+
+.post-recipe-btn:hover {
+    background-color: #218838; /* カーソルを合わせたときの背景色 */
+}
+
+/* 投稿カード */
+.post-grid {
+    display: grid; /* グリッドレイアウトを使用 */
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* カードの列を自動的に調整 */
+    gap: 20px; /* カード間の隙間 */
+}
+
+.post-card {
+    background-color: white; /* 背景色を白に設定 */
+    padding: 15px; /* カード内の余白 */
+    border-radius: 10px; /* 角を丸くする */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* カードに影をつける */
+    overflow: hidden; /* 内容がカードからはみ出さないようにする */
+    text-align: center; /* 文字を中央に配置 */
+}
+
+.post-card img {
+    width: 100%; /* 画像の幅をカードに合わせる */
+    border-radius: 10px; /* 画像の角を丸くする */
+    object-fit: cover; /* 画像を切り取らずにカード内にフィットさせる */
+}
+
+.post-details {
+    margin-top: 10px; /* 投稿詳細の上に余白 */
+}
+
+.post-title {
+    font-size: 18px; /* タイトルのフォントサイズ */
+    font-weight: bold; /* 太字 */
+    margin-bottom: 10px; /* 下に余白 */
+}
+
+/* いいねボタン */
+.like-btn {
+    background-color: transparent; /* 背景色なし */
+    border: none; /* 枠線なし */
+    color: #008CBA; /* 初期の文字色 */
+    font-size: 20px; /* フォントサイズ */
+    cursor: pointer; /* カーソルをポインタに変更 */
+}
+
+.like-btn.liked {
+    color: red; /* いいねが押されたときの色 */
+}
+
+/* レスポンシブデザイン（画面が小さくなったとき） */
+@media (max-width: 768px) {
+    .content-container {
+        margin-left: 0; /* サイドバーがないので、コンテンツの余白をゼロに */
+    }
+
+    .sidebar {
+        width: 100%; /* サイドバーを横に広げて100%に */
+        height: auto; /* 高さはコンテンツに合わせる */
+        position: relative; /* スクロールしても固定しない */
+    }
+
+    .search-bar-container {
+        flex-direction: column; /* 検索バーとボタンを縦並びに */
+        align-items: flex-start; /* 左揃え */
+    }
+
+    .search-bar {
+        width: 100%; /* 検索バーをフル幅に */
+        margin-bottom: 10px; /* 下に余白を追加 */
+    }
+
+    .search-btn {
+        width: 100%; /* ボタンをフル幅に */
+    }
+}

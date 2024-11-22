@@ -1,0 +1,53 @@
+{% extends '../baseuser.html' %}
+
+{% block title %}家族情報{% endblock %}
+
+{% block content %}
+<main>
+    <header class="header">
+        <div class="app-name">クッキングnavi</div>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="#" class="home-link">ホーム</a>
+                <a href="#">ログアウト</a>
+            </div>
+            <div class="user-icon"></div>
+        </div>
+
+        <div class="family-section">
+            <h3>家族情報確認</h3>
+
+            {% if family_member %}
+                <div class="family-member">
+                    <p>名前: {{ family_member.family_name }}</p>
+                    <p>年齢: {{ family_member.family_age }}</p>
+                    <p>性別: {{ family_member.family_gender }}</p>
+                    <p>身長: {{ family_member.family_height }} cm</p>
+                    <p>体重: {{ family_member.family_weight }} kg</p>
+
+                    <p>アレルギー情報:</p>
+                    {% if family_allergies %}
+                        <ul>
+                            {% for family_allergy in family_allergies %}
+                                <li>{{ family_allergy.allergy.allergy_name }}</li>  <!-- アレルギー名を表示 -->
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>アレルギーなし</p>
+                    {% endif %}
+                    
+                    <a href="{% url 'cookapp:kazoku_henko' family_id=family_member.family_id %}">
+                        <button type="button">家族情報変更</button>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </header>
+</main>
+{% endblock %}
+
+{% block footer %}
+<footer class="footer">
+    <p>&copy; 2024 クッキングnavi.</p>
+</footer>
+{% endblock %}

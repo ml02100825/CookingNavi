@@ -1,0 +1,81 @@
+/* 全体のスタイル */
+body {
+    margin: 0; /* 余白なし */
+    padding: 0; /* パディングなし */
+}
+
+/* コンテナ全体のスタイル */
+.subscription-container {
+    max-width: 800px; /* コンテナの最大幅 */
+    margin: 20px auto; /* 上下に余白をつけて中央揃え */
+    padding: 20px; /* 内側に余白を追加 */
+    background-color: #ffffff; /* 白い背景 */
+    border-radius: 8px; /* 角を丸める */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+}
+
+/* タイトルスタイル */
+.subscription-container h1 {
+    font-size: 26px; /* メインタイトルの大きなフォント */
+    color: #49e535; /* 強調の赤色 */
+    text-align: center; /* 中央揃え */
+    margin-bottom: 20px; /* 下の余白 */
+}
+
+/* 各セクションタイトルのスタイル */
+.subscription-container h2 {
+    font-size: 20px; /* セクションタイトル用のサイズ */
+    margin-bottom: 10px; /* 下に余白 */
+    color: #333; /* 標準的な色 */
+}
+
+
+/* サブスクリプション機能セクションのスタイル */
+.subscription-features {
+    max-height: 300px; /* 最大の高さを設定 */
+    overflow-y: auto; /* 内容が溢れた場合、縦にスクロールできるように */
+    margin-bottom: 30px; /* セクション間の余白 */
+    padding-right: 10px; /* スクロールバーがある場合にテキストと重ならないように右に余白を追加 */
+}
+
+/* 広告削除の説明セクション */
+.ad-removal {
+    max-height: 200px; /* 最大の高さを設定 */
+    overflow-y: auto; /* 内容が溢れた場合、縦にスクロールできるように */
+    margin-bottom: 30px; /* セクション間の余白 */
+    padding-right: 10px; /* スクロールバーがある場合にテキストと重ならないように右に余白を追加 */
+}
+
+/* ボタンコンテナのスタイル */
+.subscription-button,
+.create-account {
+    text-align: center; /* 中央揃え */
+    margin-top: 40px; /* 上に余白を増やす */
+}
+
+/* 共通ボタンスタイル */
+.subscription-button button,
+.create-account button {
+    font-size: 16px; /* ボタン内のフォントサイズ */
+    padding: 10px 20px; /* ボタン内の余白 */
+    border-radius: 10px; /* 角を丸める */
+    cursor: pointer; /* ポインタを変更 */
+    background-color: #fff; /* メインカラー */
+    color: #0c0c0c; /* 白文字 */
+}
+
+/* ホバー時のボタン */
+.subscription-button button:hover,
+.create-account button:hover {
+    background-color: #27ef0c; /* 濃い赤色 */
+}
+
+.subscription-button button:active,
+.create-account button:active {
+    background-color: #27ef0c; /* さらに濃い赤色 */
+}
+
+/* ボタンがより下に配置されるようにするための調整 */
+.subscription-container {
+    padding-bottom: 40px; /* 下部の余白を追加してボタンを画面の下に寄せる */
+}
