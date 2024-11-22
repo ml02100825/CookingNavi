@@ -13,19 +13,4 @@ class RecipeAddForm(forms.Form):
     image1 = forms.ImageField(label="画像1")
     image2 = forms.ImageField(label="画像2")
     image3 = forms.ImageField(label="画像3")
-    materials =  forms.ModelChoiceField(
-        queryset=Material.objects.all(),
-        label="材料を選択",
-        to_field_name='name',
-    )
-       # オブジェクトの表示内容を変更する
-    def label_from_instance(self, obj):
-        return f"{obj.name}"
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['materials'].widget.attrs.update({
-            'class': 'form-control',
-            'id': 'materialselect',
-        })
-
     

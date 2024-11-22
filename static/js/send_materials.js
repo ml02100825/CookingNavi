@@ -14,12 +14,12 @@ $(document).ready(function() {
                 success: function(data) {
                     console.log('Material name inside AJAX success:', materialname);
                     console.log(data);
-                    console.log("ログが出ない"); 
+                
                     $('#materialselect').empty();
                     $('#materialselect').append('<option value="">選択してください</option>');
                     $.each(data, function(key, value) {
                        
-                        $('#materialselect').append('<option value="' + value.material_id + '">' + value.name + '</option>');
+                        $('#materialselect').append('<option data-id='+ value.name  +" value=" + value.material_id + ">" + value.name + '</option>');
                     });
                 },
                 error: function(xhr, status, error) {

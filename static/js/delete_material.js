@@ -2,12 +2,15 @@
 $(document).ready(function() {
     $('#materials').on('click','.materialdelete',function() {
         var material = $(this).attr('name');
+        var materialamount = $(this).attr('id');
+        var materialamount = $(this).attr('dataset.id');
         var $button = $(this); 
         material =  parseInt(material, 10);
+        materialamount = parseInt(material, 10)
         console.log("delete",material)
         console.log(typeof material);
         if (!isNaN(material) && material !== 0) {
-            var url = '/administrator/recipe/add/' + material + '/'
+            var url = '/administrator/recipe/add/' + material + '/' + materialamount + '/'
             console.log(material);
             $.ajax({
                
@@ -17,7 +20,7 @@ $(document).ready(function() {
               
                 success: function(data) {
                     console.log('Material name inside AJAX success:', material);
-                    console.log(data[0]['name']);
+                    console.log(data);
                     // 対応する <span> 要素を削除
                      $('#materials').find('#' + material).remove();
 
