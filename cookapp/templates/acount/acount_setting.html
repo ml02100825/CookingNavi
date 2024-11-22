@@ -13,14 +13,14 @@
         <h2>アカウント設定</h2>
         <p>Session ID: {{ request.session.session_key }}</p>
         {% if user.is_authenticated %}
-        <p>こんにちは、{{ user.username }}さん！</p>
+        <p>こんにちは、{{ user.name }}さん！</p>
     {% else %}
         <p>ログインしていません</p>
     {% endif %}
        
         <div>
             <label>ユーザー名 ：</label>
-            <p>{{ user.username }}</p>
+            <p>{{ user.name }}</p>
             <a href="{% url 'cookapp:username' %}"><button>変更</button></a>
         </div>
        
