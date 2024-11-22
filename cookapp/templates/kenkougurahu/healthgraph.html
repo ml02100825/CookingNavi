@@ -7,7 +7,6 @@
 {% block content %}
 <h2>健康グラフ</h2>
 
-<!-- メッセージ表示 -->
 <div class="messages">
     {% for message in messages %}
         <div class="message {{ message.tags }}">
@@ -22,7 +21,7 @@
         {% for member in family_members %}
             <option value="{{ member.family_id|default:member.user_id }}">
                 {% if member.user_id %}
-                    {{ member.name }} (自分)
+                    {{ member.name }} (自分) 
                 {% else %}
                     {{ member.family_name }}
                 {% endif %}
@@ -65,7 +64,6 @@
         })
         .then(response => response.json())
         .then(data => {
-            // エラーメッセージがある場合、ページ内に表示
             if (data.error) {
                 alert(data.error);
                 return;
