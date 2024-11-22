@@ -3,7 +3,7 @@ from .forms import EmailForm, UsernameForm, PasswordForm, BodyInfoUpdateForm, Fa
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 from django.contrib import messages
-from .models import User, Userallergy, Familymember, Familyallergy, Weight, Allergy
+from .models import User, Userallergy, Familymember, Familyallergy, Weight
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 import logging
@@ -312,9 +312,8 @@ class KazokuaddView(LoginRequiredMixin, TemplateView):
 
             # 家族アレルギー情報を登録（allergy_idを直接登録）
             if allergy_id:  # アレルギーIDが選択されている場合のみ登録
-                # Allergy テーブルを参照せず、allergy_id をそのまま保存
                 Familyallergy.objects.create(
-                    family_id=family_member.family_id,  # 新たに作成した家族情報のID
+                    family_member=family_member,  # 新たに作成した家族情報のインスタンス
                     allergy_id=allergy_id  # 直接取得したallergy_idを登録
                 )
 
@@ -336,68 +335,62 @@ class KazokuHenkoView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/henko/kazoku_henko.html'
 
     def get(self, request, *args, **kwargs):
-        family_id = kwargs.get('family_id')
-
-        # Familymemberのデータを取得
-        family_member = get_object_or_404(Familymember, family_id=family_id, user=request.user)
-
-        # フォームに初期値を設定
+        # 編集する家族メンバーの取得
+        family_member = Familymember.objects.get(family_id=kwargs['family_id'])
+        # フォームの初期値を設定
         initial_data = {
             'family_name': family_member.family_name,
             'family_gender': family_member.family_gender,
             'family_height': family_member.family_height,
             'family_weight': family_member.family_weight,
         }
-
-        # フォームのインスタンスを作成
         form = FamilyForm(initial=initial_data)
-
         return render(request, self.template_name, {'form': form, 'family_member': family_member})
 
     def post(self, request, *args, **kwargs):
-        family_id = kwargs.get('family_id')
-
-        # Familymemberテーブルからデータを取得
-        family_member = get_object_or_404(Familymember, family_id=family_id, user=request.user)
-
-        # フォームデータをバリデーション
+        family_member = Familymember.objects.get(family_id=kwargs['family_id'])
         form = FamilyForm(request.POST)
-        if form.is_valid():
-            # Familymemberテーブルのデータを更新
-            family_member.family_name = form.cleaned_data['family_name']
-            family_member.family_gender = form.cleaned_data['family_gender']
-            family_member.family_height = form.cleaned_data['family_height']
-            family_member.family_weight = form.cleaned_data['family_weight']
 
-            # 生年月日から年齢を再計算して保存
-            family_member.family_age = form.calculate_age()
+        if form.is_valid():
+            # フォームデータを取得
+            family_name = form.cleaned_data['family_name']
+            family_gender = form.cleaned_data['family_gender']
+            family_height = form.cleaned_data['family_height']
+            family_weight = form.cleaned_data['family_weight']
+            allergy_id = form.cleaned_data.get('allergy_id')
+
+            # 家族メンバーを更新
+            family_member.family_name = family_name
+            family_member.family_gender = family_gender
+            family_member.family_height = family_height
+            family_member.family_weight = family_weight
             family_member.save()
 
-            # Familyallergyテーブルのアレルギー情報を更新
-            allergy_id = form.cleaned_data.get('allergy_id')  # フォームにallergy_idフィールドがあることを前提
+            # アレルギーIDがある場合、Familyallergyテーブルを更新
             if allergy_id:
-                # 該当するレコードを取得または新規作成
-                family_allergy, created = Familyallergy.objects.get_or_create(family_id=family_id)
+                # アレルギー情報を新たに登録
+                Familyallergy.objects.create(
+                    family_member=family_member,  # 家族情報インスタンス
+                    allergy_id=allergy_id         # アレルギーID
+                )
 
-                # allergy_idを設定
-                family_allergy.allergy_id = allergy_id
-                family_allergy.save()
-
-            # メッセージ表示
+            # メッセージを表示
             messages.success(request, '家族情報が正常に更新されました。')
 
-            # 変更後のリダイレクト
+            # 更新後のリダイレクト
+            # 家族情報を保存した後に、family_idを渡してリダイレクト
             return redirect('cookapp:kazoku_henko_ok', family_id=family_member.family_id)
 
-        # バリデーションエラーの場合
-        return render(request, self.template_name, {'form': form, 'family_member': family_member})
 
-class KazokuHenkoOkView(LoginRequiredMixin, TemplateView):
+        # フォームが無効な場合もフォームを再表示
+        return render(request, self.template_name, {'form': form, 'family_member': family_member})
+    
+class KazokuHenkoOkView(TemplateView):
     template_name = 'kazoku/henko/kazoku_henko_ok.html'
 
     def get(self, request, family_id, *args, **kwargs):
-        family_member = get_object_or_404(Familymember, family_id=family_id, user=request.user)
-        # ここで必要な処理を行い、テンプレートにデータを渡します
+        # family_idに基づいて家族情報を取得
+        family_member = Familymember.objects.get(family_id=family_id)
         return render(request, self.template_name, {'family_member': family_member})
 
 

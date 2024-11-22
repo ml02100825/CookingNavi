@@ -7,7 +7,7 @@
     <h2>家族情報追加</h2>
     <form action="{% url 'cookapp:kazoku_add' %}" method="post" class="registration-form">
         {% csrf_token %}
-        {{ form.as_p }}  <!-- フォームの各フィールドを表示 -->
+        {{ form.as_p }}  <!-- フォームのフィールドをパラグラフ形式で表示 -->
         
         <div class="button-container">
             <button type="button" onclick="window.history.back();">戻る</button>
@@ -15,4 +15,4 @@
         </div>
     </form>
 </main>
-{% endblock %}
+{% endblock %}yy
