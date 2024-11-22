@@ -451,3 +451,19 @@ class HealthGraphView(TemplateView):
             'dates': dates,
             'weights': weight_values
         })
+    
+class KazokuKakuninView(TemplateView):
+    template_name = 'kazoku/kazoku_kakunin.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        family_id = kwargs.get('family_id')
+        family_member = Familymember.objects.get(id=family_id)
+        
+        # Familyallergyから該当するアレルギー情報を取得
+        family_allergies = Familyallergy.objects.filter(family_member=family_member)
+
+        context['family_member'] = family_member
+        context['family_allergies'] = family_allergies
+
+        return context

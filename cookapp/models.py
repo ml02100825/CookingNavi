@@ -33,17 +33,6 @@ class User(models.Model):
         db_table = 'user'
     
     
-class Userallergy(models.Model):
-    userallergy_id = models.AutoField(verbose_name="ユーザアレルギーID",db_column='USERALLERGY_ID', primary_key=True,   auto_created=True,)  # Field name made lowercase.
-    user = models.ForeignKey('User', models.CASCADE, db_column='USER_ID')  # Field name made lowercase.
-    allergy_category = models.CharField(db_column='ALLERGY_CATEGORY', max_length=10)  # Field name made lowercase.
-    def padded_id(self):
-        return f"{self.userallergy_id:010}"  # 10桁でゼロパディング
-    class Meta:
-        managed = False
-        db_table = 'userallergy'
-
-
 class Familymember(models.Model):
     family_id = models.AutoField(verbose_name='家族ID', db_column='Family_ID', primary_key=True)
     family_name = models.CharField(verbose_name="名前", db_column='Family_Name', max_length=20)
@@ -60,13 +49,18 @@ class Familymember(models.Model):
         managed = False
         db_table = 'familymember'
 
+
 class Familyallergy(models.Model):
     family_allergy_id = models.AutoField(verbose_name='家族アレルギーID', db_column='FamilyAllergyID', primary_key=True)
-    allergy_id = models.IntegerField(verbose_name='アレルギーID', db_column='Allergy_ID', max_length=3)
-    family_id = models.CharField(verbose_name='家族ID', db_column='Family_ID', max_length=3)
+    allergy = models.ForeignKey('Allergy', verbose_name='アレルギー', db_column='Allergy_ID', on_delete=models.CASCADE)
+    family_member = models.ForeignKey('Familymember', verbose_name='家族', db_column='Family_ID', on_delete=models.CASCADE)
+    
     class Meta:
-        managed = False
+        managed = False  # DB管理外
         db_table = 'familyallergy'
+
+    def __str__(self):
+        return f'{self.family_member.family_name} - {self.allergy.allergy_name}'
 
 class Allergy(models.Model):
     allergy_id = models.AutoField(verbose_name='アレルギーID', db_column='ALLERGY_ID', max_length=11, primary_key=True)
@@ -88,11 +82,3 @@ class Weight(models.Model):
         managed = False
         db_table = 'weight'
         
-class Allergy(models.Model):
-    allergy_id = models.AutoField(verbose_name='アレルギーID', db_column='ALLERGY_ID', max_length=11, primary_key=True)
-    material_id = models.IntegerField(verbose_name='材料ID', db_column='MATERIAL_ID', max_length=11)
-    allergy_category = models.CharField(verbose_name='アレルギーカテゴリー', db_column='ALLERGY_CATEGORY', max_length=30)
-    allergy_name = models.CharField(verbose_name='アレルギー名', db_column='ALLERGY_NAME', max_length=30)
-    class Meta:
-        managed = False
-        db_table = 'allergy'
