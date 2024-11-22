@@ -65,7 +65,6 @@ class AcountSettingView(TemplateView):
         if 'user_id' in self.request.session:
             id = self.request.session['user_id']
             try:
-                User = get_user_model()
                 user = User.objects.get(user_id=id)
                 context['user'] = user
             except User.DoesNotExist:
@@ -325,12 +324,19 @@ class KazokuaddView(LoginRequiredMixin, TemplateView):
  
         # フォームが無効な場合
         return render(request, self.template_name, {'form': form})
- 
-   
+
+
+    
 class KazokuaddOkView(TemplateView):
     template_name = 'kazoku/add/kazoku_add_ok.html'
- 
- 
+
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
+from django.utils import timezone
+from .forms import FamilyForm
+from .models import Familymember, Familyallergy, Allergy  # Allergy モデルをインポート
+
 class KazokuHenkoView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/henko/kazoku_henko.html'
  
@@ -420,7 +426,7 @@ class HealthGraphView(TemplateView):
  
     def post(self, request, *args, **kwargs):
         # ユーザーIDと開始日を取得
-        family_id = request.POST.get('family_id')
+        user_id = request.POST.get('user_id')
         start_date = request.POST.get('start_date')
  
         if not family_id or not start_date:
@@ -428,7 +434,7 @@ class HealthGraphView(TemplateView):
  
         # ユーザーの体重データを取得
         weights = Weight.objects.filter(
-            user_id=family_id,
+            user_id=user_id,
             register_time__gte=start_date
         ).order_by('register_time')
  
@@ -443,8 +449,7 @@ class HealthGraphView(TemplateView):
         # メッセージをJSON形式で返す
         return JsonResponse({
             'dates': dates,
-            'weights': weight_values,
-            'messages': [message.message for message in messages.get_messages(request)],
+            'weights': weight_values
         })
    
  
@@ -463,3 +468,14 @@ def confirm_taikai(request):
 @login_required
 def dashboard(request):
     return render(request, 'admin/dashboard.html')  # ダッシュボードのテンプレートを指定
+    
+class KazokuKakuninView(TemplateView):
+    template_name = 'kazoku/kakunin/kazoku_kakunin.html'
+    def get(self, request, family_id):
+        try:
+            # family_idを使って家族情報を取得
+            family_member = Familymember.objects.get(family_id=family_id)
+        except Familymember.DoesNotExist:
+            return redirect('cookapp:kazoku')  # 家族情報が存在しない場合、家族一覧ページにリダイレクト
+        
+        return render(request, 'kazoku/kazoku_kakunin.html', {'family_member': family_member})

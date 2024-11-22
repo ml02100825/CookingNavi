@@ -2,6 +2,7 @@ from django.urls import path, include
 from . import  views
 from .views import KazokuHenkoView
 
+
 app_name = "cookapp"
 
 urlpatterns = [

@@ -1,7 +1,6 @@
 {% extends "baseuser.html" %}
 {% load static %}
 
-
 {% block title %}
 主菜選択 | クッキングnavi
 {% endblock %}
@@ -17,16 +16,22 @@
 
 <form id="meal-form">
     <div class="form-group">
-        <label>③ 朝・昼・晩</label>
-        <select>
-            <option value="morning">朝</option>
-            <option value="noon">昼</option>
-            <option value="evening">晩</option>
-        </select>
+        <label>朝・昼・晩</label>
+        <div class="meal-time-options">
+            <label>
+                <input type="radio" name="meal-time" value="morning"> 朝
+            </label>
+            <label>
+                <input type="radio" name="meal-time" value="noon"> 昼
+            </label>
+            <label>
+                <input type="radio" name="meal-time" value="evening"> 晩
+            </label>
+        </div>
     </div>
 
     <div class="form-group">
-        <label>④ メニュー</label>
+        <label>メニュー</label>
         <select>
             <option value="curry">カレー</option>
             <option value="nikujaga">肉じゃが</option>
@@ -34,15 +39,13 @@
         </select>
     </div>
 
-    <div id="ingredients-container">
-        <div class="form-group ingredient">
-            <label>⑤ 材料</label>
-            <input type="text" placeholder="材料を入力" name="ingredient[]">
-        </div>
+    <div class="form-group">
+        <label>材料</label>
+        <input type="text" placeholder="材料を入力" name="ingredient[]">
     </div>
 
     <div class="form-group">
-        <button type="button" id="add-ingredient-btn">材料を追加</button>
+        <button type="button" id="add-ingredient-btn" disabled>材料を追加</button>
     </div>
 
     <div class="buttons">
@@ -50,30 +53,4 @@
         <button type="submit" class="register-btn">登録</button>
     </div>
 </form>
-
-<script>
-    // JavaScript to dynamically add more ingredient fields
-    document.getElementById('add-ingredient-btn').addEventListener('click', function() {
-        var ingredientsContainer = document.getElementById('ingredients-container');
-        
-        // Create a new input group for ingredient
-        var newIngredientGroup = document.createElement('div');
-        newIngredientGroup.classList.add('form-group', 'ingredient');
-        
-        // Create new label and input for ingredient
-        var newLabel = document.createElement('label');
-        newLabel.textContent = '材料';
-        var newInput = document.createElement('input');
-        newInput.type = 'text';
-        newInput.placeholder = '材料を入力';
-        newInput.name = 'ingredient[]';
-
-        // Append label and input to the new group
-        newIngredientGroup.appendChild(newLabel);
-        newIngredientGroup.appendChild(newInput);
-        
-        // Append the new ingredient group to the container
-        ingredientsContainer.appendChild(newIngredientGroup);
-    });
-</script>
 {% endblock %}
