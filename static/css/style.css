@@ -12,6 +12,7 @@ body {
  
 /* ヘッダーのスタイリング */
 .header {
+    width: 100%;
     background-color: rgba(173, 216, 230, 0.5); /* さらに薄い水色 */
     color: #333;
     display: flex;
@@ -20,7 +21,8 @@ body {
     padding: 10px 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 少し影を追加 */
 }
- 
+
+
 .header .app-name {
     font-size: 1.5em;
     color: #333; /* 文字色を少し濃いめに設定 */
@@ -69,20 +71,29 @@ body {
     position: relative; /* 中央配置のため */
 }
 
-/* メインコンテンツのスタイル */
-.main-content {
-    padding: 20px;
-    position: relative; /* 中央配置のため */
+/* フッターのスタイリング */
+/* フッターの固定スタイル */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 0.9rem;
 }
 
-/* フッターのスタイリング */
-.footer {
-    background-color: #fff; /* フッターの背景色を白に */
-    color: #007bff; /* フッターの文字色を青に */
-    text-align: center;
-    padding: 10px;
-    border-top: 1px solid rgba(0, 123, 255, 0.5); /* 枠線を細くして色を薄く */
-    width: 100%; /* フッターを画面いっぱいに広げる */
-    position: absolute; /* フッターをページの一番下に固定 */
-    bottom: 0;
+/* メインコンテンツがフッターと重ならないようにする */
+.main-content {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    padding-bottom: 60px; /* フッターの高さ分だけ余白を追加 */
+    position: relative; /* 中央配置のため */
 }

@@ -1,86 +1,91 @@
-/* 設定画面のスタイル */
-
-/* 全体の基本スタイル */
+/* 全体のフォントと背景色 */
 body {
-    font-family: Arial, sans-serif; /* Arialフォントを使用 */
-    margin: 0; /* 余白をゼロにしてコンテンツが上から表示されるように */
-    padding: 0; /* 上下左右の余白をゼロ */
-    display: flex; /* Flexboxレイアウトを使用 */
-    flex-direction: column; /* 上から下に配置するための設定 */
-    align-items: center; /* コンテンツを中央揃え */
-    background-color: #f9f9f9; /* 背景色をライトグレーに設定 */
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #343a40;
 }
 
-.app-name {
-    font-size: 1.5em; /* アプリ名のフォントサイズ */
-    font-weight: bold; /* アプリ名を太字にする */
+/* メインコンテンツのスタイル */
+.main-content {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
 }
 
-/* ナビゲーションリンク */
-.nav-links a {
-    margin-left: 15px; /* リンク間の間隔 */
-    color: white; /* リンク文字の色 */
-    text-decoration: none; /* 下線を削除 */
-    font-size: 1em; /* リンクのフォントサイズ */
-}
-
-.nav-links a:hover {
-    text-decoration: underline; /* ホバー時に下線を表示 */
-}
-
-/* メインコンテンツ */
+/* 見出しのスタイル */
 h2 {
-    font-size: 1.5em; /* 見出しのフォントサイズ */
-    color: #333; /* 見出しの文字色 */
-    margin: 20px 0 10px; /* 上下の余白 */
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #007bff;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
 }
 
-/* 共通のボタンスタイル */
+/* ボタンの共通スタイル */
 button {
-    display: block; /* ボタンをブロック要素として扱う */
-    width: 200px; /* ボタンの幅 */
-    margin: 10px auto; /* 上下左右の余白と中央揃え */
-    padding: 10px; /* 内側の余白 */
-    font-size: 1em; /* フォントサイズ */
-    color: white; /* ボタンの文字色 */
-    background-color: #007bff; /* ボタンの背景色 */
-    border: none; /* ボタンの枠線をなしに */
-    border-radius: 5px; /* 角丸にする */
-    cursor: pointer; /* ポインターカーソルに変更 */
-    transition: background-color 0.3s; /* 背景色の変化にアニメーションを追加 */
+    display: inline-block;
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    margin: 10px 0;
+    transition: all 0.3s ease-in-out;
+    text-transform: uppercase;
 }
 
-/* ボタンのホバー時の効果 */
+/* ボタンのホバー時のスタイル */
 button:hover {
-    background-color: #0056b3; /* ホバー時の背景色 */
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* アカウント退会ボタンのスタイル */
-button.delete {
-    background-color: #dc3545; /* アカウント退会ボタンを赤色に */
+/* ボタンを押したときの効果 */
+button:active {
+    background-color: #004085;
+    transform: translateY(1px);
+    box-shadow: none;
 }
 
-button.delete:hover {
-    background-color: #c82333; /* アカウント退会ボタンのホバー時の色 */
+/* リンクボタンのスタイル（ボタンに適用） */
+a {
+    text-decoration: none;
 }
 
-/* 登録ボタンのスタイル */
-button.register {
-    background-color: #dc3545; /* 登録ボタンを赤色に */
+/* セクション間のマージン調整 */
+h2 + a, h2 + button {
+    margin-top: 15px;
 }
 
-button.register:hover {
-    background-color: #c82333; /* 登録ボタンのホバー時の色 */
+/* ボタンを中央揃え */
+a + a, a + button {
+    margin-top: 15px;
 }
 
+/* フォームやボタンが並ぶ際のレイアウト */
+section {
+    margin-bottom: 40px;
+}
 
-/* フッター */
-.footer {
-    background-color: #5865f2; /* フッターの背景色 */
-    color: white; /* フッターの文字色 */
-    padding: 15px; /* フッターの内側の余白 */
-    text-align: center; /* 文字を中央揃え */
-    width: 100%; /* フッターを画面全幅に広げる */
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1); /* フッターの影 */
-    margin-top: 30px; /* 上に間隔を追加 */
+/* セクションタイトルに小さな下線を追加 */
+section h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #343a40;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 5px;
 }
