@@ -8,6 +8,8 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 import logging
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout, get_user_model
 
 
 logger = logging.getLogger(__name__)
@@ -63,6 +65,7 @@ class AcountSettingView(TemplateView):
         if 'user_id' in self.request.session:
             id = self.request.session['user_id']
             try:
+                User = get_user_model()
                 user = User.objects.get(user_id=id)
                 context['user'] = user
             except User.DoesNotExist:
@@ -323,17 +326,10 @@ class KazokuaddView(LoginRequiredMixin, TemplateView):
         # フォームが無効な場合
         return render(request, self.template_name, {'form': form})
 
-
     
 class KazokuaddOkView(TemplateView):
     template_name = 'kazoku/add/kazoku_add_ok.html'
 
-
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib import messages
-from django.utils import timezone
-from .forms import FamilyForm
-from .models import Familymember, Familyallergy, Allergy  # Allergy モデルをインポート
 
 class KazokuHenkoView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/henko/kazoku_henko.html'
@@ -414,45 +410,56 @@ class HealthGraphView(TemplateView):
         # ログインユーザーの家族情報を取得
         family_members = Familymember.objects.filter(user=user)
 
+        # ログインユーザー自身を家族リストに追加
+        family_members = list(family_members)  # クエリセットをリストに変換
+        family_members.append(user)  # ログインユーザー自身を追加
+
         # 家族メンバー情報をテンプレートに渡す
         context['family_members'] = family_members
         return context
 
     def post(self, request, *args, **kwargs):
         # ユーザーIDと開始日を取得
-        user_id = request.POST.get('user_id')
+        family_id = request.POST.get('family_id')
         start_date = request.POST.get('start_date')
 
-        if not user_id or not start_date:
-            return JsonResponse({'error': 'ユーザーと日付を選択してください。'}, status=400)
+        if not family_id or not start_date:
+            messages.warning(request, 'ユーザーと日付を選択してください。')
 
         # ユーザーの体重データを取得
         weights = Weight.objects.filter(
-            user_id=user_id,
+            user_id=family_id,
             register_time__gte=start_date
         ).order_by('register_time')
 
         # 体重データが存在しない場合の処理
         if not weights:
-            return JsonResponse({'error': '指定したユーザーの体重データはありません。'}, status=404)
+            messages.warning(request, '指定したユーザーの体重データはありません。')
 
         # 日付と体重のリストを作成
         dates = [weight.register_time.strftime('%Y-%m-%d') for weight in weights]
         weight_values = [weight.weight for weight in weights]
 
-        # JSONでデータを返す
+        # メッセージをJSON形式で返す
         return JsonResponse({
             'dates': dates,
-            'weights': weight_values
+            'weights': weight_values,
+            'messages': [message.message for message in messages.get_messages(request)],
         })
     
-class KazokuKakuninView(TemplateView):
-    template_name = 'kazoku/kakunin/kazoku_kakunin.html'
-    def get(self, request, family_id):
-        try:
-            # family_idを使って家族情報を取得
-            family_member = Familymember.objects.get(family_id=family_id)
-        except Familymember.DoesNotExist:
-            return redirect('cookapp:kazoku')  # 家族情報が存在しない場合、家族一覧ページにリダイレクト
-        
-        return render(request, 'kazoku/kazoku_kakunin.html', {'family_member': family_member})
+
+@login_required
+def confirm_taikai(request):
+    if request.method == 'POST':
+        # ログアウトして退会処理
+        user = request.user
+        user.is_active = False  # ユーザーの無効化（退会状態にする）
+        user.save()
+        logout(request)  # ログアウト処理
+        return redirect('home')  # ホームページなど任意のページにリダイレクト
+
+    return render(request, 'admin/taikai.html')
+
+@login_required
+def dashboard(request):
+    return render(request, 'admin/dashboard.html')  # ダッシュボードのテンプレートを指定

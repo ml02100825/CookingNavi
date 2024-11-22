@@ -1,9 +1,14 @@
 <!-- notification_settings.html -->
 {% extends '../baseuser.html' %}
 
+{% load static %}
+
 {% block title %}通知設定{% endblock %}
 
 {% block content %}
+
+<link rel="stylesheet" href="{% static 'css/notification/notification.css' %}">
+
 <div class="notification-container">
     <h1>通知設定</h1>
     <div class="setting-item">
@@ -18,29 +23,4 @@
     </div>
 </div>
 
-<script>
-    function updateSetting(setting, value) {
-        const csrfToken = '{{ csrf_token }}'; // CSRFトークンを挿入
-
-        fetch('/update-notification-setting/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrfToken
-            },
-            body: JSON.stringify({ setting: setting, value: value })
-        })
-        .then(response => {
-            if (response.ok) {
-                alert('設定が更新されました');
-            } else {
-                alert('設定の更新に失敗しました');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('エラーが発生しました');
-        });
-    }
-</script>
 {% endblock %}
