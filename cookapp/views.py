@@ -8,9 +8,8 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 import logging
 from django.utils import timezone
-from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
+from django.contrib.auth import logout, get_user_model
 
 
 logger = logging.getLogger(__name__)
@@ -66,6 +65,7 @@ class AcountSettingView(TemplateView):
         if 'user_id' in self.request.session:
             id = self.request.session['user_id']
             try:
+                User = get_user_model()
                 user = User.objects.get(user_id=id)
                 context['user'] = user
             except User.DoesNotExist:
@@ -431,7 +431,7 @@ class HealthGraphView(TemplateView):
         start_date = request.POST.get('start_date')
 
         if not family_id or not start_date:
-            return JsonResponse({'error': 'ユーザーと日付を選択してください。'}, status=400)
+            messages.warning(request, 'ユーザーと日付を選択してください。')
 
         # ユーザーの体重データを取得
         weights = Weight.objects.filter(
@@ -441,17 +441,19 @@ class HealthGraphView(TemplateView):
 
         # 体重データが存在しない場合の処理
         if not weights:
-            return JsonResponse({'error': '指定したユーザーの体重データはありません。'}, status=404)
+            messages.warning(request, '指定したユーザーの体重データはありません。')
 
         # 日付と体重のリストを作成
         dates = [weight.register_time.strftime('%Y-%m-%d') for weight in weights]
         weight_values = [weight.weight for weight in weights]
 
-        # JSONでデータを返す
+        # メッセージをJSON形式で返す
         return JsonResponse({
             'dates': dates,
-            'weights': weight_values
+            'weights': weight_values,
+            'messages': [message.message for message in messages.get_messages(request)],
         })
+    
 
 @login_required
 def confirm_taikai(request):
