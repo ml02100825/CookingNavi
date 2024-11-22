@@ -1,11 +1,11 @@
 import logging
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 # Create your views here.
 from django.views.generic.base import TemplateView
 from .forms import RecipeAddForm
-from .models import Cook, Material
+from .models import Cook, Material, Image,Cookimage,Recipe,CookImagesave
 
 
 
@@ -13,6 +13,8 @@ class HomeView(TemplateView):
     template_name='administrator/home/home.html'
 class RecipeView(TemplateView):
     template_name = 'administrator/recipe/recipe.html'
+class RecipeAdd_doneView(TemplateView):
+    template_name = 'administrator/recipe/add/recipe_add_completion.html'    
 class RecipeAddView(TemplateView):
     template_name = 'administrator/recipe/add/recipe_add.html'
     def get_materials(request, materialname):
@@ -45,67 +47,97 @@ class RecipeAddView(TemplateView):
             image2 = form.cleaned_data['image2']
             image3 = form.cleaned_data['image3']
           
-            for i in range(len(materials)):
-                material = materials[i]
+            for key in materials:
+                material = key
+                value = materials[key] / 100
                 material_nutrition = Material.objects.filter(material_id=material).values('calorie','protein','lipids','fiber','carbohydrates','saltcontent')
-                cook_calorie += material_nutrition[0]['calorie']
-                cook_protein += material_nutrition[0]['protein']
-                cook_lipids += material_nutrition[0]['lipids']
-                cook_fiber += material_nutrition[0]['fiber']
-                cook_carbohydrates += material_nutrition[0]['carbohydrates']
-                cook_saltcontent += material_nutrition[0]['saltcontent']
-            cook = Cook(cookname = name,type = type, recipe_text = recipe_text, age = cook_calorie, gender = cook_protein, height = cook_lipids,weight = cook_fiber,carbohydrates=cook_carbohydrates, saltcontent= cook_saltcontent)
+                cook_calorie += material_nutrition[0]['calorie'] * value
+                cook_protein += material_nutrition[0]['protein'] * value
+                cook_lipids += material_nutrition[0]['lipids']* value
+                cook_fiber += material_nutrition[0]['fiber']* value
+                cook_carbohydrates += material_nutrition[0]['carbohydrates']* value
+                cook_saltcontent += material_nutrition[0]['saltcontent']* value
+            cook = Cook(cookname = name,type = type, recipe_text = recipe_text, calorie = cook_calorie, protein = cook_protein, lipids = cook_lipids,fiber = cook_fiber,carbohydrates=cook_carbohydrates, saltcontent= cook_saltcontent)
             cook.save()
             
-   
-            return redirect('account:signup_completion')
-        return render(request, self.template_name, {'form': form})
+            image1 = CookImagesave(image = image1)
+            image1.save()
+            imageurl1 = Image(image = image1.image.url)
+            
+            image2 = CookImagesave(image = image2)
+            image2.save()
+            imageurl2 = Image(image = image2.image.url)
+            
+            image3 = CookImagesave(image = image3)
+            image3.save()
+            imageurl3 = Image(image = image1.image.url)
+            
+            cookimage1 = Cookimage(cook = cook.cook_id, image = imageurl1.image_id)
+            cookimage1.save()
+            cookimage2 = Cookimage(cook = cook.cook_id, image = imageurl2.image_id)
+            cookimage2.save()
+            cookimage3 = Cookimage(cook = cook.cook_id, image = imageurl3.image_id)
+            cookimage3.save()
+            
+            for key in materials:
+                recipe = Recipe(cook = cook.cook_id, material = key)
+                recipe.save()
+            
+
+            
+            del request.session['materials']
+            return redirect('administrator:recipeadd_done')
+        
       
 
         return render(request, self.template_name)
 def get_materials(request, materialname):
         logging.debug(materialname)
         logging.debug("げっとまてりある")
-        
+        # materials = request.session['materials']
+
+        # del request.session['materials']
+
         materials = Material.objects.filter(name__icontains=materialname).values('material_id','name')
+        
         logging.debug(materialname)
         logging.debug(materials)
         return JsonResponse(list(materials), safe=False)
-def save_material(request, material):
-        
-      
+def save_material(request, material,materialamount):
             
         logging.debug("せーぶまてりある")
         logging.debug(material)
         materialname = Material.objects.filter(material_id = material).values('material_id','name')
-    
-        materialcheck = []
-        materialcheck.append(materialname[0]['material_id'])
-        logging.debug(request.session['materials'])
        # 'materials'がセッションに存在する場合
         if 'materials' in request.session:
-            logging.debug(request.session['materials'],"セッション")
+            
             materials = request.session['materials']
-            if materials in materialcheck:
-               logging.debug("削除")
-               materials.remove(materialname[0]['material_id']) 
+            logging.debug(materials)
+            logging.debug(materialname[0]['material_id'] )
+            if str(materialname[0]['material_id']) in materials:
+               id = str(materialname[0]['material_id'])
+               logging.debug(materials)
+               del materials[id]
+               logging.debug(materials)
+               del request.session['materials']
+
                request.session['materials'] = materials
                logging.debug("削除完了")
                logging.debug(request.session['materials'],"セッション")
-               return JsonResponse(list(materialname), safe=False)
+               return JsonResponse(materials, safe=False)
 
         else:
          # 存在しない場合は空リストを初期化
-            materials = []
+            materials = {}
         material = materialname[0]['material_id']
         logging.debug(material)
         # materialnameがNoneでないことを確認してから、リストに追加
         if materialname:
 
-            materials.append(material)
+            materials[material] = materialamount
 
         # 更新したmaterialsリストをセッションに保存
         request.session['materials'] = materials
-        return JsonResponse(list(materialname), safe=False)
+        return JsonResponse(materials, safe=False)
 
     

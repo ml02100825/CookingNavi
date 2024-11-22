@@ -59,3 +59,9 @@ class Cookimage(models.Model):
     class Meta:
         managed = False
         db_table = 'cookimage'
+
+
+
+class CookImagesave(models.Model):
+    
+    image = models.ImageField(upload_to='cook/')  # 画像の保存先フォルダ

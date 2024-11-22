@@ -7,6 +7,14 @@
 {% block content %}
 <h2>健康グラフ</h2>
 
+<div class="messages">
+    {% for message in messages %}
+        <div class="message {{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+</div>
+
 <div class="selection">
     <label for="user-select">家族選択:</label>
     <select id="user-select">
