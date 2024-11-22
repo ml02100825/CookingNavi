@@ -37,4 +37,6 @@ urlpatterns = [
     path('kazoku/henko/<int:family_id>/', KazokuHenkoView.as_view(), name='kazoku_henko'),
     path('kazoku_henko_ok/<int:family_id>/', views.KazokuHenkoOkView.as_view(), name='kazoku_henko_ok'),
     path('health_graph/', views.HealthGraphView.as_view(), name='health_graph'),
+    path('taikai/', views.confirm_taikai, name='confirm_taikai'),
+    path('dashboard/', views.dashboard, name='dashboard'),
 ]
