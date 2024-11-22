@@ -89,4 +89,12 @@ class Weight(models.Model):
     class Meta:
         managed = False
         db_table = 'weight'
-        
+
+class Userallergy(models.Model):
+    user_allergy_id = models.AutoField(verbose_name="ユーザアレルギーID", db_column='UserAllergyID', primary_key=True)
+    user = models.ForeignKey('User', verbose_name="ユーザ", db_column='User_ID', on_delete=models.CASCADE)
+    allergy = models.ForeignKey('Allergy', verbose_name="アレルギー", db_column='Allergy_ID', on_delete=models.CASCADE)
+    
+    class Meta:
+        managed = False
+        db_table = 'userallergy'
