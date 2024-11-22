@@ -65,6 +65,7 @@ class AcountSettingView(TemplateView):
         if 'user_id' in self.request.session:
             id = self.request.session['user_id']
             try:
+                User = get_user_model()
                 user = User.objects.get(user_id=id)
                 context['user'] = user
             except User.DoesNotExist:
@@ -406,47 +407,47 @@ class DietaryHistoryView(LoginRequiredMixin, TemplateView):
  
 class HealthGraphView(TemplateView):
     template_name = 'kenkougurahu/healthgraph.html'
- 
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
- 
+
         # ログインしているユーザーを取得
         user = self.request.user
- 
+
         # ログインユーザーの家族情報を取得
         family_members = Familymember.objects.filter(user=user)
- 
+
         # ログインユーザー自身を家族リストに追加
         family_members = list(family_members)  # クエリセットをリストに変換
         family_members.append(user)  # ログインユーザー自身を追加
- 
+
         # 家族メンバー情報をテンプレートに渡す
         context['family_members'] = family_members
         return context
- 
+
     def post(self, request, *args, **kwargs):
         # ユーザーIDと開始日を取得
-        user_id = request.POST.get('user_id')
+        family_id = request.POST.get('family_id')
         start_date = request.POST.get('start_date')
- 
+
         if not family_id or not start_date:
             messages.warning(request, 'ユーザーと日付を選択してください。')
- 
+
         # ユーザーの体重データを取得
         weights = Weight.objects.filter(
-            user_id=user_id,
+            user_id=family_id,
             register_time__gte=start_date
         ).order_by('register_time')
- 
+
         # 体重データが存在しない場合の処理
         if not weights:
             messages.warning(request, '指定したユーザーの体重データはありません。')
- 
+
         # 日付と体重のリストを作成
         dates = [weight.register_time.strftime('%Y-%m-%d') for weight in weights]
         weight_values = [weight.weight for weight in weights]
- 
-        # メッセージをJSON形式で返す
+
+        # JSONでデータを返す
         return JsonResponse({
             'dates': dates,
             'weights': weight_values
