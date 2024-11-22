@@ -452,7 +452,6 @@ class HealthGraphView(TemplateView):
             'dates': dates,
             'weights': weight_values
         })
-<<<<<<< HEAD
     
 class KazokuKakuninView(TemplateView):
     template_name = 'kazoku/kazoku_kakunin.html'
@@ -469,21 +468,3 @@ class KazokuKakuninView(TemplateView):
         context['family_allergies'] = family_allergies
 
         return context
-=======
-
-@login_required
-def confirm_taikai(request):
-    if request.method == 'POST':
-        # ログアウトして退会処理
-        user = request.user
-        user.is_active = False  # ユーザーの無効化（退会状態にする）
-        user.save()
-        logout(request)  # ログアウト処理
-        return redirect('home')  # ホームページなど任意のページにリダイレクト
-
-    return render(request, 'admin/taikai.html')
-
-@login_required
-def dashboard(request):
-    return render(request, 'admin/dashboard.html')  # ダッシュボードのテンプレートを指定
->>>>>>> db402dbaa388f9d1136c251235a93ccbcba299b9
