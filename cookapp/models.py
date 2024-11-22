@@ -58,24 +58,15 @@ class Familymember(models.Model):
 
 class Familyallergy(models.Model):
     family_allergy_id = models.AutoField(verbose_name='家族アレルギーID', db_column='FamilyAllergyID', primary_key=True)
-<<<<<<< HEAD
     allergy = models.ForeignKey('Allergy', verbose_name='アレルギー', db_column='Allergy_ID', on_delete=models.CASCADE)
     family_member = models.ForeignKey('Familymember', verbose_name='家族', db_column='Family_ID', on_delete=models.CASCADE)
     
-=======
-    allergy_id = models.IntegerField(verbose_name='アレルギーID', db_column='Allergy_ID')
-    family_id = models.IntegerField(verbose_name='家族ID', db_column='Family_ID')
-
->>>>>>> db402dbaa388f9d1136c251235a93ccbcba299b9
     class Meta:
         managed = False  # DB管理外
         db_table = 'familyallergy'
 
-<<<<<<< HEAD
     def __str__(self):
         return f'{self.family_member.family_name} - {self.allergy.allergy_name}'
-=======
->>>>>>> db402dbaa388f9d1136c251235a93ccbcba299b9
 
 class Allergy(models.Model):
     allergy_id = models.AutoField(verbose_name='アレルギーID', db_column='ALLERGY_ID', primary_key=True)
@@ -98,7 +89,4 @@ class Weight(models.Model):
     class Meta:
         managed = False
         db_table = 'weight'
-<<<<<<< HEAD
         
-=======
->>>>>>> db402dbaa388f9d1136c251235a93ccbcba299b9
