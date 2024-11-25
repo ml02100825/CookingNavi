@@ -4,16 +4,6 @@
 
 {% block content %}
 <main>
-    <header class="header">
-        <div class="app-name">クッキングnavi</div>
-        <div class="nav-right">
-            <div class="nav-links">
-                <a href="#" class="home-link">ホーム</a>
-                <a href="#">ログアウト</a>
-            </div>
-            <div class="user-icon"></div>
-        </div>
-
         <div class="family-section">
             <h3>家族一覧</h3>
 
@@ -40,15 +30,9 @@
             {% endif %}
             
             <a href="{% url 'cookapp:kazoku_add' %}">
-                <button type="button">家族情報追加</button>
+                <button type="button">追加</button>
             </a>
         </div>
     </header>
 </main>
-{% endblock %}
-
-{% block footer %}
-<footer class="footer">
-    <p>&copy; 2024 クッキングnavi.</p>
-</footer>
 {% endblock %}
