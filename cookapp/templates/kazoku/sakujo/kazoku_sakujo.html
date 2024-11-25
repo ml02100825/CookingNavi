@@ -1,9 +1,19 @@
-{% extends '../baseuser.html' %}
+{% extends '../../baseuser.html' %}
 
 {% block title %}家族情報{% endblock %}
 
 {% block content %}
 <main>
+    <header class="header">
+        <div class="app-name">クッキングnavi</div>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="#" class="home-link">ホーム</a>
+                <a href="#">ログアウト</a>
+            </div>
+            <div class="user-icon"></div>
+        </div>
+
         <div class="family-section">
             <h3>家族情報確認</h3>
 
@@ -26,12 +36,20 @@
                         <p>アレルギーなし</p>
                     {% endif %}
                     
-                    <a href="{% url 'cookapp:kazoku_henko' family_id=family_member.family_id %}">
-                        <button type="button">家族情報変更</button>
-                    </a>
                 </div>
             {% endif %}
         </div>
     </header>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">はい</button>
+        <a href="{% url 'cookapp:family_info' %}"><button type="button">いいえ</button></a>
+    </form>
 </main>
+{% endblock %}
+
+{% block footer %}
+<footer class="footer">
+    <p>&copy; 2024 クッキングnavi.</p>
+</footer>
 {% endblock %}
