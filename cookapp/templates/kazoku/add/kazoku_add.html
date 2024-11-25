@@ -1,8 +1,12 @@
 {% extends '../../baseuser.html' %}
+{% load static %}
 
 {% block title %}家族情報追加{% endblock %}
 
 {% block content %}
+
+<link rel="stylesheet" href="{% static 'css/kazoku/add/kazoku_add.css' %}">
+
 <main class="main-content">
     <h2>家族情報追加</h2>
     <form action="{% url 'cookapp:kazoku_add' %}" method="post" class="registration-form">
@@ -15,4 +19,4 @@
         </div>
     </form>
 </main>
-{% endblock %}yy
+{% endblock %}
