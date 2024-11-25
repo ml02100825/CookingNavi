@@ -7,6 +7,8 @@
     <div class="form-container">
         <h2>投稿画面</h2>
         <form id="recipe-form">
+            {% csrf_token %}
+            {{ form.as_p }}
             <input type="text" id="recipe-title" placeholder="タイトル" required>
             <textarea id="recipe-description" placeholder="作り方を記入" rows="4" required></textarea>
             <input type="file" id="recipe-image" accept="image/*">

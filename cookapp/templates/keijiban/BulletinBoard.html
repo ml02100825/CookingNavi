@@ -9,7 +9,9 @@
             <input type="text" class="search-bar" placeholder="料理を検索する..." id="search-input">
             <button class="search-btn" onclick="searchRecipes()">検索</button>
         </div>
-        <button class="post-recipe-btn">レシピを投稿する</button>
+        <a href="{% url 'bbs:Posts' %}">
+            <button>レシピを投稿する</button>
+        </a>
     </div>
 
    
