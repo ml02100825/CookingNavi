@@ -22,6 +22,23 @@
           
           <label for="name">料理名</label>
           {{ form.name }}<br>
+<!-- メインコンテンツ -->
+<div class="login-container">
+    <h1>管理者画面</h1>
+    <h2>～レシピ追加～</h2>
+    <form method="post"  enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        料理名{{ form.name }}<br>
+       種別 {{ form.type }}<br>
+     作り方 {{ form.recipe_text }}<br>
+       画像１ {{ form.image1 }}<br>
+       画像２ {{ form.image2 }}<br>
+       画像３  {{ form.image3 }}<br>
+        <br>
+       
+       材料検索フォーム： <input type="text" id="material-input" name="material-input" value="" >
+       
 
           <label for="type">種別</label>
           {{ form.type }}<br>
