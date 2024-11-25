@@ -19,7 +19,7 @@ class CustomLoginView(LoginView):
         form =  LoginForm(request.POST)
         if form.is_valid():
             logging.debug('if文動いてる')
-            email = form.cleaned_data['username'] # 入力されたデータをセッションに保存
+            email = form.cleaned_data['email'] # 入力されたデータをセッションに保存
             password= form.cleaned_data['password']
             user = authenticate(request, username=email, password=password)
             if user:
@@ -34,9 +34,7 @@ class CustomLoginView(LoginView):
                     logging.debug(f"Session info: {request.session.items()}")  # セッション内容をログに出力
                     if user.is_superuser:
                         return redirect('administrator:home')
-                    else:
-                        logging.debug(f"User is authenticated: {request.user.is_authenticated}")
-                        return redirect('cookapp:home')
+                    return redirect('cookapp:home')
             else:
                 form.add_error(None, "Invalid username or password.")
     # redirect_authenticated_user = True
