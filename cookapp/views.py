@@ -502,4 +502,7 @@ class KazokuSakujoView(TemplateView):
         messages.success(request, '家族情報を削除しました。')
         return redirect('cookapp:kazoku_sakujo_ok')
     
+class KazokuSakujoOkView(TemplateView):
+    template_name = 'kazoku/sakujo/kazoku_sakujo_ok.html'
+    
 
