@@ -15,11 +15,18 @@
                         <a href="{% url 'cookapp:kazoku_henko' family_id=member.id %}">
                             <button type="button">家族情報変更</button>
                         </a>
+                        <!-- 家族情報確認ボタン -->
                         <a href="{% url 'cookapp:kazoku_kakunin' family_id=member.id %}">
                             <button type="button">家族情報確認</button>
                         </a>
+                        <!-- 家族情報削除ボタン -->
+                        <a href="{% url 'cookapp:kazoku_sakujo' family_id=member.id %}">
+                            <button type="button" class="delete-button">家族情報削除</button>
+                        </a>
                     </div>
                 {% endfor %}
+            {% else %}
+                <p>家族情報が登録されていません。</p>
             {% endif %}
             
             <a href="{% url 'cookapp:kazoku_add' %}">

@@ -1,0 +1,11 @@
+{% extends '../baseuser.html' %}
+
+{% block title %}削除完了{% endblock %}
+
+{% block content %}
+<main>
+    <h2>家族情報削除完了</h2>
+    <p>家族情報を正常に削除しました。</p>
+    <a href="{% url 'cookapp:family_info' %}">家族一覧に戻る</a>
+</main>
+{% endblock %}
