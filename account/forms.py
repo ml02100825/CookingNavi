@@ -34,5 +34,5 @@ class CustomUserCreation2Form(forms.ModelForm):
 
     
 class LoginForm(forms.Form):
-    username=forms.EmailField(label='名前',max_length=30)
-    password=forms.CharField(label='パスワード',widget=forms.PasswordInput())
+    email=forms.EmailField(label='Email',max_length=30)
+    password=forms.CharField(label='Password',widget=forms.PasswordInput())

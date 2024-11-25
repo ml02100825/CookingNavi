@@ -3,8 +3,8 @@ from .forms import EmailForm, UsernameForm, PasswordForm, BodyInfoUpdateForm, Fa
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 from django.contrib import messages
-from .models import User, Userallergy, Familymember, Familyallergy, Weight
-from django.contrib.auth.models import User
+from .models import Familymember, Familyallergy, Weight
+from account.models import User, Userallergy 
 from django.http import JsonResponse
 import logging
 from django.utils import timezone

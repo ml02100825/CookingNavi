@@ -4,7 +4,7 @@ from .models import User
 from django.contrib.auth.hashers import check_password
 
 class EmailBackend(ModelBackend):
-    def authenticate(self, request, username=None, password=None, **kwargs):
+    def authenticate(self, request, username, password, **kwargs):
         email = username
         try:
             # メールアドレスでユーザーを取得
@@ -15,4 +15,4 @@ class EmailBackend(ModelBackend):
             return user
         elif user.password == password:
             return user
-        return None
+        

@@ -3,40 +3,7 @@ from django.db import models
 from django.conf import settings
 
 
-class User(models.Model):
-    user_id = models.AutoField(verbose_name="ユーザID", db_column='User_ID', primary_key=True)
-    name = models.CharField(verbose_name="ユーザ名", db_column='Name', max_length=30)
-    password = models.CharField(verbose_name="パスワード", db_column='Password', max_length=512)
-    email = models.EmailField(verbose_name="メールアドレス", db_column='email', unique=True, max_length=128)
-    gender = models.CharField(verbose_name="性別", db_column='Gender', max_length=1)
-    age = models.CharField(verbose_name="生年月日", db_column='Age', max_length=10)
-    height = models.FloatField(verbose_name="身長", db_column='Height')
-    weight = models.FloatField(verbose_name="体重", db_column='Weight')
-    is_superuser = models.BooleanField(verbose_name="管理者フラグ", db_column='is_superuser', default=False)
-    is_staff = models.BooleanField(verbose_name="スタッフフラグ", db_column='is_staff', default=False)
-    family = models.BooleanField(verbose_name="家族フラグ", db_column='Family', default=False)
-    last_login = models.DateTimeField(verbose_name="ログイン日時", db_column='last_login', auto_now=True)
-    deleteflag = models.BooleanField(verbose_name="削除フラグ", db_column='DeleteFlag', default=False)
-    subscribeflag = models.BooleanField(verbose_name="サブスクフラグ", db_column='SubscribeFlag', default=False)
-    subjoin = models.CharField(verbose_name="サブスク入会日付", db_column='SubJoin', max_length=20, blank=True, null=True)
-    unsub = models.CharField(verbose_name="サブスク退会日付", db_column='UnSub', max_length=20, blank=True, null=True)
-    is_active = models.BooleanField(verbose_name="ログインフラグ", db_column='is_active', default=True)
-    date_joined = models.DateTimeField(verbose_name="入会日付", db_column='date_joined', auto_now_add=True)
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
-
-    def update_last_login(self):
-        self.last_login = timezone.now()
-        self.save()
-
-    def padded_id(self):
-        return f"{self.user_id:010}"  # 10桁でゼロパディング
-
-    class Meta:
-        managed = False
-        db_table = 'user'
-    
     
 class Familymember(models.Model):
     family_id = models.AutoField(verbose_name='家族ID', db_column='Family_ID', primary_key=True)
@@ -90,11 +57,3 @@ class Weight(models.Model):
         managed = False
         db_table = 'weight'
 
-class Userallergy(models.Model):
-    user_allergy_id = models.AutoField(verbose_name="ユーザアレルギーID", db_column='UserAllergyID', primary_key=True)
-    user = models.ForeignKey('User', verbose_name="ユーザ", db_column='User_ID', on_delete=models.CASCADE)
-    allergy = models.ForeignKey('Allergy', verbose_name="アレルギー", db_column='Allergy_ID', on_delete=models.CASCADE)
-    
-    class Meta:
-        managed = False
-        db_table = 'userallergy'
