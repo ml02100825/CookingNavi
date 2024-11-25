@@ -1,4 +1,4 @@
-{% extends '../baseuser.html' %}
+{% extends '../../baseuser.html' %}
 
 {% block title %}家族情報{% endblock %}
 
@@ -36,13 +36,15 @@
                         <p>アレルギーなし</p>
                     {% endif %}
                     
-                    <a href="{% url 'cookapp:kazoku_henko' family_id=family_member.family_id %}">
-                        <button type="button">家族情報変更</button>
-                    </a>
                 </div>
             {% endif %}
         </div>
     </header>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">はい</button>
+        <a href="{% url 'cookapp:family_info' %}"><button type="button">いいえ</button></a>
+    </form>
 </main>
 {% endblock %}
 

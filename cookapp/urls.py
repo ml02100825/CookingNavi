@@ -37,8 +37,10 @@ urlpatterns = [
     path('shokujirireki/', views. DietaryHistoryView.as_view(), name='dietaryhistory'),
     path('kazoku/henko/<int:family_id>/', KazokuHenkoView.as_view(), name='kazoku_henko'),
     path('kazoku_henko_ok/<int:family_id>/', views.KazokuHenkoOkView.as_view(), name='kazoku_henko_ok'),
-     path('kazoku/kakunin/<int:family_id>/', views.KazokuKakuninView.as_view(), name='kazoku_kakunin'),
+    path('kazoku/kakunin/<int:family_id>/', views.KazokuKakuninView.as_view(), name='kazoku_kakunin'),
     path('health_graph/', views.HealthGraphView.as_view(), name='health_graph'),
     path('taikai/', views.confirm_taikai, name='confirm_taikai'),
     path('dashboard/', views.dashboard, name='dashboard'),
+    path('kazoku/sakujo/<int:family_id>/', views.KazokuSakujoView.as_view(), name='kazoku_sakujo'),
+    path('kazoku_sakujo_ok/<int:family_id>/', views.KazokuSakujoOkView.as_view(), name='kazoku_sakujo_ok'),
 ]

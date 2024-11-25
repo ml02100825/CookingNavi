@@ -10,6 +10,7 @@ import logging
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, get_user_model
+from django.urls import reverse
  
  
 logger = logging.getLogger(__name__)
@@ -472,11 +473,61 @@ def dashboard(request):
     
 class KazokuKakuninView(TemplateView):
     template_name = 'kazoku/kakunin/kazoku_kakunin.html'
+
     def get(self, request, family_id):
         try:
-            # family_idを使って家族情報を取得
+            # 家族メンバーの情報を取得
             family_member = Familymember.objects.get(family_id=family_id)
+            # 関連するアレルギーIDを取得
+            allergies = Familyallergy.objects.filter(family_member=family_member)
+            
+            # allergy_idを使用してアレルギー名に変換する辞書を作成
+            allergy_names = []
+            allergy_mapping = {
+                1: 'エビ',  # allergy_idが1の場合は「エビ」
+                2: '小麦',    # allergy_idが2の場合は「卵」
+                3: 'くるみ',  # allergy_idが3の場合は「小麦」
+                4: 'カニ', # allergy_idが4の場合は「ナッツ」
+                5: 'そば',
+                6: '卵',
+                7: '牛乳',
+                8: '落花生',
+                # 必要に応じて他のアレルギーIDも追加
+            }
+
+            # allergiesからallergy_idを取得して、対応するアレルギー名をリストに追加
+            for allergy in allergies:
+                allergy_name = allergy_mapping.get(allergy.allergy_id, '不明')  # マッピングがない場合は「不明」
+                allergy_names.append(allergy_name)
+
         except Familymember.DoesNotExist:
             return redirect('cookapp:kazoku')  # 家族情報が存在しない場合、家族一覧ページにリダイレクト
-        
-        return render(request, 'kazoku/kazoku_kakunin.html', {'family_member': family_member})
+
+        return render(request, 'kazoku/kakunin/kazoku_kakunin.html', {'family_member': family_member, 'allergy_names': allergy_names})
+
+    
+class KazokuSakujoView(TemplateView):
+    template_name = 'kazoku/sakujo/kazoku_sakujo.html'
+
+    def get(self, request, *args, **kwargs):
+        family_id = kwargs['family_id']
+        family_member = get_object_or_404(Familymember, family_id=family_id)  # 修正: family_idを使用
+        return self.render_to_response({'family_member': family_member})
+
+    def post(self, request, *args, **kwargs):
+        family_id = kwargs['family_id']
+        family_member = get_object_or_404(Familymember, family_id=family_id)  # 修正: family_idを使用
+
+        # 関連するFamilyallergyデータを削除
+        Familyallergy.objects.filter(family_member=family_member).delete()
+
+        # Familymemberデータを削除
+        family_member.delete()
+
+        messages.success(request, '家族情報を削除しました。')
+        return redirect(reverse('cookapp:kazoku_sakujo_ok', kwargs={'family_id': family_id}))
+    
+class KazokuSakujoOkView(TemplateView):
+    template_name = 'kazoku/sakujo/kazoku_sakujo_ok.html'
+    
+
