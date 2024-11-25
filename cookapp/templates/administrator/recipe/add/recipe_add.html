@@ -1,13 +1,27 @@
+{% extends '../base.html' %}
+
 {% load static %}
 
 {% block title %}（管理者）レシピ追加{% endblock %}
 
 {% block content %}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="{% static 'js/save_material.js' %}"></script>
-<script src="{% static 'js/send_materials.js' %}"></script>
-<script src="{% static 'js/delete_material.js' %}"></script>
+<head>
+  <!-- Faviconの設定 -->
+  <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+  <!-- CSSのリンク -->
+  <link rel="stylesheet" href="{% static 'css/administrator/recipe/add/recipe_add.css' %}">
+</head>
 
+<body>
+  <!-- メインコンテンツ -->
+  <div class="login-container">
+      <h1>管理者画面</h1>
+      <h2>～レシピ追加～</h2>
+      <form method="post" >
+          {% csrf_token %}
+          
+          <label for="name">料理名</label>
+          {{ form.name }}<br>
 <!-- メインコンテンツ -->
 <div class="login-container">
     <h1>管理者画面</h1>
@@ -26,23 +40,61 @@
        材料検索フォーム： <input type="text" id="material-input" name="material-input" value="" >
        
 
-    <br>
-      材料  <select id = "materialselect"></select> 単位：グラム(g)<input type="number" id = "materialamount"><button id ="materialbutton" type="button">追加</button>
-      <h3 id="materials"></h3>
-      <br>
-      <button type="submit">レシピ追加</button>
-        <!-- <label for="recipe-name">メニュー名</label>
-        <input type="text" id="recipe-name" name="recipe-name" required>
+          <label for="type">種別</label>
+          {{ form.type }}<br>
 
-        <label for="ingredients">材料名</label>
-        <textarea id="ingredients" name="ingredients" rows="4" required></textarea>
+          <label for="recipe_text">作り方</label>
+          {{ form.recipe_text }}<br>
 
-        <label for="instructions">作り方</label>
-        <textarea id="instructions" name="instructions" rows="4" required></textarea>
+          <label for="image1">画像１</label>
+          {{ form.image1 }}<br>
 
-        <button type="submit">戻る</button>
+          <label for="image2">画像２</label>
+          {{ form.image2 }}<br>
 
-         -->
-    </form>
-</div>
+          <label for="image3">画像３</label>
+          {{ form.image3 }}<br>
+
+          <!-- 材料検索フォーム -->
+          <br>
+          材料検索フォーム： <input type="text" id="material-input" name="material-input" value="" >
+          
+          <br>
+          材料  <select id="materialselect"></select> 単位：グラム(g)
+          <input type="number" id="materialamount"><button id="materialbutton" type="button">追加</button>
+
+          <!-- 材料リスト -->
+          <h3 id="materials"></h3>
+          
+          <br>
+          <button type="submit">レシピ追加</button>
+      </form>
+  </div>
+
+  <!-- JavaScriptの読み込み -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="{% static 'js/save_material.js' %}"></script>
+  <script src="{% static 'js/send_materials.js' %}"></script>
+  <script src="{% static 'js/delete_material.js' %}"></script>
+
+  <script>
+      // 材料追加ボタンの動作
+      $(document).ready(function(){
+          $('#materialbutton').on('click', function(){
+              var materialInput = $('#material-input').val();  // 入力された材料名
+              var materialAmount = $('#materialamount').val(); // 入力された量
+
+              // 材料が選択されている場合、リストに追加
+              if (materialInput && materialAmount) {
+                  $('#materialselect').append('<option value="'+ materialInput +'">' + materialInput + ' (' + materialAmount + 'g)</option>');
+                  $('#materials').append('<p>' + materialInput + ' (' + materialAmount + 'g)</p>');
+
+                  // 入力フォームをリセット
+                  $('#material-input').val('');
+                  $('#materialamount').val('');
+              }
+          });
+      });
+  </script>
+</body>
 {% endblock %}
