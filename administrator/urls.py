@@ -10,5 +10,5 @@ urlpatterns = [
     path('recipe/add/<int:material>/<int:materialamount>/', views.save_material, name='savematerial'),
 
     path('recipe/add/<str:materialname>/', views.get_materials, name='getmaterial'),
-    path('recipe/add/done/', views.RecipeAdd_doneView.as_view(), name='recipeadd_done'),
+    path('recipe/add/done', views.RecipeAdd_doneView.as_view(), name='recipeadd_done'),
 ]
