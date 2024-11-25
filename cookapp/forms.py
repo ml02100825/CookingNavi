@@ -54,6 +54,7 @@ class PasswordForm(forms.Form):
     
 
 class BodyInfoUpdateForm(forms.Form):
+    name = forms.CharField(label='名前', max_length=20)
     birthdate = forms.DateField(label="生年月日", widget=forms.SelectDateWidget(years=range(1900, 2025)))
     gender = forms.ChoiceField(label="性別", choices=[('1', '男性'), ('2', '女性'), ('3', 'その他')])
     allergies = forms.MultipleChoiceField(label="アレルギー", choices=[('1', 'えび'), ('2', 'かに'), ('3', 'くるみ'),
