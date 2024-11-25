@@ -1,0 +1,44 @@
+{% extends '../../baseuser.html' %}
+{% block title %}家族情報確認{% endblock %}
+
+{% block content %}
+<main>
+    <header class="header">
+        <div class="app-name">クッキングnavi</div>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="#" class="home-link">ホーム</a>
+                <a href="#">ログアウト</a>
+            </div>
+            <div class="user-icon"></div>
+        </div>
+
+        <div class="family-section">
+            <h3>家族情報確認</h3>
+            <p>名前: {{ family_member.family_name }}</p>
+            <p>年齢: {{ family_member.family_age }}</p>
+            <p>性別: {{ family_member.family_gender }}</p>
+            <p>身長: {{ family_member.family_height }}</p>
+            <p>体重: {{ family_member.family_weight }}</p>
+
+            <h4>アレルギー情報</h4>
+            {% if allergy_names %}
+    <ul>
+        {% for allergy_name in allergy_names %}
+            <li>アレルギー: {{ allergy_name }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>アレルギー情報はありません。</p>
+{% endif %}
+
+        </div>
+    </header>
+</main>
+{% endblock %}
+
+{% block footer %}
+<footer class="footer">
+    <p>&copy; 2024 クッキングnavi.</p>
+</footer>
+{% endblock %}

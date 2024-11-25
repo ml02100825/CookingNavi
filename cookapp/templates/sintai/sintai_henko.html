@@ -10,7 +10,6 @@
 <main class="main-content">
     <h2>身体情報変更</h2>
     <form action="{% url 'cookapp:body_info_update' %}" method="post" class="registration-form">
-        <p>ユーザ名：{{ user.name}}</p>
         {% csrf_token %}
         {{ form.as_p }}
         <button type="button" onclick="window.history.back()">戻る</button>
