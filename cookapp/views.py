@@ -480,3 +480,26 @@ class KazokuKakuninView(TemplateView):
             return redirect('cookapp:kazoku')  # 家族情報が存在しない場合、家族一覧ページにリダイレクト
         
         return render(request, 'kazoku/kazoku_kakunin.html', {'family_member': family_member})
+    
+class KazokuSakujoView(TemplateView):
+    template_name = 'kazoku/sakujo/kazoku_sakujo.html'
+
+    def get(self, request, *args, **kwargs):
+        family_id = kwargs['family_id']
+        family_member = get_object_or_404(Familymember, id=family_id)
+        return self.render_to_response({'family_member': family_member})
+
+    def post(self, request, *args, **kwargs):
+        family_id = kwargs['family_id']
+        family_member = get_object_or_404(Familymember, id=family_id)
+
+        # 関連するFamilyallergyデータを削除
+        Familyallergy.objects.filter(family_member=family_member).delete()
+
+        # Familymemberデータを削除
+        family_member.delete()
+
+        messages.success(request, '家族情報を削除しました。')
+        return redirect('cookapp:kazoku_sakujo_ok')
+    
+
