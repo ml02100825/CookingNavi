@@ -1,16 +1,21 @@
 {% extends '../base.html' %}
 
-{% block title %}管理者ホーム - CookingNavi{% endblock %}
+{% load static %}
+
+{% block title %}(管理者)ホーム{% endblock %}
 
 {% block content %}
+<head>
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/administrator/home/home.css' %}">
+</head>
 
-    <h1 class="admin-title">管理者画面</h1>
-    <div class="button-container">
-
-        <form action="{% url 'administrator:recipe' %}" >
+<h1 class="admin-title">管理者画面</h1>
+<div class="button-container">
+    <form action="{% url 'administrator:recipe' %}">
         {% csrf_token %}
         <button class="recipe-btn">レシピ機能</button>
-        </form>
-        <button class="forum-btn">掲示板機能</button>
-    </div>
+    </form>
+    <button class="forum-btn">掲示板機能</button>
+</div>
 {% endblock %}
