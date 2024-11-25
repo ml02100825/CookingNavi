@@ -10,6 +10,7 @@ import logging
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, get_user_model
+from django.urls import reverse
  
  
 logger = logging.getLogger(__name__)
@@ -486,12 +487,12 @@ class KazokuSakujoView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         family_id = kwargs['family_id']
-        family_member = get_object_or_404(Familymember, id=family_id)
+        family_member = get_object_or_404(Familymember, family_id=family_id)  # 修正: family_idを使用
         return self.render_to_response({'family_member': family_member})
 
     def post(self, request, *args, **kwargs):
         family_id = kwargs['family_id']
-        family_member = get_object_or_404(Familymember, id=family_id)
+        family_member = get_object_or_404(Familymember, family_id=family_id)  # 修正: family_idを使用
 
         # 関連するFamilyallergyデータを削除
         Familyallergy.objects.filter(family_member=family_member).delete()
@@ -500,7 +501,7 @@ class KazokuSakujoView(TemplateView):
         family_member.delete()
 
         messages.success(request, '家族情報を削除しました。')
-        return redirect('cookapp:kazoku_sakujo_ok')
+        return redirect(reverse('cookapp:kazoku_sakujo_ok', kwargs={'family_id': family_id}))
     
 class KazokuSakujoOkView(TemplateView):
     template_name = 'kazoku/sakujo/kazoku_sakujo_ok.html'

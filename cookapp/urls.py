@@ -42,5 +42,5 @@ urlpatterns = [
     path('taikai/', views.confirm_taikai, name='confirm_taikai'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('kazoku/sakujo/<int:family_id>/', views.KazokuSakujoView.as_view(), name='kazoku_sakujo'),
-    path('kazoku_henko_ok/<int:family_id>/', views.KazokuSakujoOkView.as_view(), name='kazoku_henko_ok'),
+    path('kazoku_sakujo_ok/<int:family_id>/', views.KazokuSakujoOkView.as_view(), name='kazoku_sakujo_ok'),
 ]
