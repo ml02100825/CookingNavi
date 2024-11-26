@@ -353,7 +353,7 @@ from .models import Familymember, Familyallergy, Allergy  # Allergy モデルを
 
 class KazokuHenkoView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/henko/kazoku_henko.html'
- 
+
     def get(self, request, *args, **kwargs):
         # 編集する家族メンバーの取得
         family_member = Familymember.objects.get(family_id=kwargs['family_id'])
@@ -366,11 +366,11 @@ class KazokuHenkoView(LoginRequiredMixin, TemplateView):
         }
         form = FamilyForm(initial=initial_data)
         return render(request, self.template_name, {'form': form, 'family_member': family_member})
- 
+
     def post(self, request, *args, **kwargs):
         family_member = Familymember.objects.get(family_id=kwargs['family_id'])
         form = FamilyForm(request.POST)
- 
+
         if form.is_valid():
             # フォームデータを取得
             family_name = form.cleaned_data['family_name']
@@ -378,14 +378,22 @@ class KazokuHenkoView(LoginRequiredMixin, TemplateView):
             family_height = form.cleaned_data['family_height']
             family_weight = form.cleaned_data['family_weight']
             allergy_id = form.cleaned_data.get('allergy_id')
- 
+
             # 家族メンバーを更新
             family_member.family_name = family_name
             family_member.family_gender = family_gender
             family_member.family_height = family_height
             family_member.family_weight = family_weight
             family_member.save()
- 
+
+            # Weightテーブルに新しいレコードを追加
+            Weight.objects.create(
+                weight=family_weight,  # 更新された体重を登録
+                user=family_member.user,  # 家族メンバーに紐づくユーザー
+                family=family_member,  # 家族メンバー
+                register_time=datetime.now().strftime('%Y-%m-%d')  # 今日の日付を登録
+            )
+
             # アレルギーIDがある場合、Familyallergyテーブルを更新
             if allergy_id:
                 # アレルギー情報を新たに登録
@@ -393,18 +401,16 @@ class KazokuHenkoView(LoginRequiredMixin, TemplateView):
                     family_member=family_member,  # 家族情報インスタンス
                     allergy_id=allergy_id         # アレルギーID
                 )
- 
+
             # メッセージを表示
             messages.success(request, '家族情報が正常に更新されました。')
- 
+
             # 更新後のリダイレクト
-            # 家族情報を保存した後に、family_idを渡してリダイレクト
             return redirect('cookapp:kazoku_henko_ok', family_id=family_member.family_id)
- 
- 
+
         # フォームが無効な場合もフォームを再表示
         return render(request, self.template_name, {'form': form, 'family_member': family_member})
-   
+    
 class KazokuHenkoOkView(TemplateView):
     template_name = 'kazoku/henko/kazoku_henko_ok.html'
  
