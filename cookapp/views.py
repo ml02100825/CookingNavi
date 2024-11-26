@@ -278,15 +278,15 @@ class FamilyInfoView(LoginRequiredMixin, TemplateView):
         return render(request, self.template_name, context)
  
    
+from datetime import datetime
+
 class KazokuaddView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/add/kazoku_add.html'
- 
-    # GETリクエストの処理
+
     def get(self, request, *args, **kwargs):
         form = FamilyForm()
-        return render(request, self.template_name, {'form': form,})
- 
-    # POSTリクエストの処理
+        return render(request, self.template_name, {'form': form})
+
     def post(self, request, *args, **kwargs):
         form = FamilyForm(request.POST)
         if form.is_valid():
@@ -296,36 +296,46 @@ class KazokuaddView(LoginRequiredMixin, TemplateView):
             family_gender = form.cleaned_data['family_gender']
             family_height = form.cleaned_data['family_height']
             family_weight = form.cleaned_data['family_weight']
-            allergy_id = form.cleaned_data.get('allergy_id')  # アレルギーIDを取得
- 
+            allergy_id = form.cleaned_data.get('allergy_id')
+
             # 生年月日から年齢を計算
             family_age = form.calculate_age()
- 
+
             # 家族情報を登録
             family_member = Familymember.objects.create(
                 family_name=family_name,
-                family_age=family_age,  # 計算した年齢を登録
+                family_age=family_age,
                 family_gender=family_gender,
                 family_height=family_height,
                 family_weight=family_weight,
                 user=request.user._wrapped if hasattr(request.user, '_wrapped') else request.user  # SimpleLazyObject を解決
             )
- 
-            # 家族アレルギー情報を登録（allergy_idを直接登録）
-            if allergy_id:  # アレルギーIDが選択されている場合のみ登録
+
+            # Weightテーブルにデータを登録
+            Weight.objects.create(
+                weight=family_weight,  # Familymember の weight を登録
+                user=family_member.user,  # Familymember の user を登録
+                family_id=family_member.family_id,  # 数値の family_id を登録
+                register_time=datetime.now().strftime('%Y-%m-%d')  # 今日の日付を登録
+            )
+
+            # 家族アレルギー情報を登録
+            if allergy_id:
                 Familyallergy.objects.create(
-                    family_member=family_member,  # 新たに作成した家族情報のインスタンス
-                    allergy_id=allergy_id  # 直接取得したallergy_idを登録
+                    family_member=family_member,
+                    allergy_id=allergy_id
                 )
- 
+
             # メッセージ表示
             messages.success(request, '家族情報が正常に登録されました。')
- 
+
             # 登録完了後のリダイレクト
             return redirect('cookapp:kazoku_add_ok')
- 
+
         # フォームが無効な場合
         return render(request, self.template_name, {'form': form})
+
+
 
 
     
