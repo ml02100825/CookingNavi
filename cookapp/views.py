@@ -11,6 +11,8 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, get_user_model
 from django.urls import reverse
+from datetime import datetime
+import calendar
  
  
 logger = logging.getLogger(__name__)
@@ -412,7 +414,7 @@ class HealthGraphView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # ログインしているユーザーを取得
+        # ログインユーザーを取得
         user = self.request.user
 
         # ログインユーザーの家族情報を取得
@@ -427,28 +429,46 @@ class HealthGraphView(TemplateView):
         return context
 
     def post(self, request, *args, **kwargs):
-        # ユーザーIDと開始日を取得
-        family_id = request.POST.get('family_id')
-        start_date = request.POST.get('start_date')
+        # POSTから家族IDと開始日（年月）を取得
+        data = json.loads(request.body)
+        family_id = data.get('family_id')
+        start_date = data.get('start_date')
+
+        # 受け取ったデータを確認する
+        print(f"Received data: family_id={family_id}, start_date={start_date}")
 
         if not family_id or not start_date:
-            messages.warning(request, 'ユーザーと日付を選択してください。')
+            return JsonResponse({'error': 'ユーザーと日付を選択してください。'}, status=400)
 
-        # ユーザーの体重データを取得
+        try:
+            year, month = map(int, start_date.split('-'))
+        except ValueError:
+            return JsonResponse({'error': '無効な日付フォーマットです。'}, status=400)
+
+        # 月の初日と最終日を計算
+        first_day = datetime(year, month, 1)
+        last_day = datetime(year, month, calendar.monthrange(year, month)[1])
+
+        print(f"First day: {first_day}, Last day: {last_day}")  # ここで確認
+
+        # 体重データを期間でフィルタリング
         weights = Weight.objects.filter(
-            user_id=family_id,
-            register_time__gte=start_date
+            family_id=family_id,
+            register_time__gte=first_day,
+            register_time__lte=last_day
         ).order_by('register_time')
 
-        # 体重データが存在しない場合の処理
         if not weights:
-            messages.warning(request, '指定したユーザーの体重データはありません。')
+            return JsonResponse({'error': '指定した期間の体重データはありません。'}, status=404)
 
         # 日付と体重のリストを作成
         dates = [weight.register_time.strftime('%Y-%m-%d') for weight in weights]
         weight_values = [weight.weight for weight in weights]
 
-        # JSONでデータを返す
+        # データの確認
+        print(f"Dates: {dates}")
+        print(f"Weights: {weight_values}")
+
         return JsonResponse({
             'dates': dates,
             'weights': weight_values
