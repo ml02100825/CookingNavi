@@ -6,21 +6,17 @@ from django.conf import settings
 
     
 class Familymember(models.Model):
-    family_id = models.AutoField(verbose_name='家族ID', db_column='Family_ID', primary_key=True)
-    family_name = models.CharField(verbose_name="名前", db_column='Family_Name', max_length=20)
-    family_age = models.CharField(verbose_name='年齢', db_column='Family_Age', max_length=3)
-    family_gender = models.CharField(verbose_name='性別', db_column='Family_Gender', max_length=3)
-    family_height = models.FloatField(verbose_name='身長', db_column='Family_height')
-    family_weight = models.FloatField(verbose_name='体重', db_column='Family_weight')
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name="family_members"
-    )
+    family_id = models.AutoField(db_column='Family_ID', primary_key=True)
+    family_name = models.CharField(db_column='Family_Name', max_length=30)
+    family_gender = models.CharField(db_column='Family_Gender', max_length=1)
+    family_age = models.CharField(db_column='Family_Age', max_length=10)
+    family_height = models.FloatField(db_column='Family_Height')
+    family_weight = models.FloatField(db_column='Family_Weight')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='User_ID', on_delete=models.CASCADE)
 
     class Meta:
-        managed = False
         db_table = 'familymember'
+
 
 
 class Familyallergy(models.Model):
@@ -47,13 +43,14 @@ class Allergy(models.Model):
 
 
 class Weight(models.Model):
-    weight_id = models.AutoField(verbose_name='体重ID', db_column='Weight_ID', primary_key=True)
-    weight = models.FloatField(verbose_name='体重', db_column='Weight')
-    register_time = models.DateTimeField(verbose_name='登録時間', db_column='RegisterTime')
-    user_id = models.IntegerField(verbose_name='ユーザID', db_column='User_ID')
-    family_id = models.IntegerField(verbose_name='家族ID', db_column='Family_ID')
+    weight_id = models.AutoField(db_column='Weight_ID', primary_key=True)
+    weight = models.FloatField(db_column='Weight')
+    register_time = models.CharField(db_column='RegisterTime', max_length=50)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='User_ID', related_name='user_weights')
+    family = models.ForeignKey(Familymember, db_column='Family_ID', on_delete=models.CASCADE)
 
     class Meta:
-        managed = False
         db_table = 'weight'
+
+
 

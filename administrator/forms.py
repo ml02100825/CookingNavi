@@ -11,6 +11,6 @@ class RecipeAddForm(forms.Form):
     type = forms.ChoiceField(label="種別", choices=[('1', '主菜'), ('2', '副菜'), ('3', 'その他')])
     recipe_text = forms.CharField(label="作り方")
     image1 = forms.ImageField(label="画像1")
-    image2 = forms.ImageField(label="画像2")
-    image3 = forms.ImageField(label="画像3")
+    image2 = forms.ImageField(label="画像2", required=False)
+    image3 = forms.ImageField(label="画像3", required=False)
     
