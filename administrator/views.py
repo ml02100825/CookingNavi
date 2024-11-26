@@ -27,7 +27,7 @@ class RecipeAddView(TemplateView):
         return render(request, self.template_name, {'form': form})
     
     def post(self, request, *args, **kwargs):
-        form = RecipeAddForm(request.POST)
+        form = RecipeAddForm(request.POST, request.FILES)
         if form.is_valid():
             materials = request.session.get('materials')
            
@@ -51,46 +51,59 @@ class RecipeAddView(TemplateView):
                 material = key
                 value = materials[key] / 100
                 material_nutrition = Material.objects.filter(material_id=material).values('calorie','protein','lipids','fiber','carbohydrates','saltcontent')
-                cook_calorie += material_nutrition[0]['calorie'] * value
-                cook_protein += material_nutrition[0]['protein'] * value
-                cook_lipids += material_nutrition[0]['lipids']* value
-                cook_fiber += material_nutrition[0]['fiber']* value
-                cook_carbohydrates += material_nutrition[0]['carbohydrates']* value
-                cook_saltcontent += material_nutrition[0]['saltcontent']* value
+                if material_nutrition[0]['calorie'] != "-" and material_nutrition[0]['calorie']  != 'Tr':
+                    cook_calorie += float(material_nutrition[0]['calorie']) * value
+                if material_nutrition[0]['protein'] != "-" and material_nutrition[0]['protein']  != 'Tr':    
+                    cook_protein += float(material_nutrition[0]['protein']) * value
+                if material_nutrition[0]['lipids'] != "-" and material_nutrition[0]['lipids']  != 'Tr':    
+                   cook_lipids += float(material_nutrition[0]['lipids']) * value
+                if material_nutrition[0]['fiber'] != "-" and material_nutrition[0]['fiber']  != 'Tr':       
+                    cook_fiber += float(material_nutrition[0]['fiber'])* value
+                if material_nutrition[0]['carbohydrates'] != "-"and material_nutrition[0]['carbohydrates']  != 'Tr':   
+                    cook_carbohydrates += float(material_nutrition[0]['carbohydrates']) * value
+                if material_nutrition[0]['saltcontent'] != "-"and material_nutrition[0]['saltcontent']  != 'Tr':   
+                    cook_saltcontent += float(material_nutrition[0]['saltcontent'])* value
             cook = Cook(cookname = name,type = type, recipe_text = recipe_text, calorie = cook_calorie, protein = cook_protein, lipids = cook_lipids,fiber = cook_fiber,carbohydrates=cook_carbohydrates, saltcontent= cook_saltcontent)
             cook.save()
             
             image1 = CookImagesave(image = image1)
             image1.save()
             imageurl1 = Image(image = image1.image.url)
-            
-            image2 = CookImagesave(image = image2)
-            image2.save()
-            imageurl2 = Image(image = image2.image.url)
-            
-            image3 = CookImagesave(image = image3)
-            image3.save()
-            imageurl3 = Image(image = image1.image.url)
-            
-            cookimage1 = Cookimage(cook = cook.cook_id, image = imageurl1.image_id)
+            imageurl1.save()
+            cookimage1 = Cookimage(cook = cook, image = imageurl1)
             cookimage1.save()
-            cookimage2 = Cookimage(cook = cook.cook_id, image = imageurl2.image_id)
-            cookimage2.save()
-            cookimage3 = Cookimage(cook = cook.cook_id, image = imageurl3.image_id)
-            cookimage3.save()
+           
+            if image2 != None:
+                image2 = CookImagesave(image = image2)
+                image2.save()
+                imageurl2 = Image(image = image2.image.url)
+                imageurl2.save()
+                cookimage2 = Cookimage(cook = cook, image = imageurl2)
+                cookimage2.save()
+            if image3 != None:
+                image3 = CookImagesave(image = image3)
+                image3.save()
+                imageurl3 = Image(image = image1.image.url)
+                imageurl3.save()
+                cookimage3 = Cookimage(cook = cook, image = imageurl3)
+                cookimage3.save()
+            
+
+            
             
             for key in materials:
-                recipe = Recipe(cook = cook.cook_id, material = key)
+                material = Material.objects.get(material_id=key)
+                recipe = Recipe(cook = cook, material = material)
                 recipe.save()
             
 
             
             del request.session['materials']
             return redirect('administrator:recipeadd_done')
-        
-      
-
-        return render(request, self.template_name)
+        else:
+         
+            logging.debug('フォームが無効です: %s', form.errors)        
+            return render(request, self.template_name)
 def get_materials(request, materialname):
         logging.debug(materialname)
         logging.debug("げっとまてりある")
