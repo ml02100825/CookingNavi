@@ -12,7 +12,7 @@ $(document).ready(function() {
         console.log(materialname);
 
         if (!isNaN(material) && material !== 0) {
-            var url = '/administrator/recipe/add/' + material + '/' + materialamount + '/'
+            var url = '/bbs/Posts/' + material + '/' + materialamount + '/'
             console.log(material);
             $.ajax({
                
@@ -21,10 +21,6 @@ $(document).ready(function() {
                 dataType: 'json',
               
                 success: function(data) {
-                    if (window.materialSessionData!= {}){
-                        var materialData = JSON.parse(window.materialSessionData);
-                        console.log("セッション：",materialData); 
-                    }
                     console.log('Material name inside AJAX success:', material);
                     console.log(data);
                     console.log(data[material]);

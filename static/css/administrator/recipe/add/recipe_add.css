@@ -1,101 +1,78 @@
 /* （管理者）レシピ追加画面のスタイル */
 
-/* 基本スタイル */
-body {
-    font-family: Arial, sans-serif; /* フォント設定: Arialを使用 */
-    margin: 0; /* ページの余白を削除 */
-    padding: 0; /* ページの内側の余白を削除 */
-    background-color: #f9f9f9; /* 背景色を明るいグレーに設定 */
-    display: flex; /* フレックスボックスでレイアウト */
-    flex-direction: column; /* 縦方向にレイアウト */
-    align-items: center; /* 中央揃え */
+/* レシピ追加画面全体のスタイル */
+.recipe-add-container {
+    font-family: Arial, sans-serif; /* 全体のフォントをArialに設定 */
+    text-align: center; /* コンテンツを中央揃えにする */
+    padding: 20px; /* コンテナ全体に余白を設定 */
 }
 
-.app-name {
-    font-size: 1.5em; /* フォントサイズを1.5倍に設定 */
-    font-weight: bold; /* 太字に設定 */
+.recipe-add-container h1 {
+    font-size: 2.5em; /* メインタイトルの文字サイズを設定 */
+    margin-bottom: 10px; /* タイトル下部に余白を追加 */
 }
 
-.nav-links a {
-    margin-left: 15px; /* リンクの間隔を15pxに設定 */
-    color: white; /* リンク文字色を白に設定 */
-    text-decoration: none; /* 下線をなしに設定 */
-    font-size: 1em; /* フォントサイズを標準に設定 */
+.recipe-add-container h2 {
+    font-size: 1.5em; /* サブタイトルの文字サイズを設定 */
+    margin-bottom: 30px; /* タイトル下部に余白を追加 */
+    color: #666; /* サブタイトルの文字色を薄いグレーに設定 */
 }
 
-.nav-links a:hover {
-    text-decoration: underline; /* ホバー時に下線を表示 */
+/* フォーム全体 */
+.form-group {
+    margin-bottom: 20px; /* フォームフィールド間に余白を設定 */
 }
 
-.user-icon {
-    width: 40px; /* アイコンの幅を40pxに設定 */
-    height: 40px; /* アイコンの高さを40pxに設定 */
-    background-color: #ddd; /* 背景色をグレーに設定 */
-    border-radius: 50%; /* 丸い形にする */
+.form-group label {
+    display: block; /* ラベルをブロック要素として表示 */
+    font-weight: bold; /* ラベルの文字を太字にする */
+    margin-bottom: 10px; /* ラベルとフォームフィールドの間に余白を追加 */
+    text-align: left; /* ラベルを左揃えにする */
+    margin-left: 20%; /* 左側に余白を追加（視覚的に揃えるため） */
 }
 
-/* メインコンテンツ */
-.main-content {
-    width: 90%; /* 幅を90%に設定 */
-    max-width: 500px; /* 最大幅を500pxに設定 */
-    margin-top: 30px; /* 上部に30pxの余白を追加 */
-    padding: 20px; /* 内部に20pxの余白を追加 */
-    background-color: white; /* 背景色を白に設定 */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 下に大きめの影をつけて浮き上がる効果 */
-    border-radius: 10px; /* 角を丸く設定 */
-    text-align: center; /* 中央揃え */
+.form-group input,
+textarea {
+    width: 60%; /* 入力フィールドの幅を全体の60%に設定 */
+    padding: 10px; /* 内側の余白を設定（入力しやすくするため） */
+    margin: auto; /* 入力フィールドを中央揃えに配置 */
+    display: block; /* フォームフィールドをブロック表示にする */
+    border: 1px solid #ccc; /* 枠線を薄いグレーに設定 */
+    border-radius: 5px; /* 角を少し丸くして柔らかい印象にする */
 }
 
-/* 見出しスタイル */
-.login-container h1 {
-    font-size: 1.8em; /* フォントサイズを1.8倍に設定 */
-    color: #333; /* 文字色をダークグレーに設定 */
-    margin-bottom: 10px; /* 下部に10pxの余白を追加 */
+/* 画像アップロードエリア */
+.image-upload-container {
+    display: flex; /* 写真のボタンを横並びに配置 */
+    justify-content: center; /* 中央揃えにする */
+    gap: 10px; /* ボタン間に余白を設定 */
 }
 
-.login-container h2 {
-    font-size: 1.4em; /* フォントサイズを1.4倍に設定 */
-    color: #666; /* 文字色を明るいグレーに設定 */
-    margin-bottom: 20px; /* 下部に20pxの余白を追加 */
+.image-upload-btn {
+    width: 50px; /* ボタンの幅を50pxに設定 */
+    height: 50px; /* ボタンの高さを50pxに設定 */
+    display: flex; /* ボタン内の要素を中央揃えにするための設定 */
+    justify-content: center; /* ボタン内の要素を水平中央揃えにする */
+    align-items: center; /* ボタン内の要素を垂直中央揃えにする */
+    background-color: #007bff; /* ボタンの背景色をブルーに設定 */
+    color: white; /* ボタン内の文字色を白に設定 */
+    font-size: 1.5em; /* ボタン内の文字サイズを1.5emに設定 */
+    border-radius: 50%; /* ボタンを円形にする */
+    cursor: pointer; /* マウスカーソルをポインタに変更（クリック可能を示す） */
 }
 
-/* フォームスタイル */
-.login-container form {
-    display: flex; /* フレックスボックスでレイアウト */
-    flex-direction: column; /* 縦方向に配置 */
-    gap: 15px; /* 各要素間に15pxの隙間を設定 */
+/* ボタン全体 */
+button {
+    margin-top: 30px; /* コンテナ上部に余白を追加 */
+    display: flex; /* ボタンを横並びに配置 */
+    justify-content: space-between; /* ボタンを左右に分けて配置 */
+    margin: auto; /* コンテナを中央揃えにする */
+    border-radius: 5%;
+    border: none; 
 }
 
-.login-container label {
-    font-weight: bold; /* ラベルを太字に設定 */
-    color: #555; /* 文字色を少し薄いグレーに設定 */
-    text-align: left; /* 左揃え */
-}
 
-.login-container input[type="text"],
-.login-container textarea {
-    width: 100%; /* 入力フォームの幅を100%に設定 */
-    padding: 10px; /* 内部に10pxの余白を追加 */
-    margin-bottom: 15px; /* 下部に15pxの余白を追加 */
-    border: 1px solid #ddd; /* 枠線を薄いグレーに設定 */
-    border-radius: 4px; /* 角を丸く設定 */
-    font-size: 1em; /* フォントサイズを標準に設定 */
-    resize: vertical; /* テキストエリアは縦方向のみリサイズ可能 */
-}
-
-/* ボタンスタイル */
-.login-container button {
-    padding: 10px; /* 内部に10pxの余白を追加 */
-    font-size: 1em; /* フォントサイズを標準に設定 */
-    color: white; /* 文字色を白に設定 */
-    background-color: #007bff; /* 背景色を青色に設定 */
-    border: none; /* 枠線をなしに設定 */
-    border-radius: 5px; /* 角を丸く設定 */
-    cursor: pointer; /* ポインターカーソルを表示 */
-    transition: background-color 0.3s; /* ホバー時に背景色の変化をスムーズにする */
-    width: 100%; /* ボタンの幅を100%に設定 */
-}
-
-.login-container button:hover {
-    background-color: #0056b3; /* ホバー時に背景色を暗くする */
+button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
 }

@@ -51,17 +51,17 @@ class RecipeAddView(TemplateView):
                 material = key
                 value = materials[key] / 100
                 material_nutrition = Material.objects.filter(material_id=material).values('calorie','protein','lipids','fiber','carbohydrates','saltcontent')
-                if material_nutrition[0]['calorie'] != "-" and material_nutrition[0]['calorie']  != 'Tr':
+                if material_nutrition[0]['calorie'] != "-" and material_nutrition[0]['calorie']  != 'Tr' and material_nutrition[0]['calorie']  != '(Tr)':
                     cook_calorie += float(material_nutrition[0]['calorie']) * value
-                if material_nutrition[0]['protein'] != "-" and material_nutrition[0]['protein']  != 'Tr':    
+                if material_nutrition[0]['protein'] != "-" and material_nutrition[0]['protein']  != 'Tr'and material_nutrition[0]['protein']  != '(Tr)':    
                     cook_protein += float(material_nutrition[0]['protein']) * value
-                if material_nutrition[0]['lipids'] != "-" and material_nutrition[0]['lipids']  != 'Tr':    
+                if material_nutrition[0]['lipids'] != "-" and material_nutrition[0]['lipids']  != 'Tr'and material_nutrition[0]['lipids']  != '(Tr)':    
                    cook_lipids += float(material_nutrition[0]['lipids']) * value
-                if material_nutrition[0]['fiber'] != "-" and material_nutrition[0]['fiber']  != 'Tr':       
+                if material_nutrition[0]['fiber'] != "-" and material_nutrition[0]['fiber']  != 'Tr' and material_nutrition[0]['fiber']  != '(Tr)':       
                     cook_fiber += float(material_nutrition[0]['fiber'])* value
-                if material_nutrition[0]['carbohydrates'] != "-"and material_nutrition[0]['carbohydrates']  != 'Tr':   
+                if material_nutrition[0]['carbohydrates'] != "-"and material_nutrition[0]['carbohydrates']  != 'Tr'and material_nutrition[0]['carbohydrates']  != '(Tr)':   
                     cook_carbohydrates += float(material_nutrition[0]['carbohydrates']) * value
-                if material_nutrition[0]['saltcontent'] != "-"and material_nutrition[0]['saltcontent']  != 'Tr':   
+                if material_nutrition[0]['saltcontent'] != "-"and material_nutrition[0]['saltcontent']  != 'Tr'and material_nutrition[0]['saltcontent']  != '(Tr)':   
                     cook_saltcontent += float(material_nutrition[0]['saltcontent'])* value
             cook = Cook(cookname = name,type = type, recipe_text = recipe_text, calorie = cook_calorie, protein = cook_protein, lipids = cook_lipids,fiber = cook_fiber,carbohydrates=cook_carbohydrates, saltcontent= cook_saltcontent)
             cook.save()
@@ -150,7 +150,9 @@ def save_material(request, material,materialamount):
             materials[material] = materialamount
 
         # 更新したmaterialsリストをセッションに保存
+        
         request.session['materials'] = materials
+        print("セッションに保存されたデータ:", request.session['materials'])  # 確認用
         return JsonResponse(materials, safe=False)
 
     

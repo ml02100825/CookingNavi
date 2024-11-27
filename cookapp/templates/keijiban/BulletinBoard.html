@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %}ホーム - クッキングnavi{% endblock %}
+{% block title %}掲示板{% endblock %}
 
 {% block content %}
 <div class="search-bar-container">
@@ -21,12 +21,12 @@
     </aside>
 
     <main class="main-content">
-        {% for recipe in recipes %}
+        {% for post in bbs %}
         <div class="post-card">
-            <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+            <img src="{{ postimage.image.url }}" alt="{{ post.name }}">
             <div class="post-details">
-                <h3>{{ recipe.title }}</h3>
-                <p>{{ recipe.user.username }}</p>
+                <h3>{{ post.name }}</h3>
+                <p>{{ post.user.username }}</p>
                 <button class="like-btn" onclick="toggleLike(this)">❤</button>
             </div>
         </div>

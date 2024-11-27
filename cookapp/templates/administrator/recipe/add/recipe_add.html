@@ -1,4 +1,4 @@
-{% extends '../base.html' %}
+{% extends 'base.html' %}
 
 {% load static %}
 
@@ -12,89 +12,56 @@
   <link rel="stylesheet" href="{% static 'css/administrator/recipe/add/recipe_add.css' %}">
 </head>
 
-<body>
-  <!-- メインコンテンツ -->
-  <div class="login-container">
-      <h1>管理者画面</h1>
-      <h2>～レシピ追加～</h2>
-      <form method="post" >
-          {% csrf_token %}
-          
-          <label for="name">料理名</label>
-          {{ form.name }}<br>
+<div class="recipe-add-container">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+  window.materialSessionData = "{{ request.session.materials|default:'{}'|escapejs }}"; 
+</script>
+<script src="{% static 'js/save_material.js' %}"></script>
+<script src="{% static 'js/send_materials.js' %}"></script>
+<script src="{% static 'js/delete_material.js' %}"></script>
+
 <!-- メインコンテンツ -->
 <div class="login-container">
     <h1>管理者画面</h1>
     <h2>～レシピ追加～</h2>
-    <form method="post"  enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        
-        料理名{{ form.name }}<br>
-       種別 {{ form.type }}<br>
-     作り方 {{ form.recipe_text }}<br>
-       画像１ {{ form.image1 }}<br>
-       画像２ {{ form.image2 }}<br>
-       画像３  {{ form.image3 }}<br>
-        <br>
-       
-       材料検索フォーム： <input type="text" id="material-input" name="material-input" value="" >
-       
 
-          <label for="type">種別</label>
-          {{ form.type }}<br>
+        <!-- メニュー名 -->
+        <div class="form-group">
+            <label for="menu-name">メニュー名</label>
+            <input type="text" id="menu-name" name="menu-name" placeholder="メニュー名を入力" style="font-size: 1.2em; padding: 12px; width: 60%;">
+        </div>
 
-          <label for="recipe_text">作り方</label>
-          {{ form.recipe_text }}<br>
+        <!-- 材料名 -->
+        <div class="form-group">
+            <label for="ingredient">材料名</label>
+            <input type="text" id="ingredient" name="ingredient" placeholder="材料名を入力" style="font-size: 1.2em; padding: 12px; width: 60%;">
+        </div>
 
-          <label for="image1">画像１</label>
-          {{ form.image1 }}<br>
+        <!-- 写真アップロード -->
+        <div class="form-group">
+            <label for="photo">写真</label>
+            <div class="image-upload-container">
+                <div class="image-upload-btn">+</div>
+                <div class="image-upload-btn">+</div>
+                <div class="image-upload-btn">+</div>
+                <div class="image-upload-btn">+</div>
+            </div>
+        </div>
 
-          <label for="image2">画像２</label>
-          {{ form.image2 }}<br>
+        <!-- 作り方入力 -->
+        <div class="form-group" style="margin-top: 20px;">
+            <label for="instructions" style="font-size: 1.2em;">作り方を入力</label>
+            <textarea id="instructions" name="instructions" rows="10" placeholder="作り方を入力" style="font-size: 1.2em; padding: 12px; width: 60%;"></textarea>
+        </div>
 
-          <label for="image3">画像３</label>
-          {{ form.image3 }}<br>
-
-          <!-- 材料検索フォーム -->
-          <br>
-          材料検索フォーム： <input type="text" id="material-input" name="material-input" value="" >
-          
-          <br>
-          材料  <select id="materialselect"></select> 単位：グラム(g)
-          <input type="number" id="materialamount"><button id="materialbutton" type="button">追加</button>
-
-          <!-- 材料リスト -->
-          <h3 id="materials"></h3>
-          
-          <br>
-          <button type="submit">レシピ追加</button>
-      </form>
-  </div>
-
-  <!-- JavaScriptの読み込み -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="{% static 'js/save_material.js' %}"></script>
-  <script src="{% static 'js/send_materials.js' %}"></script>
-  <script src="{% static 'js/delete_material.js' %}"></script>
-
-  <script>
-      // 材料追加ボタンの動作
-      $(document).ready(function(){
-          $('#materialbutton').on('click', function(){
-              var materialInput = $('#material-input').val();  // 入力された材料名
-              var materialAmount = $('#materialamount').val(); // 入力された量
-
-              // 材料が選択されている場合、リストに追加
-              if (materialInput && materialAmount) {
-                  $('#materialselect').append('<option value="'+ materialInput +'">' + materialInput + ' (' + materialAmount + 'g)</option>');
-                  $('#materials').append('<p>' + materialInput + ' (' + materialAmount + 'g)</p>');
-
-                  // 入力フォームをリセット
-                  $('#material-input').val('');
-                  $('#materialamount').val('');
-              }
-          });
-      });
-  </script>
-</body>
+        <!-- ボタンの配置 -->
+        <div class="button-container" style="display: flex; justify-content: space-between; margin-top: 20px; width: 60%; margin-left: auto; margin-right: auto;">
+            <button type="button" style="font-size: 1em; padding: 10px 20px;" onclick="window.history.back()">戻る</button>
+            <button type="submit" style="font-size: 1em; padding: 10px 20px;">追加</button>
+        </div>
+    </form>
+</div>
 {% endblock %}
