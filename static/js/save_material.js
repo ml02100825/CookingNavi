@@ -21,6 +21,10 @@ $(document).ready(function() {
                 dataType: 'json',
               
                 success: function(data) {
+                    if (window.materialSessionData!= {}){
+                        var materialData = JSON.parse(window.materialSessionData);
+                        console.log("セッション：",materialData); 
+                    }
                     console.log('Material name inside AJAX success:', material);
                     console.log(data);
                     console.log(data[material]);
