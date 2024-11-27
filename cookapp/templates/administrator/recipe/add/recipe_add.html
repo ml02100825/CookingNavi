@@ -12,80 +12,46 @@
   <link rel="stylesheet" href="{% static 'css/administrator/recipe/add/recipe_add.css' %}">
 </head>
 
-<body>
-  <!-- メインコンテンツ -->
-  <div class="login-container">
+<div class="recipe-add-container">
     <h1>管理者画面</h1>
     <h2>～レシピ追加～</h2>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        
-        <!-- フォームフィールド -->
-        <label for="name">料理名</label>
-        {{ form.name }}<br>
 
-        <label for="type">種別</label>
-        {{ form.type }}<br>
+        <!-- メニュー名 -->
+        <div class="form-group">
+            <label for="menu-name">メニュー名</label>
+            <input type="text" id="menu-name" name="menu-name" placeholder="メニュー名を入力" style="font-size: 1.2em; padding: 12px; width: 60%;">
+        </div>
 
-        <label for="recipe_text">作り方</label>
-        {{ form.recipe_text }}<br>
+        <!-- 材料名 -->
+        <div class="form-group">
+            <label for="ingredient">材料名</label>
+            <input type="text" id="ingredient" name="ingredient" placeholder="材料名を入力" style="font-size: 1.2em; padding: 12px; width: 60%;">
+        </div>
 
-        <label for="image1">画像１</label>
-        {{ form.image1 }}<br>
+        <!-- 写真アップロード -->
+        <div class="form-group">
+            <label for="photo">写真</label>
+            <div class="image-upload-container">
+                <div class="image-upload-btn">+</div>
+                <div class="image-upload-btn">+</div>
+                <div class="image-upload-btn">+</div>
+                <div class="image-upload-btn">+</div>
+            </div>
+        </div>
 
-        <label for="image2">画像２</label>
-        {{ form.image2 }}<br>
+        <!-- 作り方入力 -->
+        <div class="form-group" style="margin-top: 20px;">
+            <label for="instructions" style="font-size: 1.2em;">作り方を入力</label>
+            <textarea id="instructions" name="instructions" rows="10" placeholder="作り方を入力" style="font-size: 1.2em; padding: 12px; width: 60%;"></textarea>
+        </div>
 
-        <label for="image3">画像３</label>
-        {{ form.image3 }}<br>
-
-        <!-- 材料検索フォーム -->
-        <label for="material-input">材料検索フォーム</label>
-        <input type="text" id="material-input" name="material-input" value=""><br>
-
-        <!-- 材料追加 -->
-        材料:
-        <select id="materialselect"></select>
-        単位: グラム(g)
-        <input type="number" id="materialamount">
-        <button id="materialbutton" type="button">追加</button>
-
-        <!-- 材料リスト -->
-        <h3 id="materials"></h3>
-
-        <!-- 送信ボタン -->
-        <br>
-        <button type="submit">レシピ追加</button>
+        <!-- ボタンの配置 -->
+        <div class="button-container" style="display: flex; justify-content: space-between; margin-top: 20px; width: 60%; margin-left: auto; margin-right: auto;">
+            <button type="button" class="back-btn" style="font-size: 1em; padding: 10px 20px;">戻る</button>
+            <button type="submit" class="add-btn" style="font-size: 1em; padding: 10px 20px;">追加</button>
+        </div>
     </form>
-  </div>
-
-  <!-- JavaScriptの読み込み -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="{% static 'js/save_material.js' %}"></script>
-  <script src="{% static 'js/send_materials.js' %}"></script>
-  <script src="{% static 'js/delete_material.js' %}"></script>
-
-  <script>
-      // 材料追加ボタンの動作
-      $(document).ready(function() {
-          $('#materialbutton').on('click', function() {
-              const materialInput = $('#material-input').val(); // 入力された材料名
-              const materialAmount = $('#materialamount').val(); // 入力された量
-
-              // 材料が入力されている場合、リストに追加
-              if (materialInput && materialAmount) {
-                  const materialOption = `<option value="${materialInput}">${materialInput} (${materialAmount}g)</option>`;
-                  const materialItem = `<p>${materialInput} (${materialAmount}g)</p>`;
-
-                  $('#materialselect').append(materialOption);
-                  $('#materials').append(materialItem);
-
-                  // 入力フォームをリセット
-                  $('#material-input').val('');
-                  $('#materialamount').val('');
-              }
-          });
-      });
-  </script>
-</body>
+</div>
 {% endblock %}
