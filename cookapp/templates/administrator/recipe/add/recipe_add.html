@@ -1,4 +1,4 @@
-{% extends '../base.html' %}
+{% extends 'base.html' %}
 
 {% load static %}
 
@@ -15,60 +15,48 @@
 <body>
   <!-- メインコンテンツ -->
   <div class="login-container">
-      <h1>管理者画面</h1>
-      <h2>～レシピ追加～</h2>
-      <form method="post" >
-          {% csrf_token %}
-          
-          <label for="name">料理名</label>
-          {{ form.name }}<br>
-<!-- メインコンテンツ -->
-<div class="login-container">
     <h1>管理者画面</h1>
     <h2>～レシピ追加～</h2>
-    <form method="post"  enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         
-        料理名{{ form.name }}<br>
-       種別 {{ form.type }}<br>
-     作り方 {{ form.recipe_text }}<br>
-       画像１ {{ form.image1 }}<br>
-       画像２ {{ form.image2 }}<br>
-       画像３  {{ form.image3 }}<br>
+        <!-- フォームフィールド -->
+        <label for="name">料理名</label>
+        {{ form.name }}<br>
+
+        <label for="type">種別</label>
+        {{ form.type }}<br>
+
+        <label for="recipe_text">作り方</label>
+        {{ form.recipe_text }}<br>
+
+        <label for="image1">画像１</label>
+        {{ form.image1 }}<br>
+
+        <label for="image2">画像２</label>
+        {{ form.image2 }}<br>
+
+        <label for="image3">画像３</label>
+        {{ form.image3 }}<br>
+
+        <!-- 材料検索フォーム -->
+        <label for="material-input">材料検索フォーム</label>
+        <input type="text" id="material-input" name="material-input" value=""><br>
+
+        <!-- 材料追加 -->
+        材料:
+        <select id="materialselect"></select>
+        単位: グラム(g)
+        <input type="number" id="materialamount">
+        <button id="materialbutton" type="button">追加</button>
+
+        <!-- 材料リスト -->
+        <h3 id="materials"></h3>
+
+        <!-- 送信ボタン -->
         <br>
-       
-       材料検索フォーム： <input type="text" id="material-input" name="material-input" value="" >
-       
-
-          <label for="type">種別</label>
-          {{ form.type }}<br>
-
-          <label for="recipe_text">作り方</label>
-          {{ form.recipe_text }}<br>
-
-          <label for="image1">画像１</label>
-          {{ form.image1 }}<br>
-
-          <label for="image2">画像２</label>
-          {{ form.image2 }}<br>
-
-          <label for="image3">画像３</label>
-          {{ form.image3 }}<br>
-
-          <!-- 材料検索フォーム -->
-          <br>
-          材料検索フォーム： <input type="text" id="material-input" name="material-input" value="" >
-          
-          <br>
-          材料  <select id="materialselect"></select> 単位：グラム(g)
-          <input type="number" id="materialamount"><button id="materialbutton" type="button">追加</button>
-
-          <!-- 材料リスト -->
-          <h3 id="materials"></h3>
-          
-          <br>
-          <button type="submit">レシピ追加</button>
-      </form>
+        <button type="submit">レシピ追加</button>
+    </form>
   </div>
 
   <!-- JavaScriptの読み込み -->
@@ -79,15 +67,18 @@
 
   <script>
       // 材料追加ボタンの動作
-      $(document).ready(function(){
-          $('#materialbutton').on('click', function(){
-              var materialInput = $('#material-input').val();  // 入力された材料名
-              var materialAmount = $('#materialamount').val(); // 入力された量
+      $(document).ready(function() {
+          $('#materialbutton').on('click', function() {
+              const materialInput = $('#material-input').val(); // 入力された材料名
+              const materialAmount = $('#materialamount').val(); // 入力された量
 
-              // 材料が選択されている場合、リストに追加
+              // 材料が入力されている場合、リストに追加
               if (materialInput && materialAmount) {
-                  $('#materialselect').append('<option value="'+ materialInput +'">' + materialInput + ' (' + materialAmount + 'g)</option>');
-                  $('#materials').append('<p>' + materialInput + ' (' + materialAmount + 'g)</p>');
+                  const materialOption = `<option value="${materialInput}">${materialInput} (${materialAmount}g)</option>`;
+                  const materialItem = `<p>${materialInput} (${materialAmount}g)</p>`;
+
+                  $('#materialselect').append(materialOption);
+                  $('#materials').append(materialItem);
 
                   // 入力フォームをリセット
                   $('#material-input').val('');
