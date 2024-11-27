@@ -1,115 +1,112 @@
-/* ベース設定 */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box; /* すべての要素にbox-sizing: border-boxを適用 */
+/* 身体情報変更画面のスタイル */
+
+/* 全体の基本スタイル */
+body {
+    font-family: Arial, sans-serif; /* 全体のフォントを設定 */
+    margin: 0; /* 外側余白をゼロ */
+    padding: 0; /* 内側余白をゼロ */
+    background-color: #f9f9f9; /* 背景色を薄いグレーに設定 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-body {
-    font-family: 'Arial', sans-serif; /* フォント設定 */
-    background-color: #f4f4f4; /* 背景色 */
-    color: #333; /* テキストカラー */
-    line-height: 1.8; /* 行間の設定 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* 画面全体を縦にセンタリング */
+.app-name {
+    font-size: 1.5em; /* アプリ名のフォントサイズ */
+    font-weight: bold; /* 太字に */
+}
+
+.nav-links a {
+    margin-left: 15px; /* リンク間の余白 */
+    color: white; /* リンク文字の色 */
+    text-decoration: none; /* 下線を削除 */
+    font-size: 1em; /* フォントサイズ */
+}
+
+.nav-links a:hover {
+    text-decoration: underline; /* ホバー時の下線 */
+}
+
+.user-icon {
+    width: 40px; /* アイコンの幅 */
+    height: 40px; /* アイコンの高さ */
+    background-color: #ddd; /* 背景色をグレーに */
+    border-radius: 50%; /* 丸く表示 */
 }
 
 /* メインコンテンツ */
 .main-content {
-    max-width: 1200px; /* 最大幅1200pxに変更 */
-    width: 100%; /* 幅を100%に設定 */
-    margin: 20px; /* 外部余白 */
-    background-color: #fff; /* 背景色 */
-    padding: 40px; /* 内部余白 */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* 影を追加 */
+    width: 90%; /* 幅を画面幅に近づける */
+    max-width: 400px; /* 最大幅を500pxに制限 */
+    margin-top: 30px; /* 上に余白 */
+    padding: 20px; /* 内側余白 */
+    background-color: white; /* 背景色を白に */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 影をつけてカード風に */
     border-radius: 10px; /* 角を丸く */
-    border: 1px solid #ddd; /* 薄い枠線 */
 }
 
-/* 見出し */
 .main-content h2 {
-    text-align: center; /* 見出しを中央揃え */
-    margin-bottom: 25px; /* 下に余白 */
-    font-size: 2.2em; /* フォントサイズ */
-    color: #333; /* 色 */
-}
-
-/* ユーザー名 */
-.main-content p {
-    font-size: 1.3em; /* ユーザー名のフォントサイズ */
+    font-size: 1.8em; /* 見出しのフォントサイズ */
+    color: #333; /* 文字色を濃いグレーに */
+    text-align: center; /* 中央揃え */
     margin-bottom: 20px; /* 下に余白 */
-    text-align: center; /* ユーザー名を中央揃え */
-    font-weight: bold; /* 太字に */
-    color: #666; /* 色 */
 }
 
 /* フォーム */
 .registration-form {
     display: flex;
-    flex-direction: column; /* 縦並び */
-    gap: 20px; /* フォームフィールド間に余白 */
+    flex-direction: column; /* 項目を縦に並べる */
 }
 
-/* ラベル */
 .registration-form label {
-    font-weight: bold; /* ラベルを太字に */
-    font-size: 1.1em; /* ラベルのフォントサイズを少し大きく */
-    color: #444; /* ラベルの色 */
+    font-size: 1em; /* ラベルのフォントサイズ */
+    color: #333; /* 文字色 */
+    margin: 10px 0 5px; /* 上下の余白 */
 }
 
-/* 入力フィールド */
 .registration-form input,
 .registration-form select {
-    padding: 14px; /* 内部余白を広く */
-    font-size: 1.2em; /* フォントサイズを大きく */
-    margin-top: 5px; /* ラベルとフィールド間の余白 */
-    border: 1px solid #ccc; /* 枠線色 */
-    border-radius: 5px; /* 角を丸く */
-    width: 100%; /* 幅を100%に設定 */
-    background-color: #f9f9f9; /* 背景色 */
-    transition: border-color 0.3s ease; /* フォーカス時の枠線色変更 */
+    padding: 10px; /* 内側余白 */
+    font-size: 1em; /* フォントサイズ */
+    color: #333; /* 文字色 */
+    border: 1px solid #ddd; /* 枠線 */
+    border-radius: 5px; /* 角丸 */
+    outline: none; /* フォーカス時のアウトラインをなしに */
+    margin-bottom: 15px; /* 下に余白 */
 }
 
-/* 入力フィールドのフォーカス時 */
 .registration-form input:focus,
 .registration-form select:focus {
-    border-color: #5cb85c; /* フォーカス時の枠線色 */
-    background-color: #fff; /* フォーカス時に背景色を白に */
+    border-color: #5865f2; /* フォーカス時の枠線色 */
 }
 
-/* ボタン */
+/* ボタンのスタイル */
 .registration-form button {
-    padding: 14px 22px; /* 内部余白を広く */
-    font-size: 1.2em; /* フォントサイズを大きく */
-    font-weight: bold; /* 太字 */
-    color: white; /* 文字色を白に設定 */
-    background-color: #5cb85c; /* 背景色を緑に */
-    border: none; /* ボーダーなし */
-    border-radius: 5px; /* 角を丸く */
-    cursor: pointer; /* カーソルをポインタに変更 */
-    transition: background-color 0.3s ease; /* 背景色のトランジション */
-    width: 48%; /* ボタンの幅を調整 */
-    margin-top: 10px; /* 上部に余白 */
+    padding: 10px; /* 内側余白 */
+    font-size: 1em; /* フォントサイズ */
+    color: white; /* ボタン文字色 */
+    background-color: #007bff; /* ボタンのデフォルト背景色 */
+    border: none; /* 枠線なし */
+    border-radius: 5px; /* 角丸 */
+    cursor: pointer; /* ポインターカーソルに */
+    transition: background-color 0.3s; /* 背景色変化のアニメーション */
+    margin-top: 10px; /* 上に余白 */
 }
 
-.registration-form button[type="button"] {
-    background-color: #d9534f; /* 戻るボタンの背景色を赤に */
+/* 戻るボタン */
+.registration-form button:first-of-type {
+    background-color: #007bff; /* 戻るボタンの色 */
 }
 
-/* ボタンホバー時 */
-.registration-form button:hover {
-    background-color: #4cae4c; /* ホバー時の背景色 */
+.registration-form button:first-of-type:hover {
+    background-color: #0056b3; /* 戻るボタンのホバー色 */
 }
 
-.registration-form button[type="button"]:hover {
-    background-color: #c9302c; /* 戻るボタンのホバー時の背景色 */
+/* 変更ボタン */
+.registration-form button:last-of-type {
+    background-color: #28a745; /* 変更ボタンの色を緑に */
 }
 
-/* ボタンコンテナ */
-.button-container {
-    display: flex;
-    justify-content: space-between; /* ボタンを左右に分ける */
-    gap: 10px; /* ボタン間に隙間を設定 */
+.registration-form button:last-of-type:hover {
+    background-color: #218838; /* 変更ボタンのホバー色 */
 }

@@ -8,14 +8,6 @@
 <link rel="stylesheet" href="{% static 'css/kenkougurahu/healthgraph.css' %}">
 <h2>健康グラフ</h2>
 
-<div class="messages">
-    {% for message in messages %}
-        <div class="message {{ message.tags }}">
-            {{ message }}
-        </div>
-    {% endfor %}
-</div>
-
 <div class="selection">
     <label for="user-select">家族選択:</label>
     <select id="user-select">
@@ -29,33 +21,36 @@
         {% endfor %}
     </select>
 
-    <label for="start-date">日付選択:</label>
-    <input type="date" id="start-date">
-    <button onclick="displayGraph()">表示</button>
+    <label for="start-date">月選択:</label>
+    <input type="month" id="start-date">
+    
+    <button id="display-button">表示</button>
 </div>
 
 <canvas id="weightChart" width="400" height="200"></canvas>
 
 {% endblock %}
 
+{% block scripts %}
 <script>
-    let weightChart; // グローバル変数でグラフインスタンスを保持
-
+    // グラフのデータを更新する関数
     function displayGraph() {
+        console.log("displayGraph関数が呼ばれました");
+
         const selectedUser = document.getElementById('user-select').value;
         const startDate = document.getElementById('start-date').value;
 
         if (!startDate) {
-            alert("日付を選択してください。");
+            alert("月を選択してください。");
             return;
         }
 
-        // POSTリクエストで体重データを取得
-        fetch('/health_graph/', {
+        // POSTリクエストで体重データを取得する
+        fetch('/cook/health_graph/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRFToken': '{{ csrf_token }}', // CSRFトークンを送信
+                'X-CSRFToken': '{{ csrf_token }}',  // CSRFトークン
             },
             body: JSON.stringify({
                 family_id: selectedUser,
@@ -64,6 +59,8 @@
         })
         .then(response => response.json())
         .then(data => {
+            console.log("データ受信:", data);
+
             if (data.error) {
                 alert(data.error);
                 return;
@@ -72,19 +69,17 @@
             const dates = data.dates;
             const weights = data.weights;
 
-            // 既存のグラフがあれば破棄して新しく生成
-            if (weightChart) {
-                weightChart.destroy();
+            if (window.weightChart) {
+                window.weightChart.destroy();
             }
 
-            // グラフを表示
             const ctx = document.getElementById('weightChart').getContext('2d');
-            weightChart = new Chart(ctx, {
+            window.weightChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: dates,
                     datasets: [{
-                        label: `体重推移`,
+                        label: '体重推移',
                         data: weights,
                         borderColor: 'rgba(75, 192, 192, 1)',
                         borderWidth: 2,
@@ -113,8 +108,20 @@
             });
         })
         .catch(error => {
-            console.error("エラーが発生しました:", error);
-            alert("データの取得に失敗しました。");
+            console.error("fetchエラー:", error);
+            alert("データ取得に失敗しました");
         });
     }
+
+    // ボタンがクリックされたときの処理
+    const displayButton = document.getElementById('display-button');
+    if (displayButton) {
+        displayButton.addEventListener('click', function() {
+            console.log("表示ボタンがクリックされました");
+            displayGraph(); // 表示ボタンがクリックされたらグラフを更新
+        });
+    } else {
+        console.error("display-buttonが見つかりません");
+    }
 </script>
+{% endblock %}
