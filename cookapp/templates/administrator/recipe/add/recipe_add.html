@@ -4,6 +4,9 @@
 
 {% block content %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+  window.materialSessionData = "{{ request.session.materials|default:'{}'|escapejs }}"; 
+</script>
 <script src="{% static 'js/save_material.js' %}"></script>
 <script src="{% static 'js/send_materials.js' %}"></script>
 <script src="{% static 'js/delete_material.js' %}"></script>
