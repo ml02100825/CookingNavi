@@ -37,7 +37,7 @@ class Recipe(models.Model):
     recipe_id = models.AutoField(db_column='RECIPE_ID', primary_key=True)  # Field name made lowercase.
     cook = models.ForeignKey('Cook', models.PROTECT, db_column='COOK_ID')  # Field name made lowercase.
     material = models.ForeignKey('Material', models.PROTECT, db_column='MATERIAL_ID')  # Field name made lowercase.
-
+    quantity = models.IntegerField(db_column='material_quantity')
     class Meta:
         managed = False
         db_table = 'recipe'

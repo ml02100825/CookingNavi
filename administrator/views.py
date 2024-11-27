@@ -93,7 +93,7 @@ class RecipeAddView(TemplateView):
             
             for key in materials:
                 material = Material.objects.get(material_id=key)
-                recipe = Recipe(cook = cook, material = material)
+                recipe = Recipe(cook = cook, material = material,quantity = materials[key])
                 recipe.save()
             
 
