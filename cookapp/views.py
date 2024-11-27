@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import get_object_or_404, render, redirect
 from .forms import EmailForm, UsernameForm, PasswordForm, BodyInfoUpdateForm, FamilyForm
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -11,6 +12,8 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, get_user_model
 from django.urls import reverse
+from datetime import datetime
+import calendar
  
  
 logger = logging.getLogger(__name__)
@@ -278,15 +281,15 @@ class FamilyInfoView(LoginRequiredMixin, TemplateView):
         return render(request, self.template_name, context)
  
    
+from datetime import datetime
+
 class KazokuaddView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/add/kazoku_add.html'
- 
-    # GETリクエストの処理
+
     def get(self, request, *args, **kwargs):
         form = FamilyForm()
-        return render(request, self.template_name, {'form': form,})
- 
-    # POSTリクエストの処理
+        return render(request, self.template_name, {'form': form})
+
     def post(self, request, *args, **kwargs):
         form = FamilyForm(request.POST)
         if form.is_valid():
@@ -296,36 +299,46 @@ class KazokuaddView(LoginRequiredMixin, TemplateView):
             family_gender = form.cleaned_data['family_gender']
             family_height = form.cleaned_data['family_height']
             family_weight = form.cleaned_data['family_weight']
-            allergy_id = form.cleaned_data.get('allergy_id')  # アレルギーIDを取得
- 
+            allergy_id = form.cleaned_data.get('allergy_id')
+
             # 生年月日から年齢を計算
             family_age = form.calculate_age()
- 
+
             # 家族情報を登録
             family_member = Familymember.objects.create(
                 family_name=family_name,
-                family_age=family_age,  # 計算した年齢を登録
+                family_age=family_age,
                 family_gender=family_gender,
                 family_height=family_height,
                 family_weight=family_weight,
                 user=request.user._wrapped if hasattr(request.user, '_wrapped') else request.user  # SimpleLazyObject を解決
             )
- 
-            # 家族アレルギー情報を登録（allergy_idを直接登録）
-            if allergy_id:  # アレルギーIDが選択されている場合のみ登録
+
+            # Weightテーブルにデータを登録
+            Weight.objects.create(
+                weight=family_weight,  # Familymember の weight を登録
+                user=family_member.user,  # Familymember の user を登録
+                family_id=family_member.family_id,  # 数値の family_id を登録
+                register_time=datetime.now().strftime('%Y-%m-%d')  # 今日の日付を登録
+            )
+
+            # 家族アレルギー情報を登録
+            if allergy_id:
                 Familyallergy.objects.create(
-                    family_member=family_member,  # 新たに作成した家族情報のインスタンス
-                    allergy_id=allergy_id  # 直接取得したallergy_idを登録
+                    family_member=family_member,
+                    allergy_id=allergy_id
                 )
- 
+
             # メッセージ表示
             messages.success(request, '家族情報が正常に登録されました。')
- 
+
             # 登録完了後のリダイレクト
             return redirect('cookapp:kazoku_add_ok')
- 
+
         # フォームが無効な場合
         return render(request, self.template_name, {'form': form})
+
+
 
 
     
@@ -341,7 +354,7 @@ from .models import Familymember, Familyallergy, Allergy  # Allergy モデルを
 
 class KazokuHenkoView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/henko/kazoku_henko.html'
- 
+
     def get(self, request, *args, **kwargs):
         # 編集する家族メンバーの取得
         family_member = Familymember.objects.get(family_id=kwargs['family_id'])
@@ -354,11 +367,11 @@ class KazokuHenkoView(LoginRequiredMixin, TemplateView):
         }
         form = FamilyForm(initial=initial_data)
         return render(request, self.template_name, {'form': form, 'family_member': family_member})
- 
+
     def post(self, request, *args, **kwargs):
         family_member = Familymember.objects.get(family_id=kwargs['family_id'])
         form = FamilyForm(request.POST)
- 
+
         if form.is_valid():
             # フォームデータを取得
             family_name = form.cleaned_data['family_name']
@@ -366,14 +379,22 @@ class KazokuHenkoView(LoginRequiredMixin, TemplateView):
             family_height = form.cleaned_data['family_height']
             family_weight = form.cleaned_data['family_weight']
             allergy_id = form.cleaned_data.get('allergy_id')
- 
+
             # 家族メンバーを更新
             family_member.family_name = family_name
             family_member.family_gender = family_gender
             family_member.family_height = family_height
             family_member.family_weight = family_weight
             family_member.save()
- 
+
+            # Weightテーブルに新しいレコードを追加
+            Weight.objects.create(
+                weight=family_weight,  # 更新された体重を登録
+                user=family_member.user,  # 家族メンバーに紐づくユーザー
+                family=family_member,  # 家族メンバー
+                register_time=datetime.now().strftime('%Y-%m-%d')  # 今日の日付を登録
+            )
+
             # アレルギーIDがある場合、Familyallergyテーブルを更新
             if allergy_id:
                 # アレルギー情報を新たに登録
@@ -381,18 +402,16 @@ class KazokuHenkoView(LoginRequiredMixin, TemplateView):
                     family_member=family_member,  # 家族情報インスタンス
                     allergy_id=allergy_id         # アレルギーID
                 )
- 
+
             # メッセージを表示
             messages.success(request, '家族情報が正常に更新されました。')
- 
+
             # 更新後のリダイレクト
-            # 家族情報を保存した後に、family_idを渡してリダイレクト
             return redirect('cookapp:kazoku_henko_ok', family_id=family_member.family_id)
- 
- 
+
         # フォームが無効な場合もフォームを再表示
         return render(request, self.template_name, {'form': form, 'family_member': family_member})
-   
+    
 class KazokuHenkoOkView(TemplateView):
     template_name = 'kazoku/henko/kazoku_henko_ok.html'
  
@@ -412,7 +431,7 @@ class HealthGraphView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # ログインしているユーザーを取得
+        # ログインユーザーを取得
         user = self.request.user
 
         # ログインユーザーの家族情報を取得
@@ -427,28 +446,46 @@ class HealthGraphView(TemplateView):
         return context
 
     def post(self, request, *args, **kwargs):
-        # ユーザーIDと開始日を取得
-        family_id = request.POST.get('family_id')
-        start_date = request.POST.get('start_date')
+        # POSTから家族IDと開始日（年月）を取得
+        data = json.loads(request.body)
+        family_id = data.get('family_id')
+        start_date = data.get('start_date')
+
+        # 受け取ったデータを確認する
+        print(f"Received data: family_id={family_id}, start_date={start_date}")
 
         if not family_id or not start_date:
-            messages.warning(request, 'ユーザーと日付を選択してください。')
+            return JsonResponse({'error': 'ユーザーと日付を選択してください。'}, status=400)
 
-        # ユーザーの体重データを取得
+        try:
+            year, month = map(int, start_date.split('-'))
+        except ValueError:
+            return JsonResponse({'error': '無効な日付フォーマットです。'}, status=400)
+
+        # 月の初日と最終日を計算
+        first_day = datetime(year, month, 1)
+        last_day = datetime(year, month, calendar.monthrange(year, month)[1])
+
+        print(f"First day: {first_day}, Last day: {last_day}")  # ここで確認
+
+        # 体重データを期間でフィルタリング
         weights = Weight.objects.filter(
-            user_id=family_id,
-            register_time__gte=start_date
+            family_id=family_id,
+            register_time__gte=first_day,
+            register_time__lte=last_day
         ).order_by('register_time')
 
-        # 体重データが存在しない場合の処理
         if not weights:
-            messages.warning(request, '指定したユーザーの体重データはありません。')
+            return JsonResponse({'error': '指定した期間の体重データはありません。'}, status=404)
 
         # 日付と体重のリストを作成
         dates = [weight.register_time.strftime('%Y-%m-%d') for weight in weights]
         weight_values = [weight.weight for weight in weights]
 
-        # JSONでデータを返す
+        # データの確認
+        print(f"Dates: {dates}")
+        print(f"Weights: {weight_values}")
+
         return JsonResponse({
             'dates': dates,
             'weights': weight_values

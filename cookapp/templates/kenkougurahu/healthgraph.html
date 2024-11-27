@@ -29,8 +29,12 @@
         {% endfor %}
     </select>
 
-    <label for="start-date">日付選択:</label>
-    <input type="date" id="start-date">
+    <!-- 月の表示部分 -->
+    <div class="month-selector">
+        <label for="start-date">月選択:</label>
+        <input type="month" id="start-date" onchange="updateMonthDisplay()">
+    </div>
+    
     <button onclick="displayGraph()">表示</button>
 </div>
 
@@ -39,82 +43,118 @@
 {% endblock %}
 
 <script>
-    let weightChart; // グローバル変数でグラフインスタンスを保持
+// 現在の月を保持する変数
+let currentMonth = new Date();
+let currentYear = currentMonth.getFullYear();
+let currentMonthNumber = currentMonth.getMonth(); // 0-indexed (0=January, 11=December)
 
-    function displayGraph() {
-        const selectedUser = document.getElementById('user-select').value;
-        const startDate = document.getElementById('start-date').value;
+// 最小年（1900年1月）と最大年（来年12月）を設定
+const minYear = 1900;
+const maxYear = currentYear + 1; // 来年まで
 
-        if (!startDate) {
-            alert("日付を選択してください。");
-            return;
+// 月選択の制限を設定
+const startDateInput = document.getElementById("start-date");
+startDateInput.setAttribute("min", `${minYear}-01`);
+startDateInput.setAttribute("max", `${maxYear}-12`);
+
+// 月の表示を更新する関数
+function updateMonthDisplay() {
+    const monthInput = document.getElementById("start-date");
+    const yearMonthString = monthInput.value;
+    const [year, month] = yearMonthString.split("-");
+    currentYear = parseInt(year);
+    currentMonthNumber = parseInt(month) - 1; // 0-indexed月に変換
+
+    // 月変更後にグラフを表示
+    displayGraph();
+}
+
+// グラフのデータを更新する関数
+function displayGraph() {
+    const selectedUser = document.getElementById('user-select').value;
+    const startDate = document.getElementById('start-date').value;
+
+    if (!startDate) {
+        alert("月を選択してください。");
+        return;
+    }
+
+    // POSTリクエストで体重データを取得
+    fetch('/health_graph/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}', // CSRFトークンを送信
+        },
+        body: JSON.stringify({
+            family_id: selectedUser,
+            start_date: startDate,
+        }),
+    })
+    .then(response => response.json())  // JSONにパース
+    .then(data => {
+        console.log('Response data:', data);  // 返ってきたデータをログに出力
+
+        if (data.error) {
+            // エラーメッセージが返された場合
+            const errorMessage = data.error;
+            alert(errorMessage); // アラートでエラーメッセージを表示
+            return;  // グラフは表示しない
         }
 
-        // POSTリクエストで体重データを取得
-        fetch('/health_graph/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': '{{ csrf_token }}', // CSRFトークンを送信
+        const dates = data.dates;
+        const weights = data.weights;
+
+        // 既存のグラフがあれば破棄して新しく生成
+        if (window.weightChart) {
+            weightChart.destroy();
+        }
+
+        // グラフを表示
+        const ctx = document.getElementById('weightChart').getContext('2d');
+        window.weightChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: `体重推移`,
+                    data: weights,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2,
+                    fill: false,
+                    tension: 0.1
+                }]
             },
-            body: JSON.stringify({
-                family_id: selectedUser,
-                start_date: startDate,
-            }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                alert(data.error);
-                return;
-            }
-
-            const dates = data.dates;
-            const weights = data.weights;
-
-            // 既存のグラフがあれば破棄して新しく生成
-            if (weightChart) {
-                weightChart.destroy();
-            }
-
-            // グラフを表示
-            const ctx = document.getElementById('weightChart').getContext('2d');
-            weightChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: dates,
-                    datasets: [{
-                        label: `体重推移`,
-                        data: weights,
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 2,
-                        fill: false,
-                        tension: 0.1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: '日付'
-                            }
-                        },
-                        y: {
-                            beginAtZero: false,
-                            title: {
-                                display: true,
-                                text: '体重 (kg)'
-                            }
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: '日付'
+                        }
+                    },
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: '体重 (kg)'
                         }
                     }
                 }
-            });
-        })
-        .catch(error => {
-            console.error("エラーが発生しました:", error);
-            alert("データの取得に失敗しました。");
+            }
         });
-    }
+    })
+    .catch(error => {
+        console.error("エラーが発生しました:", error);
+        alert("データの取得に失敗しました。");
+    });
+}
+
+// 初期状態で月を表示
+document.addEventListener('DOMContentLoaded', function() {
+    const monthString = `${currentYear}-${String(currentMonthNumber + 1).padStart(2, '0')}`;
+    document.getElementById("start-date").value = monthString;
+    displayGraph(); // 初期状態でグラフを表示
+});
 </script>

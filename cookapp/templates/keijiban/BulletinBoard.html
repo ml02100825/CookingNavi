@@ -1,76 +1,36 @@
-{% extends 'baseuser.html' %}
+{% extends "base.html" %}
 
-{% block title %}みんなの料理掲示板{% endblock %}
+{% load static %}
+
+{% block title %}ホーム - クッキングnavi{% endblock %}
 
 {% block content %}
-    
-    <div class="search-bar-container">
-        <div class="search-container">
-            <input type="text" class="search-bar" placeholder="料理を検索する..." id="search-input">
-            <button class="search-btn" onclick="searchRecipes()">検索</button>
-        </div>
-        <a href="{% url 'bbs:Posts' %}">
-            <button>レシピを投稿する</button>
-        </a>
-    </div>
+<div class="search-bar-container">
+    <input type="text" placeholder="料理を検索する..." class="search-bar">
+    <button class="search-btn">検索</button>
+    <a href="{% url 'post_recipe' %}">
+        <button class="post-btn">レシピを投稿する</button>
+    </a>
+</div>
 
-   
-    <div class="content-container">
-        <div class="sidebar">
-            <button onclick="filterPosts('myPosts')">自分が投稿したもの</button>
-            <button onclick="filterPosts('favorites')">お気に入り</button>
-            <button onclick="filterPosts('likes')">いいね順</button>
-        </div>
+<div class="content-container">
+    <aside class="sidebar">
+        <button>自分が投稿したもの</button>
+        <button>お気に入り</button>
+        <button>いいね数順</button>
+    </aside>
 
-        <div class="main-content" id="post-grid">
-          
-            <div class="post-card">
-                <img src="https://via.placeholder.com/150" alt="料理写真">
-                <div class="post-details">
-                    <p class="post-title">
-                        唐揚げ
-                        <button class="like-btn" onclick="toggleLike(this)">❤</button>
-                    </p>
-                    <p>ユーザーA</p>
-                </div>
+    <main class="main-content">
+        {% for recipe in recipes %}
+        <div class="post-card">
+            <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+            <div class="post-details">
+                <h3>{{ recipe.title }}</h3>
+                <p>{{ recipe.user.username }}</p>
+                <button class="like-btn" onclick="toggleLike(this)">❤</button>
             </div>
-
-           
-            <div class="post-card">
-                <img src="https://via.placeholder.com/150" alt="料理写真">
-                <div class="post-details">
-                    <p class="post-title">
-                        カレーライス
-                        <button class="like-btn" onclick="toggleLike(this)">❤</button>
-                    </p>
-                    <p>ユーザーB</p>
-                </div>
-            </div>
-
-           
         </div>
-    </div>
-{% endblock %}
-
-{% block footer %}
-    <footer class="footer">
-        <p>&copy; 2024 クッキングnavi. All Rights Reserved.</p>
-    </footer>
-{% endblock %}
-
-{% block scripts %}
-    <script>
-        function filterPosts(filterType) {
-            alert(filterType + "のフィルターが選択されました。");
-        }
-
-        function searchRecipes() {
-            const searchTerm = document.getElementById("search-input").value;
-            alert("検索キーワード: " + searchTerm);
-        }
-
-        function toggleLike(button) {
-            button.classList.toggle("liked");
-        }
-    </script>
+        {% endfor %}
+    </main>
+</div>
 {% endblock %}

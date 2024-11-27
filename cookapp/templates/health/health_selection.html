@@ -7,49 +7,52 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/health/health_selection.css' %}">
-<div class="title">📅 主菜選択</div>
-
-<div class="form-group">
-    <label for="date-range">日付</label>
-    <input type="date" id="date-range" name="date-range" value="2024-10-16">
-</div>
+<div class="title">主菜選択</div>
 
 <form id="meal-form">
+    <!-- 日付選択 -->
     <div class="form-group">
-        <label>朝・昼・晩</label>
+        <div class="date-display">～ 2024年10月16日 ～</div>
+    </div>
+
+    <!-- 朝・昼・晩の選択 -->
+    <div class="form-group">
         <div class="meal-time-options">
-            <label>
+            <label class="time-option">
                 <input type="radio" name="meal-time" value="morning"> 朝
             </label>
-            <label>
+            <label class="time-option">
                 <input type="radio" name="meal-time" value="noon"> 昼
             </label>
-            <label>
+            <label class="time-option">
                 <input type="radio" name="meal-time" value="evening"> 晩
             </label>
         </div>
     </div>
 
+    <!-- メニュー選択 -->
     <div class="form-group">
-        <label>メニュー</label>
-        <select>
+        <label for="menu">メニュー</label>
+        <select id="menu" name="menu">
             <option value="curry">カレー</option>
             <option value="nikujaga">肉じゃが</option>
+            <option value="kimchi">キムチ鍋</option>
             <option value="sushi">寿司</option>
+            <option value="hamburg">ハンバーグ</option>
         </select>
     </div>
 
+    <!-- 材料入力 -->
     <div class="form-group">
         <label>材料</label>
-        <input type="text" placeholder="材料を入力" name="ingredient[]">
+        <input type="text" placeholder="材料を入力" name="ingredient[]" class="ingredient-input">
+        <input type="text" placeholder="材料を入力" name="ingredient[]" class="ingredient-input">
+        <input type="text" placeholder="材料を入力" name="ingredient[]" class="ingredient-input">
     </div>
 
-    <div class="form-group">
-        <button type="button" id="add-ingredient-btn" disabled>材料を追加</button>
-    </div>
-
+    <!-- ボタン -->
     <div class="buttons">
-        <button type="button">戻る</button>
+        <button type="button" class="back-btn">戻る</button>
         <button type="submit" class="register-btn">登録</button>
     </div>
 </form>
