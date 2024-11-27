@@ -1,45 +1,36 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>クッキングnavi</title>
-    <link rel="stylesheet" href="{% static 'cooking_app/styles.css' %}">
-</head>
-<body>
-    <div class="app-container">
+{% extends "base.html" %}
 
-        <!-- 検索バーと投稿ボタン -->
-        <div class="search-bar-container">
-            <input type="text" placeholder="料理を検索する..." class="search-bar">
-            <button class="search-btn">検索</button>
-            <a href="{% url 'post_recipe' %}">
-                <button class="post-btn">レシピを投稿する</button>
-            </a>
+{% load static %}
+
+{% block title %}ホーム - クッキングnavi{% endblock %}
+
+{% block content %}
+<div class="search-bar-container">
+    <input type="text" placeholder="料理を検索する..." class="search-bar">
+    <button class="search-btn">検索</button>
+    <a href="{% url 'post_recipe' %}">
+        <button class="post-btn">レシピを投稿する</button>
+    </a>
+</div>
+
+<div class="content-container">
+    <aside class="sidebar">
+        <button>自分が投稿したもの</button>
+        <button>お気に入り</button>
+        <button>いいね数順</button>
+    </aside>
+
+    <main class="main-content">
+        {% for post in bbs %}
+        <div class="post-card">
+            <img src="{{ postimage.image.url }}" alt="{{ post.name }}">
+            <div class="post-details">
+                <h3>{{ post.name }}</h3>
+                <p>{{ post.user.username }}</p>
+                <button class="like-btn" onclick="toggleLike(this)">❤</button>
+            </div>
         </div>
-
-        <!-- サイドバーとメインコンテンツ -->
-        <div class="content-container">
-            <aside class="sidebar">
-                <button>自分が投稿したもの</button>
-                <button>お気に入り</button>
-                <button>いいね数順</button>
-            </aside>
-
-            <main class="main-content">
-                <!-- レシピカードの表示 -->
-                {% for recipe in recipes %}
-                <div class="post-card">
-                    <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
-                    <div class="post-details">
-                        <h3>{{ recipe.title }}</h3>
-                        <p>{{ recipe.user.username }}</p>
-                        <button class="like-btn" onclick="toggleLike(this)">❤</button>
-                    </div>
-                </div>
-                {% endfor %}
-            </main>
-        </div>
-
-    </div>
-</body>
-</html>
+        {% endfor %}
+    </main>
+</div>
+{% endblock %}
