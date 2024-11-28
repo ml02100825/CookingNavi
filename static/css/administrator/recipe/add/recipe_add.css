@@ -1,78 +1,95 @@
 /* （管理者）レシピ追加画面のスタイル */
 
 /* レシピ追加画面全体のスタイル */
-.recipe-add-container {
+.login-container {
     font-family: Arial, sans-serif; /* 全体のフォントをArialに設定 */
     text-align: center; /* コンテンツを中央揃えにする */
     padding: 20px; /* コンテナ全体に余白を設定 */
 }
 
-.recipe-add-container h1 {
+/* メインタイトルとサブタイトルのスタイル */
+.login-container h1 {
     font-size: 2.5em; /* メインタイトルの文字サイズを設定 */
     margin-bottom: 10px; /* タイトル下部に余白を追加 */
 }
 
-.recipe-add-container h2 {
+.login-container h2 {
     font-size: 1.5em; /* サブタイトルの文字サイズを設定 */
-    margin-bottom: 30px; /* タイトル下部に余白を追加 */
+    margin-bottom: 30px; /* サブタイトル下部に余白を追加 */
     color: #666; /* サブタイトルの文字色を薄いグレーに設定 */
 }
 
-/* フォーム全体 */
-.form-group {
-    margin-bottom: 20px; /* フォームフィールド間に余白を設定 */
+/* フォーム全体のスタイル */
+form {
+    display: flex; /* フォーム全体を縦並び */
+    flex-direction: column; /* 項目を縦方向に並べる */
+    align-items: center; /* 項目を中央揃えにする */
 }
 
-.form-group label {
-    display: block; /* ラベルをブロック要素として表示 */
-    font-weight: bold; /* ラベルの文字を太字にする */
-    margin-bottom: 10px; /* ラベルとフォームフィールドの間に余白を追加 */
-    text-align: left; /* ラベルを左揃えにする */
-    margin-left: 20%; /* 左側に余白を追加（視覚的に揃えるため） */
-}
-
-.form-group input,
-textarea {
+/* 各フォーム項目のスタイル */
+form input,
+form select,
+form textarea {
     width: 60%; /* 入力フィールドの幅を全体の60%に設定 */
     padding: 10px; /* 内側の余白を設定（入力しやすくするため） */
-    margin: auto; /* 入力フィールドを中央揃えに配置 */
-    display: block; /* フォームフィールドをブロック表示にする */
+    margin-bottom: 20px; /* 項目間に余白を設定 */
     border: 1px solid #ccc; /* 枠線を薄いグレーに設定 */
     border-radius: 5px; /* 角を少し丸くして柔らかい印象にする */
+    font-size: 1em; /* 標準的なフォントサイズ */
 }
 
-/* 画像アップロードエリア */
-.image-upload-container {
-    display: flex; /* 写真のボタンを横並びに配置 */
-    justify-content: center; /* 中央揃えにする */
-    gap: 10px; /* ボタン間に余白を設定 */
+/* 材料セクションのスタイル */
+#material-input {
+    margin-bottom: 10px; /* 入力フィールド下部に余白を設定 */
 }
 
-.image-upload-btn {
-    width: 50px; /* ボタンの幅を50pxに設定 */
-    height: 50px; /* ボタンの高さを50pxに設定 */
-    display: flex; /* ボタン内の要素を中央揃えにするための設定 */
-    justify-content: center; /* ボタン内の要素を水平中央揃えにする */
-    align-items: center; /* ボタン内の要素を垂直中央揃えにする */
+#materialselect {
+    width: auto; /* 必要な幅だけ表示 */
+    padding: 5px; /* 内側余白を調整 */
+}
+
+#materialamount {
+    width: 80px; /* 数値入力フィールドの幅を設定 */
+    padding: 5px; /* 内側余白を調整 */
+    margin-left: 10px; /* 材料セレクトとの間に余白を追加 */
+}
+
+/* 材料追加ボタンのスタイル */
+#materialbutton {
+    display: inline-block; /* インラインブロックで配置 */
+    padding: 8px 15px; /* 内側余白を設定 */
     background-color: #007bff; /* ボタンの背景色をブルーに設定 */
-    color: white; /* ボタン内の文字色を白に設定 */
-    font-size: 1.5em; /* ボタン内の文字サイズを1.5emに設定 */
-    border-radius: 50%; /* ボタンを円形にする */
-    cursor: pointer; /* マウスカーソルをポインタに変更（クリック可能を示す） */
+    color: white; /* ボタンの文字色を白に設定 */
+    border: none; /* 枠線を消す */
+    border-radius: 5px; /* 角を丸める */
+    cursor: pointer; /* マウスカーソルをポインタに変更 */
+    margin-left: 10px; /* 数値入力との間に余白を追加 */
 }
 
-/* ボタン全体 */
-button {
-    margin-top: 30px; /* コンテナ上部に余白を追加 */
-    display: flex; /* ボタンを横並びに配置 */
-    justify-content: space-between; /* ボタンを左右に分けて配置 */
-    margin: auto; /* コンテナを中央揃えにする */
-    border-radius: 5%;
-    border: none; 
+#materialbutton:hover {
+    background-color: #0056b3; /* ホバー時の色変更 */
 }
 
+/* 追加された材料リストのスタイル */
+#materials {
+    margin-top: 20px; /* 上部に余白を設定 */
+    font-size: 1.2em; /* フォントサイズを調整 */
+    color: #444; /* 色をやや濃く */
+    text-align: center; /* テキストを中央揃えに設定 */
+}
 
+/* 送信ボタンのスタイル */
 button[type="submit"] {
-    background-color: #007bff;
-    color: #fff;
+    margin-top: 30px; /* 上部に余白を設定 */
+    padding: 10px 20px; /* 内側余白を設定 */
+    background-color: #28a745; /* ボタンの背景色を緑に設定 */
+    color: white; /* ボタンの文字色を白に設定 */
+    border: none; /* 枠線を消す */
+    border-radius: 5px; /* 角を丸く */
+    cursor: pointer; /* マウスカーソルをポインタに変更 */
+    font-size: 1.1em; /* ボタン文字を少し大きく設定 */
+}
+
+button[type="submit"]:hover {
+    background-color: #218838; /* ホバー時の色変更 */
 }

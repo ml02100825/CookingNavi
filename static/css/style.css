@@ -92,7 +92,6 @@ footer {
     padding: 20px;
     background-color: #ffffff;
     border-radius: 10px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
     padding-bottom: 60px; /* フッターの高さ分だけ余白を追加 */
     position: relative; /* 中央配置のため */

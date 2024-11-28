@@ -33,7 +33,7 @@ class Userrecipe(models.Model):
     userrecipe_id = models.AutoField(db_column='USERRECIPE_ID', primary_key=True)  # Field name made lowercase.
     post = models.ForeignKey('Bbs', models.DO_NOTHING, db_column='POST_ID')  # Field name made lowercase.
     material = models.ForeignKey('administrator.Material', models.DO_NOTHING, db_column='MATERIAL_ID')  # Field name made lowercase.
-
+    quantity = models.IntegerField(db_column='material_quantity')
     class Meta:
         managed = False
         db_table = 'userrecipe'

@@ -90,7 +90,7 @@ class PostsView(TemplateView):
             
             for key in materials:
                 material = Material.objects.get(material_id=key)
-                recipe = Userrecipe(post = bbs, material = material)
+                recipe = Userrecipe(post = bbs, material = material ,quantity = materials[key])
                 recipe.save()
             
 
