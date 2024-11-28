@@ -155,4 +155,7 @@ def save_material(request, material,materialamount):
         print("セッションに保存されたデータ:", request.session['materials'])  # 確認用
         return JsonResponse(materials, safe=False)
 
+
+class BulletinBoard2View(TemplateView):
+    template_name='administrator/keijiban/BulletinBoard2.html'
     
