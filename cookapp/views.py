@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from .forms import EmailForm, UsernameForm, PasswordForm, BodyInfoUpdateForm, FamilyForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
+from django.views import View
 from django.contrib import messages
 from .models import Familymember, Familyallergy, Weight
 from account.models import User, Userallergy 
@@ -14,6 +15,7 @@ from django.contrib.auth import logout, get_user_model
 from django.urls import reverse
 from datetime import datetime
 import calendar
+import json
  
  
 logger = logging.getLogger(__name__)
@@ -430,66 +432,52 @@ class HealthGraphView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        # ログインユーザーを取得
         user = self.request.user
-
-        # ログインユーザーの家族情報を取得
         family_members = Familymember.objects.filter(user=user)
-
-        # ログインユーザー自身を家族リストに追加
         family_members = list(family_members)  # クエリセットをリストに変換
-        family_members.append(user)  # ログインユーザー自身を追加
-
-        # 家族メンバー情報をテンプレートに渡す
+        family_members.append(user)
         context['family_members'] = family_members
         return context
 
     def post(self, request, *args, **kwargs):
-        # POSTから家族IDと開始日（年月）を取得
-        data = json.loads(request.body)
-        family_id = data.get('family_id')
-        start_date = data.get('start_date')
-
-        # 受け取ったデータを確認する
-        print(f"Received data: family_id={family_id}, start_date={start_date}")
-
-        if not family_id or not start_date:
-            return JsonResponse({'error': 'ユーザーと日付を選択してください。'}, status=400)
-
         try:
-            year, month = map(int, start_date.split('-'))
-        except ValueError:
-            return JsonResponse({'error': '無効な日付フォーマットです。'}, status=400)
+            data = json.loads(request.body)
+            family_id = data.get('family_id')
+            start_date = data.get('start_date')
 
-        # 月の初日と最終日を計算
-        first_day = datetime(year, month, 1)
-        last_day = datetime(year, month, calendar.monthrange(year, month)[1])
+            if not family_id or not start_date:
+                return JsonResponse({'error': 'ユーザーと日付を選択してください。'}, status=400)
 
-        print(f"First day: {first_day}, Last day: {last_day}")  # ここで確認
+            try:
+                year, month = map(int, start_date.split('-'))
+            except ValueError:
+                return JsonResponse({'error': '無効な日付フォーマットです。'}, status=400)
 
-        # 体重データを期間でフィルタリング
-        weights = Weight.objects.filter(
-            family_id=family_id,
-            register_time__gte=first_day,
-            register_time__lte=last_day
-        ).order_by('register_time')
+            first_day = datetime(year, month, 1)
+            last_day = datetime(year, month, calendar.monthrange(year, month)[1])
 
-        if not weights:
-            return JsonResponse({'error': '指定した期間の体重データはありません。'}, status=404)
+            try:
+                family_id = int(family_id)
+            except ValueError:
+                return JsonResponse({'error': '無効な家族IDです。'}, status=400)
 
-        # 日付と体重のリストを作成
-        dates = [weight.register_time.strftime('%Y-%m-%d') for weight in weights]
-        weight_values = [weight.weight for weight in weights]
+            weights = Weight.objects.filter(
+                family_id=family_id,
+                register_time__gte=first_day,
+                register_time__lte=last_day
+            ).order_by('register_time')
 
-        # データの確認
-        print(f"Dates: {dates}")
-        print(f"Weights: {weight_values}")
+            if not weights:
+                return JsonResponse({'error': '指定した期間の体重データはありません。'}, status=404)
+            
+            dates = [datetime.strptime(weight.register_time, '%Y-%m-%d').strftime('%Y-%m-%d') for weight in weights]
+            #dates = [weight.register_time.strftime('%Y-%m-%d') for weight in weights]
+            weight_values = [weight.weight for weight in weights]
 
-        return JsonResponse({
-            'dates': dates,
-            'weights': weight_values
-        })
+            return JsonResponse({"dates": dates, "weights": weight_values})
+        except Exception as e:
+            logging.error(f"Error in HealthGraphView post: {e}")
+            return JsonResponse({'error': '内部サーバーエラーが発生しました。'}, status=500)
    
  
 @login_required

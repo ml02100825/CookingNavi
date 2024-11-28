@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends '../../base.html' %}
 
 {% load static %}
 
@@ -6,52 +6,47 @@
 
 {% block content %}
 <head>
-  <!-- Faviconの設定 -->
-  <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
-  <!-- CSSのリンク -->
-  <link rel="stylesheet" href="{% static 'css/administrator/recipe/add/recipe_add.css' %}">
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/administrator/recipe/add/recipe_add.css' %}">
 </head>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <div class="recipe-add-container">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+  window.materialSessionData = "{{ request.session.materials|default:'{}'|escapejs }}"; 
+</script>
+<script src="{% static 'js/save_material.js' %}"></script>
+<script src="{% static 'js/send_materials.js' %}"></script>
+<script src="{% static 'js/delete_material.js' %}"></script>
+
+<!-- メインコンテンツ -->
+<div class="login-container">
     <h1>管理者画面</h1>
     <h2>～レシピ追加～</h2>
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" >
+    <form method="post"  enctype="multipart/form-data">
         {% csrf_token %}
 
-        <!-- メニュー名 -->
-        <div class="form-group">
-            <label for="menu-name">メニュー名</label>
-            <input type="text" id="menu-name" name="menu-name" placeholder="メニュー名を入力" style="font-size: 1.2em; padding: 12px; width: 60%;">
-        </div>
+        料理名{{ form.name }}<br>
+       種別 {{ form.type }}<br>
+     作り方 {{ form.recipe_text }}<br>
+       画像１ {{ form.image1 }}<br>
+       画像２ {{ form.image2 }}<br>
+       画像３  {{ form.image3 }}<br>
+        <br>
 
-        <!-- 材料名 -->
-        <div class="form-group">
-            <label for="ingredient">材料名</label>
-            <input type="text" id="ingredient" name="ingredient" placeholder="材料名を入力" style="font-size: 1.2em; padding: 12px; width: 60%;">
-        </div>
+       材料検索フォーム： <input type="text" id="material-input" name="material-input" value="" >
 
-        <!-- 写真アップロード -->
-        <div class="form-group">
-            <label for="photo">写真</label>
-            <div class="image-upload-container">
-                <div class="image-upload-btn">+</div>
-                <div class="image-upload-btn">+</div>
-                <div class="image-upload-btn">+</div>
-                <div class="image-upload-btn">+</div>
-            </div>
-        </div>
 
-        <!-- 作り方入力 -->
-        <div class="form-group" style="margin-top: 20px;">
-            <label for="instructions" style="font-size: 1.2em;">作り方を入力</label>
-            <textarea id="instructions" name="instructions" rows="10" placeholder="作り方を入力" style="font-size: 1.2em; padding: 12px; width: 60%;"></textarea>
-        </div>
+    <br>
+      材料  <select id = "materialselect"></select> 単位：グラム(g)<input type="number" id = "materialamount"><button id ="materialbutton" type="button">追加</button>
+      <h3 id="materials"></h3>
+      <br>
+      <button type="submit">レシピ追加</button>
 
-        <!-- ボタンの配置 -->
-        <div class="button-container" style="display: flex; justify-content: space-between; margin-top: 20px; width: 60%; margin-left: auto; margin-right: auto;">
-            <button type="button" style="font-size: 1em; padding: 10px 20px;" onclick="window.history.back()">戻る</button>
-            <button type="submit" class="add-btn" style="font-size: 1em; padding: 10px 20px;">追加</button>
-        </div>
-    </form>
-</div>
 {% endblock %}
+        <!-- <label for="recipe-name">メニュー名</label>
+        <input type="text" id="recipe-name" name="recipe-name" required>
+        <label for="ingredients">材料名</label>
+        <textarea id="ingredients" name="ingredients" rows="4" required></textarea>

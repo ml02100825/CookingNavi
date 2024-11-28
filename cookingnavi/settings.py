@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "account.apps.AccountConfig",
     "administrator.apps.AdministratorConfig",
     "bbs.apps.BbsConfig",
+    "healthmanagement.apps.HealthmanagementConfig",
 ]
 
 MIDDLEWARE = [
