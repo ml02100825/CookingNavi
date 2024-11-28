@@ -106,10 +106,6 @@ button[type="submit"]:hover {
         width: 90%; /* 入力フィールドの幅を90%に変更 */
     }
 
-    #material-input {
-        width: 50%; /* スクリーンが狭い場合は幅を50%に調整 */
-    }
-
     #materialamount {
         width: 60px; /* 数値入力フィールドの幅を調整 */
     }
