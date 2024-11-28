@@ -7,36 +7,56 @@ from .forms import CustomUserCreation1Form, CustomUserCreation2Form, LoginForm
 from .models import User, Userallergy
 from django.urls import reverse_lazy
 import logging
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
 class CustomLoginView(LoginView):
     template_name = 'login.html'
+
     def get(self, request, *args, **kwargs):
         form = LoginForm()
         return render(request, self.template_name, {'form': form})
-    
+
     def post(self, request, *args, **kwargs):
         logging.debug('debug message')
-        form =  LoginForm(request.POST)
+        form = LoginForm(request.POST)
         if form.is_valid():
             logging.debug('if文動いてる')
-            email = form.cleaned_data['email'] # 入力されたデータをセッションに保存
-            password= form.cleaned_data['password']
+            email = form.cleaned_data['email']  # 入力されたデータをセッションに保存
+            password = form.cleaned_data['password']
             user = authenticate(request, username=email, password=password)
+            
             if user:
-                if user.is_active:
-                    login(request, user)
+                # `DeleteFlag` チェック
+                if user.deleteflag:
+                    logging.warning(f"ユーザー {user.email} は退会済みのためログインを拒否しました。")
+                    form.add_error(None, "This account has been deactivated. Please contact support.")
+                else:
+                    # is_activeが0でもログインできるように変更
+                    if not user.is_active:  # ユーザーが無効状態でも
+                        logging.debug(f"ユーザー {user.email} は非アクティブですがログイン処理を行います。")
+                        user.is_active = 1  # is_active を 1 に変更
+                        user.save()
+                        logging.debug(f"ユーザー {user.email} の is_active を 1 に設定しました。")
                     
-                    if request.user.is_authenticated:
- 
-                        logging.debug('loginできてる')
+                    # ログイン処理を実行
+                    login(request, user)
+                    logging.debug(f"ユーザー {user.email} がログインしました。")
+                    
                     request.session['user_id'] = user.user_id
-                    request.session.modified = True 
+                    request.session.modified = True
                     logging.debug(f"Session info: {request.session.items()}")  # セッション内容をログに出力
+                    
+                    # 管理者または一般ユーザーのリダイレクト先を決定
                     if user.is_superuser:
                         return redirect('administrator:home')
                     return redirect('cookapp:home')
             else:
                 form.add_error(None, "Invalid username or password.")
+        
+        # フォームにエラーがある場合
+        return render(request, self.template_name, {'form': form})
+
     # redirect_authenticated_user = True
     # success_url = reverse_lazy('cookapp:index')
 
@@ -46,24 +66,39 @@ class CustomLoginView(LoginView):
 
 class SignUpPage1View(TemplateView):
     template_name = 'administrator/sign up/sign up.html'
+
     def get(self, request, *args, **kwargs):
         form = CustomUserCreation1Form()
         return render(request, self.template_name, {'form': form})
-    
+
     def post(self, request, *args, **kwargs):
-        logging.debug('debug message')
         form = CustomUserCreation1Form(request.POST)
         if form.is_valid():
-            logging.debug('if文動いてる')
-            request.session['email'] = form.cleaned_data['email'] # 入力されたデータをセッションに保存
-            request.session['password1'] = form.cleaned_data['password1']
-            return redirect('account:signup2')  # 2ページ目へリダイレクト
-        else:
-          logging.debug('フォームが無効です: %s', form.errors) 
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password1']
+
+            # 非アクティブユーザーの状態をチェック
+            try:
+                user = User.objects.get(email=email)
+                if not user.is_active or user.deleteflag:
+                    # 非アクティブまたは削除ユーザーの場合、次の画面へ遷移
+                    logging.debug(f"非アクティブまたは削除ユーザー {email} を検出。次の画面へ遷移します。")
+            except User.DoesNotExist:
+                pass  # 新規ユーザーはそのまま処理を続行
+
+            # セッションにデータを保存
+            request.session['email'] = email
+            request.session['password1'] = password
+            return redirect('account:signup2')  # 次のページへ
+
+        # フォームが無効な場合
+        logging.debug('フォームが無効です: %s', form.errors)
         return render(request, self.template_name, {'form': form})
+
 
 class SignUpPage2View(TemplateView):
     template_name = 'administrator/sign up/sign up2.html'
+
     def get(self, request, *args, **kwargs):
         form = CustomUserCreation2Form()
         return render(request, self.template_name, {'form': form})
@@ -73,43 +108,82 @@ class SignUpPage2View(TemplateView):
         if form.is_valid():
             email = request.session.get('email')
             password = request.session.get('password1')
-           
-            # ユーザー作成
-            hashed_password = make_password(password)
-            userallergy = Userallergy.objects.create
-            name = form.cleaned_data['name']
 
-            # フォームの入力内容でユーザーの詳細情報を更新
-            birthdate = form.cleaned_data['birthdate']
-            gender = form.cleaned_data['gender']
-            height = form.cleaned_data['height']
-            weight = form.cleaned_data['weight']
-            user = User(name = name,email = email, password = hashed_password, age = birthdate, gender = gender, height = height,weight = weight)
-            user.save()
+            try:
+                # 既存ユーザーを取得
+                user = User.objects.get(email=email)
+
+                # 非アクティブまたは論理削除ユーザーの場合、復活処理
+                if not user.is_active or user.deleteflag:
+                    user.is_active = 1  # アクティブ化
+                    user.deleteflag = 0  # DeleteFlagを0に設定
+                    user.set_password(password)  # 新しいパスワードを保存
+                    logging.debug(f"非アクティブまたは削除ユーザー {email} を復活しました。")
+
+                    # 必要なフィールドの更新
+                    user.name = form.cleaned_data['name']
+                    user.age = form.cleaned_data['birthdate']
+                    user.gender = form.cleaned_data['gender']
+                    user.height = form.cleaned_data['height']
+                    user.weight = form.cleaned_data['weight']
+                    user.save()
+
+                else:
+                    raise User.DoesNotExist  # 通常の新規作成へ進む
+
+            except User.DoesNotExist:
+                # 新規ユーザー作成
+                hashed_password = make_password(password)
+                user = User(
+                    name=form.cleaned_data['name'],
+                    email=email,
+                    password=hashed_password,
+                    age=form.cleaned_data['birthdate'],
+                    gender=form.cleaned_data['gender'],
+                    height=form.cleaned_data['height'],
+                    weight=form.cleaned_data['weight'],
+                )
+                user.save()
+
+            # アレルギー情報の登録または更新
             allergies = form.cleaned_data['allergies']
-            for i in range(len(allergies)):
-                allergy = allergies[i]
-                Userallergy.objects.create(user = user,allergy_category = allergy)
+            for allergy in allergies:
+                Userallergy.objects.update_or_create(
+                    user=user, allergy_category=allergy
+                )
 
             # ログイン処理
             login(request, user)
-   
-            return redirect('account:signup_completion')
+            return redirect('account:signup_completion')  # 完了画面へ遷移
+
+        # フォームが無効な場合
         return render(request, self.template_name, {'form': form})
+
 
 class CustomSignUpView(TemplateView):
     template_name = 'administrator/sign up/sign up_completion.html'
 
 
 class CustomLogoutView(LogoutView):
-    # ログアウト後に表示するテンプレート（オプション）
-    template_name = 'administrator/logout/logout.html'
-    
-    # ログアウト後に遷移するページ
-    next_page = reverse_lazy('account:logout_ok')  
+    template_name = 'logout/logout.html'
+    # ログアウト後に 'account:login_ok' にリダイレクト
+    next_page = reverse_lazy('account:logout_ok')
 
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            try:
+                # is_active を 0 に変更
+                user = request.user
+                user.is_active = 0
+                user.save()
+                logging.debug(f"ユーザー {user.email} の is_active を 0 に設定しました。")
+            except Exception as e:
+                logging.error(f"ログアウト中にエラーが発生しました: {e}")
+        return super().dispatch(request, *args, **kwargs)
+    
 class LogoutOkView(TemplateView):
-    template_name = 'administrator/logout/logout_completion.html'
+    template_name = 'logout/logout_ok.html'
 
 
 class IndexView(TemplateView):

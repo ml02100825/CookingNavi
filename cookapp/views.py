@@ -485,12 +485,16 @@ def confirm_taikai(request):
     if request.method == 'POST':
         # ログアウトして退会処理
         user = request.user
-        user.is_active = False  # ユーザーの無効化（退会状態にする）
+        user.deleteflag = True  # ユーザーの無効化（退会状態にする）
         user.save()
         logout(request)  # ログアウト処理
-        return redirect('home')  # ホームページなど任意のページにリダイレクト
+        return redirect('cookapp:taikai_ok')  # ホームページなど任意のページにリダイレクト
  
-    return render(request, 'admin/taikai.html')
+    return render(request, 'taikai/taikai.html')
+
+@login_required
+def taikai_ok(request):
+    return render(request, 'taikai/taikai_ok.html')
  
 @login_required
 def dashboard(request):
