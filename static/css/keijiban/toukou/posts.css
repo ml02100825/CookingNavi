@@ -1,98 +1,130 @@
-/* posts.css */
-
+/* ベーススタイル */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
     margin: 0;
     padding: 0;
+    line-height: 1.6;
 }
 
+/* 見出し */
 h2 {
     text-align: center;
-    color: #333;
-    margin-top: 20px;
+    color: #222;
+    font-size: 28px;
+    font-weight: 600;
+    margin: 20px 0;
 }
 
+/* フォームコンテナ */
 .form-container {
     width: 90%;
     max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 30px auto;
+    padding: 25px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #eaeaea;
+    transition: box-shadow 0.3s ease;
 }
 
+.form-container:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* フォーム要素 */
 form label {
     display: block;
     margin: 10px 0 5px;
-    color: #555;
-    font-weight: bold;
+    font-weight: 500;
+    color: #444;
+    font-size: 16px;
 }
 
 form input[type="text"],
 form input[type="number"],
 form select,
-form button {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
+form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+form input:focus,
+form textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+    outline: none;
+}
+
+/* ボタン配置用のコンテナ */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
 }
 
 form button {
-    background-color: #28a745;
+    width: 48%;
+    padding: 12px 20px;
+    background-color: #007bff;
     color: #fff;
     border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 form button:hover {
-    background-color: #218838;
+    background-color: #0056b3;
+    transform: translateY(-2px);
 }
 
+/* 特定ボタンのスタイル */
 #materialbutton {
-    width: auto;
-    margin-left: 10px;
-    padding: 8px 12px;
-    font-size: 14px;
-    background-color: #007bff;
-    color: white;
+    background-color: #28a745;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 #materialbutton:hover {
-    background-color: #0056b3;
+    background-color: #218838;
 }
 
-#materials {
-    font-size: 14px;
-    color: #666;
-    margin-top: 10px;
-}
-
+/* 投稿リストコンテナ */
 .posts-container {
     width: 90%;
     max-width: 800px;
-    margin: 20px auto;
-    padding: 10px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #eaeaea;
 }
 
 .posts-container h3 {
-    font-size: 18px;
-    color: #333;
+    font-size: 22px;
+    color: #222;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #007bff;
+    display: inline-block;
+    padding-bottom: 5px;
 }
 
 .posts-container p {
-    font-size: 14px;
+    font-size: 15px;
     color: #555;
-    line-height: 1.6;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
+    line-height: 1.8;
+    margin-bottom: 20px;
 }
