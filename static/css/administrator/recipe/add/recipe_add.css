@@ -93,16 +93,3 @@ button[type="submit"] {
 button[type="submit"]:hover {
     background-color: #218838; /* ホバー時の色変更 */
 }
-
-/* 入力フィールドとボタンのレスポンシブ対応 */
-@media screen and (max-width: 768px) {
-    form input,
-    form select,
-    form textarea {
-        width: 90%; /* 入力フィールドの幅を90%に変更 */
-    }
-
-    #materialamount {
-        width: 60px; /* 数値入力フィールドの幅を調整 */
-    }
-}

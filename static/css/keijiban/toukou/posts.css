@@ -1,122 +1,98 @@
-/* レシピ投稿 */
-
-/* 全体の基本設定 */
-* {
-    margin: 0; /* マージンをリセット */
-    padding: 0; /* パディングをリセット */
-    box-sizing: border-box; /* ボックスサイズをborder-boxに設定 */
-}
+/* posts.css */
 
 body {
-    font-family: Arial, sans-serif; /* ページ全体のフォントを設定 */
-    background-color: #f9f9f9; /* 背景色を薄いグレーに設定 */
-    color: #333; /* 文字色を濃いグレーに設定 */
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
 }
 
-.app-name {
-    font-size: 1.5em; /* アプリ名のフォントサイズを大きく設定 */
-    font-weight: bold; /* アプリ名を太字に設定 */
+h2 {
+    text-align: center;
+    color: #333;
+    margin-top: 20px;
 }
 
-.nav-right {
-    display: flex; /* Flexboxでナビゲーションリンクを横に並べる */
-    align-items: center; /* 縦方向中央揃え */
-}
-
-.nav-links a {
-    color: white; /* ナビゲーションリンクの文字色を白に設定 */
-    margin-left: 15px; /* リンク同士の間隔を15pxに設定 */
-    text-decoration: none; /* アンダーラインを削除 */
-}
-
-.nav-links a:hover {
-    text-decoration: underline; /* ホバー時にアンダーラインを追加 */
-}
-
-/* 投稿フォーム */
 .form-container {
-    max-width: 600px; /* 最大幅を600pxに設定 */
-    margin: 30px auto; /* 上下に30px、左右中央に配置 */
-    padding: 20px; /* 内側の余白 */
-    background-color: #fff; /* 背景色を白に設定 */
-    border-radius: 8px; /* 角を丸める */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 影を追加して浮かせる効果 */
+    width: 90%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.form-container h2 {
-    margin-bottom: 15px; /* 下に余白を追加 */
-    color: #333; /* 見出しの文字色 */
-    font-size: 1.5em; /* 見出しのフォントサイズ */
-    text-align: center; /* 中央揃え */
+form label {
+    display: block;
+    margin: 10px 0 5px;
+    color: #555;
+    font-weight: bold;
 }
 
-#recipe-form {
-    display: flex; /* フォーム要素を縦に並べる */
-    flex-direction: column;
-    gap: 10px; /* 各要素の間隔を10pxに設定 */
+form input[type="text"],
+form input[type="number"],
+form select,
+form button {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
 }
 
-#recipe-form input[type="text"], #recipe-form textarea {
-    padding: 10px; /* テキスト入力とテキストエリアの内側余白 */
-    font-size: 1em; /* フォントサイズ */
-    border: 1px solid #ddd; /* 境界線を薄いグレーに設定 */
-    border-radius: 4px; /* 角を丸める */
+form button {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-#recipe-form textarea {
-    resize: vertical; /* テキストエリアを垂直方向にのみリサイズ可能に */
+form button:hover {
+    background-color: #218838;
 }
 
-#recipe-form input[type="file"] {
-    border: none; /* ファイル入力の境界線を削除 */
+#materialbutton {
+    width: auto;
+    margin-left: 10px;
+    padding: 8px 12px;
+    font-size: 14px;
+    background-color: #007bff;
+    color: white;
 }
 
-#recipe-form button {
-    padding: 10px; /* ボタン内の余白 */
-    font-size: 1.1em; /* フォントサイズを少し大きく設定 */
-    color: white; /* ボタンの文字色を白に設定 */
-    background-color: #ff6b6b; /* ボタンの背景色を赤系に設定 */
-    border: none; /* 境界線なし */
-    border-radius: 4px; /* 角を丸める */
-    cursor: pointer; /* カーソルをポインターに設定 */
-    transition: background-color 0.3s; /* 背景色の変化をアニメーションで追加 */
+#materialbutton:hover {
+    background-color: #0056b3;
 }
 
-#recipe-form button:hover {
-    background-color: #e63946; /* ホバー時の背景色を暗い赤に */
+#materials {
+    font-size: 14px;
+    color: #666;
+    margin-top: 10px;
 }
 
-/* 投稿表示領域 */
 .posts-container {
-    max-width: 800px; /* 最大幅を800pxに設定 */
-    margin: 20px auto; /* 上下に20px、左右中央に配置 */
-    padding: 20px; /* 内側の余白 */
-    display: flex; /* 投稿カードを横並びにする */
-    flex-wrap: wrap; /* 横幅に合わせて折り返し */
-    gap: 20px; /* 各投稿カードの間隔 */
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* 各投稿カード */
-.post-card {
-    background-color: #fff; /* カードの背景色を白に設定 */
-    border-radius: 8px; /* 角を丸める */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 影を追加して浮かせる効果 */
-    overflow: hidden; /* コンテンツがはみ出さないように */
-    width: 100%; /* カード幅を100%に設定 */
-    max-width: 250px; /* カードの最大幅を250pxに設定 */
+.posts-container h3 {
+    font-size: 18px;
+    color: #333;
 }
 
-.post-card img {
-    width: 100%; /* 画像の幅をカード幅に合わせる */
-    height: auto; /* 画像の高さを自動調整 */
-}
-
-.post-card .post-details {
-    padding: 15px; /* 内側の余白 */
-}
-
-.post-card .post-title {
-    font-weight: bold; /* タイトルを太字に */
-    margin-bottom: 5px; /* 下に余白 */
-    font-size: 1.1em; /* タイトルのフォントサイズ */
+.posts-container p {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
 }
