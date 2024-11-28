@@ -471,7 +471,6 @@ class HealthGraphView(TemplateView):
                 return JsonResponse({'error': '指定した期間の体重データはありません。'}, status=404)
             
             dates = [datetime.strptime(weight.register_time, '%Y-%m-%d').strftime('%Y-%m-%d') for weight in weights]
-            #dates = [weight.register_time.strftime('%Y-%m-%d') for weight in weights]
             weight_values = [weight.weight for weight in weights]
 
             return JsonResponse({"dates": dates, "weights": weight_values})
