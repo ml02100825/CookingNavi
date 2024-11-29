@@ -12,7 +12,6 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <div class="recipe-add-container">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
   window.materialSessionData = "{{ request.session.materials|default:'{}'|escapejs }}"; 
 </script>
@@ -24,6 +23,7 @@
 <div class="login-container">
     <h1>管理者画面</h1>
     <h2>～レシピ追加～</h2>
+    <form method="post" enctype="multipart/form-data">
     
     <form action="{% url 'administrator:recipeadd_done' %}" id="recipe-form" method="post" enctype="multipart/form-data">
         {% csrf_token %}
@@ -48,7 +48,3 @@
     </form>
 </div>
 {% endblock %}
-        <!-- <label for="recipe-name">メニュー名</label>
-        <input type="text" id="recipe-name" name="recipe-name" required>
-        <label for="ingredients">材料名</label>
-        <textarea id="ingredients" name="ingredients" rows="4" required></textarea>

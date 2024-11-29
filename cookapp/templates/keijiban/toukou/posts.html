@@ -1,8 +1,12 @@
+{% extends 'baseuser.html' %}
+
 {% load static %}
 
 {% block title %}レシピ投稿{% endblock %}
 
 {% block content %}
+
+<link rel="stylesheet" href="{% static 'css/keijiban/toukou/posts.css' %}">
 <!-- 必要なJavaScriptの読み込み -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{% static 'js/save_material_posts.js' %}"></script>
@@ -12,11 +16,11 @@
 <!-- 投稿画面 -->
 <div class="form-container">
     <h2>投稿画面</h2>
-    <form action ="{% url 'bbs:PostsComplate' %}"id="recipe-form" method="post" enctype="multipart/form-data">
+    <form id="recipe-form" method="post" enctype="multipart/form-data">
         {% csrf_token %}
 
-        料理名{{ form.name }}<br>
-        作り方 {{ form.recipe_text }}<br>
+        料理名:{{ form.name }}<br>
+        作り方: {{ form.recipe_text }}<br>
         画像１ {{ form.image1 }}<br>
         画像２ {{ form.image2 }}<br>
         画像３ {{ form.image3 }}<br>
@@ -26,7 +30,7 @@
 
 
         <br>
-        材料 <select id="materialselect"></select> 単位：グラム(g)<input type="number" id="materialamount"><button
+        材料: <select id="materialselect"></select> 単位：グラム(g)<input type="number" id="materialamount"><button
             id="materialbutton" type="button">追加</button>
         <h3 id="materials"></h3>
         <br>

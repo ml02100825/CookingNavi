@@ -446,7 +446,7 @@ class HealthGraphView(TemplateView):
             start_date = data.get('start_date')
 
             if not family_id or not start_date:
-                return JsonResponse({'error': 'ユーザーと日付を選択してください。'}, status=400)
+                return JsonResponse({'error': '家族と日付を選択してください。'}, status=400)
 
             try:
                 year, month = map(int, start_date.split('-'))
@@ -471,7 +471,6 @@ class HealthGraphView(TemplateView):
                 return JsonResponse({'error': '指定した期間の体重データはありません。'}, status=404)
             
             dates = [datetime.strptime(weight.register_time, '%Y-%m-%d').strftime('%Y-%m-%d') for weight in weights]
-            #dates = [weight.register_time.strftime('%Y-%m-%d') for weight in weights]
             weight_values = [weight.weight for weight in weights]
 
             return JsonResponse({"dates": dates, "weights": weight_values})
@@ -485,12 +484,16 @@ def confirm_taikai(request):
     if request.method == 'POST':
         # ログアウトして退会処理
         user = request.user
-        user.is_active = False  # ユーザーの無効化（退会状態にする）
+        user.deleteflag = True  # ユーザーの無効化（退会状態にする）
         user.save()
         logout(request)  # ログアウト処理
-        return redirect('home')  # ホームページなど任意のページにリダイレクト
+        return redirect('cookapp:taikai_ok')  # ホームページなど任意のページにリダイレクト
  
-    return render(request, 'admin/taikai.html')
+    return render(request, 'taikai/taikai.html')
+
+@login_required
+def taikai_ok(request):
+    return render(request, 'taikai/taikai_ok.html')
  
 @login_required
 def dashboard(request):

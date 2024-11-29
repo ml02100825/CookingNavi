@@ -6,13 +6,13 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/kenkougurahu/healthgraph.css' %}">
-<h2>健康グラフ</h2>
+<h2 style="text-align: center;">健康グラフ</h2>
 
-<div class="selection">
+<div class="selection" style="text-align: center;">
     <label for="user-select">家族選択:</label>
     <select id="user-select">
         {% for member in family_members %}
-            <option value="{{ member.family_id|default:member.user_id }}">
+            <option value="{{ member.family_id|default:member.user_id }}" data-height="{{ member.family_height }}">
                 {{ member.name }}
                 {% if member.user_id %}
                     {{ member.family_name }}
@@ -27,7 +27,10 @@
     <button id="display-button">表示</button>
 </div>
 
-<canvas id="weightChart" width="400" height="200"></canvas>
+<!-- エラーメッセージを表示するための div -->
+<div id="error-message" style="color: red; text-align: center; display: none;"></div>
+
+<canvas id="weightChart" width="800" height="400"></canvas>
 
 {% endblock %}
 
@@ -38,11 +41,22 @@
         console.log("displayGraph関数が呼ばれました");
 
         const selectedUser = document.getElementById('user-select').value;
+        const selectedOption = document.querySelector(`#user-select option[value="${selectedUser}"]`);
         const startDate = document.getElementById('start-date').value;
 
+        // エラーメッセージ用のdiv要素
+        const errorMessageDiv = document.getElementById('error-message');
+        
+        // 身長を取得
+        const userHeight = parseFloat(selectedOption.getAttribute('data-height'));
+        console.log("選択された身長:", userHeight);
+
         if (!startDate) {
-            alert("月を選択してください。");
+            errorMessageDiv.style.display = 'block';  // エラーメッセージを表示
+            errorMessageDiv.textContent = '月を選択してください。';
             return;
+        } else {
+            errorMessageDiv.style.display = 'none';  // エラーメッセージを非表示
         }
 
         // POSTリクエストで体重データを取得する
@@ -50,7 +64,7 @@
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRFToken': '{{ csrf_token }}',  // CSRFトークン
+                'X-CSRFToken': '{{ csrf_token }}',
             },
             body: JSON.stringify({
                 family_id: selectedUser,
@@ -62,29 +76,84 @@
             console.log("データ受信:", data);
 
             if (data.error) {
-                alert(data.error);
+                errorMessageDiv.style.display = 'block';  // エラーメッセージを表示
+                errorMessageDiv.textContent = data.error;
                 return;
+            } else {
+                errorMessageDiv.style.display = 'none';  // エラーメッセージを非表示
             }
 
             const dates = data.dates;
             const weights = data.weights;
 
-            if (window.weightChart) {
+            // 月の初日と最終日を取得
+            const firstDay = new Date(startDate + '-01');
+            const lastDay = new Date(firstDay.getFullYear(), firstDay.getMonth() + 1, 0);
+
+            // 1日から月末までの日付を作成
+            const allDates = [];
+            for (let i = 1; i <= lastDay.getDate(); i++) {
+                allDates.push(`${i.toString().padStart(2, '0')}`);
+            }
+
+            // 日付と体重のデータを整形（データがない日付にはnullを設定）
+            const weightData = allDates.map(date => {
+                const index = dates.indexOf(`${firstDay.getFullYear()}-${(firstDay.getMonth() + 1).toString().padStart(2, '0')}-${date}`);
+                return index !== -1 ? weights[index] : null;
+            });
+
+            // 体重データから中央値を計算
+            const validWeights = weightData.filter(weight => weight !== null);
+            if (validWeights.length === 0) {
+                errorMessageDiv.style.display = 'block';  // エラーメッセージを表示
+                errorMessageDiv.textContent = '有効な体重データがありません';
+                return;
+            } else {
+                errorMessageDiv.style.display = 'none';  // エラーメッセージを非表示
+            }
+
+            const medianWeight = Math.round(validWeights.reduce((a, b) => a + b, 0) / validWeights.length);
+            const roundedWeight = Math.round(medianWeight / 5) * 5;
+
+            // BMIを計算するため、身長（メートル）を取得
+            const heightInMeters = userHeight / 100;
+            const bmiData = weightData.map(weight => {
+                return weight ? weight / (heightInMeters * heightInMeters) : null;  // 各体重に対してBMIを計算
+            });
+
+            // BMI 22に対応する体重を計算
+            const bmi22Weight = 22 * (heightInMeters * heightInMeters);
+
+            // y軸の最小値と最大値を計算
+            const minWeight = roundedWeight - 5;
+            const maxWeight = roundedWeight + 5;
+
+            // もしグラフがすでに描画されていたら、それを破棄
+            if (window.weightChart && window.weightChart.destroy) {
                 window.weightChart.destroy();
             }
 
+            // 新しくグラフを描画する
             const ctx = document.getElementById('weightChart').getContext('2d');
             window.weightChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: dates,
+                    labels: allDates,
                     datasets: [{
                         label: '体重推移',
-                        data: weights,
+                        data: weightData,
                         borderColor: 'rgba(75, 192, 192, 1)',
                         borderWidth: 2,
                         fill: false,
-                        tension: 0.1
+                        tension: 0.1,
+                    },
+                    {
+                        label: 'BMI 22基準線',
+                        data: new Array(allDates.length).fill(bmi22Weight),
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 2,
+                        fill: false,
+                        pointRadius: 0,  // 赤い点を表示しない
                     }]
                 },
                 options: {
@@ -94,22 +163,49 @@
                             title: {
                                 display: true,
                                 text: '日付'
+                            },
+                            ticks: {
+                                autoSkip: false,
+                                maxRotation: 0,
+                                stepSize: 2,
+                                callback: function(value) {
+                                    return value;
+                                }
                             }
                         },
                         y: {
+                            min: minWeight,  // 最小値を設定
+                            max: maxWeight,  // 最大値を設定
                             beginAtZero: false,
                             title: {
                                 display: true,
                                 text: '体重 (kg)'
                             }
                         }
+                    },
+                    plugins: {
+                        tooltip: {
+                            enabled: true,  // 体重データにはツールチップを有効に
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    const weight = tooltipItem.raw;  // 体重
+                                    const bmi = bmiData[tooltipItem.dataIndex];  // 対応するBMI値
+                                    return `体重: ${weight} kg, BMI: ${bmi.toFixed(2)}`;  // BMIも表示
+                                }
+                            }
+                        }
                     }
                 }
             });
+
+            // グラフのサイズを更新
+            window.weightChart.update();  // ここでサイズの調整を行う
+
         })
         .catch(error => {
             console.error("fetchエラー:", error);
-            alert("データ取得に失敗しました");
+            errorMessageDiv.style.display = 'block';  // エラーメッセージを表示
+            errorMessageDiv.textContent = "データ取得に失敗しました";
         });
     }
 

@@ -11,11 +11,11 @@
         <h2>退会</h2>
         <p>退会しますか？</p>
         <div class="button-container">
-            <form action="{% url 'admin:confirm_taikai' %}" method="post">
+            <form action="{% url 'cookapp:confirm_taikai' %}" method="post">
                 {% csrf_token %}
                 <button type="submit" class="taikai-btn">はい</button>
             </form>
-            <a href="{% url 'admin:dashboard' %}" class="cancel-btn">いいえ</a>
+            <a href="{% url 'cookapp:dashboard' %}" class="cancel-btn">いいえ</a>
         </div>
     </div>
 </div>
