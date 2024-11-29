@@ -5,19 +5,9 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 /* ===== ボディ全体のスタイル ===== */
-body {
-    font-family: 'Arial', sans-serif; /* 読みやすいフォントを指定 */
-    background-color: #f9f9f9; /* 優しいグレーの背景 */
-    color: #333; /* テキストカラー */
-    display: flex;
-    justify-content: center; /* 横方向の中央揃え */
-    align-items: center; /* 縦方向の中央揃え */
-    min-height: 100vh; /* ページ全体をカバー */
-}
 
 /* ===== 退会コンテナのスタイル ===== */
 .taikai-container {
