@@ -27,7 +27,10 @@
     <button id="display-button">表示</button>
 </div>
 
-<canvas id="weightChart" style="width: 100%; height: 300px;"></canvas>
+<!-- エラーメッセージを表示するための div -->
+<div id="error-message" style="color: red; text-align: center; display: none;"></div>
+
+<canvas id="weightChart" width="800" height="400"></canvas>
 
 {% endblock %}
 
@@ -41,13 +44,19 @@
         const selectedOption = document.querySelector(`#user-select option[value="${selectedUser}"]`);
         const startDate = document.getElementById('start-date').value;
 
+        // エラーメッセージ用のdiv要素
+        const errorMessageDiv = document.getElementById('error-message');
+        
         // 身長を取得
         const userHeight = parseFloat(selectedOption.getAttribute('data-height'));
         console.log("選択された身長:", userHeight);
 
         if (!startDate) {
-            alert("月を選択してください。");
+            errorMessageDiv.style.display = 'block';  // エラーメッセージを表示
+            errorMessageDiv.textContent = '月を選択してください。';
             return;
+        } else {
+            errorMessageDiv.style.display = 'none';  // エラーメッセージを非表示
         }
 
         // POSTリクエストで体重データを取得する
@@ -67,8 +76,11 @@
             console.log("データ受信:", data);
 
             if (data.error) {
-                alert(data.error);
+                errorMessageDiv.style.display = 'block';  // エラーメッセージを表示
+                errorMessageDiv.textContent = data.error;
                 return;
+            } else {
+                errorMessageDiv.style.display = 'none';  // エラーメッセージを非表示
             }
 
             const dates = data.dates;
@@ -93,8 +105,11 @@
             // 体重データから中央値を計算
             const validWeights = weightData.filter(weight => weight !== null);
             if (validWeights.length === 0) {
-                alert("有効な体重データがありません");
+                errorMessageDiv.style.display = 'block';  // エラーメッセージを表示
+                errorMessageDiv.textContent = '有効な体重データがありません';
                 return;
+            } else {
+                errorMessageDiv.style.display = 'none';  // エラーメッセージを非表示
             }
 
             const medianWeight = Math.round(validWeights.reduce((a, b) => a + b, 0) / validWeights.length);
@@ -150,6 +165,9 @@
                                 text: '日付'
                             },
                             ticks: {
+                                autoSkip: false,
+                                maxRotation: 0,
+                                stepSize: 2,
                                 callback: function(value) {
                                     return value;
                                 }
@@ -179,10 +197,15 @@
                     }
                 }
             });
+
+            // グラフのサイズを更新
+            window.weightChart.update();  // ここでサイズの調整を行う
+
         })
         .catch(error => {
             console.error("fetchエラー:", error);
-            alert("データ取得に失敗しました");
+            errorMessageDiv.style.display = 'block';  // エラーメッセージを表示
+            errorMessageDiv.textContent = "データ取得に失敗しました";
         });
     }
 

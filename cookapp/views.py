@@ -446,7 +446,7 @@ class HealthGraphView(TemplateView):
             start_date = data.get('start_date')
 
             if not family_id or not start_date:
-                return JsonResponse({'error': 'ユーザーと日付を選択してください。'}, status=400)
+                return JsonResponse({'error': '家族と日付を選択してください。'}, status=400)
 
             try:
                 year, month = map(int, start_date.split('-'))
