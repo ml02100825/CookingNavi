@@ -16,7 +16,7 @@
 <!-- 投稿画面 -->
 <div class="form-container">
     <h2>投稿画面</h2>
-    <form action ="{% url 'bbs:PostsComplate' %}"id="recipe-form" method="post" enctype="multipart/form-data">
+    <form id="recipe-form" method="post" enctype="multipart/form-data">
         {% csrf_token %}
 
         料理名:{{ form.name }}<br>

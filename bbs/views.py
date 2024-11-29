@@ -96,7 +96,7 @@ class PostsView(TemplateView):
 
             
             del request.session['materials']
-            return redirect('administrator:recipeadd_done')
+            return redirect('bbs:PostsComplate')
         else:
          
             logging.debug('フォームが無効です: %s', form.errors)        
