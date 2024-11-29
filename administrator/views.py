@@ -17,11 +17,7 @@ class RecipeAdd_doneView(TemplateView):
     template_name = 'administrator/recipe/add/recipe_add_completion.html'    
 class RecipeAddView(TemplateView):
     template_name = 'administrator/recipe/add/recipe_add.html'
-    def get_materials(request, materialname):
-        logging.debug(f"リクエストが来ました: {materialname}")
-        materials = Material.objects.filter(name__icontains=materialname).values('Name')
-        logging.debug("getmaterial")
-        return JsonResponse(list(materials), safe=False)
+
     def get(self, request, *args, **kwargs):
         form = RecipeAddForm()
         return render(request, self.template_name, {'form': form})
@@ -90,7 +86,7 @@ class RecipeAddView(TemplateView):
             
 
             
-            
+            logging.debug(materials)
             for key in materials:
                 material = Material.objects.get(material_id=key)
                 recipe = Recipe(cook = cook, material = material,quantity = materials[key])
@@ -155,4 +151,7 @@ def save_material(request, material,materialamount):
         print("セッションに保存されたデータ:", request.session['materials'])  # 確認用
         return JsonResponse(materials, safe=False)
 
+
+class BulletinBoard2View(TemplateView):
+    template_name='administrator/keijiban/BulletinBoard2.html'
     

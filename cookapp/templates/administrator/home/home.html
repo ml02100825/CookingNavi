@@ -16,6 +16,10 @@
         {% csrf_token %}
         <button class="recipe-btn">レシピ機能</button>
     </form>
-    <button class="forum-btn">掲示板機能</button>
+    <form action="{% url 'administrator:BulletinBoard2' %}">
+        {% csrf_token %}
+        <button class="forum-btn">掲示板機能</button>
+    </form>
+   
 </div>
 {% endblock %}
