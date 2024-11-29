@@ -73,7 +73,6 @@ form textarea:focus {
 }
 
 form button {
-    width: 48%;
     padding: 12px 20px;
     background-color: #007bff;
     color: #fff;

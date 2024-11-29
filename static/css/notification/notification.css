@@ -55,12 +55,25 @@ button {
 
 /* ONボタンのスタイル */
 button:hover {
-    background-color: #4CAF50; /* ホバー時に緑色に */
+    background-color: #000; /* ホバー時に緑色に */
     color: white; /* 文字色を白に */
 }
 
 /* OFFボタンのスタイル */
 button:active {
-    background-color: #f44336; /* クリック時に赤色に */
+    background-color: #000; /* クリック時に赤色に */
     color: white; /* 文字色を白に */
+}
+
+form button {
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
