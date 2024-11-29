@@ -1,10 +1,8 @@
 /* 全体のフォントと背景色 */
 body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f8f9fa;
-    color: #343a40;
+
 }
 
 /* メインコンテンツのスタイル */
@@ -29,7 +27,7 @@ h2 {
 }
 
 /* ボタンの共通スタイル */
-button {
+a button {
     display: inline-block;
     width: 100%;
     padding: 12px 20px;
@@ -47,14 +45,14 @@ button {
 }
 
 /* ボタンのホバー時のスタイル */
-button:hover {
+a button:hover {
     background-color: #0056b3;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* ボタンを押したときの効果 */
-button:active {
+a button:active {
     background-color: #004085;
     transform: translateY(1px);
     box-shadow: none;
