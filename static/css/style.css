@@ -2,63 +2,73 @@
 * {
     box-sizing: border-box;
 }
- 
+
 body {
     font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
     min-height: 100vh; /* 画面の高さを100%に設定 */
 }
- 
+
 /* ヘッダーのスタイリング */
 .header {
     width: 100%;
-    background-color: rgba(173, 216, 230, 0.5); /* さらに薄い水色 */
+    background-color: #f0f8ff; /* 薄い水色 */
     color: #333;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 少し影を追加 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: sticky; /* ヘッダーを画面上部に固定 */
+    top: 0;
+    z-index: 1000;
 }
-
 
 .header .app-name {
-    font-size: 1.5em;
-    color: #333; /* 文字色を少し濃いめに設定 */
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #0056b3; /* 強調した青色 */
+    letter-spacing: 1px;
 }
- 
+
 .header .nav-right {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 20px;
 }
- 
+
 .header .nav-links {
     display: flex;
-    gap: 15px;
+    gap: 20px;
 }
- 
+
 .header .nav-links a {
-    color: #333; /* デフォルトは濃い目の文字色 */
+    color: #333;
     text-decoration: none;
     font-size: 1em;
+    font-weight: 500;
+    transition: color 0.3s ease;
 }
- 
+
 .header .nav-links a:hover {
+    color: #0056b3; /* ホバー時に青色 */
     text-decoration: underline;
 }
- 
+
 .header .nav-links a.home-link {
-    color: #007bff; /* ホームリンクは青色 */
+    color: #007bff; /* ホームリンクは明るい青 */
+    font-weight: bold;
 }
- 
+
 .header .user-icon {
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     background-color: #555;
     display: inline-block;
+    overflow: hidden;
+    position: relative;
 }
 
 /* メインコンテンツエリアのスタイル */
