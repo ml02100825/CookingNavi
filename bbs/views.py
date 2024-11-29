@@ -107,7 +107,7 @@ class PostsView(TemplateView):
 
 
 class PostsComplateView(TemplateView):
-    template_name = 'keijiban/toukou/posts_compate.html'
+    template_name = 'keijiban/toukou/posts_complate.html'
 
 def get_materials(request, materialname):
         logging.debug(materialname)
