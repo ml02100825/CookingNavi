@@ -43,18 +43,7 @@ class HomeView(TemplateView):
     #     context['user'] = user  # ログインしているユーザー情報を渡す
     #     return context
  
-class HealthMainView(TemplateView):
-    template_name='health/health_management_main.html'
- 
-class HealthSelectionView(TemplateView):
-    template_name='health/health_selection.html'
- 
-class HealthSelectionComplateView(TemplateView):
-    template_name='health/health_selectioncomplate.html'
- 
-class HealthMenuConfirmationView(TemplateView):
-    template_name='health/health_menuconfirmation.html'
- 
+
 class SettingView(TemplateView):
     template_name='setting/setting.html'
    
