@@ -6,8 +6,8 @@
 
 {% block content %}
 <head>
-    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
-    <link rel="stylesheet" href="{% static 'css/administrator/recipe/add/recipe_add.css' %}">
+    
+   
 </head>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -24,27 +24,29 @@
 <div class="login-container">
     <h1>管理者画面</h1>
     <h2>～レシピ追加～</h2>
-    <form method="post" >
-    <form method="post"  enctype="multipart/form-data">
+    
+    <form action="{% url 'administrator:recipeadd_done' %}" id="recipe-form" method="post" enctype="multipart/form-data">
         {% csrf_token %}
+        
 
         料理名{{ form.name }}<br>
-       種別 {{ form.type }}<br>
-     作り方 {{ form.recipe_text }}<br>
-       画像１ {{ form.image1 }}<br>
-       画像２ {{ form.image2 }}<br>
-       画像３  {{ form.image3 }}<br>
+        種別 {{ form.type }}<br>
+        作り方 {{ form.recipe_text }}<br>
+        画像１ {{ form.image1 }}<br>
+        画像２ {{ form.image2 }}<br>
+        画像３ {{ form.image3 }}<br>
         <br>
 
        材料検索フォーム： <input type="text" id="material-input" name="material-input" value="" >
 
 
-    <br>
-      材料  <select id = "materialselect"></select> 単位：グラム(g)<input type="number" id = "materialamount"><button id ="materialbutton" type="button">追加</button>
-      <h3 id="materials"></h3>
       <br>
-      <button type="submit">レシピ追加</button>
-
+        材料  <select id = "materialselect"></select> 単位：グラム(g)<input type="number" id = "materialamount"><button id ="materialbutton" type="button">追加</button>
+        <h3 id="materials"></h3>
+        <br>
+        <button type="submit">レシピ追加</button>
+    </form>
+</div>
 {% endblock %}
         <!-- <label for="recipe-name">メニュー名</label>
         <input type="text" id="recipe-name" name="recipe-name" required>
