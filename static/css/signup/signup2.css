@@ -1,69 +1,96 @@
-/* 新規登録（身長・体重・年齢・アレルギー）入力画面のスタイル */
-
-/* メインコンテンツのスタイル */
-.main-content {
-    flex-direction: column;
-    align-items: center;
-    padding: 40px; /* コンテンツの上下左右に40pxの余白 */
-    background-color: white; /* 背景色を白に設定 */
-    border-radius: 8px; /* 角を丸くする */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 薄い影をつけて浮かび上がらせる */
-    max-width: 500px; /* 最大幅を500pxに設定 */
-    width: 100%; /* 幅を100%に設定（レスポンシブ対応） */
-    margin: 50px auto; /* 上下に50pxの余白、中央に配置 */
+/* ===== グローバルリセット ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.main-content h2 {
-    font-size: 1.8em; /* タイトルの文字サイズを設定 */
-    color: #333; /* タイトルの文字色をダークグレーに設定 */
-    margin-bottom: 20px; /* タイトルの下に余白 */
-}
-
-/* フォームのスタイル */
-.registration-form {
+/* ===== 全体のスタイル ===== */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f7f9fc; /* ソフトな背景色 */
     display: flex;
-    flex-direction: column;
-    width: 100%; /* フォームの幅を100%に設定 */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* 縦方向のセンタリング */
+    padding: 20px;
 }
 
+/* ===== 見出しのスタイル ===== */
+h2 {
+    font-size: 2rem;
+    color: #333; /* 濃い文字色 */
+    text-align: center;
+    margin-bottom: 20px; /* 見出し下に余白を追加 */
+}
+
+/* ===== フォームのスタイル ===== */
+.registration-form {
+    background-color: #ffffff; /* 白い背景色 */
+    padding: 30px 40px; /* 内側余白 */
+    border-radius: 10px; /* 角を丸く */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 軽い影 */
+    width: 100%;
+    max-width: 400px; /* 最大幅を制限 */
+}
+
+/* ===== フォーム内の要素のスタイル ===== */
 .registration-form label {
-    font-size: 1em; /* ラベルの文字サイズ */
-    margin-top: 10px; /* ラベルの上に余白 */
-    color: #333; /* ラベルの文字色をダークグレーに設定 */
+    display: block;
+    font-size: 1rem;
+    color: #555; /* 少し落ち着いた色 */
+    margin-bottom: 8px;
 }
 
-.registration-form input[type="text"],
-.registration-form input[type="date"],
-.registration-form input[type="number"],
-.registration-form select {
-    width: 100%; /* 幅を100%に設定 */
-    padding: 5px; /* 上下左右に5pxの余白 */
-    margin-top: 5px; /* 上部に余白 */
-    border: 1px solid #ddd; /* 薄いグレーのボーダー */
-    border-radius: 5px; /* 角を丸くする */
-    font-size: 1em; /* フォントサイズを設定 */
-    box-sizing: border-box; /* ボックスサイズをborder-boxに */
+.registration-form input, 
+.registration-form select, 
+.registration-form textarea {
+    width: 100%; /* フル幅 */
+    padding: 10px;
+    margin-bottom: 15px; /* 下部余白 */
+    border: 1px solid #ccc; /* グレーの境界線 */
+    border-radius: 5px; /* 角を丸く */
+    font-size: 1rem;
+    color: #333;
+    background-color: #f9f9f9; /* 背景色を微調整 */
+    transition: border-color 0.3s ease; /* フォーカス時の境界線の変化 */
 }
 
-/* 共通のボタンスタイル */
+.registration-form input:focus, 
+.registration-form select:focus, 
+.registration-form textarea:focus {
+    border-color: #007bff; /* フォーカス時に青色に変更 */
+    outline: none; /* デフォルトのアウトラインを削除 */
+}
+
+/* ===== ボタンのスタイル ===== */
 .registration-form button {
-    background-color: #4CAF50; /* ボタンの背景色を緑に設定 */
-    color: white; /* ボタンの文字色を白に設定 */
+    width: 48%; /* ボタンを均等な幅に */
+    padding: 10px 20px;
+    font-size: 1rem;
     border: none; /* ボーダーを削除 */
-    padding: 12px; /* ボタンの上下左右に12pxの余白 */
-    font-size: 1.1em; /* フォントサイズを設定 */
-    cursor: pointer; /* カーソルをポインタに */
-    border-radius: 5px; /* ボタンの角を丸くする */
-    width: 100%; /* 幅を100%に設定 */
-    box-sizing: border-box; /* ボックスサイズをborder-boxに */
+    border-radius: 5px; /* 角を丸く */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-/* 最初のボタン（戻るボタン）のみ少し下に配置 */
-.registration-form button:first-of-type {
-    margin-top: 170px; /* 40pxで位置を調整 */
+/* 登録ボタン */
+.registration-form button[type="submit"]:last-child {
+    background-color: #007bff; /* 鮮やかな青色 */
+    color: #fff; /* 白い文字 */
 }
 
-/* 2つ目のボタン（登録ボタン）との間隔を狭める */
-.registration-form button:last-of-type {
-    margin-top: 15px; /* ボタン間の隙間を小さく設定 */
+.registration-form button[type="submit"]:last-child:hover {
+    background-color: #0056b3; /* ホバー時に濃い青色 */
+    transform: translateY(-2px); /* 少し浮くアニメーション */
+}
+
+/* 戻るボタン */
+.registration-form button[type="submit"]:first-child {
+    background-color: #ccc; /* グレー */
+    color: #333; /* 濃い文字色 */
+}
+
+.registration-form button[type="submit"]:first-child:hover {
+    background-color: #aaa; /* ホバー時に濃いグレー */
 }

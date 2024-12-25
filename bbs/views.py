@@ -96,7 +96,7 @@ class PostsView(TemplateView):
 
             
             del request.session['materials']
-            return redirect('administrator:recipeadd_done')
+            return redirect('bbs:PostsComplate')
         else:
          
             logging.debug('フォームが無効です: %s', form.errors)        
@@ -107,7 +107,7 @@ class PostsView(TemplateView):
 
 
 class PostsComplateView(TemplateView):
-    template_name = 'keijiban/toukou/posts_compate.html'
+    template_name = 'keijiban/toukou/posts_complate.html'
 
 def get_materials(request, materialname):
         logging.debug(materialname)

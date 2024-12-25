@@ -43,18 +43,7 @@ class HomeView(TemplateView):
     #     context['user'] = user  # ログインしているユーザー情報を渡す
     #     return context
  
-class HealthMainView(TemplateView):
-    template_name='health/health_management_main.html'
- 
-class HealthSelectionView(TemplateView):
-    template_name='health/health_selection.html'
- 
-class HealthSelectionComplateView(TemplateView):
-    template_name='health/health_selectioncomplate.html'
- 
-class HealthMenuConfirmationView(TemplateView):
-    template_name='health/health_menuconfirmation.html'
- 
+
 class SettingView(TemplateView):
     template_name='setting/setting.html'
    
@@ -446,7 +435,7 @@ class HealthGraphView(TemplateView):
             start_date = data.get('start_date')
 
             if not family_id or not start_date:
-                return JsonResponse({'error': 'ユーザーと日付を選択してください。'}, status=400)
+                return JsonResponse({'error': '家族と日付を選択してください。'}, status=400)
 
             try:
                 year, month = map(int, start_date.split('-'))

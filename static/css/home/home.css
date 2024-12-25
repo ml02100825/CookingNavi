@@ -38,7 +38,6 @@ body {
     width: 250px; /* 固定幅を設定 */
     background-color: #fff; /* 背景色を白に設定 */
     border-radius: 8px; /* 角を丸くする */
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* シャドウ効果 */
     padding: 20px; /* 内側の余白 */
     margin-top: 20px; /* 上部に余白を追加 */
 }
@@ -125,24 +124,3 @@ button {
     font-size: 0.9rem; /* フォントサイズを少し小さく設定 */
 }
 
-/* レスポンシブデザイン */
-@media (max-width: 768px) {
-    .content-area {
-        flex-direction: column; /* 縦方向に要素を配置 */
-        align-items: center; /* 要素を中央揃え */
-    }
-
-    .main-content {
-        max-width: 100%; /* 幅を親要素に合わせる */
-        margin: 20px 0; /* 上下の余白を設定 */
-    }
-
-    .sidebar {
-        width: 100%; /* サイドバーを画面幅に合わせる */
-        margin: 10px 0; /* 上下の余白を設定 */
-    }
-
-    .buttons-container {
-        grid-template-columns: 1fr; /* ボタンを1列に配置 */
-    }
-}
