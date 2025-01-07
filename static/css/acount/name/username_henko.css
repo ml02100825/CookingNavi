@@ -9,7 +9,7 @@
 
 body {
     font-family: Arial, sans-serif; /* シンプルで読みやすいフォント */
-    background-color: #f9f9f9; /* 背景色を薄いグレーに設定 */
+    background-color: #ffebcd; 
     color: #333; /* テキストの基本色をダークグレーに設定 */
     display: flex;
     flex-direction: column;

@@ -1,8 +1,14 @@
-/* 全体のフォントと背景色 */
+/* グローバルな設定 */
+* {
+    box-sizing: border-box; /* すべての要素にbox-sizing: border-boxを適用 */
+}
+
 body {
     margin: 0;
     padding: 0;
-
+    overflow: auto; /* オーバーフロー設定 */
+    font-family: 'Arial', sans-serif; /* フォントファミリー */
+    background-color: #ffebcd; 
 }
 
 /* メインコンテンツのスタイル */
@@ -58,6 +64,12 @@ a button:active {
     box-shadow: none;
 }
 
+/* ボタンにフォーカスが当たったとき */
+a button:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 4px;
+}
+
 /* リンクボタンのスタイル（ボタンに適用） */
 a {
     text-decoration: none;
@@ -69,9 +81,6 @@ h2 + a, h2 + button {
 }
 
 /* ボタンを中央揃え */
-a + a, a + button {
-    margin-top: 15px;
-}
 
 /* フォームやボタンが並ぶ際のレイアウト */
 section {

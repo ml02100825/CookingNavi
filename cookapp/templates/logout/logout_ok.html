@@ -1,9 +1,12 @@
 {% extends '../baseuser2.html' %}
 
+{% load static %}
+
 {% block title %}ログアウト完了{% endblock %}
 
 {% block content %}
 
+<link rel="stylesheet" href="{% static 'css/logout/logout_ok.css' %}">
 <div class="login-complete-container">
     <h1>ログアウト完了</h1>
     <p>ログアウトが成功しました。</p>
