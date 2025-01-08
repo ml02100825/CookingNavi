@@ -9,7 +9,7 @@
     
    
 </head>
-
+<link rel="stylesheet" href="{% static 'css/administrator/recipe/add/recipe_add.css' %}">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <div class="recipe-add-container">
 <script type="text/javascript">
@@ -29,32 +29,21 @@
         {% csrf_token %}
         
         <!-- 種別 -->
-        <label for="recipe-type">種別:</label>
+        <label for="recipe-type">種別：</label>
         <select id="recipe-type" name="type">
-            <option value="主菜">主菜</option>
-            <option value="副菜">副菜</option>
-            <option value="その他">その他</option>
+            <option value="主菜">主菜：</option>
+            <option value="副菜">副菜：</option>
+            <option value="その他">その他：</option>
         </select><br>
         
         <!-- 作り方の入力 -->
         <label for="recipe-text">作り方:</label><br>
         <textarea id="recipe-text" name="recipe_text" rows="10" cols="50" placeholder="作り方を入力してください" required></textarea><br>
         
-        <!-- 画像のアップロード -->
-        <label for="image1">画像１:</label>
-        <input type="file" id="image1" name="image1" accept="image/*"><br>
-        
-        <label for="image2">画像２:</label>
-        <input type="file" id="image2" name="image2" accept="image/*"><br>
-        
-        <label for="image3">画像３:</label>
-        <input type="file" id="image3" name="image3" accept="image/*"><br>
-        
         <!-- 材料の追加 -->
 
-        料理名{{ form.name }}<br>
-        種別 {{ form.type }}<br>
-        作り方 {{ form.recipe_text }}<br>
+        料理名：{{ form.name }}<br>
+        作り方：{{ form.recipe_text }}<br>
         画像１ {{ form.image1 }}<br>
         画像２ {{ form.image2 }}<br>
         画像３ {{ form.image3 }}<br>
