@@ -29,11 +29,11 @@
         {% csrf_token %}
         
         <!-- 種別 -->
-        <label for="recipe-type">種別:</label>
+        <label for="recipe-type">種別：</label>
         <select id="recipe-type" name="type">
-            <option value="主菜">主菜</option>
-            <option value="副菜">副菜</option>
-            <option value="その他">その他</option>
+            <option value="主菜">主菜：</option>
+            <option value="副菜">副菜：</option>
+            <option value="その他">その他：</option>
         </select><br>
         
         <!-- 作り方の入力 -->
@@ -42,9 +42,8 @@
         
         <!-- 材料の追加 -->
 
-        料理名{{ form.name }}<br>
-        種別 {{ form.type }}<br>
-        作り方 {{ form.recipe_text }}<br>
+        料理名：{{ form.name }}<br>
+        作り方：{{ form.recipe_text }}<br>
         画像１ {{ form.image1 }}<br>
         画像２ {{ form.image2 }}<br>
         画像３ {{ form.image3 }}<br>
