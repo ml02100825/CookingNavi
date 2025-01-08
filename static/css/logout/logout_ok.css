@@ -4,7 +4,7 @@ body {
     font-family: Arial, sans-serif; /* フォントを設定 */
     margin: 0;
     padding: 0;
-    background-color: #f4f4f9; /* 背景色を淡いグレーに設定 */
+    background-color: #ffebcd; 
     display: flex;
     flex-direction: column;
     min-height: 100vh; /* 最小高さを画面全体にする */
@@ -66,8 +66,7 @@ body {
 /* ログインボタンのスタイル */
 .login-complete-container .btn {
     display: block; /* ボタンをブロック要素にして横幅を100%にする */
-    color: white; /* ボタンの文字色を白に設定 */
-    text-decoration: none; /* リンクの下線を削除 */
+    color: #000; /* ボタンの文字色を白に設定 */
     padding: 12px 30px; /* ボタンの上下12px、左右30pxのパディング */
     font-size: 1.1em; /* フォントサイズを設定 */
     cursor: pointer; /* カーソルをポインタに変更 */
@@ -76,8 +75,4 @@ body {
     margin: 0 auto; /* ボタンを中央に配置 */
     width: fit-content; /* ボタンの幅を内容に合わせる */
     box-sizing: border-box; /* ボックスサイズをborder-boxに */
-}
-
-.login-complete-container .btn:hover {
-    background-color: #45a049; /* ホバー時にボタンの色を少し暗く */
 }
