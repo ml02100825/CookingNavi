@@ -9,7 +9,7 @@
     
    
 </head>
-
+<link rel="stylesheet" href="{% static 'css/administrator/recipe/add/recipe_add.css' %}">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <div class="recipe-add-container">
 <script type="text/javascript">
@@ -39,16 +39,6 @@
         <!-- 作り方の入力 -->
         <label for="recipe-text">作り方:</label><br>
         <textarea id="recipe-text" name="recipe_text" rows="10" cols="50" placeholder="作り方を入力してください" required></textarea><br>
-        
-        <!-- 画像のアップロード -->
-        <label for="image1">画像１:</label>
-        <input type="file" id="image1" name="image1" accept="image/*"><br>
-        
-        <label for="image2">画像２:</label>
-        <input type="file" id="image2" name="image2" accept="image/*"><br>
-        
-        <label for="image3">画像３:</label>
-        <input type="file" id="image3" name="image3" accept="image/*"><br>
         
         <!-- 材料の追加 -->
 
