@@ -12,4 +12,7 @@ urlpatterns = [
 
     path('Posts/<int:material>/<int:materialamount>/', views.save_material, name='savematerial'),
     path('Posts/<str:materialname>/', views.get_materials, name='getmaterial'),
+
+    
+    path('MyBulletinBoard/', views.MyBulletinBoardView.as_view(), name='MyBulletinBoard'),
 ]

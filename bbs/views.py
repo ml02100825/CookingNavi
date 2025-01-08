@@ -157,3 +157,22 @@ def save_material(request, material,materialamount):
         # 更新したmaterialsリストをセッションに保存
         request.session['materials'] = materials
         return JsonResponse(materials, safe=False)
+
+
+class MyBulletinBoardView(TemplateView):
+    template_name = 'keijiban/syusai/myBulletinBoard.html'
+
+    def get(self, request, *args, **kwargs):
+        user = self.request.user
+        bbs = Bbs.objects.filter(user=user)
+        context = {
+            'user': user,
+            'bbs': bbs,
+        }
+        return self.render_to_response(context)
+
+class DeleteView(TemplateView):
+    template_name = 'keijiban/toukou/deleteconfirm.html'
+
+class DeleteComplateView(TemplateView):
+    template_name = 'keijiban/toukou/deletecomplate.html'
