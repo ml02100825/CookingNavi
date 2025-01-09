@@ -16,6 +16,8 @@ from django.urls import reverse
 from datetime import datetime
 import calendar
 import json
+from django.shortcuts import render
+
  
  
 logger = logging.getLogger(__name__)
@@ -546,5 +548,4 @@ class KazokuSakujoView(TemplateView):
     
 class KazokuSakujoOkView(TemplateView):
     template_name = 'kazoku/sakujo/kazoku_sakujo_ok.html'
-    
 
