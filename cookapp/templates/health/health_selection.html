@@ -9,7 +9,8 @@
 <link rel="stylesheet" href="{% static 'css/health/health_selection.css' %}">
 <div class="title">主菜選択</div>
 
-<form id="meal-form">
+<form id="meal-form" method="post">
+    {% csrf_token %}
     <!-- 日付選択 -->
     <div class="form-group">
         <div class="date-display">～ 2024年10月16日 ～</div>
