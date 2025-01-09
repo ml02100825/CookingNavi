@@ -2,6 +2,7 @@
 body {
     margin: 0; /* 余白なし */
     padding: 0; /* パディングなし */
+    background-color: #ffebcd; 
 }
 
 /* コンテナ全体のスタイル */
