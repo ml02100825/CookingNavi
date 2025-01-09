@@ -28,7 +28,7 @@ class PostsView(TemplateView):
         if form.is_valid():
             materials = request.session.get('materials')
            
-            # ユーザー作成
+            # 料理情報を定義
             bbs_calorie = 0
             bbs_protein = 0
             bbs_lipids = 0
@@ -37,7 +37,7 @@ class PostsView(TemplateView):
             bbs_saltcontent = 0
             name = form.cleaned_data['name']
 
-            # フォームの入力内容でユーザーの詳細情報を更新
+            # フォームの入力内容で料理情報の詳細情報を更新
             recipe_text = form.cleaned_data['recipe_text']
             image1 = form.cleaned_data['image1']
             image2 = form.cleaned_data['image2']
