@@ -8,12 +8,55 @@ from .forms import RecipeAddForm
 from django.views.generic.edit import FormView
 from django.views import View
 import logging
+from django.views.generic import TemplateView
+from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic import DetailView
+from django.shortcuts import get_object_or_404
+from .models import Bbs
+from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic import DetailView
+from .models import Bbs
+from .forms import BbsForm
+
 # Create your views here.
 
+from django.shortcuts import render
+from django.views.generic import TemplateView
+from .models import Bbs, Postimage, Image
 
+class MyBulletinBoardView(TemplateView):
+    template_name = 'keijiban/syusai/myBulletinBoard.html'
 
-class BulletinBoardView(TemplateView):
-    template_name = 'keijiban/BulletinBoard.html'
+    def get(self, request, *args, **kwargs):
+        user = self.request.user
+        bbs = Bbs.objects.filter(user=user)
+
+        bbs_with_images = []
+        for post in bbs:
+            # Bbs の post_id を基に Postimage から一致するデータを取得
+            postimages = Postimage.objects.filter(post=post)
+
+            images = []
+            for postimage in postimages:
+                try:
+                    # Postimage の image を取得し、.image.url を参照
+                    image_obj = postimage.image  # Postimage に関連付けられた Image オブジェクト
+                    images.append(image_obj.image.url)  # ImageField の URL を取得
+                except AttributeError:
+                    continue  # URLが取得できない場合はスキップ
+
+            bbs_with_images.append({
+                'post': post,
+                'images': images  # 画像のURLリスト
+            })
+
+        context = {
+            'user': user,
+            'bbs_with_images': bbs_with_images,
+        }
+
+        return self.render_to_response(context)
+
 
 class PostsView(TemplateView):
     template_name = 'keijiban/toukou/posts.html'
@@ -157,3 +200,28 @@ def save_material(request, material,materialamount):
         # 更新したmaterialsリストをセッションに保存
         request.session['materials'] = materials
         return JsonResponse(materials, safe=False)
+
+class EditView(DetailView):
+    model = Bbs
+    template_name = 'keijiban/henshuu/edit.html'
+    context_object_name = 'bbs'
+
+    def get_object(self, queryset=None):
+        # URLの`post_id`から対象のBbsオブジェクトを取得
+        post_id = self.kwargs.get('post_id')
+        return get_object_or_404(Bbs, post_id=post_id)  # `post_id`を使用
+
+    def get(self, request, *args, **kwargs):
+        bbs = self.get_object()
+        form = BbsForm(instance=bbs)
+        return render(request, self.template_name, {'form': form, 'bbs': bbs})
+
+    def post(self, request, *args, **kwargs):
+        bbs = self.get_object()
+        form = BbsForm(request.POST, instance=bbs)
+
+        if form.is_valid():
+            form.save()  # フォームのデータを保存（更新）
+            return redirect('bbs:MyBulletinBoard')  # 更新後にリダイレクト
+
+        return render(request, self.template_name, {'form': form, 'bbs': bbs})

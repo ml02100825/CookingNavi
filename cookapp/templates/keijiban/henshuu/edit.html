@@ -8,48 +8,27 @@
         <!-- ユーザー情報（アイコンと名前） -->
         <div class="user-info">
             <div class="user-icon"></div>
-            
         </div>
 
         <!-- メニュー名の編集 -->
-        <div class="form-group">
-            <label for="post-title">メニュー名</label>
-            <input type="text" id="post-title" value="唐揚げ" class="form-input">
-        </div>
-
-        <!-- 画像の編集（スライダー形式） -->
-        <div class="image-edit-slider">
-            <div class="image-container">
-                <img src="../../png/dinner.jpg" alt="料理画像 1" class="post-image" id="slider-image">
-                <img src="../../png/lunch.jpg" alt="料理画像 2" class="post-image hidden">
-                <img src="image3.jpg" alt="料理画像 3" class="post-image hidden">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="post-title">メニュー名</label>
+                {{ form.name }}  <!-- フォームでメニュー名を表示 -->
             </div>
-            <div class="arrow-buttons">
-                <button class="arrow-button" onclick="changeImage(-1)">&#10094;</button>
-                <button class="arrow-button" onclick="changeImage(1)">&#10095;</button>
-            </div>
-            <div class="image-actions">
-                <button class="add-image-btn">画像を追加</button>
-                <button class="delete-image-btn" onclick="deleteImage()">画像を削除</button>
-            </div>
-        </div>
 
-        <!-- 作り方の編集 -->
-        <div class="recipe-method-edit">
-            <h3>作り方</h3>
-            <textarea class="form-input" id="recipe-method" rows="5">
-1. 鶏肉を一口大に切り、調味料で下味をつけます。
-2. 衣をつけて、180度の油で揚げます。
-3. キッチンペーパーで余分な油を取って、お皿に盛り付けます。
-4. お好みでレモンを絞って召し上がれ。
-            </textarea>
-        </div>
+            <!-- 作り方の編集 -->
+            <div class="recipe-method-edit">
+                <h3>作り方</h3>
+                {{ form.recipe_text }}  <!-- 作り方フォーム -->
+            </div>
 
-        <!-- 保存、キャンセル、戻るボタン -->
-        <div class="button-group">
-            <button class="save-button" onclick="saveChanges()">編集完了</button>
-            
-        </div>
+            <!-- 保存、キャンセル、戻るボタン -->
+            <div class="button-group">
+                <button type="submit" class="save-button">編集完了</button>
+            </div>
+        </form>
     </div>
 {% endblock %}
 
@@ -90,20 +69,6 @@
             } else {
                 alert("削除できる画像がありません");
             }
-        }
-
-        function saveChanges() {
-            alert("変更が保存されました！");
-            // Additional code to send form data to server goes here
-        }
-
-        function cancelChanges() {
-            alert("変更をキャンセルしました");
-            // Reset any changes made in the form here if needed
-        }
-
-        function goBack() {
-            window.history.back(); // 前のページに戻る
         }
     </script>
 {% endblock %}
