@@ -26,4 +26,5 @@ urlpatterns = [
     path("administrator/", include('administrator.urls')),
     path("bbs/",include('bbs.urls')),
     path("healthmanagement/", include('healthmanagement.urls')),
+    path("buylist/", include('kaimonorisuto.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

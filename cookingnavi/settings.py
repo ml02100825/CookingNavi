@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "administrator.apps.AdministratorConfig",
     "bbs.apps.BbsConfig",
     "healthmanagement.apps.HealthmanagementConfig",
+    "kaimonorisuto.apps.KaimonorisutoConfig",
 ]
 
 MIDDLEWARE = [

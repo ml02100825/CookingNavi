@@ -16,6 +16,8 @@ from django.urls import reverse
 from datetime import datetime
 import calendar
 import json
+from django.shortcuts import render
+
  
  
 logger = logging.getLogger(__name__)
@@ -319,6 +321,10 @@ class KazokuaddView(LoginRequiredMixin, TemplateView):
                     family_member=family_member,
                     allergy_id=allergy_id
                 )
+            if family_member and request.user.family == False :
+                user = request.user
+                user.family = True
+                user.save()
 
             # メッセージ表示
             messages.success(request, '家族情報が正常に登録されました。')
@@ -546,5 +552,4 @@ class KazokuSakujoView(TemplateView):
     
 class KazokuSakujoOkView(TemplateView):
     template_name = 'kazoku/sakujo/kazoku_sakujo_ok.html'
-    
 

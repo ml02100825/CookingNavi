@@ -1,11 +1,14 @@
 /* 全体のリセットと基本設定 */
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
     flex-direction: column;
     min-height: 100vh; /* 画面の高さを100%に設定 */
+    overflow: hidden; /* スクロールバーを非表示にする */
 }
 
 /* ヘッダーのスタイリング */
@@ -21,7 +24,6 @@ body {
     top: 0;
     z-index: 1000;
     height: 60px; /* ヘッダーの高さを固定 */
-    margin-bottom: 90px;
 }
 
 .header .app-name {
@@ -78,6 +80,7 @@ body {
     flex: 1;
     height: calc(100vh - 60px - 50px); /* ヘッダーとフッターの高さを引いた高さに調整 */
     position: relative; /* 中央配置のため */
+    overflow: hidden; /* スクロールバーを非表示にする */
 }
 
 /* フッターのスタイリング */
@@ -93,16 +96,4 @@ footer {
     padding: 10px 0;
     font-size: 0.9rem;
     height: 50px; /* フッターの高さを固定 */
-}
-
-/* メインコンテンツがフッターと重ならないようにする */
-.main-content {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-sizing: border-box;
-    padding-bottom: 60px; /* フッターの高さ分だけ余白を追加 */
-    position: relative; /* 中央配置のため */
 }
