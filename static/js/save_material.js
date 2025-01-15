@@ -21,11 +21,11 @@ $(document).ready(function() {
                 dataType: 'json',
               
                 success: function(data) {
-                    if (window.materialSessionData!= {}){
+                    if (window.materialSessionData){
                         console.log("セッションデータ",window.materialSessionData)
-                        var correctedData = window.materialSessionData.replace(/'/g, '"');
+                   
 
-                        var materialData = JSON.parse(correctedData);
+                        var materialData = JSON.parse(window.materialSessionData);
                         console.log("セッション：",materialData); 
                     }
                     console.log('Material name inside AJAX success:', material);

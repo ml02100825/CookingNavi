@@ -20,6 +20,9 @@ class RecipeAddView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         form = RecipeAddForm()
+        
+      
+        request.session['materials'] = {}
         return render(request, self.template_name, {'form': form})
     
     def post(self, request, *args, **kwargs):
