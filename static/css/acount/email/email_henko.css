@@ -85,7 +85,6 @@ input[type="email"] {
     font-size: 1em; /* フォントサイズ */
     border: 1px solid #ddd; /* 枠線 */
     border-radius: 4px; /* 角丸 */
-    margin-bottom: 20px; /* 下に余白 */
 }
 
 /* 横並びにするためのスタイル */
@@ -98,7 +97,6 @@ input[type="email"] {
 label {
     font-weight: bold; /* ラベルを太字 */
     margin-right: 15px; /* ラベルと入力欄の間に余白 */
-    width: 150px; /* ラベルの幅を固定 */
 }
 
 .input-container {
