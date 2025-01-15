@@ -172,7 +172,7 @@ def process_group_1_2(age,gender,weight):
     libids = calorie * 0.2
     carbohydrates = calorie * 0.5
     fiber = 0
-    
+    logging.debug(calorie)
     return calorie, protein, libids, carbohydrates,fiber,saltcontent
 
 def process_group_3_5(age,gender,weight):
@@ -294,6 +294,7 @@ def process_group_18_29(age,gender,weight):
     calorie =Basal_metabolism * 1.75 *weight
     libids = calorie * 0.2
     carbohydrates  = calorie * 0.5
+    logging.debug(calorie)
     return calorie, protein, libids, carbohydrates, fiber, saltcontent
 
 def process_group_30_49(age,gender,weight):
