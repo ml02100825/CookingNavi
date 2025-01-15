@@ -9,7 +9,8 @@
 
 <link rel="stylesheet" href="{% static 'css/acount/email/email_henko.css' %}">
 <main class="main-content">
-    <div class="email-change-container">
+    <!-- 白枠のメインコンテナ -->
+    <div class="main-container">
         <h2>メールアドレス変更</h2>
         <form action="{% url 'cookapp:email' %}" method="post">
             {% csrf_token %}

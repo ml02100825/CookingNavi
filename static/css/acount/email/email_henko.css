@@ -63,7 +63,7 @@ h2 {
     text-align: center; /* テキストを中央揃え */
 }
 
-/* 入力フォーム */
+/* メールアドレス変更フォーム */
 .form-container {
     background-color: #f9f9f9; /* 薄いグレー背景 */
     padding: 20px; /* 内側余白 */
