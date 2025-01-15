@@ -1,3 +1,4 @@
+import random
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
 from administrator.models import Cook
@@ -151,6 +152,80 @@ class HealthSelectionView(TemplateView):
             logging.debug("必要炭水化物%f" , need_carbohydrates)
             logging.debug("必要食物繊維%f" , need_fiber)
             logging.debug("必要塩分%f" , need_saltcontent)
+            
+            deficiency_calorie = need_calorie - all_calorie
+            deficiency_protein = need_protein - all_protein
+            deficiency_libids = need_libids - all_libids
+            deficiency_carbohydrates = need_carbohydrates - all_carbohydrates
+            deficiency_fiber = need_fiber - all_fiber
+            deficiency_saltcontentr = need_saltcontent - all_saltcontent
+            logging.debug("不足カロリー%f" , deficiency_calorie)
+            logging.debug("不足タンパク質%f" ,deficiency_protein)
+            logging.debug("不足脂質%f" , deficiency_libids)
+            logging.debug("不足炭水化物%f" , deficiency_carbohydrates)
+            logging.debug("不足食物繊維%f" , deficiency_fiber)
+            logging.debug("不足塩分%f" , deficiency_saltcontentr)
+            results = Cook.objects.filter(
+            type__in=[2, 3],
+            calorie__lte=deficiency_calorie / 3,
+            protein__gte=deficiency_protein / 3,
+            saltcontent__lte=deficiency_saltcontentr / 3
+            ).values('cookname','calorie','protein','lipids','carbohydrates','fiber','saltcontent')
+            logging.debug(results)
+            logging.debug(len(results))
+            random_number = random.randint(0, len(results)-1)
+            randomcookdata =  results[random_number]
+            all_calorie += count * randomcookdata['calorie']
+            all_protein += count * randomcookdata['protein']
+            all_libids += count * randomcookdata['lipids']
+            all_carbohydrates += count * randomcookdata['carbohydrates']
+            all_fiber += count * randomcookdata['fiber']
+            all_saltcontent += count * randomcookdata['saltcontent']
+            logging.debug(results[random_number])
+            logging.debug(results[random_number])  
+            logging.debug("主菜のカロリー%f" , all_calorie)
+            logging.debug("主菜のタンパク質%f" , all_protein)
+            logging.debug("主菜の脂質%f" , all_libids)
+            logging.debug("主菜の炭水化物%f" , all_carbohydrates)
+            logging.debug("主菜の食物繊維%f" , all_fiber)
+            logging.debug("主菜の塩分%f" , all_saltcontent)
+            
+            if need_calorie - all_calorie >0:
+                while True:
+                    # この無限ループ修正から
+                    deficiency_calorie = need_calorie - all_calorie
+                    deficiency_protein = need_protein - all_protein
+                    deficiency_libids = need_libids - all_libids
+                    deficiency_carbohydrates = need_carbohydrates - all_carbohydrates
+                    deficiency_fiber = need_fiber - all_fiber
+                    deficiency_saltcontentr = need_saltcontent - all_saltcontent
+                    logging.debug("不足カロリー%f" , deficiency_calorie)
+                    logging.debug("不足タンパク質%f" ,deficiency_protein)
+                    logging.debug("不足脂質%f" , deficiency_libids)
+                    logging.debug("不足炭水化物%f" , deficiency_carbohydrates)
+                    logging.debug("不足食物繊維%f" , deficiency_fiber)
+                    logging.debug("不足塩分%f" , deficiency_saltcontentr)
+                    results = Cook.objects.filter(
+                    type__in=[2, 3],
+                    calorie__lte=deficiency_calorie / 3,
+                    protein__gte=deficiency_protein / 3,
+                    saltcontent__lte=deficiency_saltcontentr / 3
+                    ).values('cookname','calorie','protein','lipids','carbohydrates','fiber','saltcontent')
+                    if results:
+                        logging.debug(results)
+                        logging.debug(len(results))
+                        random_number = random.randint(0, len(results)-1)
+                        randomcookdata =  results[random_number]
+                        all_calorie += count * randomcookdata['calorie']
+                        all_protein += count * randomcookdata['protein']
+                        all_libids += count * randomcookdata['lipids']
+                        all_carbohydrates += count * randomcookdata['carbohydrates']
+                        all_fiber += count * randomcookdata['fiber']
+                        all_saltcontent += count * randomcookdata['saltcontent']
+                        if need_calorie - all_calorie >0:
+                            break
+                    else:
+                        break              
             return render(request, self.template_name, {'form': form})
                 
 class HealthSelectionComplateView(TemplateView):
