@@ -22,7 +22,10 @@ $(document).ready(function() {
               
                 success: function(data) {
                     if (window.materialSessionData!= {}){
-                        var materialData = JSON.parse(window.materialSessionData);
+                        console.log("セッションデータ",window.materialSessionData)
+                        var correctedData = window.materialSessionData.replace(/'/g, '"');
+
+                        var materialData = JSON.parse(correctedData);
                         console.log("セッション：",materialData); 
                     }
                     console.log('Material name inside AJAX success:', material);
