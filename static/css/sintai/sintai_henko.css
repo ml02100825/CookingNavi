@@ -13,7 +13,7 @@ html, body {
 /* スクロールが可能になるように設定 */
 body {
     font-family: 'Arial', sans-serif; /* フォント設定 */
-    background-color: #f4f4f4; /* 背景色 */
+    background-color: #ffebcd; /* 背景色 */
     color: #333; /* テキストカラー */
     line-height: 1.6; /* 行間の設定 */
     display: flex;
