@@ -5,11 +5,11 @@
 {% block title %}掲示板{% endblock %}
 
 {% block content %}
-
 <head>
     <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'css/keijiban/bulletinboard.css' %}">
 </head>
+
 <div class="search-bar-container">
     <input type="text" placeholder="料理を検索する..." class="search-bar">
     <button class="search-btn">検索</button>
@@ -26,15 +26,19 @@
     </aside>
 
     <main class="main-content">
-        {% for post in bbs %}
-        <div class="post-card">
-            <img src="{{ postimage.image.url }}" alt="{{ post.name }}">
-            <div class="post-details">
-                <h3>{{ post.name }}</h3>
-                <p>{{ post.user.username }}</p>
-                <button class="like-btn" onclick="toggleLike(this)">❤</button>
+        {% for post in image_posts %}
+        {% if post.post_id %}
+            <div class="post-card">
+                <a href="{% url 'bbs:Edit' post.post_id %}">
+                    <img src="{{ post.image.url }}" alt="{{ post.name }}">
+                </a>
+                <div class="post-details">
+                    <h3>{{ post.name }}</h3>
+                </div>
             </div>
-        </div>
+        {% else %}
+            <p>Invalid post</p>
+        {% endif %}
         {% endfor %}
     </main>
 </div>

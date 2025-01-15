@@ -1,0 +1,63 @@
+{% extends 'baseuser.html' %}
+
+{% load static %}
+
+{% block title %}自分の投稿{% endblock %}
+
+{% block content %}
+<head>
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/keijiban/bulletinboard.css' %}">
+</head>
+
+<div class="search-bar-container">
+    <input type="text" placeholder="料理を検索する..." class="search-bar">
+    <button class="search-btn">検索</button>
+    <a href="{% url 'bbs:Posts' %}">
+        <button class="post-btn">レシピを投稿する</button>
+    </a>
+</div>
+
+<div class="content-container">
+    <aside class="sidebar">
+        <a href="{% url 'bbs:MyBulletinBoard' %}">
+            <button type="button">自分が投稿したもの</button>
+        </a>
+        <button>お気に入り</button>
+        <button>いいね数順</button>
+    </aside>
+
+    <main class="main-content">
+        {% for bbs_entry in bbs_with_images %}
+        <div class="post-card">
+            <div class="post-details">
+                <h3>{{ bbs_entry.post.name }}</h3>
+                <p>{{ bbs_entry.post.recipe_text }}</p>
+
+                <!-- 画像を表示 -->
+                {% for image in bbs_entry.images %}
+                <img src="{{ image.url }}" alt="Post image" class="img-fluid mb-3">
+                {% endfor %}
+
+                <div class="button-container">
+                    <button onclick="editPost()">編集</button>
+                    <button onclick="deletePost()">削除</button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </main>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function editPost() {
+        alert("編集画面に移動します。");
+    }
+
+    function deletePost() {
+        alert("投稿を削除しました。");
+    }
+</script>
+{% endblock %}
