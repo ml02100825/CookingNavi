@@ -8,7 +8,7 @@ urlpatterns = [
     
     path('Posts', views.PostsView.as_view(), name='Posts'),
     path('PostsComplate/', views.PostsComplateView.as_view(), name='PostsComplate'),
-    path('Edit/<int:post_id>/', views.EditView.as_view(), name='Edit'),
+    path('edit/<int:post_id>/', views.EditView.as_view(), name='edit'),
     path('MyBulletinBoard/', views.MyBulletinBoardView.as_view(), name='MyBulletinBoard'),
 
     path('Posts/<int:material>/<int:materialamount>/', views.save_material, name='savematerial'),

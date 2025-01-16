@@ -3,72 +3,87 @@
 {% block title %}投稿編集{% endblock %}
 
 {% block content %}
-    <!-- 編集フォーム -->
-    <div class="edit-container">
-        <!-- ユーザー情報（アイコンと名前） -->
-        <div class="user-info">
-            <div class="user-icon"></div>
+<!-- 編集フォーム -->
+<div class="edit-container">
+    <!-- ユーザー情報（アイコンと名前） -->
+    <div class="user-info">
+        <div class="user-icon"></div>
+    </div>
+
+    <!-- 画像の表示と操作 -->
+    <div class="image-container">
+        <h3>投稿画像</h3>
+        <div class="image-carousel">
+            {% for image in images %}
+            <img src="{{ image.image.url }}" alt="投稿画像" class="post-image {% if forloop.first %}active{% else %}hidden{% endif %}">
+            {% endfor %}
         </div>
 
-        <!-- メニュー名の編集 -->
-        <form method="POST">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="post-title">メニュー名</label>
-                {{ form.name }}  <!-- フォームでメニュー名を表示 -->
-            </div>
-
-            <!-- 作り方の編集 -->
-            <div class="recipe-method-edit">
-                <h3>作り方</h3>
-                {{ form.recipe_text }}  <!-- 作り方フォーム -->
-            </div>
-
-            <!-- 保存、キャンセル、戻るボタン -->
-            <div class="button-group">
-                <button type="submit" class="save-button">編集完了</button>
-            </div>
-        </form>
+        <div class="image-buttons">
+            <button type="button" onclick="changeImage(-1)">前へ</button>
+            <button type="button" onclick="deleteImage()">削除</button>
+            <button type="button" onclick="changeImage(1)">次へ</button>
+        </div>
     </div>
+
+    <!-- メニュー名の編集 -->
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="post-title">メニュー名</label>
+            {{ form.name }} <!-- フォームでメニュー名を表示 -->
+        </div>
+
+        <!-- 作り方の編集 -->
+        <div class="recipe-method-edit">
+            <h3>作り方</h3>
+            {{ form.recipe_text }} <!-- 作り方フォーム -->
+        </div>
+
+        <!-- 保存、キャンセル、戻るボタン -->
+        <div class="button-group">
+            <button type="submit" class="save-button">編集完了</button>
+        </div>
+    </form>
+</div>
 {% endblock %}
 
 {% block scripts %}
-    <script>
-        let currentImageIndex = 0;
+<script>
+    let currentImageIndex = 0;
 
-        function changeImage(direction) {
-            const images = document.querySelectorAll('.post-image');
-            const totalImages = images.length;
+    function changeImage(direction) {
+        const images = document.querySelectorAll('.post-image');
+        const totalImages = images.length;
 
-            images.forEach(image => image.classList.add('hidden'));
+        images.forEach(image => image.classList.add('hidden'));
 
-            currentImageIndex += direction;
+        currentImageIndex += direction;
 
-            if (currentImageIndex < 0) {
-                currentImageIndex = totalImages - 1;
-            } else if (currentImageIndex >= totalImages) {
-                currentImageIndex = 0;
-            }
-
-            images[currentImageIndex].classList.remove('hidden');
+        if (currentImageIndex < 0) {
+            currentImageIndex = totalImages - 1;
+        } else if (currentImageIndex >= totalImages) {
+            currentImageIndex = 0;
         }
 
-        function deleteImage() {
-            const images = document.querySelectorAll('.post-image');
+        images[currentImageIndex].classList.remove('hidden');
+    }
+
+    function deleteImage() {
+        const images = document.querySelectorAll('.post-image');
+        if (images.length > 0) {
+            images[currentImageIndex].remove(); // 現在の画像を削除
+            alert("画像が削除されました");
+
+            // インデックスを調整
+            currentImageIndex = Math.min(currentImageIndex, images.length - 1);
+
             if (images.length > 0) {
-                images[currentImageIndex].remove(); // Remove the current image from the DOM
-                alert("画像が削除されました");
-
-                // Adjust currentImageIndex to show the next available image
-                if (currentImageIndex >= images.length) {
-                    currentImageIndex = images.length - 1;
-                }
-                if (images.length > 0) {
-                    images[currentImageIndex].classList.remove('hidden');
-                }
-            } else {
-                alert("削除できる画像がありません");
+                images[currentImageIndex].classList.remove('hidden');
             }
+        } else {
+            alert("削除できる画像がありません");
         }
-    </script>
+    }
+</script>
 {% endblock %}

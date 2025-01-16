@@ -11,8 +11,10 @@
 </head>
 
 <div class="search-bar-container">
-    <input type="text" placeholder="料理を検索する..." class="search-bar">
-    <button class="search-btn">検索</button>
+    <form method="get" action="{% url 'bbs:MyBulletinBoard' %}">
+        <input type="text" name="search_query" placeholder="料理を検索する..." class="search-bar" value="{{ search_query }}">
+        <button type="submit" class="search-btn">検索</button>
+    </form>
     <a href="{% url 'bbs:Posts' %}">
         <button class="post-btn">レシピを投稿する</button>
     </a>
@@ -20,27 +22,32 @@
 
 <div class="content-container">
     <aside class="sidebar">
-        <a href="{% url 'bbs:MyBulletinBoard' %}">
-            <button type="button">自分が投稿したもの</button>
-        </a>
+        <form method="post" action="{% url 'bbs:MyBulletinBoard' %}">
+            {% csrf_token %}
+            <input type="hidden" name="show_my_posts" value="{{ show_my_posts|yesno:'False,True' }}">
+            <button type="submit">{{ show_my_posts|yesno:'自分以外が投稿したもの,自分が投稿したもの' }}</button>
+        </form>
         <button>お気に入り</button>
         <button>いいね数順</button>
     </aside>
 
-    <main class="main-content">
+    <main class="main-content" id="main-content">
+        <!-- 投稿を表示 -->
         {% for bbs_entry in bbs_with_images %}
         <div class="post-card">
             <div class="post-details">
                 <h3>{{ bbs_entry.post.name }}</h3>
-                <p>{{ bbs_entry.post.recipe_text }}</p>
 
                 <!-- 画像を表示 -->
                 {% for image in bbs_entry.images %}
-                <img src="{{ image.url }}" alt="Post image" class="img-fluid mb-3">
+                <img src="{{ image }}" alt="Post image" class="img-fluid mb-3">
                 {% endfor %}
 
                 <div class="button-container">
-                    <button onclick="editPost()">編集</button>
+                    <!-- 編集ボタンをリンクに変更 -->
+                    <a href="{% url 'bbs:edit' post_id=bbs_entry.post.post_id %}">
+                        <button>編集</button>
+                    </a>
                     <button onclick="deletePost()">削除</button>
                 </div>
             </div>
@@ -52,10 +59,6 @@
 
 {% block scripts %}
 <script>
-    function editPost() {
-        alert("編集画面に移動します。");
-    }
-
     function deletePost() {
         alert("投稿を削除しました。");
     }
