@@ -228,16 +228,19 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
             allergies = form.cleaned_data['allergies']
             height = form.cleaned_data['height']
             weight = form.cleaned_data['weight']
+            logging.debug(birthdate)
+            modified_birthdate = str(birthdate).replace("-", "/")
  
             if name != request.user.name:
                 messages.error(request, "ログイン中のユーザーと異なるユーザー名を入力しました。")
             else:
                 user = request.user
-                user.age = birthdate
+                user.age = modified_birthdate
                 user.gender = gender
                 user.height = height
                 user.weight = weight
                 user.save()
+                logging.debug(modified_birthdate)
                 for i in range(len(allergies)):
                     allergy = allergies[i]
                     try:

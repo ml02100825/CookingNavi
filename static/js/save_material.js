@@ -21,7 +21,10 @@ $(document).ready(function() {
                 dataType: 'json',
               
                 success: function(data) {
-                    if (window.materialSessionData!= {}){
+                    if (window.materialSessionData){
+                        console.log("セッションデータ",window.materialSessionData)
+                   
+
                         var materialData = JSON.parse(window.materialSessionData);
                         console.log("セッション：",materialData); 
                     }
