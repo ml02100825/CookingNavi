@@ -8,6 +8,20 @@
 <head>
     <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'css/keijiban/bulletinboard.css' %}">
+    <style>
+        .heart-btn {
+            border: none;
+            background-color: white;
+            color: gray;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .heart-btn.filled {
+            color: red;
+        }
+    </style>
 </head>
 
 <div class="search-bar-container">
@@ -24,11 +38,24 @@
     <aside class="sidebar">
         <form method="post" action="{% url 'bbs:MyBulletinBoard' %}">
             {% csrf_token %}
-            <input type="hidden" name="show_my_posts" value="{{ show_my_posts|yesno:'False,True' }}">
-            <button type="submit">{{ show_my_posts|yesno:'自分以外が投稿したもの,自分が投稿したもの' }}</button>
+            <input type="hidden" name="show_favorites" value="True">
+            <button type="submit">お気に入り</button>
         </form>
-        <button>お気に入り</button>
-        <button>いいね数順</button>
+        <form method="post" action="{% url 'bbs:MyBulletinBoard' %}">
+            {% csrf_token %}
+            <input type="hidden" name="show_my_posts" value="True">
+            <button type="submit">自分が投稿したもの</button>
+        </form>
+        <form method="post" action="{% url 'bbs:MyBulletinBoard' %}">
+            {% csrf_token %}
+            <input type="hidden" name="show_others_posts" value="True">
+            <button type="submit">自分以外が投稿したもの</button>
+        </form>
+        <form method="post" action="{% url 'bbs:MyBulletinBoard' %}">
+            {% csrf_token %}
+            <input type="hidden" name="sort_by_likes" value="True">
+            <button type="submit">いいね数順</button>
+        </form>
     </aside>
 
     <main class="main-content" id="main-content">
@@ -44,11 +71,19 @@
                 {% endfor %}
 
                 <div class="button-container">
-                    <!-- 編集ボタンをリンクに変更 -->
+                    {% if bbs_entry.post.user_id == request.user.user_id %}
+                    <!-- 自分の投稿にのみ編集と削除ボタンを表示 -->
                     <a href="{% url 'bbs:edit' post_id=bbs_entry.post.post_id %}">
                         <button>編集</button>
                     </a>
                     <button onclick="deletePost()">削除</button>
+                    {% endif %}
+                    {% if bbs_entry.post.user_id != request.user.user_id %}
+                    <form method="post" action="{% url 'bbs:toggle_favorite' post_id=bbs_entry.post.post_id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="heart-btn">{% if user_favorites.bbs_entry.post.post_id == 1 %}❤{% else %}♡{% endif %}</button>
+                    </form>
+                    {% endif %}
                 </div>
             </div>
         </div>

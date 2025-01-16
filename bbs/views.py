@@ -1,116 +1,116 @@
 from venv import logger
 from django.http import JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render,  get_object_or_404
 from django.views.generic.base import TemplateView
 from administrator.models import Material, Image,CookImagesave
-from .models import Userrecipe, Postimage,Bbs
-from .forms import RecipeAddForm
-from django.views.generic.edit import FormView
+from .models import Userrecipe, Postimage, Bbs, Favorite
+from .forms import RecipeAddForm, BbsForm
 from django.views import View
 import logging
-from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import DetailView
-from django.shortcuts import get_object_or_404
-from .models import Bbs
-from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import DetailView
-from .models import Bbs
-from .forms import BbsForm
+from django.views.generic import DetailView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-# Create your views here.
-
-from django.shortcuts import render
-from django.views.generic import TemplateView
 from .models import Bbs, Postimage, Image
-from django.contrib.auth.mixins import LoginRequiredMixin
 import logging
+from django.db.models import Sum
 
 logger = logging.getLogger(__name__)
 
 class MyBulletinBoardView(LoginRequiredMixin, TemplateView):
-    template_name = 'keijiban/syusai/myBulletinBoard.html'
+    template_name = 'keijiban/syusai/MyBulletinBoard.html'
 
     def get(self, request, *args, **kwargs):
         user = request.user
         search_query = request.GET.get('search_query', '')
+        show_favorites = request.GET.get('show_favorites', 'False') == 'True'
+        show_my_posts = request.GET.get('show_my_posts', 'False') == 'True'
+        show_others_posts = request.GET.get('show_others_posts', 'False') == 'True'
+        sort_by_likes = request.GET.get('sort_by_likes', 'False') == 'True'
         
-        if search_query:
-            # 検索クエリに一致する投稿をフィルタリング
-            bbs = Bbs.objects.filter(name__icontains=search_query).exclude(user_id=user.user_id)
+        if show_favorites:
+            favorite_posts = Favorite.objects.filter(user=user, favorite_flag=True).values_list('post_id', flat=True)
+            bbs = Bbs.objects.filter(post_id__in=favorite_posts)
+        elif show_my_posts:
+            bbs = Bbs.objects.filter(user_id=user.user_id)
+        elif show_others_posts:
+            bbs = Bbs.objects.exclude(user_id=user.user_id)
+        elif sort_by_likes:
+            bbs = Bbs.objects.annotate(total_likes=Sum('favorite__favorite_flag')).order_by('-total_likes')
+        elif search_query:
+            bbs = Bbs.objects.filter(name__icontains=search_query)
         else:
-            # 最初は他のユーザーの投稿をフィルタリング
             bbs = Bbs.objects.exclude(user_id=user.user_id)
 
         bbs_with_images = []
         for post in bbs:
-            # Postimage から対応する画像を取得
             postimages = Postimage.objects.filter(post_id=post.post_id)
+            images = [postimage.image.image for postimage in postimages if hasattr(postimage, 'image')]
+            bbs_with_images.append({'post': post, 'images': images})
 
-            images = []
-            for postimage in postimages:
-                try:
-                    image_obj = postimage.image  # Postimage に関連付けられた Image オブジェクト
-                    images.append(image_obj.image)  # URL をリストに追加
-                except AttributeError:
-                    continue
-
-            bbs_with_images.append({
-                'post': post,
-                'images': images
-            })
+        user_favorites = {fav.post_id: fav.favorite_flag for fav in Favorite.objects.filter(user=user)}
 
         context = {
             'bbs_with_images': bbs_with_images,
-            'show_my_posts': False,  # 自分の投稿を表示するかどうかのフラグ
-            'search_query': search_query  # 検索クエリをコンテキストに追加
+            'show_my_posts': show_my_posts,
+            'show_others_posts': show_others_posts,
+            'search_query': search_query,
+            'user_favorites': user_favorites,
+            'show_favorites': show_favorites,
+            'sort_by_likes': sort_by_likes
         }
-        logger.debug("GET request: show_my_posts = False")
         return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
         user = request.user
         show_my_posts = request.POST.get('show_my_posts') == 'True'
+        show_others_posts = request.POST.get('show_others_posts') == 'True'
         search_query = request.POST.get('search_query', '')
-        
-        logger.debug(f"POST request: show_my_posts = {show_my_posts}")
+        show_favorites = request.POST.get('show_favorites') == 'True'
+        sort_by_likes = request.POST.get('sort_by_likes') == 'True'
 
         if show_my_posts:
-            # 自分が投稿したものをフィルタリング
             bbs = Bbs.objects.filter(user_id=user.user_id)
+        elif show_others_posts:
+            bbs = Bbs.objects.exclude(user_id=user.user_id)
+        elif show_favorites:
+            favorite_posts = Favorite.objects.filter(user=user, favorite_flag=True).values_list('post_id', flat=True)
+            bbs = Bbs.objects.filter(post_id__in=favorite_posts)
+        elif sort_by_likes:
+            bbs = Bbs.objects.annotate(total_likes=Sum('favorite__favorite_flag')).order_by('-total_likes')
+        elif search_query:
+            bbs = Bbs.objects.filter(name__icontains=search_query)
         else:
-            if search_query:
-                # 検索クエリに一致する投稿をフィルタリング
-                bbs = Bbs.objects.filter(name__icontains=search_query).exclude(user_id=user.user_id)
-            else:
-                # 他のユーザーの投稿をフィルタリング
-                bbs = Bbs.objects.exclude(user_id=user.user_id)
+            bbs = Bbs.objects.exclude(user_id=user.user_id)
 
         bbs_with_images = []
         for post in bbs:
-            # Postimage から対応する画像を取得
             postimages = Postimage.objects.filter(post_id=post.post_id)
+            images = [postimage.image.image for postimage in postimages if hasattr(postimage, 'image')]
+            bbs_with_images.append({'post': post, 'images': images})
 
-            images = []
-            for postimage in postimages:
-                try:
-                    image_obj = postimage.image  # Postimage に関連付けられた Image オブジェクト
-                    images.append(image_obj.image)  # URL をリストに追加
-                except AttributeError:
-                    continue
-
-            bbs_with_images.append({
-                'post': post,
-                'images': images
-            })
+        user_favorites = {fav.post_id: fav.favorite_flag for fav in Favorite.objects.filter(user=user)}
 
         context = {
             'bbs_with_images': bbs_with_images,
-            'show_my_posts': not show_my_posts,  # 自分の投稿を表示するかどうかのフラグを反転
-            'search_query': search_query  # 検索クエリをコンテキストに追加
+            'show_my_posts': show_my_posts,
+            'show_others_posts': show_others_posts,
+            'search_query': search_query,
+            'user_favorites': user_favorites,
+            'show_favorites': show_favorites,
+            'sort_by_likes': sort_by_likes
         }
-        logger.debug(f"POST response: show_my_posts = {not show_my_posts}")
         return self.render_to_response(context)
+
+class FavoriteView(View):
+    def post(self, request, post_id):
+        user = request.user
+        post = Bbs.objects.get(post_id=post_id)
+        favorite, created = Favorite.objects.get_or_create(user=user, post=post)
+        if not created:
+            favorite.favorite_flag = not favorite.favorite_flag
+        else:
+            favorite.favorite_flag = True
+        favorite.save()
+        return redirect('bbs:MyBulletinBoard')
 
 class PostsView(TemplateView):
     template_name = 'keijiban/toukou/posts.html'

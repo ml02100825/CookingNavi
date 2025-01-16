@@ -47,3 +47,13 @@ class Userrecipe(models.Model):
     class Meta:
         managed = False
         db_table = 'userrecipe'
+
+class Favorite(models.Model):
+    favorite_id = models.AutoField(db_column='FAVORITE_ID', primary_key=True)
+    post = models.ForeignKey('Bbs', models.DO_NOTHING, db_column='POST_ID')
+    user = models.ForeignKey('account.User', models.DO_NOTHING, db_column='USER_ID')
+    favorite_flag = models.BooleanField(db_column='FAVORITE_FLAG', default=True)
+
+    class Meta:
+        managed = False
+        db_table = 'favorite'
