@@ -305,6 +305,9 @@ class DeleteView(TemplateView):
         post_id = kwargs['post_id']
         post = get_object_or_404(Bbs, post_id=post_id)
  
+        # 関連するFavoriteデータを削除
+        Favorite.objects.filter(post_id=post_id).delete()
+ 
         # 関連するPostimageデータを削除
         Postimage.objects.filter(post_id=post_id).delete()
  
