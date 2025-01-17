@@ -3,10 +3,9 @@ from django.shortcuts import get_object_or_404, render, redirect
 from .forms import EmailForm, UsernameForm, PasswordForm, BodyInfoUpdateForm, FamilyForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
-from django.views import View
 from django.contrib import messages
 from .models import Familymember, Familyallergy, Weight
-from account.models import User, Userallergy 
+from account.models import  Userallergy 
 from django.http import JsonResponse
 import logging
 from django.utils import timezone

@@ -5,14 +5,12 @@ from django.shortcuts import redirect, render,  get_object_or_404
 from django.urls import reverse
 from django.views.generic.base import TemplateView
 from administrator.models import Material, Image,CookImagesave
-from .models import Userrecipe, Postimage, Bbs, Favorite
+from .models import Userrecipe, Postimage, Bbs, Favorite, Image
 from .forms import RecipeAddForm, BbsForm
 from django.views import View
 import logging
 from django.views.generic import DetailView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Bbs, Postimage, Image
-import logging
 from django.db.models import Sum
 from django.contrib import messages
 
