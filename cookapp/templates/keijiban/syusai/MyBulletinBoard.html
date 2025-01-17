@@ -76,7 +76,9 @@
                     <a href="{% url 'bbs:edit' post_id=bbs_entry.post.post_id %}">
                         <button>編集</button>
                     </a>
-                    <button onclick="deletePost()">削除</button>
+                    <a href="{% url 'bbs:PostsDelete' post_id=bbs_entry.post.post_id %}">
+                        <button>削除</button>
+                    </a>
                     {% endif %}
                     {% if bbs_entry.post.user_id != request.user.user_id %}
                     <form method="post" action="{% url 'bbs:toggle_favorite' post_id=bbs_entry.post.post_id %}">

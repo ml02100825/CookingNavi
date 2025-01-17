@@ -1,7 +1,7 @@
 {% extends 'baseuser.html' %}
-
+ 
 {% block title %}投稿削除{% endblock %}
-
+ 
 {% block content %}
 <head>
     <meta charset="UTF-8">
@@ -9,12 +9,15 @@
 </head>
 <body>
     <h1>投稿削除</h1>
-    <p>本当に「{{ post.title }}」を削除してもよろしいですか？</p>
-    
+    <p>本当に「{{ post.name }}」を削除してもよろしいですか？</p>
+   
     <!-- 削除実行リンク -->
-    <a href="{% url 'delete_post' post.id %}">はい</a>
-    <!-- キャンセルリンク（一覧ページに戻る） -->
-    <a href="{% url 'myBulletinBroard.html' %}">いいえ</a>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">はい</button>
+        <!-- キャンセルリンク（一覧ページに戻る） -->
+        <a href="{% url 'bbs:MyBulletinBoard' %}"><button type="button">いいえ</button></a>
+    </form>
 </body>
 </html>
 {% endblock %}

@@ -1,6 +1,8 @@
+from pyexpat.errors import messages
 from venv import logger
 from django.http import JsonResponse
 from django.shortcuts import redirect, render,  get_object_or_404
+from django.urls import reverse
 from django.views.generic.base import TemplateView
 from administrator.models import Material, Image,CookImagesave
 from .models import Userrecipe, Postimage, Bbs, Favorite
@@ -12,6 +14,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Bbs, Postimage, Image
 import logging
 from django.db.models import Sum
+from django.contrib import messages
 
 logger = logging.getLogger(__name__)
 
@@ -289,3 +292,30 @@ class EditView(DetailView):
             'bbs': bbs,
             'images': images,
         })
+    
+class DeleteView(TemplateView):
+    template_name = 'keijiban/toukou/deleteconfirm.html'
+ 
+    def get(self, request, *args, **kwargs):
+        post_id = kwargs['post_id']
+        post = get_object_or_404(Bbs, post_id=post_id)
+        return self.render_to_response({'post': post})
+ 
+    def post(self, request, *args, **kwargs):
+        post_id = kwargs['post_id']
+        post = get_object_or_404(Bbs, post_id=post_id)
+ 
+        # 関連するPostimageデータを削除
+        Postimage.objects.filter(post_id=post_id).delete()
+ 
+        # Userrecipe の削除（もし関連している場合）
+        Userrecipe.objects.filter(post_id=post_id).delete()
+ 
+        # Bbsデータを削除
+        post.delete()
+ 
+        messages.success(request, '投稿が削除されました。')
+        return redirect(reverse('bbs:PostsDeleteComplete'))
+    
+class DeleteCompleteView(TemplateView):
+    template_name = 'keijiban/toukou/deletecomplete.html'
