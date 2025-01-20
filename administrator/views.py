@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 # Create your views here.
 from django.views.generic.base import TemplateView
 from .forms import RecipeAddForm
-from .models import Cook, Material, Image,Cookimage,Recipe,CookImagesave
+from .models import Cook, Material, Image,Cookimage,Recipe,AdministratorCookimagesave
 
 
 
@@ -65,7 +65,7 @@ class RecipeAddView(TemplateView):
             cook = Cook(cookname = name,type = type, recipe_text = recipe_text, calorie = cook_calorie, protein = cook_protein, lipids = cook_lipids,fiber = cook_fiber,carbohydrates=cook_carbohydrates, saltcontent= cook_saltcontent)
             cook.save()
             
-            image1 = CookImagesave(image = image1)
+            image1 = AdministratorCookimagesave(image = image1)
             image1.save()
             imageurl1 = Image(image = image1.image.url)
             imageurl1.save()
@@ -73,14 +73,14 @@ class RecipeAddView(TemplateView):
             cookimage1.save()
            
             if image2 != None:
-                image2 = CookImagesave(image = image2)
+                image2 = AdministratorCookimagesave(image = image2)
                 image2.save()
                 imageurl2 = Image(image = image2.image.url)
                 imageurl2.save()
                 cookimage2 = Cookimage(cook = cook, image = imageurl2)
                 cookimage2.save()
             if image3 != None:
-                image3 = CookImagesave(image = image3)
+                image3 = AdministratorCookimagesave(image = image3)
                 image3.save()
                 imageurl3 = Image(image = image1.image.url)
                 imageurl3.save()

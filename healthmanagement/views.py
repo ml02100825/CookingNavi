@@ -5,7 +5,7 @@ from administrator.models import Cook
 from datetime import datetime, date, timedelta
 from cookapp.models import Familymember
 from .forms import CookSelectForm
-from .models import Menu
+from .models import Menu, Menucook
 
 import logging
 
@@ -56,7 +56,7 @@ class HealthSelectionView(TemplateView):
             name = form.cleaned_data['CookSelect']
             logging.debug(name)
             # 料理の栄養情報を取ってくる
-            cook = Cook.objects.filter(cookname = name).values('calorie','protein','lipids','carbohydrates','fiber','saltcontent')
+            cook = Cook.objects.filter(cookname = name).values('cook_id', 'calorie','protein','lipids','carbohydrates','fiber','saltcontent')
             # リストに入っている先頭のオブジェクトを取ってくる
             cookdata = cook[0]
             logging.debug(cookdata)
@@ -174,7 +174,7 @@ class HealthSelectionView(TemplateView):
                 calorie__lte=deficiency_calorie / 3,
                 protein__gte=deficiency_protein / 3,
                 saltcontent__lte=deficiency_saltcontentr / 3
-                ).values('cookname','calorie','protein','lipids','carbohydrates','fiber','saltcontent')
+                ).values('cook_id','calorie','protein','lipids','carbohydrates','fiber','saltcontent')
                 logging.debug(results)
                 logging.debug(len(results))
                 if len(results) != 0:
@@ -187,7 +187,7 @@ class HealthSelectionView(TemplateView):
                     all_carbohydrates += count * randomcookdata['carbohydrates']
                     all_fiber += count * randomcookdata['fiber']
                     all_saltcontent += count * randomcookdata['saltcontent']
-                    subcook.append(randomcookdata['cookname'])
+                    subcook.append(randomcookdata['cook_id'])
                     logging.debug(results[random_number])
                     logging.debug(results[random_number])  
                     logging.debug("主菜のカロリー%f" , all_calorie)
@@ -217,7 +217,7 @@ class HealthSelectionView(TemplateView):
                             calorie__lte=deficiency_calorie / 3,
                             protein__gte=deficiency_protein / 3,
                             saltcontent__lte=deficiency_saltcontentr / 3
-                            ).exclude(cookname__in=subcook).values('cookname','calorie','protein','lipids','carbohydrates','fiber','saltcontent')
+                            ).exclude(cook_id__in=subcook).values('cook_id','calorie','protein','lipids','carbohydrates','fiber','saltcontent')
                             logging.debug(len(results))
                             if len(results) == 0:
                                 logging.debug("break")
@@ -247,9 +247,22 @@ class HealthSelectionView(TemplateView):
 
             currentday = today + timedelta(days=-daydifference)
             logging.debug(currentday)
-            menu =Menu(user = request.user, meal_day = currentday, mealtime = 0)
+            menu =Menu(user = request.user, meal_day = currentday, mealtime = str(mealtime))
+            menu.save()
+            for i in range(len(subcook) + 1):
+                if i == 0:
+                    cook = Cook.objects.get(cook_id=cookdata['cook_id'])
+                    menucook =  Menucook(menu =menu, cook =cook)
+                    menucook.save()
+                else:
+                    cook = Cook.objects.get(cook_id =  subcook[i -1])
+                    menucook = Menucook(menu =menu, cook = cook)
+                    menucook.save()
+            # url末尾に数字を追加。それで朝昼晩の判別を行う。献立が登録されたら次のページ(朝なら昼、昼なら晩)に飛ぶようにする
+            # mealtimeをloggingでみてからmealtimeを増やして次のページに飛ばす処理を作る
             logging.debug(menu)
-
+            mealtime = self.kwargs.get('mealtime')
+             
             return render(request, self.template_name, {'form': form})
                 
 class HealthSelectionComplateView(TemplateView):
