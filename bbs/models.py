@@ -1,5 +1,5 @@
 from django.db import models
-from account.models import User
+
 
 class Bbs(models.Model):
     post_id = models.AutoField(db_column='POST_ID', primary_key=True)  # Field name made lowercase.
@@ -14,19 +14,29 @@ class Bbs(models.Model):
     fiber = models.FloatField(db_column='fiber')
     carbohydrates = models.FloatField(db_column='carbohydrates')
     saltcontent = models.FloatField(db_column='saltcontent')
-
+ 
     class Meta:
         managed = False
         db_table = 'bbs'
+ 
 
 class Postimage(models.Model):
-    postimage_id = models.AutoField(db_column='POSTIMAGE_ID', primary_key=True)  # Field name made lowercase.
-    post = models.ForeignKey('Bbs', models.DO_NOTHING, db_column='POST_ID')  # Field name made lowercase.
-    image = models.ForeignKey('administrator.Image', models.DO_NOTHING, db_column='IMAGE_ID')  # Field name made lowercase.
+    postimage_id = models.AutoField(db_column='POSTIMAGE_ID', primary_key=True)
+    post = models.ForeignKey('Bbs', models.DO_NOTHING, db_column='POST_ID')
+    image = models.ForeignKey('Image', models.DO_NOTHING, db_column='IMAGE_ID')
 
     class Meta:
         managed = False
         db_table = 'postimage'
+
+
+class Image(models.Model):
+    image_id = models.AutoField(db_column='IMAGE_ID', primary_key=True)
+    image = models.ImageField(upload_to='images/', db_column='Image')
+
+    class Meta:
+        managed = False
+        db_table = 'image'
 
 
 class Userrecipe(models.Model):
@@ -37,3 +47,13 @@ class Userrecipe(models.Model):
     class Meta:
         managed = False
         db_table = 'userrecipe'
+
+class Favorite(models.Model):
+    favorite_id = models.AutoField(db_column='FAVORITE_ID', primary_key=True)
+    post = models.ForeignKey('Bbs', models.DO_NOTHING, db_column='POST_ID')
+    user = models.ForeignKey('account.User', models.DO_NOTHING, db_column='USER_ID')
+    favorite_flag = models.BooleanField(db_column='FAVORITE_FLAG', default=True)
+
+    class Meta:
+        managed = False
+        db_table = 'favorite'

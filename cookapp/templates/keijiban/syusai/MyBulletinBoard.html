@@ -1,0 +1,103 @@
+{% extends 'baseuser.html' %}
+
+{% load static %}
+
+{% block title %}自分の投稿{% endblock %}
+
+{% block content %}
+<head>
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/keijiban/bulletinboard.css' %}">
+    <style>
+        .heart-btn {
+            border: none;
+            background-color: white;
+            color: gray;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .heart-btn.filled {
+            color: red;
+        }
+    </style>
+</head>
+
+<div class="search-bar-container">
+    <form method="get" action="{% url 'bbs:MyBulletinBoard' %}">
+        <input type="text" name="search_query" placeholder="料理を検索する..." class="search-bar" value="{{ search_query }}">
+        <button type="submit" class="search-btn">検索</button>
+    </form>
+    <a href="{% url 'bbs:Posts' %}">
+        <button class="post-btn">レシピを投稿する</button>
+    </a>
+</div>
+
+<div class="content-container">
+    <aside class="sidebar">
+        <form method="post" action="{% url 'bbs:MyBulletinBoard' %}">
+            {% csrf_token %}
+            <input type="hidden" name="show_favorites" value="True">
+            <button type="submit">お気に入り</button>
+        </form>
+        <form method="post" action="{% url 'bbs:MyBulletinBoard' %}">
+            {% csrf_token %}
+            <input type="hidden" name="show_my_posts" value="True">
+            <button type="submit">自分が投稿したもの</button>
+        </form>
+        <form method="post" action="{% url 'bbs:MyBulletinBoard' %}">
+            {% csrf_token %}
+            <input type="hidden" name="show_others_posts" value="True">
+            <button type="submit">自分以外が投稿したもの</button>
+        </form>
+        <form method="post" action="{% url 'bbs:MyBulletinBoard' %}">
+            {% csrf_token %}
+            <input type="hidden" name="sort_by_likes" value="True">
+            <button type="submit">いいね数順</button>
+        </form>
+    </aside>
+
+    <main class="main-content" id="main-content">
+        <!-- 投稿を表示 -->
+        {% for bbs_entry in bbs_with_images %}
+        <div class="post-card">
+            <div class="post-details">
+                <h3>{{ bbs_entry.post.name }}</h3>
+
+                <!-- 画像を表示 -->
+                {% for image in bbs_entry.images %}
+                <img src="{{ image }}" alt="Post image" class="img-fluid mb-3">
+                {% endfor %}
+
+                <div class="button-container">
+                    {% if bbs_entry.post.user_id == request.user.user_id %}
+                    <!-- 自分の投稿にのみ編集と削除ボタンを表示 -->
+                    <a href="{% url 'bbs:edit' post_id=bbs_entry.post.post_id %}">
+                        <button>編集</button>
+                    </a>
+                    <a href="{% url 'bbs:PostsDelete' post_id=bbs_entry.post.post_id %}">
+                        <button>削除</button>
+                    </a>
+                    {% endif %}
+                    {% if bbs_entry.post.user_id != request.user.user_id %}
+                    <form method="post" action="{% url 'bbs:toggle_favorite' post_id=bbs_entry.post.post_id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="heart-btn">{% if user_favorites.bbs_entry.post.post_id == 1 %}❤{% else %}♡{% endif %}</button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </main>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function deletePost() {
+        alert("投稿を削除しました。");
+    }
+</script>
+{% endblock %}

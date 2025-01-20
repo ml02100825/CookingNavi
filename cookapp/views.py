@@ -3,10 +3,9 @@ from django.shortcuts import get_object_or_404, render, redirect
 from .forms import EmailForm, UsernameForm, PasswordForm, BodyInfoUpdateForm, FamilyForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
-from django.views import View
 from django.contrib import messages
 from .models import Familymember, Familyallergy, Weight
-from account.models import User, Userallergy 
+from account.models import  Userallergy 
 from django.http import JsonResponse
 import logging
 from django.utils import timezone
@@ -228,16 +227,19 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
             allergies = form.cleaned_data['allergies']
             height = form.cleaned_data['height']
             weight = form.cleaned_data['weight']
+            logging.debug(birthdate)
+            modified_birthdate = str(birthdate).replace("-", "/")
  
             if name != request.user.name:
                 messages.error(request, "ログイン中のユーザーと異なるユーザー名を入力しました。")
             else:
                 user = request.user
-                user.age = birthdate
+                user.age = modified_birthdate
                 user.gender = gender
                 user.height = height
                 user.weight = weight
                 user.save()
+                logging.debug(modified_birthdate)
                 for i in range(len(allergies)):
                     allergy = allergies[i]
                     try:

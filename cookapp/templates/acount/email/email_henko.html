@@ -9,30 +9,32 @@
 
 <link rel="stylesheet" href="{% static 'css/acount/email/email_henko.css' %}">
 <main class="main-content">
-    <h2>メールアドレス変更</h2>
+    <!-- 白枠のメインコンテナ -->
+    <div class="main-container">
+        <h2>メールアドレス変更</h2>
+        <form action="{% url 'cookapp:email' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="new_email">新しいメールアドレス：</label>
+                <div class="input-container">
+                    <span>📧</span>
+                    <input type="email" id="new_email" name="new_email" placeholder="mail@example.com" required>
+                </div>
+            </div>
 
-    <form action="{% url 'cookapp:email' %}" method="post">
-        {% csrf_token %}
-        <div>
-            <label>新しいメールアドレス：</label>
-            <div>
-                <span>📧</span>
-                <input type="email"  name="new_email" placeholder="mail@example.com" required>
+            <div class="form-group">
+                <label for="confirm_email">メールアドレス(確認) ：</label>
+                <div class="input-container">
+                    <span>📧</span>
+                    <input type="email" id="confirm_email" name="confirm_email" placeholder="mail@example.com" required>
+                </div>
             </div>
-        </div>
-    
-        <div>
-            <label>メールアドレス（確認）：</label>
-            <div>
-                <span>📧</span>
-                <input type="email"  name="confirm_email" placeholder="mail@example.com" required>
+
+            <div class="button-group">
+                <button type="button" onclick="window.history.back()">戻る</button>
+                <button type="submit">変更</button>
             </div>
-        </div>
-    
-        <div>
-            <button type="button" onclick="window.history.back()">戻る</button>
-            <button type="submit">変更</button>
-        </div>
-    </form>
+        </form>
+    </div>
 </main>
 {% endblock %}

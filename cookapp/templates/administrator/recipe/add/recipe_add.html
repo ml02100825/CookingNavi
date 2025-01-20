@@ -18,6 +18,7 @@
 <script src="{% static 'js/save_material.js' %}"></script>
 <script src="{% static 'js/send_materials.js' %}"></script>
 <script src="{% static 'js/delete_material.js' %}"></script>
+<script src="{% static 'js/delete_materials.js' %}"></script>
 
 <!-- メインコンテンツ -->
 <div class="login-container">
@@ -25,22 +26,11 @@
     <h2>～レシピ追加～</h2>
     <form method="post" enctype="multipart/form-data">
     
-   
+
         {% csrf_token %}
         
-        <!-- 種別 -->
-        <label for="recipe-type">種別：</label>
-        <select id="recipe-type" name="type">
-            <option value="主菜">主菜：</option>
-            <option value="副菜">副菜：</option>
-            <option value="その他">その他：</option>
-        </select><br>
         
-        <!-- 作り方の入力 -->
-        <label for="recipe-text">作り方:</label><br>
-        <textarea id="recipe-text" name="recipe_text" rows="10" cols="50" placeholder="作り方を入力してください" required></textarea><br>
         
-        <!-- 材料の追加 -->
 
         料理名：{{ form.name }}<br>
         画像１ {{ form.image1 }}<br>
