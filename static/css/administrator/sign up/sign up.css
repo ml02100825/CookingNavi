@@ -1,55 +1,58 @@
 /* 新規登録フォームのコンテナスタイル */
 .login-container {
-    width: 100%; /* 幅を100%に設定 */
-    max-width: 500px; /* 最大幅を500pxに設定 */
-    margin: 0 auto; /* 中央揃え */
-    padding: 30px; /* パディングを30pxに設定 */
-    background-color: #fff; /* 背景色を白に設定 */
-    border-radius: 8px; /* 角を丸める */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 軽い影をつける */
+    width: 100%;
+    max-width: 400px; /* 最大幅を400pxに設定 */
+    margin: 20px auto; /* 上部の余白を減らし、中央揃え */
+    padding: 20px; /* パディングを少し小さく */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* 見出しのスタイル */
 .login-container h1 {
-    font-size: 24px; /* フォントサイズを24pxに設定 */
-    color: #333; /* 文字色を濃いグレーに設定 */
-    margin-bottom: 20px; /* 下部に余白を追加 */
-    text-align: center; /* 見出しを中央揃え */
+    font-size: 22px; /* フォントサイズを少し小さく */
+    color: #333;
+    margin-bottom: 20px; /* 下部の余白を調整 */
+    text-align: center;
 }
 
 /* フォームの入力フィールドのスタイル */
 .login-container input[type="text"],
 .login-container input[type="email"],
 .login-container input[type="password"] {
-    width: 100%; /* 幅を100%に設定 */
-    padding: 12px 20px; /* パディングを12px 20pxに設定 */
-    margin-bottom: 15px; /* 下部に余白を追加 */
-    border: 1px solid #ccc; /* 薄い灰色の境界線 */
-    border-radius: 4px; /* 角を丸める */
-    box-sizing: border-box; /* 幅とパディングを含むボックスサイズ */
+    width: 100%;
+    padding: 12px 18px; /* パディングを少し減らしてコンパクトに */
+    margin-bottom: 15px; /* 下部に適度な余白を設定 */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px; /* フォントサイズを少し小さく */
 }
 
 /* ボタンのスタイル */
 .login-container button {
-    width: 100%; /* 幅を100%に設定 */
-    padding: 12px 20px; /* パディングを12px 20pxに設定 */
-    background-color: #4caf50; /* 背景色を緑色に設定 */
-    color: white; /* 文字色を白に設定 */
-    font-size: 16px; /* フォントサイズを16pxに設定 */
-    border: none; /* 境界線をなしに設定 */
-    border-radius: 4px; /* 角を丸める */
-    cursor: pointer; /* マウスカーソルをポインターに */
-    transition: background-color 0.3s ease; /* ホバー時のアニメーション */
+    width: 100%;
+    padding: 12px 18px; /* パディングを少し減らして調整 */
+    background-color: #4caf50;
+    color: white;
+    font-size: 14px; /* フォントサイズを少し小さく */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 /* ボタンのホバー時のスタイル */
 .login-container button:hover {
-    background-color: #45a049; /* ホバー時に背景色を少し濃く */
+    background-color: #45a049;
+    transform: translateY(-2px);
 }
 
 /* フォームエラーメッセージのスタイル */
 .error-message {
-    color: red; /* エラーメッセージを赤色に設定 */
-    font-size: 14px; /* フォントサイズを14pxに設定 */
-    margin-top: 10px; /* 上部に余白を追加 */
+    color: red;
+    font-size: 12px; /* フォントサイズを小さく */
+    margin-top: 10px;
+    text-align: center;
 }
