@@ -1,8 +1,14 @@
 {% extends 'baseuser.html' %}
 
+{% load static %}
+
 {% block title %}投稿編集{% endblock %}
 
 {% block content %}
+<head>
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/keijiban/bulletinboard.css' %}">
+</head>
 <!-- 編集フォーム -->
 <div class="edit-container">
     <!-- ユーザー情報（アイコンと名前） -->
