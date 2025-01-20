@@ -9,3 +9,12 @@ class Menu(models.Model):
     class Meta:
         managed = False
         db_table = 'menu'
+
+class Menucook(models.Model):
+    menuccok_id = models.AutoField(db_column='menuccok_ID', primary_key=True)  # Field name made lowercase.
+    menu = models.ForeignKey('healthmanagement.Menu', models.DO_NOTHING, db_column='Menu_ID')  # Field name made lowercase.
+    cook = models.ForeignKey('administrator.Cook', models.DO_NOTHING, db_column='Cook_ID')  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'menucook'
