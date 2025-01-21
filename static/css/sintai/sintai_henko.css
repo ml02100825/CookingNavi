@@ -17,7 +17,6 @@ body {
     color: #333; /* テキストカラー */
     line-height: 1.6; /* 行間の設定 */
     display: flex;
-    justify-content: center; /* コンテンツを中央に配置 */
     align-items: center; /* 縦方向にも中央揃え */
     min-height: 100vh; /* 最小高さをビューポートに合わせる */
     overflow-y: auto; /* 縦スクロール可能にする */
@@ -25,8 +24,8 @@ body {
 
 /* メインコンテンツ */
 .main-content {
-    max-width: 600px; /* 最大幅600px */
-    width: 100%; /* 幅を100%にして画面サイズに合わせる */
+    max-width: 300px; /* 最大幅600px */
+    width: 400%; /* 幅を100%にして画面サイズに合わせる */
     margin: 40px auto; /* 中央寄せ */
     background-color: #fff; /* 背景色 */
     padding: 20px; /* 内部余白 */
@@ -38,7 +37,7 @@ body {
 /* 見出し */
 .main-content h2 {
     text-align: center; /* 見出しを中央揃え */
-    margin-bottom: 20px; /* 下に余白を追加 */
+    margin-bottom: 10px; /* 下に余白を追加 */
     font-size: 1.8em; /* フォントサイズ */
 }
 
@@ -96,19 +95,4 @@ body {
 
 .registration-form button[type="button"]:hover {
     background-color: #000; 
-}
-
-/* レスポンシブデザイン */
-@media (max-width: 768px) {
-    .main-content {
-        padding: 15px; /* 小さい画面向けに内部余白を調整 */
-    }
-
-    .main-content h2 {
-        font-size: 1.5em; /* 小さい画面向けに見出しのフォントサイズを調整 */
-    }
-
-    .registration-form button {
-        padding: 10px 15px; /* ボタンのサイズを調整 */
-    }
 }
