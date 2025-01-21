@@ -1,6 +1,9 @@
 from django.urls import path, include
 from . import  views
 from .views import KazokuHenkoView
+from django.urls import path
+from .views import KiyakuView
+
 
 
 app_name = "cookapp"
@@ -40,4 +43,5 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('kazoku/sakujo/<int:family_id>/', views.KazokuSakujoView.as_view(), name='kazoku_sakujo'),
     path('kazoku_sakujo_ok/<int:family_id>/', views.KazokuSakujoOkView.as_view(), name='kazoku_sakujo_ok'),
+    path('kiyaku/', views.KiyakuView.as_view(), name='kiyaku_kiyaku'),
 ]

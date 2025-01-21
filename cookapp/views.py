@@ -16,6 +16,7 @@ from datetime import datetime
 import calendar
 import json
 from django.shortcuts import render
+from django.views import View
 
  
  
@@ -555,3 +556,7 @@ class KazokuSakujoView(TemplateView):
 class KazokuSakujoOkView(TemplateView):
     template_name = 'kazoku/sakujo/kazoku_sakujo_ok.html'
 
+
+class KiyakuView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'kiyaku/kiyaku.html')
