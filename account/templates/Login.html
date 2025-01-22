@@ -10,9 +10,8 @@
     <link rel="stylesheet" href="{% static 'css/login/login.css' %}">
 
     <main>
-        <p>Session ID: {{ request.session.session_key }}</p>
+
         <div class="login-container">
-            <h1>ログイン</h1>
             <form method="post">
                 {% csrf_token %}
                 <h1>Login</h1>
@@ -21,7 +20,7 @@
                     <p style="color: red;">Invalid username or password.</p>
                 {% endif %}
                 
-                <label for="id_username">Email</label>
+                <label for="id_email">Email</label>
                 {{form.email}}
                 
                 <label for="id_password">Password</label>

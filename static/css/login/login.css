@@ -32,6 +32,17 @@
     font-weight: bold; /* フォントを太字にする */
     color: #555; /* 文字色をグレーに設定 */
 }
+
+/* 入力フォームのスタイル */
+.login-container input[type="text"],
+.login-container input[type="email"] {
+    width: 100%; /* 入力フォームの幅を100%に設定 */
+    padding: 10px; /* 内部の余白を10pxに設定 */
+    margin-bottom: 15px; /* 入力フォーム下の余白を設定 */
+    border: 1px solid #ddd; /* 薄いグレーの枠線 */
+    border-radius: 4px; /* 角を丸くする */
+    font-size: 1em; /* フォントサイズを1emに設定 */
+}
  
 /* 入力フォームのスタイル */
 .login-container input[type="text"],

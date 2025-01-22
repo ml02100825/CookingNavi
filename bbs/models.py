@@ -1,5 +1,5 @@
 from django.db import models
-from account.models import User
+
 
 class Bbs(models.Model):
     post_id = models.AutoField(db_column='POST_ID', primary_key=True)  # Field name made lowercase.

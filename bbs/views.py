@@ -1,17 +1,18 @@
+from pyexpat.errors import messages
 from venv import logger
 from django.http import JsonResponse
 from django.shortcuts import redirect, render,  get_object_or_404
+from django.urls import reverse
 from django.views.generic.base import TemplateView
-from administrator.models import Material, Image,CookImagesave
-from .models import Userrecipe, Postimage, Bbs, Favorite
+from administrator.models import Material, Image,AdministratorCookimagesave
+from .models import Userrecipe, Postimage, Bbs, Favorite, Image
 from .forms import RecipeAddForm, BbsForm
 from django.views import View
 import logging
 from django.views.generic import DetailView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Bbs, Postimage, Image
-import logging
 from django.db.models import Sum
+from django.contrib import messages
 
 logger = logging.getLogger(__name__)
 
@@ -160,7 +161,7 @@ class PostsView(TemplateView):
             bbs = Bbs(user =user,name = name, recipe_text = recipe_text, calorie = bbs_calorie, protein = bbs_protein, lipids = bbs_lipids,fiber = bbs_fiber,carbohydrates=bbs_carbohydrates, saltcontent= bbs_saltcontent)
             bbs.save()
            
-            image1 = CookImagesave(image = image1)
+            image1 = AdministratorCookimagesave(image = image1)
             image1.save()
             imageurl1 = Image(image = image1.image.url)
             imageurl1.save()
@@ -168,14 +169,14 @@ class PostsView(TemplateView):
             bbsimage1.save()
            
             if image2 != None:
-                image2 = CookImagesave(image = image2)
+                image2 = AdministratorCookimagesave(image = image2)
                 image2.save()
                 imageurl2 = Image(image = image2.image.url)
                 imageurl2.save()
                 bbsimage2 = Postimage(post = bbs, image = imageurl2)
                 bbsimage2.save()
             if image3 != None:
-                image3 = CookImagesave(image = image3)
+                image3 = AdministratorCookimagesave(image = image3)
                 image3.save()
                 imageurl3 = Image(image = image3.image.url)
                 imageurl3.save()
@@ -289,3 +290,33 @@ class EditView(DetailView):
             'bbs': bbs,
             'images': images,
         })
+    
+class DeleteView(TemplateView):
+    template_name = 'keijiban/toukou/deleteconfirm.html'
+ 
+    def get(self, request, *args, **kwargs):
+        post_id = kwargs['post_id']
+        post = get_object_or_404(Bbs, post_id=post_id)
+        return self.render_to_response({'post': post})
+ 
+    def post(self, request, *args, **kwargs):
+        post_id = kwargs['post_id']
+        post = get_object_or_404(Bbs, post_id=post_id)
+ 
+        # 関連するFavoriteデータを削除
+        Favorite.objects.filter(post_id=post_id).delete()
+ 
+        # 関連するPostimageデータを削除
+        Postimage.objects.filter(post_id=post_id).delete()
+ 
+        # Userrecipe の削除（もし関連している場合）
+        Userrecipe.objects.filter(post_id=post_id).delete()
+ 
+        # Bbsデータを削除
+        post.delete()
+ 
+        messages.success(request, '投稿が削除されました。')
+        return redirect(reverse('bbs:PostsDeleteComplete'))
+    
+class DeleteCompleteView(TemplateView):
+    template_name = 'keijiban/toukou/deletecomplete.html'
