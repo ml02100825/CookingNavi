@@ -66,7 +66,7 @@ class Cookimage(models.Model):
 
 class AdministratorCookimagesave(models.Model):
     id = models.BigAutoField(primary_key=True)
-    image = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='cook/')
 
     class Meta:
         managed = False

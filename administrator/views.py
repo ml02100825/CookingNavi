@@ -82,7 +82,7 @@ class RecipeAddView(TemplateView):
             if image3 != None:
                 image3 = AdministratorCookimagesave(image = image3)
                 image3.save()
-                imageurl3 = Image(image = image1.image.url)
+                imageurl3 = Image(image = image3.image.url)
                 imageurl3.save()
                 cookimage3 = Cookimage(cook = cook, image = imageurl3)
                 cookimage3.save()
