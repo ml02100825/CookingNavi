@@ -1,131 +1,84 @@
-from pyexpat.errors import messages
 from venv import logger
 from django.http import JsonResponse
-from django.shortcuts import redirect, render,  get_object_or_404
-from django.urls import reverse
+from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic.base import TemplateView
 from administrator.models import Material, Image,CookImagesave
-from .models import Userrecipe, Postimage, Bbs, Favorite, Image
-from .forms import RecipeAddForm, BbsForm
+from .models import Userrecipe, Postimage, Bbs, Favorite
+from .forms import RecipeAddForm, RecipeEditForm
 from django.views import View
-import logging
-from django.views.generic import DetailView, TemplateView
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Sum
 from django.contrib import messages
-
-logger = logging.getLogger(__name__)
-
-class MyBulletinBoardView(LoginRequiredMixin, TemplateView):
-    template_name = 'keijiban/syusai/MyBulletinBoard.html'
-
+from django.urls import reverse
+from django.db.models import Sum
+import logging
+ 
+# Create your views here.
+ 
+ 
+class BulletinBoardView(TemplateView):
+    template_name = 'keijiban/BulletinBoard.html'
+ 
     def get(self, request, *args, **kwargs):
-        user = request.user
-        search_query = request.GET.get('search_query', '')
-        show_favorites = request.GET.get('show_favorites', 'False') == 'True'
-        show_my_posts = request.GET.get('show_my_posts', 'False') == 'True'
-        show_others_posts = request.GET.get('show_others_posts', 'False') == 'True'
-        sort_by_likes = request.GET.get('sort_by_likes', 'False') == 'True'
-        
-        if show_favorites:
-            favorite_posts = Favorite.objects.filter(user=user, favorite_flag=True).values_list('post_id', flat=True)
-            bbs = Bbs.objects.filter(post_id__in=favorite_posts)
-        elif show_my_posts:
-            bbs = Bbs.objects.filter(user_id=user.user_id)
-        elif show_others_posts:
-            bbs = Bbs.objects.exclude(user_id=user.user_id)
-        elif sort_by_likes:
-            bbs = Bbs.objects.annotate(total_likes=Sum('favorite__favorite_flag')).order_by('-total_likes')
-        elif search_query:
-            bbs = Bbs.objects.filter(name__icontains=search_query)
+        user = self.request.user
+        search_query = request.GET.get('search_query', '')  # 検索クエリを取得
+ 
+        # 検索クエリが指定されている場合、Bbsモデルをフィルタリング
+        if search_query:
+            bbs = Bbs.objects.exclude(user_id=user.user_id).filter(name__icontains=search_query)
         else:
-            bbs = Bbs.objects.exclude(user_id=user.user_id)
-
+            bbs = Bbs.objects.exclude(user_id=user.user_id)  # 自分の投稿以外を表示
+ 
         bbs_with_images = []
+ 
+        # 各Bbsに関連する画像を取得
         for post in bbs:
-            postimages = Postimage.objects.filter(post_id=post.post_id)
-            images = [postimage.image.image for postimage in postimages if hasattr(postimage, 'image')]
-            bbs_with_images.append({'post': post, 'images': images})
-
-        user_favorites = {fav.post_id: fav.favorite_flag for fav in Favorite.objects.filter(user=user)}
-
+            images = Postimage.objects.filter(post=post).values('image')  # Postimageから画像を取得
+            logging.debug(images)
+ 
+            # 画像がない場合はスキップまたはデフォルト画像を使用
+            if images:
+                img = images[0]
+                imagepath = Image.objects.filter(image_id=img['image']).values('image')
+                logging.debug(imagepath)
+ 
+                # 画像が見つかった場合
+                if imagepath:
+                    image = imagepath[0]
+                    i = image['image']  # 画像パスを取得
+                else:
+                    i = 'default_image_path.jpg'  # 画像がない場合はデフォルト画像を設定
+            else:
+                i = 'default_image_path.jpg'  # 投稿に画像がない場合はデフォルト画像を設定
+ 
+            is_favorite = Favorite.objects.filter(post=post, user=user, favorite_flag=True).exists()
+ 
+            bbs_with_images.append({
+                'post': post,
+                'images': i,
+                'is_favorite': is_favorite,  # お気に入り状態を追加
+            })
+ 
         context = {
-            'bbs_with_images': bbs_with_images,
-            'show_my_posts': show_my_posts,
-            'show_others_posts': show_others_posts,
-            'search_query': search_query,
-            'user_favorites': user_favorites,
-            'show_favorites': show_favorites,
-            'sort_by_likes': sort_by_likes
+            'user': user,
+            'bbs_with_images': bbs_with_images,  # 画像データを含むBbs情報
+            'search_query': search_query,  # 検索クエリをコンテキストに含める
         }
+ 
         return self.render_to_response(context)
-
-    def post(self, request, *args, **kwargs):
-        user = request.user
-        show_my_posts = request.POST.get('show_my_posts') == 'True'
-        show_others_posts = request.POST.get('show_others_posts') == 'True'
-        search_query = request.POST.get('search_query', '')
-        show_favorites = request.POST.get('show_favorites') == 'True'
-        sort_by_likes = request.POST.get('sort_by_likes') == 'True'
-
-        if show_my_posts:
-            bbs = Bbs.objects.filter(user_id=user.user_id)
-        elif show_others_posts:
-            bbs = Bbs.objects.exclude(user_id=user.user_id)
-        elif show_favorites:
-            favorite_posts = Favorite.objects.filter(user=user, favorite_flag=True).values_list('post_id', flat=True)
-            bbs = Bbs.objects.filter(post_id__in=favorite_posts)
-        elif sort_by_likes:
-            bbs = Bbs.objects.annotate(total_likes=Sum('favorite__favorite_flag')).order_by('-total_likes')
-        elif search_query:
-            bbs = Bbs.objects.filter(name__icontains=search_query)
-        else:
-            bbs = Bbs.objects.exclude(user_id=user.user_id)
-
-        bbs_with_images = []
-        for post in bbs:
-            postimages = Postimage.objects.filter(post_id=post.post_id)
-            images = [postimage.image.image for postimage in postimages if hasattr(postimage, 'image')]
-            bbs_with_images.append({'post': post, 'images': images})
-
-        user_favorites = {fav.post_id: fav.favorite_flag for fav in Favorite.objects.filter(user=user)}
-
-        context = {
-            'bbs_with_images': bbs_with_images,
-            'show_my_posts': show_my_posts,
-            'show_others_posts': show_others_posts,
-            'search_query': search_query,
-            'user_favorites': user_favorites,
-            'show_favorites': show_favorites,
-            'sort_by_likes': sort_by_likes
-        }
-        return self.render_to_response(context)
-
-class FavoriteView(View):
-    def post(self, request, post_id):
-        user = request.user
-        post = Bbs.objects.get(post_id=post_id)
-        favorite, created = Favorite.objects.get_or_create(user=user, post=post)
-        if not created:
-            favorite.favorite_flag = not favorite.favorite_flag
-        else:
-            favorite.favorite_flag = True
-        favorite.save()
-        return redirect('bbs:MyBulletinBoard')
-
+ 
 class PostsView(TemplateView):
     template_name = 'keijiban/toukou/posts.html'
+ 
     def get(self, request, *args, **kwargs):
         logger.info(f"HTTP method: {request.method}")  # ログでリクエストのメソッドを確認
         form = RecipeAddForm()  # フォームクラスを設定
-       
         return render(request, self.template_name, {'form': form})
+   
     def post(self, request, *args, **kwargs):
         logger.info(f"HTTP method: {request.method}")  # ログでリクエストのメソッドを確認
         form = RecipeAddForm(request.POST, request.FILES)
+ 
         if form.is_valid():
             materials = request.session.get('materials')
-           
             # ユーザー作成
             bbs_calorie = 0
             bbs_protein = 0
@@ -175,6 +128,7 @@ class PostsView(TemplateView):
                 imageurl2.save()
                 bbsimage2 = Postimage(post = bbs, image = imageurl2)
                 bbsimage2.save()
+ 
             if image3 != None:
                 image3 = CookImagesave(image = image3)
                 image3.save()
@@ -183,42 +137,40 @@ class PostsView(TemplateView):
                 bbsimage3 = Postimage(post = bbs, image = imageurl3)
                 bbsimage3.save()
            
- 
-           
-           
             for key in materials:
                 material = Material.objects.get(material_id=key)
                 recipe = Userrecipe(post = bbs, material = material ,quantity = materials[key])
                 recipe.save()
+           
             del request.session['materials']
+ 
             return redirect('bbs:PostsComplate')
+       
         else:
             logging.debug('フォームが無効です: %s', form.errors)        
             return render(request, self.template_name)
-        
+ 
 class PostsComplateView(TemplateView):
     template_name = 'keijiban/toukou/posts_complate.html'
-
+ 
 def get_materials(request, materialname):
         logging.debug(materialname)
         logging.debug("げっとまてりある")
-        # materials = request.session['materials']
-
-        # del request.session['materials']
-
+ 
         materials = Material.objects.filter(name__icontains=materialname).values('material_id','name')
-        
+       
         logging.debug(materialname)
         logging.debug(materials)
         return JsonResponse(list(materials), safe=False)
+ 
 def save_material(request, material,materialamount):
-            
         logging.debug("せーぶまてりある")
         logging.debug(material)
         materialname = Material.objects.filter(material_id = material).values('material_id','name')
+ 
        # 'materials'がセッションに存在する場合
         if 'materials' in request.session:
-            
+           
             materials = request.session['materials']
             logging.debug(materials)
             logging.debug(materialname[0]['material_id'] )
@@ -228,12 +180,12 @@ def save_material(request, material,materialamount):
                del materials[id]
                logging.debug(materials)
                del request.session['materials']
-
+ 
                request.session['materials'] = materials
                logging.debug("削除完了")
                logging.debug(request.session['materials'],"セッション")
                return JsonResponse(materials, safe=False)
-
+ 
         else:
          # 存在しない場合は空リストを初期化
             materials = {}
@@ -241,56 +193,143 @@ def save_material(request, material,materialamount):
         logging.debug(material)
         # materialnameがNoneでないことを確認してから、リストに追加
         if materialname:
-
             materials[material] = materialamount
-
+ 
         # 更新したmaterialsリストをセッションに保存
         request.session['materials'] = materials
         return JsonResponse(materials, safe=False)
-
-class EditView(DetailView):
-    model = Bbs
-    template_name = 'keijiban/henshuu/edit.html'
-    context_object_name = 'bbs'
-
-    def get_object(self, queryset=None):
-        # URLの`post_id`から対象のBbsオブジェクトを取得
-        post_id = self.kwargs.get('post_id')
-        return get_object_or_404(Bbs, post_id=post_id)
-
+ 
+class MyBulletinBoardView(TemplateView):
+    template_name = 'keijiban/syusai/myBulletinBoard.html'
+ 
     def get(self, request, *args, **kwargs):
-        bbs = self.get_object()
-        form = BbsForm(instance=bbs)
-
-        # Bbsに関連付けられた画像を取得
-        post_images = Postimage.objects.filter(post=bbs)
-        images = [postimage.image.image.url for postimage in post_images]
-
+        user = self.request.user
+        search_query = request.GET.get('search_query', '')  # 検索クエリを取得
+ 
+        # 検索クエリが指定されている場合、Bbsモデルをフィルタリング
+        if search_query:
+            bbs = Bbs.objects.filter(name__icontains=search_query, user=user)
+        else:
+            bbs = Bbs.objects.filter(user=user)  # ユーザーの投稿のみ表示
+ 
+        bbs_with_images = []
+ 
+        # 各Bbsに関連する画像を取得
+        for post in bbs:
+            images = Postimage.objects.filter(post=post).values('image')  # Postimageから画像を取得
+            logging.debug(images)
+ 
+            # 画像がない場合はスキップまたはデフォルト画像を使用
+            if images:
+                img = images[0]
+                imagepath = Image.objects.filter(image_id=img['image']).values('image')
+                logging.debug(imagepath)
+ 
+                # 画像が見つかった場合
+                if imagepath:
+                    image = imagepath[0]
+                    i = image['image']  # 画像パスを取得
+                else:
+                    i = 'default_image_path.jpg'  # 画像がない場合はデフォルト画像を設定
+            else:
+                i = 'default_image_path.jpg'  # 投稿に画像がない場合はデフォルト画像を設定
+ 
+            bbs_with_images.append({
+                'post': post,
+                'images': i
+            })
+ 
         context = {
-            'form': form,
-            'bbs': bbs,
-            'images': images,  # 画像のURLリスト
+            'user': user,
+            'bbs_with_images': bbs_with_images,  # 画像データを含むBbs情報
+            'search_query': search_query,  # 検索クエリをコンテキストに含める
         }
-        return render(request, self.template_name, context)
-
-    def post(self, request, *args, **kwargs):
-        bbs = self.get_object()
-        form = BbsForm(request.POST, instance=bbs)
-
-        if form.is_valid():
-            form.save()  # フォームのデータを保存（更新）
-            return redirect('bbs:MyBulletinBoard')  # 更新後にリダイレクト
-
-        # エラーがある場合も画像を渡す
-        post_images = Postimage.objects.filter(post=bbs)
-        images = [postimage.image.image.url for postimage in post_images]
-
-        return render(request, self.template_name, {
+ 
+        return self.render_to_response(context)
+   
+import logging
+ 
+class EditView(View):
+    def get(self, request, post_id, *args, **kwargs):
+        post = get_object_or_404(Bbs, post_id=post_id)
+ 
+        # 投稿が現在のユーザーのものでなければアクセスを拒否
+        if post.user != request.user:
+            return redirect('bbs:MyBulletinBoard')  # 不正アクセス防止
+ 
+        # 投稿内容をフォームに埋め込む
+        form = RecipeEditForm(instance=post)
+ 
+        # Postimageから画像を取得
+        post_images = Postimage.objects.filter(post=post).values('image')  # Postimageから画像を取得
+        logging.debug(post_images)
+ 
+        # 画像がある場合
+        if post_images:
+            img = post_images[0]
+            image_id = img['image']
+            imagepath = Image.objects.filter(image_id=image_id).values('image')  # Imageから画像のパスを取得
+            logging.debug(imagepath)
+ 
+            # 画像が見つかった場合
+            if imagepath:
+                image = imagepath[0]
+                image_url = image['image']  # 画像パスを取得
+            else:
+                image_url = 'default_image_path.jpg'  # 画像が見つからない場合はデフォルト画像
+        else:
+            image_url = 'default_image_path.jpg'  # 画像が存在しない場合はデフォルト画像
+ 
+        # 画像URLをコンテキストに追加
+        return render(request, 'keijiban/toukou/edit.html', {
             'form': form,
-            'bbs': bbs,
-            'images': images,
+            'post': post,
+            'image_url': image_url  # 画像URLをコンテキストに渡す
         })
-    
+ 
+    def post(self, request, post_id, *args, **kwargs):
+        post = get_object_or_404(Bbs, post_id=post_id)
+ 
+        # 投稿が現在のユーザーのものでなければアクセスを拒否
+        if post.user != request.user:
+            return redirect('bbs:MyBulletinBoard')  # 不正アクセス防止
+ 
+        form = RecipeEditForm(request.POST, request.FILES, instance=post)
+ 
+        if form.is_valid():
+            form.save()  # フォームのデータを保存（画像も含む）
+ 
+            # 画像をPostimageテーブルに保存（必要に応じて追加）
+            if 'image1' in request.FILES:
+                Postimage.objects.create(post=post, image=request.FILES['image1'])
+            if 'image2' in request.FILES:
+                Postimage.objects.create(post=post, image=request.FILES['image2'])
+            if 'image3' in request.FILES:
+                Postimage.objects.create(post=post, image=request.FILES['image3'])
+ 
+            return redirect('bbs:MyBulletinBoard')  # 編集後にマイ掲示板にリダイレクト
+ 
+        # エラーがある場合も画像を渡す
+        post_images = Postimage.objects.filter(post=post).values('image')
+        logging.debug(post_images)
+ 
+        if post_images:
+            img = post_images[0]
+            image_id = img['image']
+            imagepath = Image.objects.filter(image_id=image_id).values('image')
+            logging.debug(imagepath)
+ 
+            if imagepath:
+                image = imagepath[0]
+                image_url = image['image']
+            else:
+                image_url = 'default_image_path.jpg'
+        else:
+            image_url = 'default_image_path.jpg'
+ 
+        return render(request, 'keijiban/toukou/edit.html', {'form': form, 'post': post, 'image_url': image_url})
+ 
+   
 class DeleteView(TemplateView):
     template_name = 'keijiban/toukou/deleteconfirm.html'
  
@@ -303,9 +342,6 @@ class DeleteView(TemplateView):
         post_id = kwargs['post_id']
         post = get_object_or_404(Bbs, post_id=post_id)
  
-        # 関連するFavoriteデータを削除
-        Favorite.objects.filter(post_id=post_id).delete()
- 
         # 関連するPostimageデータを削除
         Postimage.objects.filter(post_id=post_id).delete()
  
@@ -316,7 +352,134 @@ class DeleteView(TemplateView):
         post.delete()
  
         messages.success(request, '投稿が削除されました。')
-        return redirect(reverse('bbs:PostsDeleteComplete'))
-    
-class DeleteCompleteView(TemplateView):
-    template_name = 'keijiban/toukou/deletecomplete.html'
+        return redirect(reverse('bbs:PostsDeleteComplate'))
+ 
+class DeleteComplateView(TemplateView):
+    template_name = 'keijiban/toukou/deletecomplate.html'
+ 
+class FavoriteView(TemplateView):
+    template_name = 'keijiban/iine/favorite.html'
+ 
+    def get(self, request, *args, **kwargs):
+        user = self.request.user
+        search_query = request.GET.get('search_query', '')  # 検索クエリを取得
+       
+        # お気に入りの投稿IDリストを取得
+        favorite_post_ids = Favorite.objects.filter(user=user, favorite_flag=True).values_list('post_id', flat=True)
+ 
+        # 検索クエリがある場合は名前でフィルタ、なければお気に入りの投稿をすべて取得
+        if search_query:
+            bbs_query = Bbs.objects.exclude(user_id=user.user_id).filter(name__icontains=search_query, post_id__in=favorite_post_ids)
+        else:
+            bbs_query = Bbs.objects.exclude(user_id=user.user_id).filter(post_id__in=favorite_post_ids)
+ 
+        bbs_with_images = []
+ 
+        # 各Bbsに関連する画像を取得
+        for post in bbs_query:
+            images = Postimage.objects.filter(post=post).values('image')  # Postimageから画像を取得
+            logging.debug(images)
+ 
+            # 画像がない場合はデフォルト画像を設定
+            if images:
+                img = images[0]
+                imagepath = Image.objects.filter(image_id=img['image']).values('image').first()  # 最初の画像を取得
+                logging.debug(imagepath)
+ 
+                # 画像が見つかった場合
+                if imagepath:
+                    i = imagepath['image']
+                else:
+                    i = 'default_image_path.jpg'
+            else:
+                i = 'default_image_path.jpg'  # 投稿に画像がない場合はデフォルト画像を設定
+ 
+            is_favorite = Favorite.objects.filter(post=post, user=user, favorite_flag=True).exists()
+ 
+            bbs_with_images.append({
+                'post': post,
+                'images': i,
+                'is_favorite': is_favorite,  # お気に入り状態を追加
+            })
+ 
+        context = {
+            'user': user,
+            'bbs_with_images': bbs_with_images,  # 画像データを含むBbs情報
+            'search_query': search_query,  # 検索クエリをコンテキストに含める
+        }
+ 
+        return self.render_to_response(context)
+ 
+   
+class RankView(TemplateView):
+    template_name = 'keijiban/iine/ranking.html'
+ 
+    def get(self, request, *args, **kwargs):
+        user = self.request.user
+        search_query = request.GET.get('search_query', '')  # 検索クエリを取得
+ 
+        # 各投稿のお気に入り数を集計して多い順に並べる
+        bbs = Bbs.objects.annotate(total_likes=Sum('favorite__favorite_flag')).order_by('-total_likes')
+ 
+        # 検索クエリがあればフィルタリングする
+        if search_query:
+            bbs = bbs.filter(name__icontains=search_query)
+ 
+        bbs_with_images = []
+ 
+        # 各Bbsに関連する画像を取得
+        for post in bbs:
+            images = Postimage.objects.filter(post=post).values('image')  # Postimageから画像を取得
+            logging.debug(images)
+ 
+            # 画像がない場合はデフォルト画像を設定
+            if images:
+                img = images[0]
+                imagepath = Image.objects.filter(image_id=img['image']).values('image').first()  # 最初の画像を取得
+                logging.debug(imagepath)
+ 
+                # 画像が見つかった場合
+                if imagepath:
+                    i = imagepath['image']
+                else:
+                    i = 'default_image_path.jpg'
+            else:
+                i = 'default_image_path.jpg'  # 投稿に画像がない場合はデフォルト画像を設定
+ 
+            is_favorite = Favorite.objects.filter(post=post, user=user, favorite_flag=True).exists()
+ 
+            bbs_with_images.append({
+                'post': post,
+                'images': i,
+                'is_favorite': is_favorite,  # お気に入り状態を追加
+            })
+ 
+        context = {
+            'user': user,
+            'bbs_with_images': bbs_with_images,  # 画像データを含むBbs情報
+            'search_query': search_query,  # 検索クエリをコンテキストに含める
+        }
+ 
+        return self.render_to_response(context)
+ 
+def toggle_favorite(request, post_id):
+    user = request.user
+    post = Bbs.objects.get(post_id=post_id)
+ 
+    # お気に入りレコードがあるかどうかをチェック
+    favorite_entry = Favorite.objects.filter(post=post, user=user).first()
+ 
+    if favorite_entry:
+        # 既にお気に入りに登録されている場合、flagを反転
+        if favorite_entry.favorite_flag:
+            favorite_entry.favorite_flag = False
+            favorite_entry.save()
+            return JsonResponse({'status': 'removed'})
+        else:
+            favorite_entry.favorite_flag = True
+            favorite_entry.save()
+            return JsonResponse({'status': 'added'})
+    else:
+        # まだお気に入りがない場合、新規作成
+        Favorite.objects.create(post=post, user=user, favorite_flag=True)
+        return JsonResponse({'status': 'added'})
