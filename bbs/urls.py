@@ -17,6 +17,7 @@ urlpatterns = [
    
     path('MyBulletinBoard/', views.MyBulletinBoardView.as_view(), name='MyBulletinBoard'),
     path('edit/<int:post_id>/', views.EditView.as_view(), name='edit'),
+    path('editcomplate/', views.Editcomplate.as_view(), name='editcomplate'),
     path('bbs/delete/<int:post_id>/', views.DeleteView.as_view(), name='PostsDelete'),
     path('bbs/delete/', views.DeleteComplateView.as_view(), name='PostsDeleteComplate'),
  

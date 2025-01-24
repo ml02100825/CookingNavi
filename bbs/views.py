@@ -298,14 +298,18 @@ class EditView(View):
                 image3_instance.save()
                 Postimage.objects.create(post=post, image=image3_instance)
 
-            return redirect('bbs:MyBulletinBoard')  # 編集後にマイ掲示板にリダイレクト
+            return redirect('bbs:editcomplate')  # 編集後にeditcomplateにリダイレクト
 
         # エラーがある場合も画像を渡す
         post_images = Postimage.objects.filter(post=post).values('image')
         images = [Image.objects.get(image_id=img['image']).image for img in post_images]
         logging.debug(images)
 
-        return render(request, 'keijiban/henshuu/editcomplate.html', {'form': form, 'post': post, 'images': images})
+        return render(request, 'keijiban/henshuu/edit.html', {'form': form, 'post': post, 'images': images})
+    
+class Editcomplate(TemplateView):
+    template_name = 'keijiban/henshuu/editcomplate.html'
+
 class DeleteView(TemplateView):
     template_name = 'keijiban/toukou/deleteconfirm.html'
  
