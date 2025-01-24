@@ -247,8 +247,8 @@ class MyBulletinBoardView(TemplateView):
  
         return self.render_to_response(context)
    
-import logging
- 
+logger = logging.getLogger(__name__)
+
 class EditView(View):
     def get(self, request, post_id, *args, **kwargs):
         post = get_object_or_404(Bbs, post_id=post_id)
@@ -301,11 +301,17 @@ class EditView(View):
  
             # 画像をPostimageテーブルに保存（必要に応じて追加）
             if 'image1' in request.FILES:
-                Postimage.objects.create(post=post, image=request.FILES['image1'])
+                image1_instance = Image(image=request.FILES['image1'])
+                image1_instance.save()
+                Postimage.objects.create(post=post, image=image1_instance)
             if 'image2' in request.FILES:
-                Postimage.objects.create(post=post, image=request.FILES['image2'])
+                image2_instance = Image(image=request.FILES['image2'])
+                image2_instance.save()
+                Postimage.objects.create(post=post, image=image2_instance)
             if 'image3' in request.FILES:
-                Postimage.objects.create(post=post, image=request.FILES['image3'])
+                image3_instance = Image(image=request.FILES['image3'])
+                image3_instance.save()
+                Postimage.objects.create(post=post, image=image3_instance)
  
             return redirect('bbs:MyBulletinBoard')  # 編集後にマイ掲示板にリダイレクト
  
@@ -328,7 +334,6 @@ class EditView(View):
             image_url = 'default_image_path.jpg'
  
         return render(request, 'keijiban/henshuu/editcomplate.html', {'form': form, 'post': post, 'image_url': image_url})
- 
    
 class DeleteView(TemplateView):
     template_name = 'keijiban/toukou/deleteconfirm.html'
