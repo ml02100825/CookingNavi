@@ -8,6 +8,16 @@
 <head>
     <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'css/keijiban/bulletinboard.css' %}">
+    <style>
+        .post-image {
+            max-width: 100%;
+            height: auto;
+            width: 300px; /* ここで画像の幅を指定します */
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <!-- 編集フォーム -->
 <div class="edit-container">
@@ -21,13 +31,17 @@
         <h3>投稿画像</h3>
         <div class="image-carousel">
             {% for image in images %}
-            <img src="{{ image.image.url }}" alt="投稿画像" class="post-image {% if forloop.first %}active{% else %}hidden{% endif %}">
+                <img src="{{ image }}" alt="投稿画像" class="post-image {% if not forloop.first %}hidden{% endif %}">
             {% endfor %}
         </div>
 
         <div class="image-buttons">
             <button type="button" onclick="changeImage(-1)"><</button>
-            <button type="button" onclick="deleteImage()">削除</button>
+            <form method="POST" id="delete-image-form" style="display:inline;">
+                {% csrf_token %}
+                <input type="hidden" name="delete_image_id" id="delete-image-id">
+                <button type="button" onclick="deleteImage()">削除</button>
+            </form>
             <button type="button" onclick="changeImage(1)">></button>
         </div>
     </div>
@@ -78,15 +92,9 @@
     function deleteImage() {
         const images = document.querySelectorAll('.post-image');
         if (images.length > 0) {
-            images[currentImageIndex].remove(); // 現在の画像を削除
-            alert("画像が削除されました");
-
-            // インデックスを調整
-            currentImageIndex = Math.min(currentImageIndex, images.length - 1);
-
-            if (images.length > 0) {
-                images[currentImageIndex].classList.remove('hidden');
-            }
+            const imageId = images[currentImageIndex].getAttribute('data-image-id');
+            document.getElementById('delete-image-id').value = imageId;
+            document.getElementById('delete-image-form').submit();
         } else {
             alert("削除できる画像がありません");
         }
