@@ -281,7 +281,7 @@ class EditView(View):
             image_url = 'default_image_path.jpg'  # 画像が存在しない場合はデフォルト画像
  
         # 画像URLをコンテキストに追加
-        return render(request, 'keijiban/toukou/edit.html', {
+        return render(request, 'keijiban/henshuu/edit.html', {
             'form': form,
             'post': post,
             'image_url': image_url  # 画像URLをコンテキストに渡す
@@ -327,7 +327,7 @@ class EditView(View):
         else:
             image_url = 'default_image_path.jpg'
  
-        return render(request, 'keijiban/toukou/edit.html', {'form': form, 'post': post, 'image_url': image_url})
+        return render(request, 'keijiban/henshuu/editcomplate.html', {'form': form, 'post': post, 'image_url': image_url})
  
    
 class DeleteView(TemplateView):
