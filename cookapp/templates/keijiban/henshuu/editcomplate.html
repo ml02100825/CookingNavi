@@ -22,7 +22,7 @@
 {% block scripts %}
     <script>
         function goToPosts() {
-            window.location.href = "/user/posts";  // 投稿一覧ページのURLに変更
+            window.location.href = "{% url 'bbs:MyBulletinBoard' %}";  // 投稿一覧ページのURLに変更
         }
 
         function goHome() {

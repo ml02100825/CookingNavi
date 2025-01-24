@@ -355,7 +355,7 @@ class DeleteView(TemplateView):
         return redirect(reverse('bbs:PostsDeleteComplate'))
  
 class DeleteComplateView(TemplateView):
-    template_name = 'keijiban/toukou/deletecomplate.html'
+    template_name = 'keijiban/toukou/deletecomplete.html'
  
 class FavoriteView(TemplateView):
     template_name = 'keijiban/iine/favorite.html'
