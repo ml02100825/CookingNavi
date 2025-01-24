@@ -252,53 +252,38 @@ logger = logging.getLogger(__name__)
 class EditView(View):
     def get(self, request, post_id, *args, **kwargs):
         post = get_object_or_404(Bbs, post_id=post_id)
- 
+
         # 投稿が現在のユーザーのものでなければアクセスを拒否
         if post.user != request.user:
             return redirect('bbs:MyBulletinBoard')  # 不正アクセス防止
- 
+
         # 投稿内容をフォームに埋め込む
         form = RecipeEditForm(instance=post)
- 
+
         # Postimageから画像を取得
-        post_images = Postimage.objects.filter(post=post).values('image')  # Postimageから画像を取得
-        logging.debug(post_images)
- 
-        # 画像がある場合
-        if post_images:
-            img = post_images[0]
-            image_id = img['image']
-            imagepath = Image.objects.filter(image_id=image_id).values('image')  # Imageから画像のパスを取得
-            logging.debug(imagepath)
- 
-            # 画像が見つかった場合
-            if imagepath:
-                image = imagepath[0]
-                image_url = image['image']  # 画像パスを取得
-            else:
-                image_url = 'default_image_path.jpg'  # 画像が見つからない場合はデフォルト画像
-        else:
-            image_url = 'default_image_path.jpg'  # 画像が存在しない場合はデフォルト画像
- 
+        post_images = Postimage.objects.filter(post=post).values('image')
+        images = [Image.objects.get(image_id=img['image']).image for img in post_images]
+        logging.debug(images)
+
         # 画像URLをコンテキストに追加
         return render(request, 'keijiban/henshuu/edit.html', {
             'form': form,
             'post': post,
-            'image_url': image_url  # 画像URLをコンテキストに渡す
+            'images': images  # 画像URLのリストをコンテキストに渡す
         })
- 
+
     def post(self, request, post_id, *args, **kwargs):
         post = get_object_or_404(Bbs, post_id=post_id)
- 
+
         # 投稿が現在のユーザーのものでなければアクセスを拒否
         if post.user != request.user:
             return redirect('bbs:MyBulletinBoard')  # 不正アクセス防止
- 
+
         form = RecipeEditForm(request.POST, request.FILES, instance=post)
- 
+
         if form.is_valid():
             form.save()  # フォームのデータを保存（画像も含む）
- 
+
             # 画像をPostimageテーブルに保存（必要に応じて追加）
             if 'image1' in request.FILES:
                 image1_instance = Image(image=request.FILES['image1'])
@@ -312,29 +297,15 @@ class EditView(View):
                 image3_instance = Image(image=request.FILES['image3'])
                 image3_instance.save()
                 Postimage.objects.create(post=post, image=image3_instance)
- 
+
             return redirect('bbs:MyBulletinBoard')  # 編集後にマイ掲示板にリダイレクト
- 
+
         # エラーがある場合も画像を渡す
         post_images = Postimage.objects.filter(post=post).values('image')
-        logging.debug(post_images)
- 
-        if post_images:
-            img = post_images[0]
-            image_id = img['image']
-            imagepath = Image.objects.filter(image_id=image_id).values('image')
-            logging.debug(imagepath)
- 
-            if imagepath:
-                image = imagepath[0]
-                image_url = image['image']
-            else:
-                image_url = 'default_image_path.jpg'
-        else:
-            image_url = 'default_image_path.jpg'
- 
-        return render(request, 'keijiban/henshuu/editcomplate.html', {'form': form, 'post': post, 'image_url': image_url})
-   
+        images = [Image.objects.get(image_id=img['image']).image for img in post_images]
+        logging.debug(images)
+
+        return render(request, 'keijiban/henshuu/editcomplate.html', {'form': form, 'post': post, 'images': images})
 class DeleteView(TemplateView):
     template_name = 'keijiban/toukou/deleteconfirm.html'
  

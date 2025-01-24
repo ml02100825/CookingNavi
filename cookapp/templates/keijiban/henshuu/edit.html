@@ -14,6 +14,9 @@
             height: auto;
             width: 300px; /* ここで画像の幅を指定します */
         }
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <!-- 編集フォーム -->
@@ -27,7 +30,9 @@
     <div class="image-container">
         <h3>投稿画像</h3>
         <div class="image-carousel">
-            <img src="{{ image_url }}" alt="投稿画像" class="post-image">
+            {% for image in images %}
+                <img src="{{ image }}" alt="投稿画像" class="post-image {% if not forloop.first %}hidden{% endif %}">
+            {% endfor %}
         </div>
 
         <div class="image-buttons">
