@@ -1,0 +1,125 @@
+/* HTML と Body の高さを100%に設定 */
+html, body {
+    height: 100%; /* 全体の高さを100%に設定 */
+    margin: 0; /* デフォルトのマージンを解除 */
+    padding: 0; /* デフォルトのパディングを解除 */
+    overflow-x: hidden; /* 横スクロールを無効にする */
+    background-color: #ffebcd; 
+}
+
+/* 利用規約の全体コンテナ */
+.terms-container {
+    margin: 20px auto; /* ページ中央に配置 */
+    padding: 30px; /* 内側に余白を追加 */
+    max-width: 800px; /* 最大幅を設定して読みやすく */
+    background-color: #f9f9f9; /* 背景を淡いグレーで目に優しく */
+    border-radius: 10px; /* コンテナの角を丸く */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* コンテナに軽い影を付けて浮き上がらせる */
+    font-family: 'Arial', sans-serif; /* 視認性の高いフォントを使用 */
+    line-height: 1.8; /* 行間を広げて読みやすく */
+    color: #333; /* 全体の文字色を濃いグレーに設定 */
+    overflow-y: auto; /* 縦スクロールが必要な場合に表示 */
+    height: calc(100vh - 120px); /* ビューポートの高さから余白とボタンの高さを考慮してスクロール可能な高さを設定 */
+}
+
+/* タイトルスタイル */
+.terms-container h1 {
+    font-size: 2rem; /* タイトル文字を大きく設定 */
+    color: #222; /* タイトル文字を濃い色に */
+    text-align: center; /* タイトルを中央揃えに */
+    margin-bottom: 25px; /* タイトル下に余白を追加 */
+    border-bottom: 3px solid #007bff; /* タイトル下に青いラインを追加 */
+    padding-bottom: 10px; /* ラインとタイトル間のスペースを確保 */
+}
+
+/* セクション見出しスタイル */
+.terms-container h2 {
+    font-size: 1.5rem; /* 見出し文字を少し大きめに設定 */
+    color: #444; /* 見出し文字を中間濃度の色に */
+    margin-top: 30px; /* セクション前に大きめの余白を追加 */
+    margin-bottom: 15px; /* セクション後に余白を追加 */
+    border-left: 5px solid #007bff; /* 見出しの左側に青いラインを追加 */
+    padding-left: 10px; /* 見出しとラインの間にスペースを追加 */
+}
+
+/* 段落スタイル */
+.terms-container p {
+    margin: 15px 0; /* 段落間に均等な余白を設定 */
+    text-align: justify; /* 両端揃えで整列して美しく表示 */
+    font-size: 1rem; /* 段落の文字サイズを標準設定 */
+}
+
+/* リストスタイル */
+.terms-container ul {
+    margin: 15px 0; /* リスト全体に余白を追加 */
+    padding-left: 20px; /* 左側にインデントを設定 */
+    list-style-type: disc; /* 丸型のリストマーカーを使用 */
+}
+
+.terms-container ul li {
+    margin: 8px 0; /* リスト項目間に余白を追加 */
+    color: #555; /* リスト項目の文字色を少し薄めに */
+}
+
+/* 強調テキストスタイル */
+.terms-container strong {
+    color: #000; /* 強調テキストを黒で明確に表示 */
+}
+
+/* ボタンスタイル */
+.terms-container .btn {
+    display: block;
+    margin: 30px auto; /* ボタンを中央に配置 */
+    padding: 12px 30px; /* ボタンにパディングを追加 */
+    font-size: 1.1rem; /* ボタンの文字サイズ */
+    color: #fff; /* ボタン文字の色 */
+    background-color: #007bff; /* ボタン背景色 */
+    border: none; /* ボタンの境界線を削除 */
+    border-radius: 5px; /* ボタンの角を丸く */
+    cursor: pointer; /* ポインタカーソルを表示 */
+    text-align: center; /* 文字を中央揃え */
+}
+
+/* ボタンのスタイル */
+.terms-buttons {
+    display: flex;
+    justify-content: space-between; /* ボタンを両端に配置 */
+    margin-top: 20px; /* 利用規約の後に余白を追加 */
+}
+
+.terms-buttons button {
+    background-color: #007bff; /* ボタンの背景色 */
+    color: white; /* ボタンの文字色 */
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.terms-container .btn:hover {
+    background-color: #0056b3; /* ボタンホバー時に背景色を変更 */
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    /* モバイル表示用のスタイル調整 */
+    .terms-container {
+        padding: 20px; /* 内側余白を減らして画面に収まるように */
+        font-size: 0.9rem; /* 全体の文字サイズを少し縮小 */
+    }
+
+    .terms-container h1 {
+        font-size: 1.8rem; /* タイトルを少し縮小 */
+    }
+
+    .terms-container h2 {
+        font-size: 1.3rem; /* 見出しの文字サイズも縮小 */
+    }
+
+    .terms-container .btn {
+        font-size: 1rem; /* ボタンの文字サイズも少し縮小 */
+        padding: 10px 25px; /* ボタンのパディングを調整 */
+    }
+}
