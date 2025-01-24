@@ -15,8 +15,7 @@ class RecipeAddForm(forms.Form):
 class RecipeEditForm(forms.ModelForm):
     class Meta:
         model = Bbs
-        fields = ['name', 'recipe_text', 'calorie', 'protein', 'lipids', 'fiber', 'carbohydrates', 'saltcontent']
-   
+        fields = ['name', 'recipe_text']
     # 画像フィールドは Bbs モデルにはなく、Postimage モデルで扱うため、フォームに追加しない
     image1 = forms.ImageField(label="画像1", required=False)
     image2 = forms.ImageField(label="画像2", required=False)
