@@ -252,8 +252,15 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
                     except Userallergy.DoesNotExist:
                         # レコードが見つからなかった場合の処理
                         print(f"Allergy {allergy} for user {user} not found, skipping.")
+
+                # Weight.objects.create(
+                    # weight=weight,  # 更新された体重を登録
+                    # user=user,  # 家族メンバーに紐づくユーザー
+                    # family=family_member.family_id,  # 家族メンバー
+                #     register_time=datetime.now().strftime('%Y-%m-%d')  # 今日の日付を登録
+                # )
  
-            return redirect('cookapp:body_info_ok')
+                return redirect('cookapp:body_info_ok')
        
         return render(request, self.template_name, {'form': form})
        
@@ -329,9 +336,6 @@ class KazokuaddView(LoginRequiredMixin, TemplateView):
                 user.family = True
                 user.save()
 
-            # メッセージ表示
-            messages.success(request, '家族情報が正常に登録されました。')
-
             # 登録完了後のリダイレクト
             return redirect('cookapp:kazoku_add_ok')
 
@@ -402,9 +406,6 @@ class KazokuHenkoView(LoginRequiredMixin, TemplateView):
                     family_member=family_member,  # 家族情報インスタンス
                     allergy_id=allergy_id         # アレルギーID
                 )
-
-            # メッセージを表示
-            messages.success(request, '家族情報が正常に更新されました。')
 
             # 更新後のリダイレクト
             return redirect('cookapp:kazoku_henko_ok', family_id=family_member.family_id)
@@ -549,8 +550,6 @@ class KazokuSakujoView(TemplateView):
 
         # Familymemberデータを削除
         family_member.delete()
-
-        messages.success(request, '家族情報を削除しました。')
         return redirect(reverse('cookapp:kazoku_sakujo_ok', kwargs={'family_id': family_id}))
     
 class KazokuSakujoOkView(TemplateView):
