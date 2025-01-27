@@ -18,30 +18,16 @@
             </tr>
         </thead>
         <tbody>
+            {% for date in dates %}
             <tr>
                 <td class="date-cell">
-                    <button class="date-button">10月24日</button>
+                    <button class="date-button">{{ date }}</button>
                 </td>
                 <td><button class="meal-button">カレー</button></td>
                 <td><button class="meal-button">肉じゃが</button></td>
                 <td><button class="meal-button">ハヤシライス</button></td>
             </tr>
-            <tr>
-                <td class="date-cell">
-                    <button class="date-button">10月23日</button>
-                </td>
-                <td><button class="meal-button">パン</button></td>
-                <td><button class="meal-button">ごはん</button></td>
-                <td><button class="meal-button">スパゲッティ</button></td>
-            </tr>
-            <tr>
-                <td class="date-cell">
-                    <button class="date-button">10月22日</button>
-                </td>
-                <td><button class="meal-button">コロッケ</button></td>
-                <td><button class="meal-button">パン</button></td>
-                <td><button class="meal-button">肉</button></td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>
