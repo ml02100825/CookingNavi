@@ -14,7 +14,9 @@
     <div class="app-name">クッキングnavi</div>
     <div class="nav-right">
         <div class="nav-links">
+            {% if request.user.is_authenticated %}
             <a href="{% url 'cookapp:home' %}" class="home-link">ホーム</a>
+            {% endif %}
             <a href="{% url 'account:login' %}">ログイン</a>
             <a href="{% url 'account:signup1' %}">サインアップ</a>
         </div>

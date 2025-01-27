@@ -4,17 +4,21 @@
 .login-container {
     font-family: Arial, sans-serif; /* 全体のフォントをArialに設定 */
     text-align: center; /* コンテンツを中央揃えにする */
+    margin-top: 0; /* 上部余白を完全になくす */
+    padding-top: 0; /* 内側の上部余白を完全になくす */
+    position: relative; /* 相対位置指定 */
+    top: -50px; /* 上に50px移動（必要に応じてさらに調整可能） */
 }
 
 /* メインタイトルとサブタイトルのスタイル */
 .login-container h1 {
     font-size: 2.5em; /* メインタイトルの文字サイズを設定 */
-    margin-bottom: 10px; /* タイトル下部に余白を追加 */
+    margin-bottom: 5px; /* タイトル下部の余白を少なくする */
 }
 
 .login-container h2 {
     font-size: 1.5em; /* サブタイトルの文字サイズを設定 */
-    margin-bottom: 30px; /* サブタイトル下部に余白を追加 */
+    margin-bottom: 15px; /* サブタイトル下部の余白を減らす */
     color: #666; /* サブタイトルの文字色を薄いグレーに設定 */
 }
 
@@ -84,7 +88,7 @@ form textarea {
 
 /* 送信ボタンのスタイル */
 button[type="submit"] {
-    margin-top: 30px; /* 上部に余白を設定 */
+    margin-top: 0px; /* 上部に余白を設定 */
     padding: 10px 20px; /* 内側余白を設定 */
     background-color: #28a745; /* ボタンの背景色を緑に設定 */
     color: white; /* ボタンの文字色を白に設定 */

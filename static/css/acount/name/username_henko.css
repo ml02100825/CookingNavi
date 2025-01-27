@@ -1,101 +1,123 @@
-/* クッキングナビ・ユーザ名変更 */
-
-/* 全体リセット */
+/* ------------------------------
+   全体リセット
+   ------------------------------ */
+/* すべての要素の余白と内側の余白をリセットし、ボックスサイズを調整 */
 * {
-    margin: 0; /* 余白をリセット */
-    padding: 0; /* 内側の余白をリセット */
-    box-sizing: border-box; /* ボックスのサイズ計算を含めて整える */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+/* ------------------------------
+   全体の基本設定
+   ------------------------------ */
 body {
-    font-family: Arial, sans-serif; /* シンプルで読みやすいフォント */
-    background-color: #f9f9f9; /* 背景色を薄いグレーに設定 */
-    color: #333; /* テキストの基本色をダークグレーに設定 */
+    /* フォントと背景色の設定 */
+    font-family: Arial, sans-serif; /* 読みやすいフォント */
+    background-color: #ffebcd; /* 温かみのある背景色 */
+    color: #333; /* ダークグレーで目に優しい文字色 */
     display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* ページ全体の高さを確保 */
+    flex-direction: column; /* 縦に並べる */
+    min-height: 100vh; /* 全画面の高さを確保 */
 }
 
+/* アプリ名を強調 */
 .app-name {
-    font-size: 1.5em; /* アプリ名のフォントサイズを少し大きく */
-    font-weight: bold; /* アプリ名を強調 */
+    font-size: 1.5em; /* アプリ名を少し大きく */
+    font-weight: bold; /* 太字で目立たせる */
 }
 
-.nav-links {
-    display: flex;
-    align-items: center; /* リンクとアイコンを中央揃え */
-}
-
+/* リンクの基本スタイル */
 .nav-links a {
-    color: white; /* リンク色を白に */
-    margin-right: 15px; /* リンク間の余白を設定 */
+    color: white; /* 白文字で視認性を確保 */
+    margin-right: 15px; /* リンク間の間隔を設定 */
     text-decoration: none; /* 下線を非表示 */
 }
 
+/* リンクホバー時のスタイル */
 .nav-links a:hover {
-    text-decoration: underline; /* ホバー時に下線を表示 */
+    text-decoration: underline; /* 下線を表示してホバー効果を強調 */
 }
 
-/* メインコンテンツ */
+/* ------------------------------
+   メインコンテンツの設定
+   ------------------------------ */
 main {
-    flex: 1; /* コンテンツを画面全体に広げる */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+    flex: 1; /* メインコンテンツを画面全体に広げる */
+    display: flex; /* フレックスボックスでセンタリング */
+    align-items: center; /* 垂直方向に中央揃え */
+    justify-content: center; /* 水平方向に中央揃え */
+    padding: 20px; /* 周囲に余白を追加 */
 }
 
-/* コンテンツ全体のスタイル */
+/* ------------------------------
+   フォームを囲む白枠（コンテナ）のスタイル
+   ------------------------------ */
 .container {
-    width: 100%;
-    max-width: 600px; /* コンテンツの幅を制限し、中央に配置 */
-    margin: 20px auto;
-    background-color: white; /* 背景を白に */
-    padding: 30px;
-    border-radius: 8px; /* 角を丸めて柔らかい印象に */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 軽い影をつけて立体感を追加 */
+    width: 100%; /* 横幅を100%に設定 */
+    max-width: 600px; /* 最大幅を設定し中央に配置 */
+    margin: 20px auto; /* 上下に余白を設け、左右中央揃え */
+    background-color: white; /* 白い背景で視認性を高める */
+    padding: 30px; /* 内側に十分な余白を確保 */
+    border-radius: 8px; /* 角を丸くして柔らかい印象に */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 軽い影で立体感を追加 */
+    position: relative; /* 子要素の位置を調整するための相対配置 */
 }
 
+/* ------------------------------
+   タイトル（h2）のスタイル
+   ------------------------------ */
 h2 {
-    font-size: 1.8em;
-    margin-bottom: 20px; /* タイトルの下に余白を追加 */
-    color: #333;
+    font-size: 1.8em; /* タイトルを少し大きめに */
+    margin-bottom: 20px; /* タイトル下に余白を追加 */
+    color: #333; /* 落ち着いた色で視認性を確保 */
+    position: absolute; /* 絶対配置で白枠外に配置 */
+    top: -50px; /* 白枠のさらに上に出す */
+    left: 50%; /* 水平方向の中央 */
+    transform: translateX(-50%); /* 中央揃え */
 }
 
-/* ラベルと入力欄の設定 */
+/* ------------------------------
+   フォーム内ラベルと入力欄の設定
+   ------------------------------ */
 label {
-    font-size: 1em;
-    color: #555; /* ラベルの色を薄めに */
+    font-size: 1em; /* ラベルの基本フォントサイズ */
+    color: #555; /* 少し薄めの文字色 */
 }
 
-input[type="user-name"] {
-    width: 100%; /* 入力欄をコンテナ全体に広げる */
-    padding: 10px;
-    margin-top: 5px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc; /* 境界線の色をグレーに */
-    border-radius: 4px; /* 角を丸くして柔らかい印象に */
-    font-size: 1em;
-}
-
-input[type="user-name"]:focus {
-    border-color: #ff6b6b; /* フォーカス時に境界線を赤色で強調 */
-    outline: none; /* フォーカス時のデフォルトのアウトラインを非表示 */
-}
-
-/* ボタンのスタイル */
-button {
-    padding: 10px 20px;
-    font-size: 1em;
-    color: white; /* ボタンテキストを白に */
-    background-color: #ff6b6b; /* ボタンの背景色を赤に設定 */
-    border: none;
+/* 入力欄の基本スタイル */
+input[type="text"] {
+    width: 100%; /* 横幅を100%に設定 */
+    padding: 10px; /* 内側の余白を追加 */
+    margin-top: 5px; /* ラベルとの間隔を設定 */
+    margin-bottom: 15px; /* 下部に余白を追加 */
+    border: 1px solid #ccc; /* グレーの境界線を設定 */
     border-radius: 4px; /* 角を丸く */
-    cursor: pointer;
-    margin-right: 10px; /* ボタン同士の間隔を設定 */
-    transition: background-color 0.3s; /* ホバー時の色変化を滑らかに */
+    font-size: 1em; /* 標準的な文字サイズ */
 }
 
+/* 入力欄フォーカス時のスタイル */
+input[type="text"]:focus {
+    border-color: #ff6b6b; /* フォーカス時に赤色で強調 */
+    outline: none; /* デフォルトのアウトラインを非表示 */
+}
+
+/* ------------------------------
+   ボタンのスタイル
+   ------------------------------ */
+button {
+    padding: 10px 20px; /* ボタンの内側の余白を設定 */
+    font-size: 1em; /* ボタンの文字サイズ */
+    color: white; /* テキストを白色に */
+    background-color: #ff6b6b; /* 赤い背景色 */
+    border: none; /* ボーダーを非表示 */
+    border-radius: 4px; /* 角を丸く */
+    cursor: pointer; /* ポインターを表示 */
+    margin-right: 10px; /* ボタン間の余白を追加 */
+    transition: background-color 0.3s; /* ホバー時の色変化をスムーズに */
+}
+
+/* ボタンホバー時のスタイル */
 button:hover {
-    background-color: #e63946; /* ホバー時に背景色を濃い赤に変更 */
+    background-color: #e63946; /* ホバー時に濃い赤色に変更 */
 }

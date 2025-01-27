@@ -18,50 +18,92 @@
     <!-- Schedule Table -->
     <table class="schedule-table">
         <tr>
-            <th><a href="{% url 'cookapp:health_selection' %}"><button class="day-button">月</button></a></th>
-            <th><a href="{% url 'cookapp:health_selection' %}"><button class="day-button">火</button></a></th>
-            <th><a href="{% url 'cookapp:health_selection' %}"><button class="day-button">水</button></a></th>
-            <th><a href="{% url 'cookapp:health_selection' %}"><button class="day-button">木</button></a></th>
-            <th><a href="{% url 'cookapp:health_selection' %}"><button class="day-button">金</button></a></th>
-            <th><a href="{% url 'cookapp:health_selection' %}"><button class="day-button">土</button></a></th>
-            <th><a href="{% url 'cookapp:health_selection' %}"><button class="day-button">日</button></a></th>
+            <th><a href="{% url 'health:health_selection' 0 0 %}"><button class="day-button">月</button></a></th>
+            <th><a href="{% url 'health:health_selection' 1 0 %}"><button class="day-button">火</button></a></th>
+            <th><a href="{% url 'health:health_selection' 2 0 %}"><button class="day-button">水</button></a></th>
+            <th><a href="{% url 'health:health_selection' 3 0 %}"><button class="day-button">木</button></a></th>
+            <th><a href="{% url 'health:health_selection' 4 0 %}"><button class="day-button">金</button></a></th>
+            <th><a href="{% url 'health:health_selection' 5 0 %}"><button class="day-button">土</button></a></th>
+            <th><a href="{% url 'health:health_selection' 6 0 %}"><button class="day-button">日</button></a></th>
         </tr>
         <tr>
+            {% if exist_list.0 == "T" %}
             <td>
-                <button class="time-slot-button">朝</button>
-                <button class="time-slot-button">昼</button>
-                <button class="time-slot-button">晩</button>
+                <a href="{% url 'health:health_menu' 0 0 %}"><button class="time-slot-button">朝</button></a>
+                <a href="{% url 'health:health_menu' 1 0 %}"><button class="time-slot-button">昼</button></a>
+                <a href="{% url 'health:health_menu' 2 0 %}"><button class="time-slot-button">晩</button></a>
             </td>
+            {% else %}
             <td>
-                <button class="time-slot-button">朝</button>
-                <button class="time-slot-button">昼</button>
-                <button class="time-slot-button">晩</button>
+                <h2>未定</h2>
             </td>
+            {% endif %}
+            {% if exist_list.1 == "T" %}
             <td>
-                <button class="time-slot-button">朝</button>
-                <button class="time-slot-button">昼</button>
-                <button class="time-slot-button">晩</button>
+                <a href="{% url 'health:health_menu' 0 1 %}"><button class="time-slot-button">朝</button></a>
+                <a href="{% url 'health:health_menu' 1 1 %}"><button class="time-slot-button">昼</button></a>
+                <a href="{% url 'health:health_menu' 2 1 %}"><button class="time-slot-button">晩</button></a>
             </td>
+            {% else %}
             <td>
-                <button class="time-slot-button">朝</button>
-                <button class="time-slot-button">昼</button>
-                <button class="time-slot-button">晩</button>
+                <h2>未定</h2>
             </td>
+            {% endif %}
+            {% if exist_list.2 == "T" %}
             <td>
-                <button class="time-slot-button">朝</button>
-                <button class="time-slot-button">昼</button>
-                <button class="time-slot-button">晩</button>
+                <a href="{% url 'health:health_menu' 0 2 %}"><button class="time-slot-button">朝</button></a>
+                <a href="{% url 'health:health_menu' 1 2 %}"><button class="time-slot-button">昼</button></a>
+                <a href="{% url 'health:health_menu' 2 2 %}"><button class="time-slot-button">晩</button></a>
             </td>
+            {% else %}
             <td>
-                <button class="time-slot-button">朝</button>
-                <button class="time-slot-button">昼</button>
-                <button class="time-slot-button">晩</button>
+                <h2>未定</h2>
             </td>
+            {% endif %}
+            {% if exist_list.3 == "T" %}
             <td>
-                <button class="time-slot-button">朝</button>
-                <button class="time-slot-button">昼</button>
-                <button class="time-slot-button">晩</button>
+                <a href="{% url 'health:health_menu' 0 3 %}"><button class="time-slot-button">朝</button></a>
+                <a href="{% url 'health:health_menu' 1 3 %}"><button class="time-slot-button">昼</button></a>
+                <a href="{% url 'health:health_menu' 2 3 %}"><button class="time-slot-button">晩</button></a>
             </td>
+            {% else %}
+            <td>
+                <h2>未定</h2>
+            </td>
+            {% endif %}
+            {% if exist_list.4 == "T" %}
+            <td>
+                <a href="{% url 'health:health_menu' 0 4 %}"><button class="time-slot-button">朝</button></a>
+                <a href="{% url 'health:health_menu' 1 4 %}"><button class="time-slot-button">昼</button></a>
+                <a href="{% url 'health:health_menu' 2 4 %}"><button class="time-slot-button">晩</button></a>
+            </td>
+            {% else %}
+            <td>
+                <h2>未定</h2>
+            </td>
+            {% endif %}
+            {% if exist_list.5 == "T" %}
+            <td>
+                <a href="{% url 'health:health_menu' 0 5 %}"><button class="time-slot-button">朝</button></a>
+                <a href="{% url 'health:health_menu' 1 5 %}"><button class="time-slot-button">昼</button></a>
+                <a href="{% url 'health:health_menu' 2 5 %}"><button class="time-slot-button">晩</button></a>
+            </td>
+            {% else %}
+            <td>
+                <h2>未定</h2>
+            </td>
+            {% endif %}
+            {% if exist_list.6 == "T" %}
+            <td>
+                <a href="{% url 'health:health_menu' 0 6 %}"><button class="time-slot-button">朝</button></a>
+                <a href="{% url 'health:health_menu' 1 6 %}"><button class="time-slot-button">昼</button></a>
+                <a href="{% url 'health:health_menu' 2 6 %}"><button class="time-slot-button">晩</button></a>
+            </td>
+            {% else %}
+            <td>
+                <h2>未定</h2>
+            </td>
+            {% endif %}
         </tr>
     </table>
 </body>

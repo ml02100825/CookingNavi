@@ -19,10 +19,10 @@
 
         <!-- メインコンテンツエリア -->
         <div class="main-content">
-           <p> {{ user.email }}</p>
+    
             <!-- 健康管理ボタン -->
             <div class="health-management-btn">
-                <a href="{% url 'cookapp:health_management_main' %}"><button>健康管理</button></a>
+                <a href="{% url 'health:health_management_main' %}"><button>健康管理</button></a>
             </div>
 
             <!-- ボタン群（食事履歴、掲示板、買い物リスト、健康グラフ） -->
@@ -45,12 +45,16 @@
 
                 <!-- 買い物リストボタン -->
                 <div class="shopping-list-btn">
-                    <button>買い物リスト</button>
+                    <a href="{% url 'buylist:buylist' %}">
+                        <button>買い物リスト</button>
+                    </a>
                 </div>
 
                 <!-- 健康グラフボタン -->
                 <div class="health-graph-btn">
-                    <a href="{% url 'cookapp:health_graph' %}"><button>健康グラフ</button></a>
+                    <a href="{% url 'cookapp:health_graph' %}">
+                        <button>健康グラフ</button>
+                    </a>
                 </div>
             </div>
 

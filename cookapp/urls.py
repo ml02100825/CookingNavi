@@ -1,6 +1,9 @@
 from django.urls import path, include
 from . import  views
 from .views import KazokuHenkoView
+from django.urls import path
+from .views import KiyakuView
+
 
 
 app_name = "cookapp"
@@ -9,10 +12,6 @@ urlpatterns = [
     path('index/', views.IndexView.as_view(), name='index'),
     path('Login1/', views.CustomLogin1View.as_view(), name='Login1'),
     path('home/', views.HomeView.as_view(), name='home'),
-    path('health_management_main/', views.HealthMainView.as_view(), name='health_management_main'),
-    path('health_selection/', views.HealthSelectionView.as_view(), name='health_selection'),
-    path('health_selectioncomplate/', views.HealthSelectionComplateView.as_view(), name='health_selectioncomplate'),
-    path('health_menuconfirmation/', views.HealthMenuConfirmationView.as_view(), name='health_menuconfirmation'),
     path('setting/', views.SettingView.as_view(), name='setting'),
     path('acount_setting/', views.AcountSettingView.as_view(), name='acount_setting'),
     path('family_info/', views.FamilyInfoView.as_view(), name='family_info'),
@@ -44,4 +43,5 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('kazoku/sakujo/<int:family_id>/', views.KazokuSakujoView.as_view(), name='kazoku_sakujo'),
     path('kazoku_sakujo_ok/<int:family_id>/', views.KazokuSakujoOkView.as_view(), name='kazoku_sakujo_ok'),
+    path('kiyaku/', views.KiyakuView.as_view(), name='kiyaku_kiyaku'),
 ]

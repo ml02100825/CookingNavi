@@ -1,5 +1,6 @@
 /* 全体のスタイル */
 body {
+    background-color: #ffebcd; /* 背景色 */
     margin: 0; /* ページの余白を削除 */
     padding: 0; /* パディングを削除 */
 }

@@ -33,6 +33,8 @@ class Cook(models.Model):
     class Meta:
         managed = False
         db_table = 'cook'
+    def __str__(self):
+        return f"{self.cookname}"
 class Recipe(models.Model):
     recipe_id = models.AutoField(db_column='RECIPE_ID', primary_key=True)  # Field name made lowercase.
     cook = models.ForeignKey('Cook', models.PROTECT, db_column='COOK_ID')  # Field name made lowercase.

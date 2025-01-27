@@ -1,109 +1,127 @@
 {% extends 'baseuser.html' %}
 
+{% load static %}
+
 {% block title %}投稿編集{% endblock %}
 
 {% block content %}
-    <!-- 編集フォーム -->
-    <div class="edit-container">
-        <!-- ユーザー情報（アイコンと名前） -->
-        <div class="user-info">
-            <div class="user-icon"></div>
-            
+<head>
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/keijiban/bulletinboard.css' %}">
+    <style>
+        .post-image {
+            max-width: 100%;
+            height: auto;
+            width: 300px; /* ここで画像の幅を指定します */
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<!-- 編集フォーム -->
+<div class="edit-container">
+    <!-- ユーザー情報（アイコンと名前） -->
+    <div class="user-info">
+        <div class="user-icon"></div>
+    </div>
+
+    <!-- 画像の表示と操作 -->
+    <div class="image-container">
+        <h3>投稿画像</h3>
+        <div class="image-carousel">
+            {% for image in images %}
+                <img src="{{ image.url }}" alt="投稿画像" class="post-image {% if not forloop.first %}hidden{% endif %}" data-image-id="{{ image.id }}">
+            {% endfor %}
         </div>
 
-        <!-- メニュー名の編集 -->
+        <div class="image-buttons">
+            <button type="button" onclick="changeImage(-1)"><</button>
+            <form method="POST" id="delete-image-form" style="display:inline;">
+                {% csrf_token %}
+                <input type="hidden" name="delete_image_id" id="delete-image-id">
+                <button type="button" onclick="deleteImage()">削除</button>
+            </form>
+            <button type="button" onclick="changeImage(1)">></button>
+        </div>
+    </div>
+
+    <!-- 画像追加ボタン -->
+    <div class="add-image-container">
+        <button type="button" onclick="addImageField()">画像を追加</button>
+    </div>
+
+    <!-- メニュー名の編集 -->
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
         <div class="form-group">
             <label for="post-title">メニュー名</label>
-            <input type="text" id="post-title" value="唐揚げ" class="form-input">
-        </div>
-
-        <!-- 画像の編集（スライダー形式） -->
-        <div class="image-edit-slider">
-            <div class="image-container">
-                <img src="../../png/dinner.jpg" alt="料理画像 1" class="post-image" id="slider-image">
-                <img src="../../png/lunch.jpg" alt="料理画像 2" class="post-image hidden">
-                <img src="image3.jpg" alt="料理画像 3" class="post-image hidden">
-            </div>
-            <div class="arrow-buttons">
-                <button class="arrow-button" onclick="changeImage(-1)">&#10094;</button>
-                <button class="arrow-button" onclick="changeImage(1)">&#10095;</button>
-            </div>
-            <div class="image-actions">
-                <button class="add-image-btn">画像を追加</button>
-                <button class="delete-image-btn" onclick="deleteImage()">画像を削除</button>
-            </div>
+            {{ form.name }} <!-- フォームでメニュー名を表示 -->
         </div>
 
         <!-- 作り方の編集 -->
         <div class="recipe-method-edit">
             <h3>作り方</h3>
-            <textarea class="form-input" id="recipe-method" rows="5">
-1. 鶏肉を一口大に切り、調味料で下味をつけます。
-2. 衣をつけて、180度の油で揚げます。
-3. キッチンペーパーで余分な油を取って、お皿に盛り付けます。
-4. お好みでレモンを絞って召し上がれ。
-            </textarea>
+            {{ form.recipe_text }} <!-- 作り方フォーム -->
         </div>
+
+        <!-- 画像追加フィールド -->
+        <div id="image-fields">
+            <!-- ここに動的に画像追加フィールドが挿入されます -->
+        </div>
+
+        <!-- 削除する画像の情報を一時的に保存するフィールド -->
+        <input type="hidden" name="deleted_images" id="deleted-images">
 
         <!-- 保存、キャンセル、戻るボタン -->
         <div class="button-group">
-            <button class="save-button" onclick="saveChanges()">編集完了</button>
-            
+            <button type="submit" class="save-button">編集完了</button>
         </div>
-    </div>
+    </form>
+</div>
 {% endblock %}
 
 {% block scripts %}
-    <script>
-        let currentImageIndex = 0;
+<script>
+    let currentImageIndex = 0;
+    let deletedImages = [];
 
-        function changeImage(direction) {
-            const images = document.querySelectorAll('.post-image');
-            const totalImages = images.length;
+    function changeImage(direction) {
+        const images = document.querySelectorAll('.post-image');
+        const totalImages = images.length;
 
-            images.forEach(image => image.classList.add('hidden'));
+        images.forEach(image => image.classList.add('hidden'));
 
-            currentImageIndex += direction;
+        currentImageIndex += direction;
 
-            if (currentImageIndex < 0) {
-                currentImageIndex = totalImages - 1;
-            } else if (currentImageIndex >= totalImages) {
-                currentImageIndex = 0;
-            }
-
-            images[currentImageIndex].classList.remove('hidden');
+        if (currentImageIndex < 0) {
+            currentImageIndex = totalImages - 1;
+        } else if (currentImageIndex >= totalImages) {
+            currentImageIndex = 0;
         }
 
-        function deleteImage() {
-            const images = document.querySelectorAll('.post-image');
-            if (images.length > 0) {
-                images[currentImageIndex].remove(); // Remove the current image from the DOM
-                alert("画像が削除されました");
+        images[currentImageIndex].classList.remove('hidden');
+    }
 
-                // Adjust currentImageIndex to show the next available image
-                if (currentImageIndex >= images.length) {
-                    currentImageIndex = images.length - 1;
-                }
-                if (images.length > 0) {
-                    images[currentImageIndex].classList.remove('hidden');
-                }
-            } else {
-                alert("削除できる画像がありません");
-            }
+    function deleteImage() {
+        const images = document.querySelectorAll('.post-image');
+        if (images.length > 0) {
+            const imageId = images[currentImageIndex].getAttribute('data-image-id');
+            deletedImages.push(imageId);
+            document.getElementById('deleted-images').value = deletedImages.join(',');
+            images[currentImageIndex].remove();
+            changeImage(0); // Update the current image index
+        } else {
+            alert("削除できる画像がありません");
         }
+    }
 
-        function saveChanges() {
-            alert("変更が保存されました！");
-            // Additional code to send form data to server goes here
-        }
-
-        function cancelChanges() {
-            alert("変更をキャンセルしました");
-            // Reset any changes made in the form here if needed
-        }
-
-        function goBack() {
-            window.history.back(); // 前のページに戻る
-        }
-    </script>
+    function addImageField() {
+        const imageFields = document.getElementById('image-fields');
+        const newField = document.createElement('input');
+        newField.type = 'file';
+        newField.name = 'additional_images';
+        imageFields.appendChild(newField);
+    }
+</script>
 {% endblock %}

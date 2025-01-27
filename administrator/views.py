@@ -20,6 +20,9 @@ class RecipeAddView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         form = RecipeAddForm()
+        
+      
+        request.session['materials'] = {}
         return render(request, self.template_name, {'form': form})
     
     def post(self, request, *args, **kwargs):
@@ -79,7 +82,7 @@ class RecipeAddView(TemplateView):
             if image3 != None:
                 image3 = CookImagesave(image = image3)
                 image3.save()
-                imageurl3 = Image(image = image1.image.url)
+                imageurl3 = Image(image = image3.image.url)
                 imageurl3.save()
                 cookimage3 = Cookimage(cook = cook, image = imageurl3)
                 cookimage3.save()
@@ -116,10 +119,11 @@ def save_material(request, material,materialamount):
             
         logging.debug("せーぶまてりある")
         logging.debug(material)
+        logging.debug(materialamount)
         materialname = Material.objects.filter(material_id = material).values('material_id','name')
        # 'materials'がセッションに存在する場合
         if 'materials' in request.session:
-            
+            logging.debug('セッションが存在する')
             materials = request.session['materials']
             logging.debug(materials)
             logging.debug(materialname[0]['material_id'] )
@@ -128,11 +132,12 @@ def save_material(request, material,materialamount):
                logging.debug(materials)
                del materials[id]
                logging.debug(materials)
+               logging.debug(material)
                del request.session['materials']
 
                request.session['materials'] = materials
                logging.debug("削除完了")
-               logging.debug(request.session['materials'],"セッション")
+            #    logging.debug(request.session['materials'],"セッション")
                return JsonResponse(materials, safe=False)
 
         else:

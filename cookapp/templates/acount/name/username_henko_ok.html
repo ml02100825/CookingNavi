@@ -1,9 +1,13 @@
 <!-- ユーザ名変更完了 -->
 {% extends '../../baseuser.html' %}
 
+{% load static %}
+
 {% block title %}ユーザ名変更完了{% endblock %}
 
 {% block content %}
+
+<link rel="stylesheet" href="{% static 'css/acount/name/username_henko_ok.css' %}">
 <main class="main-content">
     <div class="username-complete-container">
         <h1>ユーザ名変更完了</h1>

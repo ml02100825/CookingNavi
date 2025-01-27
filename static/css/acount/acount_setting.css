@@ -1,4 +1,9 @@
 /* General container for the account settings page */
+body {
+    background-color: #ffebcd;
+    margin: 0;
+    padding: 0;
+}
 .account-settings {
     max-width: 800px;
     margin: 20px auto;

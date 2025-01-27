@@ -1,5 +1,4 @@
 # UserCreationFormクラスをインポート
-from django.contrib.auth.forms import UserCreationForm
 from django import forms
 
 # models.pyで定義したUserをインポート

@@ -9,7 +9,7 @@ body, h3, p, button, input {
 }
 
 body {
-    background-color: #f7f7f7;
+    background-color: #ffebcd;
     color: #333;
     line-height: 1.6;
 }
@@ -19,10 +19,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 15px;
-    background-color: #ffebcd;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
 }
 
 .search-bar {

@@ -1,13 +1,17 @@
-/* 退会 */
-
 /* ===== グローバルリセット ===== */
-/* 各ブラウザのデフォルトスタイルをリセットし、一貫したデザインを確保 */
 * {
     margin: 0;
     padding: 0;
 }
 
-/* ===== ボディ全体のスタイル ===== */
+body{
+    background-color: #ffebcd;
+}
+
+/* ===== ヘッダー下に余白を追加 ===== */
+header {
+    margin-bottom: 150px; /* ヘッダーと次のセクションの間に余白を追加 */
+}
 
 /* ===== 退会コンテナのスタイル ===== */
 .taikai-container {
@@ -16,6 +20,7 @@
     align-items: center; /* 垂直方向の中央揃え */
     width: 100%; /* 横幅を最大化 */
     padding: 20px; /* 内側余白を設定 */
+    margin-top: 20px; /* ヘッダーと退会コンテナの間に余白を追加 */
 }
 
 /* ===== 退会ボックスのスタイル ===== */
@@ -29,56 +34,48 @@
     max-width: 400px; /* 最大幅を制限 */
 }
 
-/* ===== 見出しのスタイル ===== */
+/* 以下のコードは変更なし */
 .taikai-box h2 {
-    font-size: 1.8em; /* タイトルを大きく目立たせる */
-    margin-bottom: 15px; /* 下部に余白を追加 */
-    color: #ff6b6b; /* 鮮やかな赤色 */
+    font-size: 2.5em;
+    margin-bottom: 15px;
+    color: #ff6b6b;
 }
 
-/* ===== 説明文のスタイル ===== */
 .taikai-box p {
-    font-size: 1em; /* テキストサイズを標準に */
-    margin-bottom: 20px; /* 下部に余白を追加 */
-    color: #555; /* 説明文の色を少し落ち着かせる */
+    font-size: 1em;
+    margin-bottom: 20px;
+    color: #555;
 }
 
-/* ===== ボタンコンテナのスタイル ===== */
 .button-container {
-    display: flex; /* ボタンを横並びに配置 */
-    justify-content: space-around; /* 均等な間隔を確保 */
-    align-items: center; /* 垂直方向の中央揃え */
-    gap: 15px; /* ボタン間にスペースを追加 */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 15px;
 }
 
-/* ===== 退会ボタンのスタイル ===== */
 .taikai-btn {
-    padding: 10px 20px; /* ボタンの内側余白を設定 */
-    background-color: #ff6b6b; /* 鮮やかな赤色 */
-    color: white; /* テキストを白に */
-    border: none; /* ボーダーを削除 */
-    border-radius: 5px; /* 角を丸くする */
-    font-size: 1em; /* 文字サイズ */
-    cursor: pointer; /* ポインタカーソルを表示 */
-    transition: background-color 0.3s; /* ホバー時の色変化をアニメーション化 */
+    padding: 10px 20px;
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-.taikai-btn:hover {
-    background-color: #e63946; /* ホバー時に色を濃くする */
-}
-
-/* ===== キャンセルリンクのスタイル ===== */
 .cancel-btn {
-    display: inline-block; /* リンクをボタン風に */
-    padding: 10px 20px; /* 内側余白を設定 */
-    background-color: #ccc; /* グレーの背景色 */
-    color: #333; /* テキストカラー */
-    text-decoration: none; /* 下線を削除 */
-    border-radius: 5px; /* 角を丸くする */
-    font-size: 1em; /* 文字サイズ */
-    transition: background-color 0.3s; /* ホバー時の色変化をアニメーション化 */
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #ccc;
+    color: #333;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: background-color 0.3s;
 }
 
 .cancel-btn:hover {
-    background-color: #bbb; /* ホバー時に色を濃くする */
+    background-color: #bbb;
 }

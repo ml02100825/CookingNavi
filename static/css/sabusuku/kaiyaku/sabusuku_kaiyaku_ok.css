@@ -3,7 +3,7 @@ body {
     font-family: Arial, sans-serif; /* シンプルで読みやすいフォント */
     margin: 0; /* 余白を削除 */
     padding: 0; /* パディングを削除 */
-    background-color: #f9f9f9; /* 優しい背景色 */
+    background-color: #ffebcd; 
     color: #333; /* テキストの基本色 */
 }
 
