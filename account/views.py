@@ -98,28 +98,28 @@ class SignUpPage1View(TemplateView):
 
 class SignUpPage2View(TemplateView):
     template_name = 'administrator/sign up/sign up2.html'
-
+ 
     def get(self, request, *args, **kwargs):
         form = CustomUserCreation2Form()
         return render(request, self.template_name, {'form': form})
-
+ 
     def post(self, request, *args, **kwargs):
         form = CustomUserCreation2Form(request.POST)
         if form.is_valid():
             email = request.session.get('email')
             password = request.session.get('password1')
-
+ 
             try:
                 # 既存ユーザーを取得
                 user = User.objects.get(email=email)
-
+ 
                 # 非アクティブまたは論理削除ユーザーの場合、復活処理
                 if not user.is_active or user.deleteflag:
                     user.is_active = 1  # アクティブ化
                     user.deleteflag = 0  # DeleteFlagを0に設定
                     user.set_password(password)  # 新しいパスワードを保存
                     logging.debug(f"非アクティブまたは削除ユーザー {email} を復活しました。")
-
+ 
                     # 必要なフィールドの更新
                     user.name = form.cleaned_data['name']
                     user.age = form.cleaned_data['birthdate']
@@ -127,10 +127,10 @@ class SignUpPage2View(TemplateView):
                     user.height = form.cleaned_data['height']
                     user.weight = form.cleaned_data['weight']
                     user.save()
-
+ 
                 else:
                     raise User.DoesNotExist  # 通常の新規作成へ進む
-
+ 
             except User.DoesNotExist:
                 # 新規ユーザー作成
                 hashed_password = make_password(password)
@@ -144,18 +144,38 @@ class SignUpPage2View(TemplateView):
                     weight=form.cleaned_data['weight'],
                 )
                 user.save()
-
+ 
+            # familymemberテーブルに登録
+            family_member = Familymember(
+                Family_Name=form.cleaned_data['name'],
+                Family_Gender=form.cleaned_data['gender'],
+                Family_Age=form.cleaned_data['birthdate'],
+                Family_Height=form.cleaned_data['height'],
+                Family_Weight=form.cleaned_data['weight'],
+                User_ID=user.User_ID
+            )
+            family_member.save()
+ 
+            # weightテーブルに登録
+            weight_entry = Weight(
+                Weight=form.cleaned_data['weight'],
+                RegisterTime=timezone.now().strftime('%Y-%m-%d %H:%M:%S'),
+                User_ID=user.User_ID,
+                Family_ID=family_member.Family_ID
+            )
+            weight_entry.save()
+ 
             # アレルギー情報の登録または更新
             allergies = form.cleaned_data['allergies']
             for allergy in allergies:
                 Userallergy.objects.update_or_create(
                     user=user, allergy_category=allergy
                 )
-
+ 
             # ログイン処理
             login(request, user)
             return redirect('account:signup_completion')  # 完了画面へ遷移
-
+ 
         # フォームが無効な場合
         return render(request, self.template_name, {'form': form})
 
