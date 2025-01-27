@@ -21,16 +21,20 @@
                 {% endif %}
                 
                 <label for="id_email">Email</label>
-                {{form.email}}
+                {{ form.email }}
                 
                 <label for="id_password">Password</label>
-                {{form.password}}
-                <!-- <input type="password" name="password" id="password" required> -->
+                {{ form.password }}
                 
                 <button type="submit">Log in</button>
+
+                <!-- パスワードを忘れた場合 -->
+                <div class="forgot-password">
+                    <a href="{% url 'cookapp:password_reset' %}">パスワードを忘れた場合</a>
+                </div>
             </form>
             
         </div>
     </main>
 
-    {% endblock %}
+{% endblock %}

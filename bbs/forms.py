@@ -1,7 +1,7 @@
 from django import forms
 from .models import Bbs
- 
- 
+
+
 class RecipeAddForm(forms.Form):
     name = forms.CharField(label="料理名", max_length=50)
     recipe_text = forms.CharField(
