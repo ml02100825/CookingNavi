@@ -64,11 +64,7 @@ class Cookimage(models.Model):
 
 
 
-class AdministratorCookimagesave(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    image = models.CharField(max_length=100)
-
-    class Meta:
-        managed = False
-        db_table = 'administrator_cookimagesave'
+class CookImagesave(models.Model):
+    
+    image = models.ImageField(upload_to='cook/')  # 画像の保存先フォルダ
     

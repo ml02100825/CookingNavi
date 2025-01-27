@@ -7,8 +7,16 @@
 
 
 <link rel="stylesheet" href="{% static 'css/sintai/sintai_henko.css' %}">
+
 <main class="main-content">
     <h2>身体情報変更</h2>
+    <div class="messages">
+        {% for message in messages %}
+            <div class="message {{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
     <form action="{% url 'cookapp:body_info_update' %}" method="post" class="registration-form">
         {% csrf_token %}
         {{ form.as_p }}

@@ -117,15 +117,29 @@ body {
     color: #888;
 }
 
+/* ボタンのスタイル */
 .like-btn {
-    background: none;
-    border: none;
-    font-size: 18px;
-    color: #ff4500;
-    cursor: pointer;
-    margin-top: 10px;
+    display: inline-block;
+    position: relative;
+    background-color: transparent;  /* 背景色なし */
+    border: none;  /* 枠線なし */
+    padding: 0;     /* パディングなし */
+    cursor: pointer;  /* クリック可能なカーソル */
 }
 
-.like-btn:hover {
-    color: #ff6347;
+/* ハートのアイコンのスタイル */
+.like-btn i {
+    font-size: 18px;   /* フォントサイズ18px */
+    color: #f34100;      /* 初期状態では白 */
+    transition: color 0.3s ease; /* 色の変更をスムーズに */
+}
+
+/* ホバー時のスタイル */
+.like-btn:hover i {
+    color: rgb(255, 84, 17)500;  /* ホバー時は灰色 */
+}
+
+/* 登録時（クリック後）のスタイル */
+.like-btn.liked i {
+    color: #f34100;  /* 登録時は赤色 */
 }

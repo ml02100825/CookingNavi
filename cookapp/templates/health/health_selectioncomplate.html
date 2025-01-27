@@ -10,15 +10,15 @@
         <!-- 画像を横並びに表示 -->
         <div class="image-container">
             <div class="image-item">
-                <img src="../../png/morning.jpg" alt="朝食の写真">
+                <img src="{{ breakfastimage }}" alt="朝食の写真">
                 <label>朝</label>
             </div>
             <div class="image-item">
-                <img src="../../png/lunch.jpg" alt="昼食の写真">
+                <img src="{{ lunchimage }}" alt="昼食の写真">
                 <label>昼</label>
             </div>
             <div class="image-item">
-                <img src="../../png/dinner.jpg" alt="夕食の写真">
+                <img src="{{ dinnerimage }}" alt="夕食の写真">
                 <label>晩</label>
             </div>
         </div>
@@ -27,6 +27,6 @@
         <p class="confirmation-message">主菜の登録が完了しました</p>
 
         <!-- 戻るボタン -->
-        <th><a href="{% url 'cookapp:health_management_main' %}" ><button class="day-button">戻る</button></a></th>
+        <th><a href="{% url 'health:health_management_main' %}" ><button class="day-button">戻る</button></a></th>
     </div>
 {% endblock %}

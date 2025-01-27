@@ -8,6 +8,16 @@
 <head>
     <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'css/keijiban/bulletinboard.css' %}">
+    <style>
+        .post-image {
+            max-width: 100%;
+            height: auto;
+            width: 300px; /* ここで画像の幅を指定します */
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <!-- 編集フォーム -->
 <div class="edit-container">
@@ -21,19 +31,28 @@
         <h3>投稿画像</h3>
         <div class="image-carousel">
             {% for image in images %}
-            <img src="{{ image.image.url }}" alt="投稿画像" class="post-image {% if forloop.first %}active{% else %}hidden{% endif %}">
+                <img src="{{ image.url }}" alt="投稿画像" class="post-image {% if not forloop.first %}hidden{% endif %}" data-image-id="{{ image.id }}">
             {% endfor %}
         </div>
 
         <div class="image-buttons">
             <button type="button" onclick="changeImage(-1)"><</button>
-            <button type="button" onclick="deleteImage()">削除</button>
+            <form method="POST" id="delete-image-form" style="display:inline;">
+                {% csrf_token %}
+                <input type="hidden" name="delete_image_id" id="delete-image-id">
+                <button type="button" onclick="deleteImage()">削除</button>
+            </form>
             <button type="button" onclick="changeImage(1)">></button>
         </div>
     </div>
 
+    <!-- 画像追加ボタン -->
+    <div class="add-image-container">
+        <button type="button" onclick="addImageField()">画像を追加</button>
+    </div>
+
     <!-- メニュー名の編集 -->
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-group">
             <label for="post-title">メニュー名</label>
@@ -46,6 +65,14 @@
             {{ form.recipe_text }} <!-- 作り方フォーム -->
         </div>
 
+        <!-- 画像追加フィールド -->
+        <div id="image-fields">
+            <!-- ここに動的に画像追加フィールドが挿入されます -->
+        </div>
+
+        <!-- 削除する画像の情報を一時的に保存するフィールド -->
+        <input type="hidden" name="deleted_images" id="deleted-images">
+
         <!-- 保存、キャンセル、戻るボタン -->
         <div class="button-group">
             <button type="submit" class="save-button">編集完了</button>
@@ -57,6 +84,7 @@
 {% block scripts %}
 <script>
     let currentImageIndex = 0;
+    let deletedImages = [];
 
     function changeImage(direction) {
         const images = document.querySelectorAll('.post-image');
@@ -78,18 +106,22 @@
     function deleteImage() {
         const images = document.querySelectorAll('.post-image');
         if (images.length > 0) {
-            images[currentImageIndex].remove(); // 現在の画像を削除
-            alert("画像が削除されました");
-
-            // インデックスを調整
-            currentImageIndex = Math.min(currentImageIndex, images.length - 1);
-
-            if (images.length > 0) {
-                images[currentImageIndex].classList.remove('hidden');
-            }
+            const imageId = images[currentImageIndex].getAttribute('data-image-id');
+            deletedImages.push(imageId);
+            document.getElementById('deleted-images').value = deletedImages.join(',');
+            images[currentImageIndex].remove();
+            changeImage(0); // Update the current image index
         } else {
             alert("削除できる画像がありません");
         }
+    }
+
+    function addImageField() {
+        const imageFields = document.getElementById('image-fields');
+        const newField = document.createElement('input');
+        newField.type = 'file';
+        newField.name = 'additional_images';
+        imageFields.appendChild(newField);
     }
 </script>
 {% endblock %}
