@@ -1,10 +1,12 @@
+from datetime import timezone
 from django.shortcuts import render, redirect
 from django.views.generic.base import TemplateView
 from django.contrib.auth import login,authenticate
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.views import LoginView, LogoutView
 from .forms import CustomUserCreation1Form, CustomUserCreation2Form, LoginForm
-from .models import User, Userallergy
+from .models import User, Userallergy 
+from cookapp.models import Familymember, Weight
 from django.urls import reverse_lazy
 import logging
 from django.utils.decorators import method_decorator
@@ -144,7 +146,6 @@ class SignUpPage2View(TemplateView):
                     weight=form.cleaned_data['weight'],
                 )
                 user.save()
- 
             # familymemberテーブルに登録
             family_member = Familymember(
                 Family_Name=form.cleaned_data['name'],
@@ -155,7 +156,6 @@ class SignUpPage2View(TemplateView):
                 User_ID=user.User_ID
             )
             family_member.save()
- 
             # weightテーブルに登録
             weight_entry = Weight(
                 Weight=form.cleaned_data['weight'],
@@ -164,7 +164,6 @@ class SignUpPage2View(TemplateView):
                 Family_ID=family_member.Family_ID
             )
             weight_entry.save()
- 
             # アレルギー情報の登録または更新
             allergies = form.cleaned_data['allergies']
             for allergy in allergies:
@@ -178,7 +177,6 @@ class SignUpPage2View(TemplateView):
  
         # フォームが無効な場合
         return render(request, self.template_name, {'form': form})
-
 
 class CustomSignUpView(TemplateView):
     template_name = 'administrator/sign up/sign up_completion.html'
