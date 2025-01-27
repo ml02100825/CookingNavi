@@ -46,6 +46,11 @@
         </div>
     </div>
 
+    <!-- 画像追加ボタン -->
+    <div class="add-image-container">
+        <button type="button" onclick="addImageField()">画像を追加</button>
+    </div>
+
     <!-- メニュー名の編集 -->
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
@@ -58,6 +63,11 @@
         <div class="recipe-method-edit">
             <h3>作り方</h3>
             {{ form.recipe_text }} <!-- 作り方フォーム -->
+        </div>
+
+        <!-- 画像追加フィールド -->
+        <div id="image-fields">
+            <!-- ここに動的に画像追加フィールドが挿入されます -->
         </div>
 
         <!-- 削除する画像の情報を一時的に保存するフィールド -->
@@ -104,6 +114,14 @@
         } else {
             alert("削除できる画像がありません");
         }
+    }
+
+    function addImageField() {
+        const imageFields = document.getElementById('image-fields');
+        const newField = document.createElement('input');
+        newField.type = 'file';
+        newField.name = 'additional_images';
+        imageFields.appendChild(newField);
     }
 </script>
 {% endblock %}

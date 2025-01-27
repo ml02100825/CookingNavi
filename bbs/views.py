@@ -9,8 +9,9 @@ from django.views import View
 from django.contrib import messages
 from django.urls import reverse
 from django.db.models import Sum
-import logging
- 
+import logging, os
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 # Create your views here.
  
  
@@ -297,6 +298,15 @@ class EditView(View):
                 image3_instance = Image(image=request.FILES['image3'])
                 image3_instance.save()
                 Postimage.objects.create(post=post, image=image3_instance)
+
+            # 追加された画像を処理
+            for file in request.FILES.getlist('additional_images'):
+                fs = FileSystemStorage(location=settings.MEDIA_ROOT)
+                filename = fs.save(file.name, file)
+                file_url = fs.url(filename)
+                image_instance = Image(image=file_url)
+                image_instance.save()
+                Postimage.objects.create(post=post, image=image_instance)
 
             # 削除する画像を処理
             deleted_images = request.POST.get('deleted_images', '').split(',')
