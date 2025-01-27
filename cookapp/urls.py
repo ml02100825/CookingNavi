@@ -42,7 +42,7 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('kazoku/sakujo/<int:family_id>/', views.KazokuSakujoView.as_view(), name='kazoku_sakujo'),
     path('kazoku_sakujo_ok/<int:family_id>/', views.KazokuSakujoOkView.as_view(), name='kazoku_sakujo_ok'),
-    path('kiyaku/', views.KiyakuView.as_view(), name='kiyaku'),
+    path('kiyaku/', views.KiyakuView.as_view(), name='kiyaku_kiyaku'),
     path('password_reset/', auth_views.PasswordResetView.as_view(success_url='/password_reset/done/'), name='password_reset'),
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     path('password_reset/confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='account/password_reset_confirm.html'), name='password_reset_confirm'),
