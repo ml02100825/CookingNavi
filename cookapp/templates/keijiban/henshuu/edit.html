@@ -31,7 +31,7 @@
         <h3>投稿画像</h3>
         <div class="image-carousel">
             {% for image in images %}
-                <img src="{{ image }}" alt="投稿画像" class="post-image {% if not forloop.first %}hidden{% endif %}">
+                <img src="{{ image.url }}" alt="投稿画像" class="post-image {% if not forloop.first %}hidden{% endif %}" data-image-id="{{ image.id }}">
             {% endfor %}
         </div>
 
@@ -47,7 +47,7 @@
     </div>
 
     <!-- メニュー名の編集 -->
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-group">
             <label for="post-title">メニュー名</label>
@@ -60,6 +60,9 @@
             {{ form.recipe_text }} <!-- 作り方フォーム -->
         </div>
 
+        <!-- 削除する画像の情報を一時的に保存するフィールド -->
+        <input type="hidden" name="deleted_images" id="deleted-images">
+
         <!-- 保存、キャンセル、戻るボタン -->
         <div class="button-group">
             <button type="submit" class="save-button">編集完了</button>
@@ -71,6 +74,7 @@
 {% block scripts %}
 <script>
     let currentImageIndex = 0;
+    let deletedImages = [];
 
     function changeImage(direction) {
         const images = document.querySelectorAll('.post-image');
@@ -93,8 +97,10 @@
         const images = document.querySelectorAll('.post-image');
         if (images.length > 0) {
             const imageId = images[currentImageIndex].getAttribute('data-image-id');
-            document.getElementById('delete-image-id').value = imageId;
-            document.getElementById('delete-image-form').submit();
+            deletedImages.push(imageId);
+            document.getElementById('deleted-images').value = deletedImages.join(',');
+            images[currentImageIndex].remove();
+            changeImage(0); // Update the current image index
         } else {
             alert("削除できる画像がありません");
         }

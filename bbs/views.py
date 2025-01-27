@@ -262,7 +262,7 @@ class EditView(View):
 
         # Postimageから画像を取得
         post_images = Postimage.objects.filter(post=post).values('image')
-        images = [Image.objects.get(image_id=img['image']).image for img in post_images]
+        images = [{'url': Image.objects.get(image_id=img['image']).image, 'id': img['image']} for img in post_images]
         logging.debug(images)
 
         # 画像URLをコンテキストに追加
@@ -298,11 +298,18 @@ class EditView(View):
                 image3_instance.save()
                 Postimage.objects.create(post=post, image=image3_instance)
 
+            # 削除する画像を処理
+            deleted_images = request.POST.get('deleted_images', '').split(',')
+            for image_id in deleted_images:
+                if image_id:
+                    Postimage.objects.filter(post=post, image_id=image_id).delete()
+                    Image.objects.filter(image_id=image_id).delete()
+
             return redirect('bbs:editcomplate')  # 編集後にeditcomplateにリダイレクト
 
         # エラーがある場合も画像を渡す
         post_images = Postimage.objects.filter(post=post).values('image')
-        images = [Image.objects.get(image_id=img['image']).image for img in post_images]
+        images = [{'url': Image.objects.get(image_id=img['image']).image, 'id': img['image']} for img in post_images]
         logging.debug(images)
 
         return render(request, 'keijiban/henshuu/edit.html', {'form': form, 'post': post, 'images': images})
