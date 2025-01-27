@@ -18,7 +18,7 @@ import json
 from django.shortcuts import render
 from django.views import View
 from django.contrib.auth.views import PasswordResetDoneView
-
+from datetime import datetime, timedelta
  
  
 logger = logging.getLogger(__name__)
@@ -425,6 +425,11 @@ class KazokuHenkoOkView(TemplateView):
  
 class DietaryHistoryView(LoginRequiredMixin, TemplateView):
     template_name = 'shokujirireki/dietaryhistory.html'
+
+    def get(self, request, *args, **kwargs):
+        today = datetime.today()
+        dates = [(today + timedelta(days=i)).strftime('%m月%d日') for i in range(7)]
+        return render(request, self.template_name, {'dates': dates})
  
  
 class HealthGraphView(TemplateView):
