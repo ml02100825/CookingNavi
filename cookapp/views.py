@@ -17,6 +17,7 @@ import calendar
 import json
 from django.shortcuts import render
 from django.views import View
+from django.contrib.auth.views import PasswordResetDoneView
 
  
  
@@ -559,3 +560,11 @@ class KazokuSakujoOkView(TemplateView):
 class KiyakuView(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'kiyaku/kiyaku.html')
+    
+# PasswordResetDoneViewのカスタマイズが必要な場合
+class CustomPasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'registration/password_reset_done.html'
+
+# 通常のビューが必要な場合
+def password_reset_done_view(request):
+    return render(request, 'registration/password_reset_done.html')
