@@ -165,7 +165,7 @@ class SignUpPage2View(TemplateView):
             # weightテーブルに登録
             weight_entry = Weight(
                 weight=form.cleaned_data['weight'],
-                register_time=timezone.now().strftime('%Y-%m-%d %H:%M:%S'),
+                register_time=timezone.now().strftime('%Y-%m-%d'),
                 user=user,  # userオブジェクトを使用
                 family=family_member  # familyオブジェクトを使用
             )
