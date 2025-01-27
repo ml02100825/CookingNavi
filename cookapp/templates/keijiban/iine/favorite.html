@@ -1,96 +1,107 @@
 {% extends 'baseuser.html' %}
 
-{% block title %}みんなの料理掲示板{% endblock %}
+{% load static %}
+
+{% block title %}主菜選択{% endblock %}
 
 {% block content %}
+
+<head>
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/keijiban/bulletinboard.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
     
-    <div class="search-bar-container">
-        <div class="search-container">
-            <input type="text" class="search-bar" placeholder="料理を検索する..." id="search-input">
-            <button class="search-btn" onclick="searchRecipes()">検索</button>
-        </div>
-        <button class="post-recipe-btn">レシピを投稿する</button>
-    </div>
+<div class="search-bar-container">
+    <form action="{% url 'bbs:favorite' %}" method="get">
+        <input type="text" name="search_query" placeholder="投稿を検索する..." class="search-bar" value="{{ search_query }}">
+        <button type="submit" class="search-btn">検索</button>
+    </form>
+    <a href="{% url 'bbs:Posts' %}">
+        <button class="post-btn">レシピを投稿する</button>
+    </a>
+</div>
 
-    <div class="content-container">
-        <div class="sidebar">
-            <button onclick="filterPosts('myPosts')">自分が投稿したもの</button>
-            <button onclick="filterPosts('favorites')">お気に入り</button>
-            <button onclick="filterPosts('likes')">いいね順</button>
-        </div>
+<div class="content-container">
+    <aside class="sidebar">
+        <a href="{% url 'bbs:MyBulletinBoard' %}"><button type="button">自分が投稿したもの</button></a>
+        <a href="{% url 'bbs:favorite' %}"><button type="button">お気に入り</button></a>
+        <a href="{% url 'bbs:ranking' %}"><button type="button">いいね数順</button></a>
+        
+        <a href="{% url 'cookapp:home' %}"><button type="button">ホーム</button></a>
+    </aside>
 
-        <div class="main-content" id="post-grid">
-          
-            <div class="post-card" data-post-id="1">
-                <img src="https://via.placeholder.com/150" alt="料理写真">
-                <div class="post-details">
-                    <p class="post-title">
-                        唐揚げ
-                        <button class="like-btn" onclick="toggleLike(this, 1)">❤</button>
-                    </p>
-                    <p>ユーザーA</p>
+    <main class="main-content">
+        {% if bbs_with_images %}
+            {% for bbs_entry in bbs_with_images %}
+                <div class="post-card">
+                    <div class="post-details">
+                        <h3>{{ bbs_entry.post.name }}</h3>
+                        <img src="{{ bbs_entry.images }}" alt="Post image" class="img-fluid mb-3">
+                        <div class="button-container">
+                            <!-- お気に入りボタン -->
+                            <button class="like-btn" onclick="toggleLike(this, '{{ bbs_entry.post.post_id }}')">
+                                {% if bbs_entry.is_favorite %}
+                                    <i class="fas fa-heart"></i>  <!-- お気に入り状態（赤色） -->
+                                {% else %}
+                                    <i class="far fa-heart"></i>  <!-- 初期状態（灰色） -->
+                                {% endif %}
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            {% endfor %}
+        {% else %}
+            <p>検索結果が見つかりませんでした。</p>
+        {% endif %}
+    </main>
+</div>
 
-            <div class="post-card" data-post-id="2">
-                <img src="https://via.placeholder.com/150" alt="料理写真">
-                <div class="post-details">
-                    <p class="post-title">
-                        カレーライス
-                        <button class="like-btn" onclick="toggleLike(this, 2)">❤</button>
-                    </p>
-                    <p>ユーザーB</p>
-                </div>
-            </div>
-
-        </div>
-    </div>
-{% endblock %}
-
-{% block footer %}
-    <footer class="footer">
-        <p>&copy; 2024 クッキングnavi. All Rights Reserved.</p>
-    </footer>
 {% endblock %}
 
 {% block scripts %}
-    <script>
-        // お気に入りの投稿IDを保持する配列
-        const favoritePosts = new Set();
-
-        // 「いいね」ボタンの状態をトグルし、IDをfavoritePostsに追加または削除
-        function toggleLike(button, postId) {
-            button.classList.toggle("liked");
-            if (favoritePosts.has(postId)) {
-                favoritePosts.delete(postId);
-            } else {
-                favoritePosts.add(postId);
+<script>
+    // CSRFトークンを取得するヘルパー関数
+    function getCookie(name) {
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            const [key, value] = cookie.trim().split('=');
+            if (key === name) {
+                return decodeURIComponent(value)
             }
         }
+        return null;
+    }
 
-        // フィルター処理を行う関数
-        function filterPosts(filterType) {
-            const postGrid = document.getElementById("post-grid");
-            const postCards = postGrid.getElementsByClassName("post-card");
+    function toggleLike(button, post_id) {
+        // CSRFトークンを取得
+        const csrfToken = getCookie('csrftoken');
 
-            if (filterType === "favorites") {
-                // お気に入りフィルタの場合、お気に入りに登録されている投稿のみを表示
-                Array.from(postCards).forEach(card => {
-                    const postId = parseInt(card.getAttribute("data-post-id"), 10);
-                    card.style.display = favoritePosts.has(postId) ? "block" : "none";
-                });
+        // URLを設定
+        const url = '{% url "bbs:toggle_favorite" 0 %}'.replace('0', post_id);
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken, // CSRFトークンをヘッダに追加
+            },
+            body: JSON.stringify({
+                post_id: post_id  // リクエストボディにpost_idを含める
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'added') {
+                button.classList.add('liked');
+                button.querySelector('i').classList.replace('far', 'fas');
             } else {
-                // 他のフィルタの場合はすべて表示（例として単純に全投稿を表示）
-                Array.from(postCards).forEach(card => {
-                    card.style.display = "block";
-                });
+                button.classList.remove('liked');
+                button.querySelector('i').classList.replace('fas', 'far');
             }
-        }
-
-        // 検索機能
-        function searchRecipes() {
-            const searchTerm = document.getElementById("search-input").value;
-            alert("検索キーワード: " + searchTerm);
-        }
-    </script>
+        })
+        .catch(error => console.error('Error:', error));
+    }
+</script>
 {% endblock %}

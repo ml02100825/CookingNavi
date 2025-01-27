@@ -1,29 +1,110 @@
 {% extends 'baseuser.html' %}
 
-{% block title %}いいねランキング{% endblock %}
+{% load static %}
+
+{% block title %}主菜選択{% endblock %}
 
 {% block content %}
-    <div class="content-container">
-        <h2>いいねランキング</h2>
-        <div class="post-grid">
-            {% for post in posts %}
+
+<head>
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/keijiban/bulletinboard.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+    
+<div class="search-bar-container">
+    <form action="{% url 'bbs:ranking' %}" method="get">
+        <input type="text" name="search_query" placeholder="投稿を検索する..." class="search-bar" value="{{ search_query }}">
+        <button type="submit" class="search-btn">検索</button>
+    </form>
+    <a href="{% url 'bbs:Posts' %}">
+        <button class="post-btn">レシピを投稿する</button>
+    </a>
+</div>
+
+<div class="content-container">
+    <aside class="sidebar">
+        <a href="{% url 'bbs:MyBulletinBoard' %}"><button type="button">自分が投稿したもの</button></a>
+        <a href="{% url 'bbs:favorite' %}"><button type="button">お気に入り</button></a>
+        <a href="{% url 'bbs:ranking' %}"><button type="button">いいね数順</button></a>
+        
+        <a href="{% url 'cookapp:home' %}"><button type="button">ホーム</button></a>
+    </aside>
+
+    <main class="main-content">
+        {% if bbs_with_images %}
+            {% for bbs_entry in bbs_with_images %}
                 <div class="post-card">
-                    <img src="{{ post.image_url }}" alt="料理写真">
                     <div class="post-details">
-                        <p class="post-title">
-                            {{ post.title }}
-                            <span class="like-count">❤ {{ post.like_count }}</span>
-                        </p>
-                        <p>{{ post.user.username }}</p>
+                        <h3>{{ bbs_entry.post.name }}</h3>
+                        <img src="{{ bbs_entry.images }}" alt="Post image" class="img-fluid mb-3">
+                        <div class="button-container">
+                            <p>いいね数: {{ bbs_entry.like_count }}</p>  <!-- いいね数を表示 -->
+                            <!-- お気に入りボタンは投稿者以外にのみ表示 -->
+                            {% if bbs_entry.post.user != user %}
+                                <button class="like-btn" onclick="toggleLike(this, '{{ bbs_entry.post.post_id }}')">
+                                    {% if bbs_entry.is_favorite %}
+                                        <i class="fas fa-heart"></i>  <!-- お気に入り状態（赤色） -->
+                                    {% else %}
+                                        <i class="far fa-heart"></i>  <!-- 初期状態（灰色） -->
+                                    {% endif %}
+                                </button>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             {% endfor %}
-        </div>
-    </div>
+        {% else %}
+            <p>検索結果が見つかりませんでした。</p>
+        {% endif %}
+    </main>
+</div>
+
 {% endblock %}
 
-{% block footer %}
-    <footer class="footer">
-        <p>&copy; 2024 クッキングnavi. All Rights Reserved.</p>
-    </footer>
+{% block scripts %}
+<script>
+    // CSRFトークンを取得するヘルパー関数
+    function getCookie(name) {
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            const [key, value] = cookie.trim().split('=');
+            if (key === name) {
+                return decodeURIComponent(value)
+            }
+        }
+        return null;
+    }
+
+    function toggleLike(button, post_id) {
+        // CSRFトークンを取得
+        const csrfToken = getCookie('csrftoken');
+
+        // URLを設定
+        const url = '{% url "bbs:toggle_favorite" 0 %}'.replace('0', post_id);
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken, // CSRFトークンをヘッダに追加
+            },
+            body: JSON.stringify({
+                post_id: post_id  // リクエストボディにpost_idを含める
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'added') {
+                button.classList.add('liked');
+                button.querySelector('i').classList.replace('far', 'fas');
+            } else {
+                button.classList.remove('liked');
+                button.querySelector('i').classList.replace('fas', 'far');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+</script>
 {% endblock %}
