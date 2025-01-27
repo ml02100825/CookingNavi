@@ -26,16 +26,23 @@
     </aside>
 
     <main class="main-content">
-        {% for post in bbs %}
+        {% for bbs_entry in bbs_with_images %}
         <div class="post-card">
-            <img src="{{ postimage.image.url }}" alt="{{ post.name }}">
             <div class="post-details">
-                <h3>{{ post.name }}</h3>
-                <p>{{ post.user.username }}</p>
-                <button class="like-btn" onclick="toggleLike(this)">❤</button>
+                <h3>{{ bbs_entry.post.name }}</h3>
+
+                <img src="{{ bbs_entry.images }}" alt="Post image" class="img-fluid mb-3">
+
+                <div class="button-container">
+                    <!-- お気に入りボタン -->
+                    <button class="like-btn" onclick="toggleLike(this, '{{ bbs_entry.post.post_id }}')">
+                        <i class="far fa-heart"></i>
+                    </button>
             </div>
+        </div>
         </div>
         {% endfor %}
     </main>
 </div>
+
 {% endblock %}
