@@ -272,18 +272,18 @@ class BodyInfoOkView(TemplateView):
  
 class FamilyInfoView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/kazoku.html'
- 
+
     def get(self, request, *args, **kwargs):
         # ログインユーザーに関連する家族情報を取得
-        family_members = Familymember.objects.filter(user=request.user)
- 
+        family_members = Familymember.objects.filter(user=request.user).exclude(family_name=request.user.name)
+
         # family_name と family_id を渡す
         family_data = [{'name': member.family_name, 'id': member.family_id} for member in family_members]
-       
+
         context = {
             'family_members': family_data,
         }
- 
+
         return render(request, self.template_name, context)
  
    
