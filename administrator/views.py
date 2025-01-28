@@ -160,3 +160,12 @@ def save_material(request, material,materialamount):
 class BulletinBoard2View(TemplateView):
     template_name='administrator/keijiban/BulletinBoard2.html'
     
+
+class RecipeEditView(TemplateView):
+    template_name = 'administrator/recipe/edit/recipe_edit.html'
+
+    def get(self, request, *args, **kwargs):
+        # Cookテーブルから必要なデータを取得
+        cooks = Cook.objects.values_list('cookname', flat=True)
+        return render(request, 'administrator/recipe/edit/recipe_edit.html', {'cooks': cooks})
+    
