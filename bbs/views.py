@@ -444,12 +444,15 @@ class RankView(TemplateView):
                 i = 'default_image_path.jpg'  # 投稿に画像がない場合はデフォルト画像を設定
  
             is_favorite = Favorite.objects.filter(post=post, user=user, favorite_flag=True).exists()
+            total_favorites = Favorite.objects.filter(post=post, favorite_flag=True).count()
  
             bbs_with_images.append({
                 'post': post,
                 'images': i,
                 'is_favorite': is_favorite,  # お気に入り状態を追加
+                'total_favorites': total_favorites,  # お気に入り数を追加
             })
+ 
  
         context = {
             'user': user,
