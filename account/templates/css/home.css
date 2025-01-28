@@ -21,130 +21,42 @@ main {
     padding: 20px;
 }
 
-/* コンテンツエリア */
-.content-area {
-    display: grid;
-    grid-template-columns: 1fr 3fr 1fr; /* 3列レイアウト */
-    grid-gap: 20px;
+/* パスワード入力欄と目のアイコン */
+.password-container {
+    position: relative;
     width: 100%;
-    max-width: 1200px; /* 最大幅を設定 */
 }
 
-/* 左右のサイドバー */
-.sidebar {
-    background-color: #ffffff;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-    border-radius: 8px;
-    text-align: center;
+/* 目のアイコン */
+.eye-icon {
+    position: absolute;
+    right: 10px;  /* テキストボックスの右端に配置 */
+    top: 50%;
+    transform: translateY(-50%);  /* 垂直中央に配置 */
+    cursor: pointer;  /* クリック可能なカーソル */
+    font-size: 20px;  /* 絵文字のサイズ */
+    color: #888;  /* 初期状態の色（グレー） */
 }
 
-.left-sidebar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+.eye-icon.active {
+    color: #007bff;  /* パスワードが表示されているときは青色に変更 */
 }
 
-.right-sidebar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-/* 広告部分のスタイル */
-.advertisement {
-    background-color: #e9ecef;
-    padding: 20px;
-    border-radius: 8px;
+/* パスワードフィールドのスタイル */
+input[type="password"] {
     width: 100%;
-    text-align: center;
-}
-
-.advertisement p {
-    font-size: 14px;
-    color: #666;
-}
-
-/* メインコンテンツ */
-.main-content {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.main-content p {
-    font-size: 18px;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-/* 健康管理ボタン */
-.health-management-btn {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.health-management-btn button {
-    background-color: #007bff;
-    color: white;
-    padding: 12px 25px;
-    font-size: 16px;
-    border: none;
+    padding: 10px;
+    padding-right: 30px;  /* アイコンが入るスペースを確保 */
+    border: 1px solid #ccc;
     border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.health-management-btn button:hover {
-    background-color: #0056b3;
-}
-
-/* ボタン群のスタイル */
-.buttons-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    gap: 20px;
-}
-
-.buttons-container div {
-    flex: 1 1 calc(33% - 20px); /* ボタンの幅調整 */
-    display: flex;
-    justify-content: center;
-}
-
-.buttons-container button {
-    background-color: #28a745;
-    color: white;
-    padding: 12px 20px;
     font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+}
+
+input[type="text"] {
     width: 100%;
-    transition: background-color 0.3s ease;
-    text-align: center;
-}
-
-.buttons-container button:hover {
-    background-color: #218838;
-}
-
-/* ボタンのデフォルトの幅を最大にし、レスポンシブ対応 */
-.buttons-container div {
-    flex: 1 1 calc(50% - 20px); /* 画面が狭い場合の調整 */
-}
-
-@media (max-width: 768px) {
-    .content-area {
-        grid-template-columns: 1fr; /* モバイル用に1列表示 */
-        grid-gap: 10px;
-    }
-
-    .buttons-container div {
-        flex: 1 1 100%; /* ボタンが1列に並ぶように */
-    }
+    padding: 10px;
+    padding-right: 30px;  /* アイコンが入るスペースを確保 */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
 }
