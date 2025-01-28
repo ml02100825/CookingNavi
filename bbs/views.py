@@ -480,3 +480,25 @@ def toggle_favorite(request, post_id):
         # まだお気に入りがない場合、新規作成
         Favorite.objects.create(post=post, user=user, favorite_flag=True)
         return JsonResponse({'status': 'added'})
+    
+class ShousaiView(TemplateView):
+    template_name = 'keijiban/shousai/shousai.html'
+
+    def get(self, request, *args, **kwargs):
+        post_id = kwargs.get('post_id')
+        post = get_object_or_404(Bbs, post_id=post_id)
+        images = Postimage.objects.filter(post=post).values('image')
+
+        image_paths = []
+        for img in images:
+            imagepath = Image.objects.filter(image_id=img['image']).values('image')
+            if imagepath:
+                image_paths.append(imagepath[0]['image'])
+            else:
+                image_paths.append('default_image_path.jpg')
+
+        context = {
+            'post': post,
+            'images': image_paths,
+        }
+        return render(request, self.template_name, context)

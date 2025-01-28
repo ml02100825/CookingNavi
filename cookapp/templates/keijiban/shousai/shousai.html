@@ -1,0 +1,25 @@
+{% extends 'baseuser.html' %}
+{% load static %}
+
+{% block title %}詳細情報{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/keijiban/shousai.css' %}">
+
+<div class="post-details-container">
+    <h2>{{ post.name }}</h2>
+    <p>{{ post.description }}</p>
+    <p>{{ post.recipe_text }}</p> <!-- recipe_text を表示 -->
+
+    <div class="post-images">
+        {% for image in images %}
+            <img src="{{ image }}" alt="Post image" class="img-fluid mb-3">
+        {% endfor %}
+    </div>
+
+    <div class="post-meta">
+        <p>投稿者: {{ post.user.name }}</p>
+        <p>投稿日: {{ post.created_at }}</p>
+    </div>
+</div>
+{% endblock %}
