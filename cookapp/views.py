@@ -221,6 +221,7 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
         return render(request, self.template_name, {'form': form})
    
     def post(self, request, * args, **kwargs):
+        family_member = Familymember.objects.filter(user=request.user).first()
         form = BodyInfoUpdateForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['name']
@@ -253,13 +254,14 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
                     except Userallergy.DoesNotExist:
                         # レコードが見つからなかった場合の処理
                         print(f"Allergy {allergy} for user {user} not found, skipping.")
-
-                # Weight.objects.create(
-                    # weight=weight,  # 更新された体重を登録
-                    # user=user,  # 家族メンバーに紐づくユーザー
-                    # family=family_member.family_id,  # 家族メンバー
-                #     register_time=datetime.now().strftime('%Y-%m-%d')  # 今日の日付を登録
-                # )
+ 
+                weight_entry = Weight(
+                    weight=form.cleaned_data['weight'],
+                    register_time=timezone.now().strftime('%Y-%m-%d'),
+                    user=user,  # userオブジェクトを使用
+                    family_id=family_member.family_id,  # familyオブジェクトを使用
+                )
+                weight_entry.save()
  
                 return redirect('cookapp:body_info_ok')
        
