@@ -1,16 +1,13 @@
 {% extends 'base2.html' %}
-
 {% load static %}
 
 {% block title %}ログイン{% endblock %}
 
 {% block content %}
-
     <!-- メインコンテンツ -->
     <link rel="stylesheet" href="{% static 'css/login/login.css' %}">
 
     <main>
-
         <div class="login-container">
             <form method="post">
                 {% csrf_token %}
@@ -21,16 +18,44 @@
                 {% endif %}
                 
                 <label for="id_email">Email</label>
-                {{form.email}}
+                {{ form.email }}
                 
                 <label for="id_password">Password</label>
-                {{form.password}}
-                <!-- <input type="password" name="password" id="password" required> -->
+                <div class="password-container">
+                    {{ form.password }}
+                    <span id="eye-icon" class="eye-icon">👁️</span> <!-- 目の絵文字 -->
+                </div>
                 
                 <button type="submit">Log in</button>
+
+                <!-- パスワードを忘れた場合 -->
+                <div class="forgot-password">
+                    <a href="{% url 'cookapp:password_reset' %}">パスワードを忘れた場合</a>
+                </div>
             </form>
-            
         </div>
     </main>
 
-    {% endblock %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const eyeIcon = document.getElementById('eye-icon');
+            const passwordField = document.getElementById('id_password');  // パスワードフィールドのIDを取得
+    
+            // 目の絵文字をクリックしたときのイベント
+            eyeIcon.addEventListener('click', function() {
+                // パスワードの表示・非表示を切り替える
+                if (passwordField.type === 'password') {
+                    passwordField.type = 'text';  // パスワードを表示する
+                    eyeIcon.textContent = '👁️';  // アイコンを目にスラッシュを付けたものに変更
+                    eyeIcon.classList.add('active');  // アイコンをアクティブに
+                } else {
+                    passwordField.type = 'password';  // パスワードを非表示にする
+                    eyeIcon.textContent = '🙈';  // アイコンを目に戻す
+                    eyeIcon.classList.remove('active');  // アイコンを元の状態に戻す
+                }
+            });
+        });
+    </script>
+    
+    
+{% endblock %}

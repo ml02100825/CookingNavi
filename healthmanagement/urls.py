@@ -7,7 +7,7 @@ app_name = "health"
 urlpatterns = [
     path('health_management_main/', views.HealthMainView.as_view(), name='health_management_main'),
     path('health_selection/<int:day>/<int:mealtime>', views.HealthSelectionView.as_view(), name='health_selection'),
-    path('health_selectioncomplate/', views.HealthSelectionComplateView.as_view(), name='health_selectioncomplate'),
-    path('health_menuconfirmation/', views.HealthMenuConfirmationView.as_view(), name='health_menuconfirmation'),
+    path('health_selectioncomplate/<str:day>/', views.HealthSelectionComplateView.as_view(), name='health_selectioncomplate'),
+    path('health_menu/<int:time>/<int:day>', views.HealthMenuView.as_view(), name='health_menu'),
    
 ]
