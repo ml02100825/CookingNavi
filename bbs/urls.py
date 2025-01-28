@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from . import views
+from .views import ShousaiView
  
  
 app_name = "bbs"
@@ -25,4 +26,5 @@ urlpatterns = [
    
     path('favorite/', views.FavoriteView.as_view(), name='favorite'),
     path('ranking/', views.RankView.as_view(), name='ranking'),
+    path('shousai/<int:post_id>/', ShousaiView.as_view(), name='shousai'),
 ]

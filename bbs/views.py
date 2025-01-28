@@ -444,12 +444,15 @@ class RankView(TemplateView):
                 i = 'default_image_path.jpg'  # 投稿に画像がない場合はデフォルト画像を設定
  
             is_favorite = Favorite.objects.filter(post=post, user=user, favorite_flag=True).exists()
+            total_favorites = Favorite.objects.filter(post=post, favorite_flag=True).count()
  
             bbs_with_images.append({
                 'post': post,
                 'images': i,
                 'is_favorite': is_favorite,  # お気に入り状態を追加
+                'total_favorites': total_favorites,  # お気に入り数を追加
             })
+ 
  
         context = {
             'user': user,
@@ -480,3 +483,25 @@ def toggle_favorite(request, post_id):
         # まだお気に入りがない場合、新規作成
         Favorite.objects.create(post=post, user=user, favorite_flag=True)
         return JsonResponse({'status': 'added'})
+    
+class ShousaiView(TemplateView):
+    template_name = 'keijiban/shousai/shousai.html'
+
+    def get(self, request, *args, **kwargs):
+        post_id = kwargs.get('post_id')
+        post = get_object_or_404(Bbs, post_id=post_id)
+        images = Postimage.objects.filter(post=post).values('image')
+
+        image_paths = []
+        for img in images:
+            imagepath = Image.objects.filter(image_id=img['image']).values('image')
+            if imagepath:
+                image_paths.append(imagepath[0]['image'])
+            else:
+                image_paths.append('default_image_path.jpg')
+
+        context = {
+            'post': post,
+            'images': image_paths,
+        }
+        return render(request, self.template_name, context)
