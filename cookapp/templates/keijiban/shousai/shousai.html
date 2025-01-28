@@ -48,6 +48,7 @@
 
     <!-- メニュー名の編集 -->
     <form method="POST" enctype="multipart/form-data">
+        <p>投稿者: {{ post.user.name }}</p>
         {% csrf_token %}
         <div class="form-group">
             <label for="post-title">メニュー名</label>
