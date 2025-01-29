@@ -265,9 +265,12 @@ class HealthMenuView(TemplateView):
     template_name='health/health_menuconfirmation.html'
     
     def get(self, request, *args, **kwargs):
+        # 料理リスト
         cooklist = []
+        # 材料リスト
         materiallist = []
-        materialdetaillist = []
+        # 料理ごとの材料リスト
+        cookmateriallist = []
         context = super().get_context_data(**kwargs)
         # 食事の時間帯を取得(朝昼晩)
         time = self.kwargs.get('time')
@@ -306,11 +309,11 @@ class HealthMenuView(TemplateView):
                 # 材料の量を辞書に追加
                 materialdetail['quantity'] = materials[j]['quantity']
                 # 作成した辞書をリストに追加
-                materialdetaillist.append(materialdetail)
+                cookmateriallist.append(materialdetail)
             # 料理ごとのリストをリストに追加    
-            materiallist.append(materialdetaillist)
+            materiallist.append(cookmateriallist)
             # 材料リストを初期化
-            materialdetaillist = []
+            cookmateriallist = []
             
         logging.debug(materiallist)
         # リストをjson形式に変換
