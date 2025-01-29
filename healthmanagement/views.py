@@ -269,38 +269,56 @@ class HealthMenuView(TemplateView):
         materiallist = []
         materialdetaillist = []
         context = super().get_context_data(**kwargs)
+        # 食事の時間帯を取得(朝昼晩)
         time = self.kwargs.get('time')
+        # 食事した日付情報を取得
         day = self.kwargs.get('day')
         today = date.today()
         weekday = today.weekday()
         daydifference = weekday - day
+        # 今日の日付
         currentday = today + timedelta(days=-daydifference)
+        # 献立IDを取得
         Cooks = Menu.objects.filter(user=request.user,meal_day = currentday, mealtime = time).values('menu_id')
+        # 献立IDから料理IDを取得
         Cookid = Menucook.objects.filter(menu =  Cooks[0]['menu_id']).values('cook')
         logging.debug(Cookid)
+        # 取得した料理IDの数だけループ
         for i in range(len(Cookid)):
+            #料理の詳細情報を取得
             CookDetail = Cook.objects.filter(cook_id = Cookid[i]['cook']).values('cook_id','cookname','recipe_text','calorie','protein','lipids','carbohydrates','fiber','saltcontent')
+            #取得した情報をリスト形式に変換
             choice_list = list(CookDetail.values())
+            # 料理リストに追加する
             cooklist.append(choice_list[0])
+            # レシピDBから料理に使った材料一覧を取得
             materials = Recipe.objects.filter(cook = Cookid[i]['cook']).values('material','quantity')
+            # 材料の数だけループ
             for j in range(len(materials)):
-            
+                # 取得した情報をリスト形式に変換
                 choice_list = list(materials.values())
+                # データを保持するための辞書作成
                 materialdetail = {}
+                # 材料IDから材料名を取得
                 material = Material.objects.filter(material_id = materials[j]['material']).values('name')
+                # 材料名を辞書に追加
                 materialdetail['materialname'] = material[0]['name']
+                # 材料の量を辞書に追加
                 materialdetail['quantity'] = materials[j]['quantity']
+                # 作成した辞書をリストに追加
                 materialdetaillist.append(materialdetail)
-                
+            # 料理ごとのリストをリストに追加    
             materiallist.append(materialdetaillist)
+            # 材料リストを初期化
             materialdetaillist = []
             
         logging.debug(materiallist)
-        CookDetail =CookDetail[0]
+        # リストをjson形式に変換
+        json_string = json.dumps(materiallist, indent=4)
         
-        logging.debug(cooklist)
+        logging.debug(json_string)
         
-        return render(request, self.template_name,{'cook_list': cooklist, 'material_list': materiallist})    
+        return render(request, self.template_name,{'cook_list': cooklist, 'material_list': json_string})    
 
 class HealthSelectionView(TemplateView):
     template_name='health/health_selection.html'

@@ -15,27 +15,29 @@
     {{ i.cookname }}
     <div class="tab-container">
  
-        {% for material in material_list %}
-        {% if forloop.counter0 == forloop.parentloop.counter0 %}
-            material_list{{ forloop.parentloop.counter }} = '{{ material }}';
-            <button class="tab-button{{ forloop.parentloop.counter }}" onclick="showContent('ingredients', '{{ material }}', '{{ forloop.counter }}')">材料</button>
-        {% endif %}
-        {% endfor %}
+     
+  
+            
+    <button id="ingredients-button" class="tab-button{{ forloop.counter0 }}"  data-material='{{ material_list }}' onclick="showContent('ingredients', ' ','{{ forloop.counter0 }}')">材料</button>
+   
+        
        
         
         
 
-    <button class="tab-button{{ forloop.counter }}" onclick="showContent('recipe','{{i.recipe_text}}', '{{ forloop.counter }}')">作り方</button>
-    <button class="tab-button{{ forloop.counter }}" onclick="showContent('nutrition','カロリー：{{i.calorie}} \n タンパク質：{{i.protein}}g\n','{{ forloop.counter }}')">栄養素</button>
+    <button class="tab-button{{ forloop.counter0 }}" onclick="showContent('recipe','{{i.recipe_text}}', '{{ forloop.counter0 }}')">作り方</button>
+    <button class="tab-button{{ forloop.counter0 }}" onclick="showContent('nutrition','カロリー：{{i.calorie}}kcal \n タンパク質：{{i.protein}}g\n 脂質：{{ i.libids }}g 炭水化物：{{i.carbohydrates}}g fiber：{{ i.fiber }}g 塩分含有量： {{i.saltcontent}}g','{{ forloop.counter0 }}')">栄養素</button>
     </div>
 
-    <div class="content-box" id="content-box{{ forloop.counter }}">
+    <div class="content-box" id="content-box{{ forloop.counter0 }}">
         ここに内容が表示されます。
     </div>
 {% endfor %}
     <script>
         function showContent(type, text,count) {
+            
             contentid = 'content-box' + count;
+            
             const contentBox = document.getElementById(contentid);
             const buttonid = '.tab-button' +count;
             console.log(buttonid)
@@ -49,15 +51,34 @@
 
             // 表示内容を変更
             if (type === 'ingredients') {
-                contentBox.textContent =text;
-            } else if (type === 'recipe') {
-                for (const key in text) {
-                    console.log(`iの値は ${key}`);
-
+                let button = document.getElementById("ingredients-button");
+                let materialData = button.getAttribute("data-material");
+                const parsedData = JSON.parse(materialData); // JSONをオブジェクトとしてパース
                 
+                let loopcount = 0;
+                count = Number(count);
+                for (var item in parsedData) {
+                    
+                    console.log(typeof count, typeof loopcount);
+                
+                    console.log(count)
+                    if (count === loopcount){
+                        console.log(parsedData[item])
+                        contentBox.innerHTML = parsedData[item].map(i => `<p>${i.materialname} (${i.quantity}g)</p>`).join("");
+                        break;
+                    }
+                    
+                    
+                
+                loopcount++;
+                    
                 }
-            
-                    contentBox.textContent = i;
+          
+                
+            } else if (type === 'recipe') {
+ 
+                contentBox.textContent =text;
+                    
             
             } else if (type === 'nutrition') {
                 contentBox.textContent =text;
