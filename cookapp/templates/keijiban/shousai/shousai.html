@@ -34,11 +34,6 @@
                 {% endfor %}
             </div>
         </div>
-<<<<<<< HEAD
- 
-=======
-
->>>>>>> f82be36c4bdc2619091cbc94329f050f3c43d3eb
         <div class="image-buttons">
             <button type="button" onclick="changeImage(-1)"><</button>
             <form method="POST" id="delete-image-form" style="display:inline;">
@@ -48,16 +43,10 @@
             <button type="button" onclick="changeImage(1)">></button>
         </div>
     </div>
-<<<<<<< HEAD
- 
-    <!-- メニュー名の編集 -->
-    <form method="POST" enctype="multipart/form-data">
-=======
 
     <!-- メニュー名の編集 -->
     <form method="POST" enctype="multipart/form-data">
         <p>投稿者: {{ post.user.name }}</p>
->>>>>>> f82be36c4bdc2619091cbc94329f050f3c43d3eb
         {% csrf_token %}
         <div class="form-group">
             <label for="post-title">メニュー名</label>
