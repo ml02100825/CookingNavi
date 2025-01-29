@@ -11,7 +11,7 @@ urlpatterns = [
     path('BulletinBoard/', views.BulletinBoardView.as_view(), name='BulletinBoard'),
  
     path('Posts', views.PostsView.as_view(), name='Posts'),
-    path('PostsComplate/', views.PostsComplateView.as_view(), name='PostsComplate'),
+    path('PostsComplate/<str:name>/', views.PostsComplateView.as_view(), name='PostsComplate'),
  
     path('Posts/<int:material>/<int:materialamount>/', views.save_material, name='savematerial'),
     path('Posts/<str:materialname>/', views.get_materials, name='getmaterial'),
@@ -26,5 +26,6 @@ urlpatterns = [
    
     path('favorite/', views.FavoriteView.as_view(), name='favorite'),
     path('ranking/', views.RankView.as_view(), name='ranking'),
+    
     path('shousai/<int:post_id>/', ShousaiView.as_view(), name='shousai'),
 ]

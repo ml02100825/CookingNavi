@@ -24,7 +24,6 @@
     <div class="user-info">
         <div class="user-icon"></div>
     </div>
-
     <!-- 画像の表示と操作 -->
     <div class="image-container">
         <h3>投稿画像</h3>
@@ -35,7 +34,6 @@
                 {% endfor %}
             </div>
         </div>
-
         <div class="image-buttons">
             <button type="button" onclick="changeImage(-1)"><</button>
             <form method="POST" id="delete-image-form" style="display:inline;">
@@ -54,13 +52,11 @@
             <label for="post-title">メニュー名</label>
             {{ post.name }} <!-- フォームでメニュー名を表示 -->
         </div>
-
         <!-- 作り方の編集 -->
         <div class="recipe-method-edit">
             <h3>作り方</h3>
             {{ post.recipe_text }} <!-- 作り方フォーム -->
         </div>
-
         <!-- 画像追加フィールド -->
         <div id="image-fields">
             <!-- ここに動的に画像追加フィールドが挿入されます -->
@@ -89,7 +85,6 @@
         } else if (currentImageIndex >= totalImages) {
             currentImageIndex = 0;
         }
-
         images[currentImageIndex].classList.remove('hidden');
     }
 </script>

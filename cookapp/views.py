@@ -10,7 +10,7 @@ from django.http import JsonResponse
 import logging
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout, get_user_model
+from django.contrib.auth import logout, get_user_model, authenticate, login
 from django.urls import reverse
 from datetime import datetime
 import calendar
@@ -150,8 +150,7 @@ class UsernameView(LoginRequiredMixin, TemplateView):
             user = request.user
             user.name = new_username
             user.save()
- 
-            messages.success(request, 'ユーザー名が正常に変更されました。')
+
             return redirect('cookapp:username_henko_ok')  # プロフィールページなどにリダイレクト
        
         return render(request, self.template_name, {'form': form})
@@ -175,8 +174,7 @@ class EmailView(LoginRequiredMixin, TemplateView):
             user = request.user
             user.email = new_email
             user.save()
- 
-            messages.success(request, 'メールアドレスが正常に変更されました。')
+
             return redirect('cookapp:email_henko_ok')  # プロフィールページなどにリダイレクト
        
         return render(request, self.template_name, {'form': form})
@@ -204,8 +202,11 @@ class PasswordView(LoginRequiredMixin, TemplateView):
                 user = request.user
                 user.set_password(new_password)
                 user.save()
- 
-                messages.success(request, 'パスワードが正常に変更されました。')
+
+                user = authenticate(email=user.email, password=new_password)
+                if user is not None:
+                    login(request, user)
+
                 return redirect('cookapp:password_henko_ok')  # プロフィールページなどにリダイレクト
        
         return render(request, self.template_name, {'form': form})
@@ -442,7 +443,6 @@ class HealthGraphView(TemplateView):
         user = self.request.user
         family_members = Familymember.objects.filter(user=user)
         family_members = list(family_members)  # クエリセットをリストに変換
-        family_members.append(user)
         context['family_members'] = family_members
         return context
 

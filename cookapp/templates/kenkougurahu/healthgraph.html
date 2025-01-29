@@ -12,11 +12,8 @@
     <label for="user-select">家族選択:</label>
     <select id="user-select">
         {% for member in family_members %}
-            <option value="{{ member.family_id|default:member.user_id }}" data-height="{{ member.family_height }}">
-                {{ member.name }}
-                {% if member.user_id %}
-                    {{ member.family_name }}
-                {% endif %}
+            <option value="{{ member.family_id}}" data-height="{{ member.family_height }}">
+                {{ member.family_name }}
             </option>
         {% endfor %}
     </select>

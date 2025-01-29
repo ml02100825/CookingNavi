@@ -9,6 +9,7 @@ from .models import User, Userallergy
 from cookapp.models import Familymember, Weight
 from django.urls import reverse_lazy
 import logging
+from datetime import datetime
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.csrf import csrf_protect
@@ -150,12 +151,10 @@ class SignUpPage2View(TemplateView):
                     weight=form.cleaned_data['weight'],
                 )
                 user.save()
-
             # 生年月日から年齢を計算
             birthdate = form.cleaned_data['birthdate']
             today = datetime.today().date()
             age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
-
             # familymemberテーブルに登録
             family_member = Familymember(
                 family_name=form.cleaned_data['name'],
@@ -166,6 +165,7 @@ class SignUpPage2View(TemplateView):
                 user=user  # userオブジェクトを使用
             )
             family_member.save()
+ 
             # weightテーブルに登録
             weight_entry = Weight(
                 weight=form.cleaned_data['weight'],
@@ -174,6 +174,7 @@ class SignUpPage2View(TemplateView):
                 family=family_member  # familyオブジェクトを使用
             )
             weight_entry.save()
+ 
             # アレルギー情報の登録または更新
             allergies = form.cleaned_data['allergies']
             for allergy in allergies:

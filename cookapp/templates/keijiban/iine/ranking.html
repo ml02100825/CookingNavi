@@ -36,7 +36,9 @@
                 <div class="post-card">
                     <div class="post-details">
                         <h3>{{ bbs_entry.post.name }}</h3>
-                        <img src="{{ bbs_entry.images }}" alt="Post image" class="img-fluid mb-3">
+                        <a href="{% url 'bbs:shousai' bbs_entry.post.post_id %}">
+                            <img src="{{ bbs_entry.images }}" alt="Post image" class="img-fluid mb-3">
+                        </a>
                         <div class="button-container">
                             <p>いいね数：{{ bbs_entry.total_favorites }}</p>
                             {% if bbs_entry.post.user != user %}
