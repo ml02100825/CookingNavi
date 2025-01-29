@@ -11,7 +11,11 @@ from django.urls import reverse_lazy
 import logging
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_protect
 from datetime import datetime
+from django.views import View
+from django.contrib.auth import logout
+
 class CustomLoginView(LoginView):
     template_name = 'login.html'
 
@@ -188,23 +192,17 @@ class CustomSignUpView(TemplateView):
     template_name = 'administrator/sign up/sign up_completion.html'
 
 
-class CustomLogoutView(LogoutView):
-    template_name = 'logout/logout.html'
-    # ログアウト後に 'account:login_ok' にリダイレクト
-    next_page = reverse_lazy('account:logout_ok')
+class LogoutConfirmView(View):
+    """ログアウト確認ページを表示するビュー"""
 
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            try:
-                # is_active を 0 に変更
-                user = request.user
-                user.is_active = 0
-                user.save()
-                logging.debug(f"ユーザー {user.email} の is_active を 0 に設定しました。")
-            except Exception as e:
-                logging.error(f"ログアウト中にエラーが発生しました: {e}")
-        return super().dispatch(request, *args, **kwargs)
+    def get(self, request, *args, **kwargs):
+        """GETリクエストではログアウトしない（確認画面を表示）"""
+        return render(request, 'logout/logout.html')
+
+    def post(self, request, *args, **kwargs):
+        """POSTリクエストが送信されたらログアウトを実行"""
+        logout(request)
+        return redirect('account:logout_ok')  # ログアウト完了ページへリダイレクト
     
 class LogoutOkView(TemplateView):
     template_name = 'logout/logout_ok.html'
