@@ -2,11 +2,12 @@ import random
 from django.shortcuts import redirect, render
 from django.views.generic.base import TemplateView
 import urllib
-from administrator.models import Cook, Cookimage, Image
+from administrator.models import Cook, Cookimage, Image, Material, Recipe
 from datetime import datetime, date, timedelta
 from cookapp.models import Familymember
 from .forms import CookSelectForm
 from .models import Menu, Menucook
+import json
 
 import logging
 
@@ -264,6 +265,9 @@ class HealthMenuView(TemplateView):
     template_name='health/health_menuconfirmation.html'
     
     def get(self, request, *args, **kwargs):
+        cooklist = []
+        materiallist = []
+        materialdetaillist = []
         context = super().get_context_data(**kwargs)
         time = self.kwargs.get('time')
         day = self.kwargs.get('day')
@@ -271,8 +275,32 @@ class HealthMenuView(TemplateView):
         weekday = today.weekday()
         daydifference = weekday - day
         currentday = today + timedelta(days=-daydifference)
+        Cooks = Menu.objects.filter(user=request.user,meal_day = currentday, mealtime = time).values('menu_id')
+        Cookid = Menucook.objects.filter(menu =  Cooks[0]['menu_id']).values('cook')
+        logging.debug(Cookid)
+        for i in range(len(Cookid)):
+            CookDetail = Cook.objects.filter(cook_id = Cookid[i]['cook']).values('cook_id','cookname','recipe_text','calorie','protein','lipids','carbohydrates','fiber','saltcontent')
+            choice_list = list(CookDetail.values())
+            cooklist.append(choice_list[0])
+            materials = Recipe.objects.filter(cook = Cookid[i]['cook']).values('material','quantity')
+            for j in range(len(materials)):
+            
+                choice_list = list(materials.values())
+                materialdetail = {}
+                material = Material.objects.filter(material_id = materials[j]['material']).values('name')
+                materialdetail['materialname'] = material[0]['name']
+                materialdetail['quantity'] = materials[j]['quantity']
+                materialdetaillist.append(materialdetail)
+                
+            materiallist.append(materialdetaillist)
+            materialdetaillist = []
+            
+        logging.debug(materiallist)
+        CookDetail =CookDetail[0]
         
-        return render(request, self.template_name)    
+        logging.debug(cooklist)
+        
+        return render(request, self.template_name,{'cook_list': cooklist, 'material_list': materiallist})    
 
 class HealthSelectionView(TemplateView):
     template_name='health/health_selection.html'

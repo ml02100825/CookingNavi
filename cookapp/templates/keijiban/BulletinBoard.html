@@ -1,16 +1,16 @@
 {% extends 'baseuser.html' %}
 {% load static %}
- 
+
 {% block title %}主菜選択{% endblock %}
- 
+
 {% block content %}
- 
+
 <head>
     <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'css/keijiban/bulletinboard.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
- 
+
 <div class="search-bar-container">
     <form action="{% url 'bbs:BulletinBoard' %}" method="get">
         <input type="text" name="search_query" placeholder="投稿を検索する..." class="search-bar" value="{{ search_query }}">
@@ -20,7 +20,7 @@
         <button class="post-btn">レシピを投稿する</button>
     </a>
 </div>
- 
+
 <div class="content-container">
     <aside class="sidebar">
         <a href="{% url 'bbs:MyBulletinBoard' %}"><button type="button">自分が投稿したもの</button></a>
@@ -28,7 +28,7 @@
         <a href="{% url 'bbs:ranking' %}"><button type="button">いいね数順</button></a>
         <a href="{% url 'cookapp:home' %}"><button type="button">ホーム</button></a>
     </aside>
- 
+
     <main class="main-content">
         {% if bbs_with_images %}
             {% for bbs_entry in bbs_with_images %}
@@ -56,9 +56,9 @@
         {% endif %}
     </main>
 </div>
- 
+
 {% endblock %}
- 
+
 {% block scripts %}
 <script>
     // CSRFトークンを取得するヘルパー関数
@@ -72,14 +72,14 @@
         }
         return null;
     }
- 
+
     function toggleLike(button, post_id) {
         // CSRFトークンを取得
         const csrfToken = getCookie('csrftoken');
- 
+
         // URLを設定
         const url = '{% url "bbs:toggle_favorite" 0 %}'.replace('0', post_id);
- 
+
         fetch(url, {
             method: 'POST',
             headers: {

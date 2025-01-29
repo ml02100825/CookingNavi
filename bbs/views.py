@@ -470,6 +470,7 @@ class RankView(TemplateView):
                 'total_favorites': total_favorites,  # お気に入り数を追加
             })
  
+ 
         context = {
             'user': user,
             'bbs_with_images': bbs_with_images,  # 画像データを含むBbs情報

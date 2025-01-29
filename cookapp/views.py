@@ -17,7 +17,8 @@ import calendar
 import json
 from django.shortcuts import render
 from django.views import View
-
+from django.contrib.auth.views import PasswordResetDoneView
+from datetime import datetime, timedelta
  
  
 logger = logging.getLogger(__name__)
@@ -254,7 +255,7 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
                     except Userallergy.DoesNotExist:
                         # レコードが見つからなかった場合の処理
                         print(f"Allergy {allergy} for user {user} not found, skipping.")
-
+ 
                 weight_entry = Weight(
                     weight=form.cleaned_data['weight'],
                     register_time=timezone.now().strftime('%Y-%m-%d'),
@@ -272,18 +273,18 @@ class BodyInfoOkView(TemplateView):
  
 class FamilyInfoView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/kazoku.html'
- 
+
     def get(self, request, *args, **kwargs):
         # ログインユーザーに関連する家族情報を取得
         family_members = Familymember.objects.filter(user=request.user).exclude(family_name=request.user.name)
- 
+
         # family_name と family_id を渡す
         family_data = [{'name': member.family_name, 'id': member.family_id} for member in family_members]
- 
+
         context = {
             'family_members': family_data,
         }
- 
+
         return render(request, self.template_name, context)
  
    
@@ -427,6 +428,11 @@ class KazokuHenkoOkView(TemplateView):
  
 class DietaryHistoryView(LoginRequiredMixin, TemplateView):
     template_name = 'shokujirireki/dietaryhistory.html'
+
+    def get(self, request, *args, **kwargs):
+        today = datetime.today()
+        dates = [(today + timedelta(days=i)).strftime('%m月%d日') for i in range(7)]
+        return render(request, self.template_name, {'dates': dates})
  
  
 class HealthGraphView(TemplateView):
@@ -561,3 +567,11 @@ class KazokuSakujoOkView(TemplateView):
 class KiyakuView(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'kiyaku/kiyaku.html')
+    
+# PasswordResetDoneViewのカスタマイズが必要な場合
+class CustomPasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'registration/password_reset_done.html'
+
+# 通常のビューが必要な場合
+def password_reset_done_view(request):
+    return render(request, 'registration/password_reset_done.html')

@@ -12,8 +12,7 @@ import logging
 from datetime import datetime
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-
-
+from datetime import datetime
 class CustomLoginView(LoginView):
     template_name = 'login.html'
 
@@ -84,7 +83,7 @@ class SignUpPage1View(TemplateView):
             # 非アクティブユーザーの状態をチェック
             try:
                 user = User.objects.get(email=email)
-                if not user.is_active or user.deleteflag:
+                if not user.is_active or user.DeleteFlag:
                     # 非アクティブまたは削除ユーザーの場合、次の画面へ遷移
                     logging.debug(f"非アクティブまたは削除ユーザー {email} を検出。次の画面へ遷移します。")
             except User.DoesNotExist:
@@ -148,12 +147,10 @@ class SignUpPage2View(TemplateView):
                     weight=form.cleaned_data['weight'],
                 )
                 user.save()
- 
             # 生年月日から年齢を計算
             birthdate = form.cleaned_data['birthdate']
             today = datetime.today().date()
             age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
- 
             # familymemberテーブルに登録
             family_member = Familymember(
                 family_name=form.cleaned_data['name'],

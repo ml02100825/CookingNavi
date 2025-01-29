@@ -1,34 +1,40 @@
-<!-- recipe_edit.html -->
-{% extends '../base.html' %}
-
 {% load static %}
 
 {% block title %}（管理者）レシピ編集{% endblock %}
 
 {% block content %}
 <head>
-    <!-- Faviconの設定 -->
     <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
-    <!-- CSSのリンク -->
     <link rel="stylesheet" href="{% static 'css/administrator/recipe/edit/recipe_edit.css' %}">
 </head>
-<!-- メインコンテンツ -->
+
 <div class="login-container">
     <h1>管理者画面</h1>
     <h2>～レシピ編集～</h2>
-    <form action="#" method="post" enctype="multipart/form-data">
+    <form  method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <!-- メニュー名 -->
         <label for="recipe-name">メニュー名</label>
-        <input type="text" id="recipe-name" name="recipe-name" required>
+        <select id="recipe-name" name="recipe_name">
+            <option value="" disabled selected>選択してください</option>
+            {% for cookname in cooks %}
+                <option value="{{ cookname }}">{{ cookname }}</option>
+            {% endfor %}
+        </select>
 
+        
+        <!-- 材料 -->
         <label for="ingredients">材料名</label>
-        <textarea id="ingredients" name="ingredients" rows="4" required></textarea>
+        <textarea id="ingredients" name="ingredients" rows="4" placeholder="材料を入力してください" required></textarea>
 
+        <!-- 作り方 -->
         <label for="instructions">作り方</label>
-        <textarea id="instructions" name="instructions" rows="4" required></textarea>
+        <textarea id="instructions" name="instructions" rows="4" placeholder="作り方を入力してください" required></textarea>
 
-        <button type="submit">戻る</button>
-
-        <button type="submit">レシピ編集</button>
+        <!-- ボタン -->
+        <button type="button" onclick="window.history.back()">戻る</button>
+        <button type="submit">レシピ編集完了</button>
     </form>
 </div>
 {% endblock %}
