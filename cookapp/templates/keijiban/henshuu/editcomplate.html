@@ -13,8 +13,7 @@
 
         <!-- 投稿に戻る、またはホームに戻るボタン -->
         <div class="button-group">
-            <button class="back-to-posts-btn" onclick="goToPosts()">投稿一覧に戻る</button>
-            <button class="go-home-btn" onclick="goHome()">ホームに戻る</button>
+            <a href="{% url 'bbs:MyBulletinBoard' %}"><button type="button">投稿一覧に戻る</button></a>
         </div>
     </div>
 {% endblock %}

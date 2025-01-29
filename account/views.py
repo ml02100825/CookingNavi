@@ -1,4 +1,4 @@
-from datetime import timezone
+from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.views.generic.base import TemplateView
 from django.contrib.auth import login,authenticate
@@ -9,8 +9,10 @@ from .models import User, Userallergy
 from cookapp.models import Familymember, Weight
 from django.urls import reverse_lazy
 import logging
+from datetime import datetime
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+
 
 class CustomLoginView(LoginView):
     template_name = 'login.html'
@@ -118,7 +120,7 @@ class SignUpPage2View(TemplateView):
                 # 非アクティブまたは論理削除ユーザーの場合、復活処理
                 if not user.is_active or user.deleteflag:
                     user.is_active = 1  # アクティブ化
-                    user.deleteflag = 0  # DeleteFlagを0に設定
+                    user.deleteflag = 0  # deleteflagを0に設定
                     user.set_password(password)  # 新しいパスワードを保存
                     logging.debug(f"非アクティブまたは削除ユーザー {email} を復活しました。")
  
@@ -146,24 +148,32 @@ class SignUpPage2View(TemplateView):
                     weight=form.cleaned_data['weight'],
                 )
                 user.save()
+ 
+            # 生年月日から年齢を計算
+            birthdate = form.cleaned_data['birthdate']
+            today = datetime.today().date()
+            age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
+ 
             # familymemberテーブルに登録
             family_member = Familymember(
-                Family_Name=form.cleaned_data['name'],
-                Family_Gender=form.cleaned_data['gender'],
-                Family_Age=form.cleaned_data['birthdate'],
-                Family_Height=form.cleaned_data['height'],
-                Family_Weight=form.cleaned_data['weight'],
-                User_ID=user.User_ID
+                family_name=form.cleaned_data['name'],
+                family_gender=form.cleaned_data['gender'],
+                family_age=age,
+                family_height=form.cleaned_data['height'],
+                family_weight=form.cleaned_data['weight'],
+                user=user  # userオブジェクトを使用
             )
             family_member.save()
+ 
             # weightテーブルに登録
             weight_entry = Weight(
-                Weight=form.cleaned_data['weight'],
-                RegisterTime=timezone.now().strftime('%Y-%m-%d %H:%M:%S'),
-                User_ID=user.User_ID,
-                Family_ID=family_member.Family_ID
+                weight=form.cleaned_data['weight'],
+                register_time=timezone.now().strftime('%Y-%m-%d'),
+                user=user,  # userオブジェクトを使用
+                family=family_member  # familyオブジェクトを使用
             )
             weight_entry.save()
+ 
             # アレルギー情報の登録または更新
             allergies = form.cleaned_data['allergies']
             for allergy in allergies:

@@ -9,30 +9,17 @@
 
         <!-- 投稿の詳細情報 -->
         <div class="post-details">
-            <strong>レシピタイトル:</strong> <span id="post-title"></span><br>
-            <strong>レシピの説明:</strong> <span id="post-description"></span><br>
+            <strong>レシピタイトル:</strong> {{ post_title }}<br>
+            <strong>レシピの説明:</strong> {{ post_description }}<br>
         </div>
 
         <!-- ボタンでホームに戻る -->
-        <a href="{% url 'bbs:BulletinBoard' %}"><button type="button">投稿一覧に戻る</button></a>
+        <a href="{% url 'bbs:MyBulletinBoard' %}"><button type="button">投稿一覧に戻る</button></a>
     </div>
 {% endblock %}
 
 {% block scripts %}
     <script>
-        // 投稿完了時に表示されるタイトルと説明を設定
-        function displayPostDetails(title, description) {
-            document.getElementById("post-title").textContent = title;
-            document.getElementById("post-description").textContent = description;
-        }
-
-        // ホームに戻る
-        function goHome() {
-            // ホーム画面への遷移を実行（URLを変更）
-            window.location.href = "/bbs/MyBulletinBoard"; // ここは実際のホーム画面のURLに変更
-        }
-
-        // ダミーデータで投稿の詳細を表示（実際のデータはサーバーから取得）
-        displayPostDetails("唐揚げ", "サクサクの唐揚げのレシピです。鶏肉を揚げて、おいしく食べましょう！");
+        // JavaScriptの関数は不要なので削除
     </script>
 {% endblock %}

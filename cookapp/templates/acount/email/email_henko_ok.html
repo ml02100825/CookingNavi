@@ -1,18 +1,18 @@
 <!-- メールアドレス変更完了 -->
 {% extends '../../baseuser.html' %}
+
 {% load static %}
 
 {% block title %}メールアドレス変更完了{% endblock %}
 
 {% block content %}
 
-
 <link rel="stylesheet" href="{% static 'css/acount/email/email_henko_ok.css' %}">
 <main class="main-content">
     <div class="email-complete-container">
         <h1>メールアドレス変更完了</h1>
         <p>メールアドレスの変更が正常に完了しました。</p>
-        <a href="{% url 'cookapp:setting' %}" class="btn">戻る</a>
     </div>
+    <a href="{% url 'cookapp:home' %}"><button type="button">ホーム</button></a>
 </main>
 {% endblock %}

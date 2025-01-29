@@ -43,7 +43,7 @@
     <form method="POST">
         {% csrf_token %}
         <button type="submit">はい</button>
-        <a href="{% url 'cookapp:family_info' %}"><button type="button">いいえ</button></a>
+        <button type="button" onclick="window.history.back();">いいえ</button>
     </form>
 </main>
 {% endblock %}

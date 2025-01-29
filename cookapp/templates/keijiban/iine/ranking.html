@@ -27,6 +27,7 @@
         <a href="{% url 'bbs:MyBulletinBoard' %}"><button type="button">自分が投稿したもの</button></a>
         <a href="{% url 'bbs:favorite' %}"><button type="button">お気に入り</button></a>
         <a href="{% url 'bbs:ranking' %}"><button type="button">いいね数順</button></a>
+        <a href="{% url 'cookapp:home' %}"><button type="button">ホーム</button></a>
     </aside>
  
     <main class="main-content">
@@ -35,16 +36,21 @@
                 <div class="post-card">
                     <div class="post-details">
                         <h3>{{ bbs_entry.post.name }}</h3>
-                        <img src="{{ bbs_entry.images }}" alt="Post image" class="img-fluid mb-3">
+                        <a href="{% url 'bbs:shousai' bbs_entry.post.post_id %}">
+                            <img src="{{ bbs_entry.images }}" alt="Post image" class="img-fluid mb-3">
+                        </a>
                         <div class="button-container">
-                            <!-- お気に入りボタン -->
-                            <button class="like-btn" onclick="toggleLike(this, '{{ bbs_entry.post.post_id }}')">
-                                {% if bbs_entry.is_favorite %}
-                                    <i class="fas fa-heart"></i>  <!-- お気に入り状態（赤色） -->
-                                {% else %}
-                                    <i class="far fa-heart"></i>  <!-- 初期状態（灰色） -->
-                                {% endif %}
-                            </button>
+                            <p>いいね数：{{ bbs_entry.total_favorites }}</p>
+                            {% if bbs_entry.post.user != user %}
+                                <!-- ユーザー自身の投稿ではない場合、お気に入りボタンを表示 -->
+                                <button class="like-btn" onclick="toggleLike(this, '{{ bbs_entry.post.post_id }}')">
+                                    {% if bbs_entry.is_favorite %}
+                                        <i class="fas fa-heart"></i>  <!-- お気に入り状態（赤色） -->
+                                    {% else %}
+                                        <i class="far fa-heart"></i>  <!-- 初期状態（灰色） -->
+                                    {% endif %}
+                                </button>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -53,6 +59,7 @@
             <p>検索結果が見つかりませんでした。</p>
         {% endif %}
     </main>
+    
 </div>
  
 {% endblock %}

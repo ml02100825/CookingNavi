@@ -145,7 +145,7 @@ class PostsView(TemplateView):
            
             del request.session['materials']
  
-            return redirect('bbs:PostsComplate')
+            return redirect('bbs:PostsComplate', name=name)
        
         else:
             logging.debug('フォームが無効です: %s', form.errors)        
@@ -153,6 +153,24 @@ class PostsView(TemplateView):
  
 class PostsComplateView(TemplateView):
     template_name = 'keijiban/toukou/posts_complate.html'
+
+    def get(self, request, *args, **kwargs):
+        name = kwargs.get('name')
+        try:
+            post = Bbs.objects.get(name=name)  # name で投稿を取得
+            post_title = post.name
+            post_description = post.recipe_text
+        except Bbs.DoesNotExist:
+            post_title = "投稿が見つかりません"
+            post_description = "該当するレシピが存在しません"
+
+        context = {
+            'post_title': post_title,
+            'post_description': post_description,
+        }
+
+        return render(request, self.template_name, context)
+
  
 def get_materials(request, materialname):
         logging.debug(materialname)
@@ -347,8 +365,7 @@ class DeleteView(TemplateView):
  
         # Bbsデータを削除
         post.delete()
- 
-        messages.success(request, '投稿が削除されました。')
+
         return redirect(reverse('bbs:PostsDeleteComplate'))
  
 class DeleteComplateView(TemplateView):
@@ -444,11 +461,13 @@ class RankView(TemplateView):
                 i = 'default_image_path.jpg'  # 投稿に画像がない場合はデフォルト画像を設定
  
             is_favorite = Favorite.objects.filter(post=post, user=user, favorite_flag=True).exists()
+            total_favorites = Favorite.objects.filter(post=post, favorite_flag=True).count()
  
             bbs_with_images.append({
                 'post': post,
                 'images': i,
                 'is_favorite': is_favorite,  # お気に入り状態を追加
+                'total_favorites': total_favorites,  # お気に入り数を追加
             })
  
         context = {
@@ -480,3 +499,25 @@ def toggle_favorite(request, post_id):
         # まだお気に入りがない場合、新規作成
         Favorite.objects.create(post=post, user=user, favorite_flag=True)
         return JsonResponse({'status': 'added'})
+    
+class ShousaiView(TemplateView):
+    template_name = 'keijiban/shousai/shousai.html'
+ 
+    def get(self, request, *args, **kwargs):
+        post_id = kwargs.get('post_id')
+        post = get_object_or_404(Bbs, post_id=post_id)
+        images = Postimage.objects.filter(post=post).values('image')
+ 
+        image_paths = []
+        for img in images:
+            imagepath = Image.objects.filter(image_id=img['image']).values('image')
+            if imagepath:
+                image_paths.append(imagepath[0]['image'])
+            else:
+                image_paths.append('default_image_path.jpg')
+ 
+        context = {
+            'post': post,
+            'images': image_paths,
+        }
+        return render(request, self.template_name, context)
