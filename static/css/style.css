@@ -5,39 +5,116 @@
     padding: 0;
 }
 
-/* 画面全体の背景色を #ffebcd に設定（白枠以外の部分） */
 body {
     background-color: #ffebcd; /* 白枠以外の背景色 */
-    display: flex;
     flex-direction: column;
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
+    min-height: 100vh; /* 画面の高さを100%に設定 */
+    overflow: hidden; /* スクロールバーを非表示にする */
 }
 
-/* ログアウト画面のコンテナ */
+/* ヘッダーのスタイリング */
+.header {
+    width: 100%;
+    background-color: #f0f8ff; /* 薄い水色 */
+    color: #333;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: sticky; /* ヘッダーを画面上部に固定 */
+    top: 0;
+    z-index: 1000;
+    height: 60px; /* ヘッダーの高さを固定 */
+}
+
+.header .app-name {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #0056b3; /* 強調した青色 */
+    letter-spacing: 1px;
+}
+
+.header .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header .nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.header .nav-links a {
+    color: #333;
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.header .nav-links a:hover {
+    color: #0056b3; /* ホバー時に青色 */
+    text-decoration: underline;
+}
+
+.header .user-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #555;
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+}
+
+/* メインコンテンツエリアのスタイル */
+.content-area {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    flex: 1;
+    height: calc(100vh - 60px - 50px); /* ヘッダーとフッターの高さを引いた高さに調整 */
+    position: relative; /* 中央配置のため */
+    overflow: hidden; /* スクロールバーを非表示にする */
+}
+
+/* フッターのスタイリング */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 0.9rem;
+    height: 50px; /* フッターの高さを固定 */
+}
+
+/* ログアウト確認画面のスタイル */
 .logout-container {
     display: flex;
     justify-content: center; /* 水平方向の中央揃え */
-    align-items: center; /* 垂直方向の中央揃え */
-    flex-grow: 1; /* 画面中央に配置 */
-    background-color: #ffebcd; /* 白枠以外の背景色 */
+    align-items: flex-start; /* 上部中央に配置 */
+    height: calc(100vh - 60px - 50px); /* ヘッダーとフッターを除いた高さ */
     padding: 20px;
+    margin-top: 50px; /* 上部の余白を調整 */
 }
 
-/* 白い枠（ログアウトボックス） */
 .logout-box {
-    background-color: white; /* 白枠は白のまま */
-    border-radius: 8px; /* 角を丸く */
+    background-color: white;
+    border-radius: 8px;
     padding: 30px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     max-width: 400px;
     width: 100%;
-    margin: 0 auto;
+    margin: auto;
 }
 
-/* ボタンコンテナ */
+/* ボタンコンテナのスタイル */
 .button-container {
     display: flex;
     justify-content: center;
@@ -45,9 +122,9 @@ body {
     margin-top: 20px;
 }
 
-/* ✅ ボタンの背景色を青色に変更 ✅ */
+/* ボタンのスタイル */
 .logout-btn, .cancel-btn {
-    background-color: #007bff; /* ボタンの青色 */
+    background-color: #007bff; /* 🔹 青色に変更 */
     color: white;
     border: none;
     padding: 12px 20px;
@@ -59,36 +136,6 @@ body {
     transition: background-color 0.3s ease;
 }
 
-/* ✅ ホバー時の色を濃い青に変更 ✅ */
 .logout-btn:hover, .cancel-btn:hover {
-    background-color: #0056b3;
-}
-
-/* ヘッダーのスタイル */
-.header {
-    width: 100%;
-    background-color: #f0f8ff; /* 薄い水色 */
-    color: #333;
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    height: 60px;
-}
-
-/* フッターの固定スタイル */
-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #343a40;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    font-size: 0.9rem;
-    height: 50px;
+    background-color: #0056b3; /* 🔹 ホバー時の色を濃い青に変更 */
 }
