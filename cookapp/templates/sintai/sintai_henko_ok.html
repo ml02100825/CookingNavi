@@ -10,7 +10,7 @@
     <div class="sintai-complete-container">
         <h1>身体情報変更完了</h1>
         <p>身体情報の変更が完了しました</p>
-        <button type="button" onclick="window.history.back()">戻る</button>
+        <a href="{% url 'cookapp:home' %}"><button type="button">ホーム</button></a>
     </div>
 </main>
 {% endblock %}

@@ -10,7 +10,7 @@ from django.http import JsonResponse
 import logging
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout, get_user_model
+from django.contrib.auth import logout, get_user_model, authenticate, login
 from django.urls import reverse
 from datetime import datetime
 import calendar
@@ -150,8 +150,7 @@ class UsernameView(LoginRequiredMixin, TemplateView):
             user = request.user
             user.name = new_username
             user.save()
- 
-            messages.success(request, 'ユーザー名が正常に変更されました。')
+
             return redirect('cookapp:username_henko_ok')  # プロフィールページなどにリダイレクト
        
         return render(request, self.template_name, {'form': form})
@@ -175,8 +174,7 @@ class EmailView(LoginRequiredMixin, TemplateView):
             user = request.user
             user.email = new_email
             user.save()
- 
-            messages.success(request, 'メールアドレスが正常に変更されました。')
+
             return redirect('cookapp:email_henko_ok')  # プロフィールページなどにリダイレクト
        
         return render(request, self.template_name, {'form': form})
@@ -204,8 +202,11 @@ class PasswordView(LoginRequiredMixin, TemplateView):
                 user = request.user
                 user.set_password(new_password)
                 user.save()
- 
-                messages.success(request, 'パスワードが正常に変更されました。')
+
+                user = authenticate(email=user.email, password=new_password)
+                if user is not None:
+                    login(request, user)
+
                 return redirect('cookapp:password_henko_ok')  # プロフィールページなどにリダイレクト
        
         return render(request, self.template_name, {'form': form})
@@ -221,6 +222,7 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
         return render(request, self.template_name, {'form': form})
    
     def post(self, request, * args, **kwargs):
+        family_member = Familymember.objects.filter(user=request.user).first()
         form = BodyInfoUpdateForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['name']
@@ -253,13 +255,14 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
                     except Userallergy.DoesNotExist:
                         # レコードが見つからなかった場合の処理
                         print(f"Allergy {allergy} for user {user} not found, skipping.")
-
-                # Weight.objects.create(
-                    # weight=weight,  # 更新された体重を登録
-                    # user=user,  # 家族メンバーに紐づくユーザー
-                    # family=family_member.family_id,  # 家族メンバー
-                #     register_time=datetime.now().strftime('%Y-%m-%d')  # 今日の日付を登録
-                # )
+ 
+                weight_entry = Weight(
+                    weight=form.cleaned_data['weight'],
+                    register_time=timezone.now().strftime('%Y-%m-%d'),
+                    user=user,  # userオブジェクトを使用
+                    family_id=family_member.family_id,  # familyオブジェクトを使用
+                )
+                weight_entry.save()
  
                 return redirect('cookapp:body_info_ok')
        
@@ -270,18 +273,18 @@ class BodyInfoOkView(TemplateView):
  
 class FamilyInfoView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/kazoku.html'
- 
+
     def get(self, request, *args, **kwargs):
         # ログインユーザーに関連する家族情報を取得
-        family_members = Familymember.objects.filter(user=request.user)
- 
+        family_members = Familymember.objects.filter(user=request.user).exclude(family_name=request.user.name)
+
         # family_name と family_id を渡す
         family_data = [{'name': member.family_name, 'id': member.family_id} for member in family_members]
-       
+
         context = {
             'family_members': family_data,
         }
- 
+
         return render(request, self.template_name, context)
  
    
@@ -440,7 +443,6 @@ class HealthGraphView(TemplateView):
         user = self.request.user
         family_members = Familymember.objects.filter(user=user)
         family_members = list(family_members)  # クエリセットをリストに変換
-        family_members.append(user)
         context['family_members'] = family_members
         return context
 
