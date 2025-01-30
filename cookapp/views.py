@@ -435,42 +435,28 @@ class DietaryHistoryView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = DateRangeForm()  # フォームをコンテキストに追加
-        return context
-
-    def post(self, request, *args, **kwargs):
-        form = DateRangeForm(request.POST)
-        if form.is_valid():
-            start_date = form.cleaned_data['start_date']
-            end_date = form.cleaned_data['end_date']
-            
-            # 指定された日付範囲に基づいてメニューを取得
-            menus = Menu.objects.filter(meal_day__range=[start_date, end_date])
-            
-            # メニューに関連する料理を取得
-            menu_cooks = Menucook.objects.filter(menu__in=menus)
-            
-            # 料理名を集計
-            cook_names = {}
-            for menu_cook in menu_cooks:
-                cook_name = menu_cook.cook.cookname
-                meal_day = str(menu_cook.menu.meal_day)
-                meal_time = '朝' if menu_cook.menu.mealtime == '0' else '昼' if menu_cook.menu.mealtime == '1' else '晩'
-                
-                if meal_day not in cook_names:
-                    cook_names[meal_day] = {'朝': [], '昼': [], '晩': []}
-                
-                cook_names[meal_day][meal_time].append(cook_name)
-            
-            return render(request, self.template_name, {
-                'form': form,
-                'start_date': start_date,
-                'end_date': end_date,
-                'cook_names': cook_names,  # 料理名をコンテキストに追加
-            })
-        else:
-            return render(request, self.template_name, {'form': form})
         
+        # すべてのメニューを取得
+        menus = Menu.objects.all().order_by('meal_day')
+        
+        # メニューに関連する料理を取得
+        menu_cooks = Menucook.objects.filter(menu__in=menus)
+        
+        # 料理名を日付ごとに整理
+        cook_names = {}
+        for menu_cook in menu_cooks:
+            cook_name = menu_cook.cook.cookname
+            meal_day = str(menu_cook.menu.meal_day)
+            meal_time = '朝' if menu_cook.menu.mealtime == '0' else '昼' if menu_cook.menu.mealtime == '1' else '晩'
+            
+            if meal_day not in cook_names:
+                cook_names[meal_day] = {'朝': [], '昼': [], '晩': []}
+            
+            cook_names[meal_day][meal_time].append(cook_name)
+
+        # コンテキストにデータを追加
+        context['cook_names'] = cook_names
+        return context
         
  
  
