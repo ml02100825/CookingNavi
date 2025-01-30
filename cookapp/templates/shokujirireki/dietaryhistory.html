@@ -4,31 +4,50 @@
 {% block title %}食事履歴{% endblock %}
 
 {% block content %}
-<!-- CSSファイルが正しく読み込まれるか確認 -->
-<link rel="stylesheet" href="{% static 'css/shokujirireki/dietaryhistory.css' %}">
+<link rel="stylesheet" href="{% static 'css/kaimonorisuto/buylist.css' %}">
+<h2 style="text-align: center;">食事履歴</h2>
 
-<div class="content">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>日付</th>
-                <th>朝</th>
-                <th>昼</th>
-                <th>晩</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for date in dates %}
-            <tr>
-                <td class="date-cell">
-                    <button class="date-button">{{ date }}</button>
-                </td>
-                <td><button class="meal-button">カレー</button></td>
-                <td><button class="meal-button">肉じゃが</button></td>
-                <td><button class="meal-button">ハヤシライス</button></td>
-            </tr>
+<body>
+    <div class="content" style="overflow-y: auto; max-height: 80vh;">
+        <h2>食事履歴</h2>
+        
+        <!-- フォーム表示 -->
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}  <!-- フォームを表示 -->
+            <button type="submit">表示</button>
+        </form>
+
+        <ul class="ingredients-list" id="ingredients-list">
+            <!-- 料理名を表示 -->
+            {% for date, meals in cook_names.items %}
+                <li>{{ date }}</li>
+                <ul>
+                    <li>朝:
+                        <ul>
+                            {% for cookname in meals.朝 %}
+                                <li>{{ cookname }}</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li>昼:
+                        <ul>
+                            {% for cookname in meals.昼 %}
+                                <li>{{ cookname }}</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li>晩:
+                        <ul>
+                            {% for cookname in meals.晩 %}
+                                <li>{{ cookname }}</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
             {% endfor %}
-        </tbody>
-    </table>
-</div>
+        </ul>
+    </div>
+
+</body>
 {% endblock %}

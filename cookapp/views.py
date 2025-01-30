@@ -1,5 +1,8 @@
 import json
 from django.shortcuts import get_object_or_404, render, redirect
+
+from administrator.models import Cook
+from healthmanagement.models import Menu, Menucook
 from .forms import EmailForm, UsernameForm, PasswordForm, BodyInfoUpdateForm, FamilyForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
@@ -19,6 +22,7 @@ from django.shortcuts import render
 from django.views import View
 from django.contrib.auth.views import PasswordResetDoneView
 from datetime import datetime, timedelta
+from .forms import DateRangeForm
  
  
 logger = logging.getLogger(__name__)
@@ -426,13 +430,48 @@ class KazokuHenkoOkView(TemplateView):
         return render(request, self.template_name, {'family_member': family_member})
  
  
-class DietaryHistoryView(LoginRequiredMixin, TemplateView):
+class DietaryHistoryView(TemplateView):
     template_name = 'shokujirireki/dietaryhistory.html'
 
-    def get(self, request, *args, **kwargs):
-        today = datetime.today()
-        dates = [(today + timedelta(days=i)).strftime('%m月%d日') for i in range(7)]
-        return render(request, self.template_name, {'dates': dates})
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = DateRangeForm()  # フォームをコンテキストに追加
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = DateRangeForm(request.POST)
+        if form.is_valid():
+            start_date = form.cleaned_data['start_date']
+            end_date = form.cleaned_data['end_date']
+            
+            # 指定された日付範囲に基づいてメニューを取得
+            menus = Menu.objects.filter(meal_day__range=[start_date, end_date])
+            
+            # メニューに関連する料理を取得
+            menu_cooks = Menucook.objects.filter(menu__in=menus)
+            
+            # 料理名を集計
+            cook_names = {}
+            for menu_cook in menu_cooks:
+                cook_name = menu_cook.cook.cookname
+                meal_day = str(menu_cook.menu.meal_day)
+                meal_time = '朝' if menu_cook.menu.mealtime == '0' else '昼' if menu_cook.menu.mealtime == '1' else '晩'
+                
+                if meal_day not in cook_names:
+                    cook_names[meal_day] = {'朝': [], '昼': [], '晩': []}
+                
+                cook_names[meal_day][meal_time].append(cook_name)
+            
+            return render(request, self.template_name, {
+                'form': form,
+                'start_date': start_date,
+                'end_date': end_date,
+                'cook_names': cook_names,  # 料理名をコンテキストに追加
+            })
+        else:
+            return render(request, self.template_name, {'form': form})
+        
+        
  
  
 class HealthGraphView(TemplateView):
