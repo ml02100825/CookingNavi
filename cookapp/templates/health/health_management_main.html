@@ -17,14 +17,50 @@
     
     <!-- Schedule Table -->
     <table class="schedule-table">
+        {% if exist_list.0 == "T" %}
+
+        {% else %}
+        <td>
+            <h2>未定</h2>
+        </td>
+        {% endif %}
         <tr>
+            {% if exist_list.0 == "F" %}
             <th><a href="{% url 'health:health_selection' 0 0 %}"><button class="day-button">月</button></a></th>
+            {% else %}
+            <th>月</th>
+            {% endif %}
+            {% if exist_list.1 == "F" %}    
             <th><a href="{% url 'health:health_selection' 1 0 %}"><button class="day-button">火</button></a></th>
+            {% else %}
+            <th>火</th>
+            {% endif %}
+            {% if exist_list.2 == "F" %}
             <th><a href="{% url 'health:health_selection' 2 0 %}"><button class="day-button">水</button></a></th>
+            {% else %}
+            <th>水</th>  
+            {% endif %}
+            {% if exist_list.3 == "F" %}
             <th><a href="{% url 'health:health_selection' 3 0 %}"><button class="day-button">木</button></a></th>
+            {% else %}
+            <th>木</th>
+            {% endif %}
+            {% if exist_list.4 == "F" %}
             <th><a href="{% url 'health:health_selection' 4 0 %}"><button class="day-button">金</button></a></th>
+            {% else %}
+            <th>金</th>
+            {% endif %}
+            {% if exist_list.5 == "F" %}
             <th><a href="{% url 'health:health_selection' 5 0 %}"><button class="day-button">土</button></a></th>
+            {% else %}
+            <th>土</th>
+            {% endif %}
+            {% if exist_list.6 == "F" %}
             <th><a href="{% url 'health:health_selection' 6 0 %}"><button class="day-button">日</button></a></th>
+            {% else %} 
+            <th>日</th>
+            {% endif %}
+
         </tr>
         <tr>
             {% if exist_list.0 == "T" %}
