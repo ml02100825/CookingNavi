@@ -179,7 +179,7 @@ class SignUpPage2View(TemplateView):
             allergies = form.cleaned_data['allergies']
             for allergy in allergies:
                 Userallergy.objects.update_or_create(
-                    user=user, allergy_category=allergy
+                    user=user, allergy=allergy
                 )
  
             # ログイン処理
