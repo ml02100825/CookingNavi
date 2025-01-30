@@ -252,8 +252,8 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
                     allergy = allergies[i]
                     try:
                         # 既存のアレルギー情報を検索して更新する
-                        user_allergy = Userallergy.objects.get(user=user, allergy_category=allergy)
-                        user_allergy.allergy_category = allergy
+                        user_allergy = Userallergy.objects.get(user=user, allergy=allergy)
+                        user_allergy.allergy = allergy
                         user_allergy.save()  # 更新を保存
                         print(f"Updated allergy for user {user} with allergy {allergy}")
                     except Userallergy.DoesNotExist:
