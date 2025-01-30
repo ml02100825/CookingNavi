@@ -1,0 +1,19 @@
+{% extends 'baseuser.html' %}
+{% load static %}
+
+{% block title %}料理詳細{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/kaimonorisuto/buylist.css' %}">
+<h2 style="text-align: center;">{{ cook.cookname }}</h2>
+
+<div class="content">
+    <p>レシピ: {{ cook.recipe_text }}</p>
+    <p>カロリー: {{ cook.calorie }}</p>
+    <p>たんぱく質: {{ cook.protein }}</p>
+    <p>脂質: {{ cook.lipids }}</p>
+    <p>炭水化物: {{ cook.carbohydrates }}</p>
+    <p>食物繊維: {{ cook.fiber }}</p>
+    <p>塩分含有量: {{ cook.saltcontent }}</p>
+</div>
+{% endblock %}
