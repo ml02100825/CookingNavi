@@ -1,78 +1,58 @@
 /* （管理者）ログアウト完了画面のスタイル */
+
 /* 全体のスタイル */
 body {
-    font-family: Arial, sans-serif; /* フォントを設定 */
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #ffebcd; 
+    background-color: #ffebcd; /* 背景色を設定 */
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* 最小高さを画面全体にする */
+    align-items: center;
+    min-height: 100vh;
 }
 
-.app-name {
-    font-weight: bold; /* アプリ名を太字に設定 */
-}
-
-.nav-right {
+/* ログアウト完了メッセージのスタイル */
+.logout-completion {
     display: flex;
-    align-items: center; /* ナビゲーション内のアイテムを中央揃え */
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* 🔹 上部に配置 */
+    background-color: white; /* 白い枠 */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    text-align: center;
+    margin-top: 100px; /* 🔹 画面中央上部に配置 */
 }
 
-.nav-links a {
-    color: white; /* リンクの文字色を白に設定 */
-    text-decoration: none; /* リンクの下線を削除 */
-    margin-left: 15px; /* リンク間の余白を設定 */
-    font-weight: bold; /* リンクの文字を太字に設定 */
+/* 見出し */
+.logout-completion h1 {
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 15px;
 }
 
-.nav-links a:hover {
-    text-decoration: underline; /* リンクにホバーした時に下線を表示 */
-}
-
-.user-icon {
-    width: 30px; /* ユーザーアイコンの幅 */
-    height: 30px; /* ユーザーアイコンの高さ */
-    background-color: #333; /* ユーザーアイコンの背景色を暗い色に設定 */
-    border-radius: 50%; /* アイコンを円形に設定 */
-    margin-left: 15px; /* アイコンとリンクの間に余白を設定 */
-}
-
-/* メインコンテンツ */
-.login-complete-container {
-    display: flex;
-    flex-direction: column; /* 縦並びに要素を配置 */
-    align-items: center; /* 中央揃え */
-    justify-content: center; /* 縦方向も中央揃え */
-    padding: 40px; /* 上下左右に40pxの余白 */
-    max-width: 500px; /* 最大幅を500pxに制限 */
-    width: 100%; /* 幅を100%に設定 */
-    margin: 50px auto; /* 上下に50pxの余白を設定し、左右中央に配置 */
-}
-
-
-.login-complete-container h1 {
-    font-size: 2em; /* 見出しのフォントサイズを設定 */
-    color: #333; /* 見出しの文字色を暗い色に設定 */
-    margin-bottom: 20px; /* 見出しと次の要素の間に余白を設定 */
-}
-
-.login-complete-container p {
-    font-size: 1.2em; /* テキストのフォントサイズを設定 */
-    color: #333; /* テキストの文字色を暗い色に設定 */
-    margin-bottom: 30px; /* テキストとボタンの間に余白を設定 */
+/* テキスト */
+.logout-completion p {
+    font-size: 1.2em;
+    color: #333;
+    margin-bottom: 20px;
 }
 
 /* ログインボタンのスタイル */
-.login-complete-container .btn {
-    display: block; /* ボタンをブロック要素にして横幅を100%にする */
-    color: #000; /* ボタンの文字色を白に設定 */
-    padding: 12px 30px; /* ボタンの上下12px、左右30pxのパディング */
-    font-size: 1.1em; /* フォントサイズを設定 */
-    cursor: pointer; /* カーソルをポインタに変更 */
-    border-radius: 5px; /* ボタンの角を丸くする */
-    text-align: center; /* ボタンのテキストを中央揃え */
-    margin: 0 auto; /* ボタンを中央に配置 */
-    width: fit-content; /* ボタンの幅を内容に合わせる */
-    box-sizing: border-box; /* ボックスサイズをborder-boxに */
+.logout-completion .btn {
+    display: inline-block;
+    background-color: #007bff; /* 青色のボタン */
+    color: white;
+    padding: 12px 20px;
+    font-size: 1.1em;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.logout-completion .btn:hover {
+    background-color: #0056b3; /* ホバー時の濃い青 */
 }
