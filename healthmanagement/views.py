@@ -18,8 +18,8 @@ def menu_exist(day):
     
     daydifference = weekday - day
 
-    currentday = today + timedelta(days=-daydifference)
-    menu = Menu.objects.filter(meal_day  = currentday)
+    current_day = today + timedelta(days=-daydifference)
+    menu = Menu.objects.filter(meal_day  = current_day)
     if menu:
         return "T"
     else:
@@ -330,17 +330,17 @@ class HealthSelectionView(TemplateView):
     def get(self, request, *args, **kwargs):
         allergylist = []
         
-        userfamilyid = Familymember.objects.filter(user = request.user).values('family_id')
-        logging.debug(userfamilyid)
-        if userfamilyid:
-            for i in range(len(userfamilyid)):
-                userfamilyallergy = Familyallergy.objects.filter(family_member_id = userfamilyid[i]['family_id']).values('allergy')
+        user_family_id = Familymember.objects.filter(user = request.user).values('family_id')
+        logging.debug(user_family_id)
+        if user_family_id:
+            for i in range(len(user_family_id)):
+                user_family_allergy = Familyallergy.objects.filter(family_member_id = user_family_id[i]['family_id']).values('allergy')
                 
-                familyallergy_list = list(userfamilyallergy)
+                familyallergy_list = list(user_family_allergy)
                 logging.debug(familyallergy_list)   
               
         userallergy = Userallergy.objects.filter(user = request.user).values('allergy')
-        userallergy_list = list(userallergy.values())
+        userallergy_list = list(userallergy)
         if userallergy_list:
             logging.debug("t")
         else:
@@ -359,8 +359,8 @@ class HealthSelectionView(TemplateView):
         day = self.kwargs.get('day') 
         daydifference = weekday - day
         
-        currentday = today + timedelta(days=-daydifference)
-        logging.debug(currentday)
+        current_day = today + timedelta(days=-daydifference)
+        logging.debug(current_day)
         form = CookSelectForm()
         cook_list = []
         cooks = Cook.objects.filter(type="1")
@@ -593,9 +593,9 @@ class HealthSelectionView(TemplateView):
             day = self.kwargs.get('day') 
             daydifference = weekday - day
 
-            currentday = today + timedelta(days=-daydifference)
+            current_day = today + timedelta(days=-daydifference)
             
-            formatted_date  = currentday.strftime("%Y-%m-%d")
+            formatted_date  = current_day.strftime("%Y-%m-%d")
             logging.debug(formatted_date)
  
             menu =Menu(user = request.user, meal_day = formatted_date, mealtime = str(mealtime))
@@ -625,7 +625,7 @@ class HealthSelectionComplateView(TemplateView):
     def get(self, request, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         day = self.kwargs.get('day')
-        menu = Menu.objects.filter(user = request.user, meal_day = day).values("menu_id","mealtime").order_by('mealtime')
+        menu = Menu.objects.filter(user=request.user, meal_day=day).values("menu_id", "mealtime").order_by('mealtime')
         logging.debug(menu)
         breakfast = menu[0]
         lunch = menu[1]
