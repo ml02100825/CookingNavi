@@ -12,5 +12,6 @@ urlpatterns = [
     path('recipe/add/done', views.RecipeAdd_doneView.as_view(), name='recipeadd_done'),
     path('bulletinboard2/', views.BulletinBoard2View.as_view(), name='BulletinBoard2'),
     path('recipe/edit/', views.RecipeEditView.as_view(), name='recipeedit'),
+    path('recipe/delete/', views.RecipeDeleteView.as_view(), name='recipedelete'),
     
 ]

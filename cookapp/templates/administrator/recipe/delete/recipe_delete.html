@@ -1,33 +1,62 @@
-<!-- recipe_delete.html -->
-{% extends '../base.html' %}
-
 {% load static %}
 
 {% block title %}（管理者）レシピ削除{% endblock %}
 
 {% block content %}
 <head>
-    <!-- Faviconの設定 -->
     <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
-    <!-- CSSのリンク -->
     <link rel="stylesheet" href="{% static 'css/administrator/recipe/delete/recipe_delete.css' %}">
 </head>
-<!-- メインコンテンツ -->
+
 <div class="login-container">
     <h1>管理者画面</h1>
     <h2>～レシピ削除～</h2>
-    <form action="#" method="post" enctype="multipart/form-data">
-        <label for="recipe-name">メニュー名</label>
-        <select id="recipe-name" name="recipe-name" required>
-            <option value="" disabled selected>メニューを選択してください</option>
-            <option value="recipe1">レシピ1</option>
-            <option value="recipe2">レシピ2</option>
-            <option value="recipe3">レシピ3</option>
-            <!-- 他のメニュー名も追加可能 -->
-        </select>
 
-        <button type="submit">戻る</button>
-        <button type="submit">レシピ削除</button>
+    <!-- メニュー名の選択 -->
+    <form id="delete-form" method="POST">
+        {% csrf_token %}
+        <label for="recipe-name">メニュー名</label>
+        <select id="recipe-name" name="recipe_name">
+            <option value="" disabled selected>選択してください</option>
+            {% for cookname in cooks %}
+                <option value="{{ cookname }}">{{ cookname }}</option>
+            {% endfor %}
+        </select>
+        
+        <!-- 削除ボタン -->
+        <button type="button" onclick="deleteRecipe()">レシピ削除</button>
     </form>
 </div>
+
+<script>
+    function deleteRecipe() {
+        let recipeName = document.getElementById('recipe-name').value;
+
+        if (!recipeName) {
+            alert('削除するレシピを選択してください。');
+            return;
+        }
+
+        if (confirm(`本当に「${recipeName}」を削除しますか？`)) {
+            fetch("{% url 'administrator:recipedelete' %}", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}",
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: `recipe_name=${encodeURIComponent(recipeName)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    window.location.href = data.redirect_url; // 削除完了画面にリダイレクト
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    }
+</script>
 {% endblock %}

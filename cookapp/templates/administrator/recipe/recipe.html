@@ -25,7 +25,7 @@
             {% csrf_token %}
             <button class="btn">レシピ編集</button>
         </form>
-        <form action="" method="post">
+        <form action="{% url 'administrator:recipedelete' %}">
             {% csrf_token %}
             <button class="btn">レシピ削除</button>
         </form>
