@@ -17,7 +17,24 @@
         padding: 0;
     }
 
-    /* 日付のデザイン */
+    /* 朝昼晩の見出し */
+    .meal-header {
+        display: flex;
+        justify-content: space-between;
+        background-color: #007bff;
+        color: white;
+        padding: 10px;
+        font-weight: bold;
+        text-align: center;
+        border-radius: 8px;
+    }
+
+    .meal-header div {
+        flex: 1;
+        text-align: center;
+    }
+
+    /* 各行のデザイン */
     .meal-row {
         display: flex;
         align-items: center;
@@ -58,12 +75,6 @@
         text-align: center;
     }
 
-    .meal-box h3 {
-        margin: 0 0 5px;
-        font-size: 1.2em;
-        color: #007bff;
-    }
-
     .meal-box ul {
         padding: 0;
         list-style: none;
@@ -80,6 +91,14 @@
     <div class="content">
         <h2>食事履歴</h2>
 
+        <!-- 朝昼晩の見出し -->
+        <div class="meal-header">
+            <div>日付</div>
+            <div>朝</div>
+            <div>昼</div>
+            <div>晩</div>
+        </div>
+
         <ul class="ingredients-list" id="ingredients-list">
             <!-- 料理名を表示 -->
             {% for date, meals in cook_names.items %}
@@ -88,7 +107,6 @@
                     
                     <div class="meal-container">
                         <div class="meal-box">
-                            <h3>朝</h3>
                             <ul>
                                 {% for cookname in meals.朝 %}
                                     <li>{{ cookname }}</li>
@@ -97,7 +115,6 @@
                         </div>
 
                         <div class="meal-box">
-                            <h3>昼</h3>
                             <ul>
                                 {% for cookname in meals.昼 %}
                                     <li>{{ cookname }}</li>
@@ -106,7 +123,6 @@
                         </div>
 
                         <div class="meal-box">
-                            <h3>晩</h3>
                             <ul>
                                 {% for cookname in meals.晩 %}
                                     <li>{{ cookname }}</li>
