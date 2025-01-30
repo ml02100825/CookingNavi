@@ -37,7 +37,7 @@ class User(AbstractBaseUser):
 class Userallergy(models.Model):
     userallergy_id = models.AutoField(verbose_name="ユーザアレルギーID",db_column='USERALLERGY_ID', primary_key=True,   auto_created=True,)  # Field name made lowercase.
     user = models.ForeignKey('User', models.CASCADE, db_column='USER_ID')  # Field name made lowercase.
-    allergy_category = models.CharField(db_column='ALLERGY_CATEGORY', max_length=10)  # Field name made lowercase.
+    allergy = models.CharField(db_column='ALLERGY_CATEGORY', max_length=10)  # Field name made lowercase.
     def padded_id(self):
         return f"{self.userallergy_id:010}"  # 10桁でゼロパディング
     class Meta:
