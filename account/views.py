@@ -1,4 +1,4 @@
-from datetime import timezone
+from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.views.generic.base import TemplateView
 from django.contrib.auth import login,authenticate
@@ -9,8 +9,13 @@ from .models import User, Userallergy
 from cookapp.models import Familymember, Weight
 from django.urls import reverse_lazy
 import logging
+from datetime import datetime
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_protect
+from datetime import datetime
+from django.views import View
+from django.contrib.auth import logout
 
 class CustomLoginView(LoginView):
     template_name = 'login.html'
@@ -82,7 +87,7 @@ class SignUpPage1View(TemplateView):
             # 非アクティブユーザーの状態をチェック
             try:
                 user = User.objects.get(email=email)
-                if not user.is_active or user.deleteflag:
+                if not user.is_active or user.DeleteFlag:
                     # 非アクティブまたは削除ユーザーの場合、次の画面へ遷移
                     logging.debug(f"非アクティブまたは削除ユーザー {email} を検出。次の画面へ遷移します。")
             except User.DoesNotExist:
@@ -118,7 +123,7 @@ class SignUpPage2View(TemplateView):
                 # 非アクティブまたは論理削除ユーザーの場合、復活処理
                 if not user.is_active or user.deleteflag:
                     user.is_active = 1  # アクティブ化
-                    user.deleteflag = 0  # DeleteFlagを0に設定
+                    user.deleteflag = 0  # deleteflagを0に設定
                     user.set_password(password)  # 新しいパスワードを保存
                     logging.debug(f"非アクティブまたは削除ユーザー {email} を復活しました。")
  
@@ -146,29 +151,35 @@ class SignUpPage2View(TemplateView):
                     weight=form.cleaned_data['weight'],
                 )
                 user.save()
+            # 生年月日から年齢を計算
+            birthdate = form.cleaned_data['birthdate']
+            today = datetime.today().date()
+            age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
             # familymemberテーブルに登録
             family_member = Familymember(
-                Family_Name=form.cleaned_data['name'],
-                Family_Gender=form.cleaned_data['gender'],
-                Family_Age=form.cleaned_data['birthdate'],
-                Family_Height=form.cleaned_data['height'],
-                Family_Weight=form.cleaned_data['weight'],
-                User_ID=user.User_ID
+                family_name=form.cleaned_data['name'],
+                family_gender=form.cleaned_data['gender'],
+                family_age=age,
+                family_height=form.cleaned_data['height'],
+                family_weight=form.cleaned_data['weight'],
+                user=user  # userオブジェクトを使用
             )
             family_member.save()
+ 
             # weightテーブルに登録
             weight_entry = Weight(
-                Weight=form.cleaned_data['weight'],
-                RegisterTime=timezone.now().strftime('%Y-%m-%d %H:%M:%S'),
-                User_ID=user.User_ID,
-                Family_ID=family_member.Family_ID
+                weight=form.cleaned_data['weight'],
+                register_time=timezone.now().strftime('%Y-%m-%d'),
+                user=user,  # userオブジェクトを使用
+                family=family_member  # familyオブジェクトを使用
             )
             weight_entry.save()
+ 
             # アレルギー情報の登録または更新
             allergies = form.cleaned_data['allergies']
             for allergy in allergies:
                 Userallergy.objects.update_or_create(
-                    user=user, allergy_category=allergy
+                    user=user, allergy=allergy
                 )
  
             # ログイン処理
@@ -182,23 +193,17 @@ class CustomSignUpView(TemplateView):
     template_name = 'administrator/sign up/sign up_completion.html'
 
 
-class CustomLogoutView(LogoutView):
-    template_name = 'logout/logout.html'
-    # ログアウト後に 'account:login_ok' にリダイレクト
-    next_page = reverse_lazy('account:logout_ok')
+class LogoutConfirmView(View):
+    """ログアウト確認ページを表示するビュー"""
 
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            try:
-                # is_active を 0 に変更
-                user = request.user
-                user.is_active = 0
-                user.save()
-                logging.debug(f"ユーザー {user.email} の is_active を 0 に設定しました。")
-            except Exception as e:
-                logging.error(f"ログアウト中にエラーが発生しました: {e}")
-        return super().dispatch(request, *args, **kwargs)
+    def get(self, request, *args, **kwargs):
+        """GETリクエストではログアウトしない（確認画面を表示）"""
+        return render(request, 'logout/logout.html')
+
+    def post(self, request, *args, **kwargs):
+        """POSTリクエストが送信されたらログアウトを実行"""
+        logout(request)
+        return redirect('account:logout_ok')  # ログアウト完了ページへリダイレクト
     
 class LogoutOkView(TemplateView):
     template_name = 'logout/logout_ok.html'

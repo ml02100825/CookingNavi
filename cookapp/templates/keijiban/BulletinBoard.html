@@ -1,5 +1,4 @@
 {% extends 'baseuser.html' %}
- 
 {% load static %}
  
 {% block title %}主菜選択{% endblock %}
@@ -27,6 +26,7 @@
         <a href="{% url 'bbs:MyBulletinBoard' %}"><button type="button">自分が投稿したもの</button></a>
         <a href="{% url 'bbs:favorite' %}"><button type="button">お気に入り</button></a>
         <a href="{% url 'bbs:ranking' %}"><button type="button">いいね数順</button></a>
+        <a href="{% url 'cookapp:home' %}"><button type="button">ホーム</button></a>
     </aside>
  
     <main class="main-content">
@@ -35,7 +35,9 @@
                 <div class="post-card">
                     <div class="post-details">
                         <h3>{{ bbs_entry.post.name }}</h3>
-                        <img src="{{ bbs_entry.images }}" alt="Post image" class="img-fluid mb-3">
+                        <a href="{% url 'bbs:shousai' bbs_entry.post.post_id %}">
+                            <img src="{{ bbs_entry.images }}" alt="Post image" class="img-fluid mb-3">
+                        </a>
                         <div class="button-container">
                             <!-- お気に入りボタン -->
                             <button class="like-btn" onclick="toggleLike(this, '{{ bbs_entry.post.post_id }}')">

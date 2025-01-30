@@ -165,7 +165,7 @@ AUTHENTICATION_BACKENDS = [
    
 ]
 
-LOGOUT_REDIRECT_URL = reverse_lazy('cookapp:index')
+LOGOUT_REDIRECT_URL = 'account:logout_ok'
 
 
 

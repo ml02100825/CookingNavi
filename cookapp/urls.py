@@ -1,10 +1,9 @@
 from django.urls import path, include
-from . import  views
-from .views import KazokuHenkoView
-from django.urls import path
+from . import views
+from .views import  KazokuHenkoView
 from .views import KiyakuView
 from django.contrib.auth import views as auth_views
-
+from .views import password_reset_done_view
 
 
 app_name = "cookapp"
@@ -34,20 +33,21 @@ urlpatterns = [
     path('password_henko_ok/', views.PasswordOkView.as_view(), name='password_henko_ok'),
     path('kazoku_add/', views.KazokuaddView.as_view(), name='kazoku_add'),
     path('kazoku_add_ok/', views.KazokuaddOkView.as_view(), name='kazoku_add_ok'),
-    path('shokujirireki/', views. DietaryHistoryView.as_view(), name='dietaryhistory'),
+    path('shokujirireki/', views.DietaryHistoryView.as_view(), name='dietaryhistory'),
     path('kazoku/henko/<int:family_id>/', KazokuHenkoView.as_view(), name='kazoku_henko'),
     path('kazoku_henko_ok/<int:family_id>/', views.KazokuHenkoOkView.as_view(), name='kazoku_henko_ok'),
     path('kazoku/kakunin/<int:family_id>/', views.KazokuKakuninView.as_view(), name='kazoku_kakunin'),
     path('health_graph/', views.HealthGraphView.as_view(), name='health_graph'),
     path('confirm_taikai/', views.confirm_taikai, name='confirm_taikai'),
-    path('taikai_ok/', views.taikai_ok, name='taikai_ok'), 
+    path('taikai_ok/', views.taikai_ok, name='taikai_ok'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('kazoku/sakujo/<int:family_id>/', views.KazokuSakujoView.as_view(), name='kazoku_sakujo'),
     path('kazoku_sakujo_ok/<int:family_id>/', views.KazokuSakujoOkView.as_view(), name='kazoku_sakujo_ok'),
     path('kiyaku/', views.KiyakuView.as_view(), name='kiyaku_kiyaku'),
-    path('reset/', auth_views.PasswordResetView.as_view(), name='reset'),
-    path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
-    path('password/reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='account/password_reset_done.html'), name='password_reset_done'),
-    path('password/reset/confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='account/password_reset_confirm.html'), name='password_reset_confirm'),
-    path('password/reset/complete/', auth_views.PasswordResetCompleteView.as_view(template_name='account/password_reset_complete.html'), name='password_reset_complete'),
+    path('password_reset/', auth_views.PasswordResetView.as_view(success_url='/password_reset/done/'), name='password_reset'),
+    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('password_reset/confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='account/password_reset_confirm.html'), name='password_reset_confirm'),
+    path('password_reset/complete/', auth_views.PasswordResetCompleteView.as_view(template_name='account/password_reset_complete.html'), name='password_reset_complete'),
+ 
+    
 ]

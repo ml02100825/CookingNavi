@@ -1,5 +1,8 @@
 import json
 from django.shortcuts import get_object_or_404, render, redirect
+
+from administrator.models import Cook
+from healthmanagement.models import Menu, Menucook
 from .forms import EmailForm, UsernameForm, PasswordForm, BodyInfoUpdateForm, FamilyForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
@@ -10,14 +13,16 @@ from django.http import JsonResponse
 import logging
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout, get_user_model
+from django.contrib.auth import logout, get_user_model, authenticate, login
 from django.urls import reverse
 from datetime import datetime
 import calendar
 import json
 from django.shortcuts import render
 from django.views import View
-
+from django.contrib.auth.views import PasswordResetDoneView
+from datetime import datetime, timedelta
+from .forms import DateRangeForm
  
  
 logger = logging.getLogger(__name__)
@@ -149,8 +154,7 @@ class UsernameView(LoginRequiredMixin, TemplateView):
             user = request.user
             user.name = new_username
             user.save()
- 
-            messages.success(request, 'ユーザー名が正常に変更されました。')
+
             return redirect('cookapp:username_henko_ok')  # プロフィールページなどにリダイレクト
        
         return render(request, self.template_name, {'form': form})
@@ -174,8 +178,7 @@ class EmailView(LoginRequiredMixin, TemplateView):
             user = request.user
             user.email = new_email
             user.save()
- 
-            messages.success(request, 'メールアドレスが正常に変更されました。')
+
             return redirect('cookapp:email_henko_ok')  # プロフィールページなどにリダイレクト
        
         return render(request, self.template_name, {'form': form})
@@ -203,8 +206,11 @@ class PasswordView(LoginRequiredMixin, TemplateView):
                 user = request.user
                 user.set_password(new_password)
                 user.save()
- 
-                messages.success(request, 'パスワードが正常に変更されました。')
+
+                user = authenticate(email=user.email, password=new_password)
+                if user is not None:
+                    login(request, user)
+
                 return redirect('cookapp:password_henko_ok')  # プロフィールページなどにリダイレクト
        
         return render(request, self.template_name, {'form': form})
@@ -220,6 +226,7 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
         return render(request, self.template_name, {'form': form})
    
     def post(self, request, * args, **kwargs):
+        family_member = Familymember.objects.filter(user=request.user).first()
         form = BodyInfoUpdateForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['name']
@@ -245,20 +252,21 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
                     allergy = allergies[i]
                     try:
                         # 既存のアレルギー情報を検索して更新する
-                        user_allergy = Userallergy.objects.get(user=user, allergy_category=allergy)
-                        user_allergy.allergy_category = allergy
+                        user_allergy = Userallergy.objects.get(user=user, allergy=allergy)
+                        user_allergy.allergy = allergy
                         user_allergy.save()  # 更新を保存
                         print(f"Updated allergy for user {user} with allergy {allergy}")
                     except Userallergy.DoesNotExist:
                         # レコードが見つからなかった場合の処理
                         print(f"Allergy {allergy} for user {user} not found, skipping.")
-
-                # Weight.objects.create(
-                    # weight=weight,  # 更新された体重を登録
-                    # user=user,  # 家族メンバーに紐づくユーザー
-                    # family=family_member.family_id,  # 家族メンバー
-                #     register_time=datetime.now().strftime('%Y-%m-%d')  # 今日の日付を登録
-                # )
+ 
+                weight_entry = Weight(
+                    weight=form.cleaned_data['weight'],
+                    register_time=timezone.now().strftime('%Y-%m-%d'),
+                    user=user,  # userオブジェクトを使用
+                    family_id=family_member.family_id,  # familyオブジェクトを使用
+                )
+                weight_entry.save()
  
                 return redirect('cookapp:body_info_ok')
        
@@ -269,18 +277,18 @@ class BodyInfoOkView(TemplateView):
  
 class FamilyInfoView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/kazoku.html'
- 
+
     def get(self, request, *args, **kwargs):
         # ログインユーザーに関連する家族情報を取得
-        family_members = Familymember.objects.filter(user=request.user)
- 
+        family_members = Familymember.objects.filter(user=request.user).exclude(family_name=request.user.name)
+
         # family_name と family_id を渡す
         family_data = [{'name': member.family_name, 'id': member.family_id} for member in family_members]
-       
+
         context = {
             'family_members': family_data,
         }
- 
+
         return render(request, self.template_name, context)
  
    
@@ -422,8 +430,34 @@ class KazokuHenkoOkView(TemplateView):
         return render(request, self.template_name, {'family_member': family_member})
  
  
-class DietaryHistoryView(LoginRequiredMixin, TemplateView):
+class DietaryHistoryView(TemplateView):
     template_name = 'shokujirireki/dietaryhistory.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # すべてのメニューを取得
+        menus = Menu.objects.all().order_by('meal_day')
+        
+        # メニューに関連する料理を取得
+        menu_cooks = Menucook.objects.filter(menu__in=menus)
+        
+        # 料理名を日付ごとに整理
+        cook_names = {}
+        for menu_cook in menu_cooks:
+            cook_name = menu_cook.cook.cookname
+            meal_day = str(menu_cook.menu.meal_day)
+            meal_time = '朝' if menu_cook.menu.mealtime == '0' else '昼' if menu_cook.menu.mealtime == '1' else '晩'
+            
+            if meal_day not in cook_names:
+                cook_names[meal_day] = {'朝': [], '昼': [], '晩': []}
+            
+            cook_names[meal_day][meal_time].append(cook_name)
+
+        # コンテキストにデータを追加
+        context['cook_names'] = cook_names
+        return context
+        
  
  
 class HealthGraphView(TemplateView):
@@ -434,7 +468,6 @@ class HealthGraphView(TemplateView):
         user = self.request.user
         family_members = Familymember.objects.filter(user=user)
         family_members = list(family_members)  # クエリセットをリストに変換
-        family_members.append(user)
         context['family_members'] = family_members
         return context
 
@@ -559,3 +592,11 @@ class KazokuSakujoOkView(TemplateView):
 class KiyakuView(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'kiyaku/kiyaku.html')
+    
+# PasswordResetDoneViewのカスタマイズが必要な場合
+class CustomPasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'registration/password_reset_done.html'
+
+# 通常のビューが必要な場合
+def password_reset_done_view(request):
+    return render(request, 'registration/password_reset_done.html')

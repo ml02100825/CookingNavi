@@ -21,7 +21,7 @@
             {% csrf_token %}
             <button  class="btn">レシピ追加</button>
         </form>
-        <form action="" method="post">
+        <form action="{% url 'administrator:recipeedit' %}" >
             {% csrf_token %}
             <button class="btn">レシピ編集</button>
         </form>

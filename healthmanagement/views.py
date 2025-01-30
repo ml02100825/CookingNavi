@@ -2,11 +2,13 @@ import random
 from django.shortcuts import redirect, render
 from django.views.generic.base import TemplateView
 import urllib
-from administrator.models import Cook, Cookimage, Image
+from account.models import Userallergy
+from administrator.models import Cook, Cookimage, Image, Material, Recipe
 from datetime import datetime, date, timedelta
-from cookapp.models import Familymember
+from cookapp.models import Familymember, Familyallergy,Allergy
 from .forms import CookSelectForm
 from .models import Menu, Menucook
+import json
 
 import logging
 
@@ -16,8 +18,8 @@ def menu_exist(day):
     
     daydifference = weekday - day
 
-    currentday = today + timedelta(days=-daydifference)
-    menu = Menu.objects.filter(meal_day  = currentday)
+    current_day = today + timedelta(days=-daydifference)
+    menu = Menu.objects.filter(meal_day  = current_day)
     if menu:
         return "T"
     else:
@@ -29,7 +31,7 @@ def image_get(menu):
         
         menuid = Cook.objects.filter(cook_id= i['cook']).values('cook_id', 'type')
         menuid = menuid[0]
-        if menuid['type'] == '0':
+        if menuid['type'] == '1':
                 break
     menuimageid = Cookimage.objects.filter(cook =menuid['cook_id']).values('image')
     menuimageid= menuimageid[0]
@@ -264,35 +266,130 @@ class HealthMenuView(TemplateView):
     template_name='health/health_menuconfirmation.html'
     
     def get(self, request, *args, **kwargs):
+        # 料理リスト
+        cooklist = []
+        # 材料リスト
+        materiallist = []
+        # 料理ごとの材料リスト
+        cookmateriallist = []
         context = super().get_context_data(**kwargs)
+        # 食事の時間帯を取得(朝昼晩)
         time = self.kwargs.get('time')
+        # 食事した日付情報を取得
         day = self.kwargs.get('day')
         today = date.today()
         weekday = today.weekday()
         daydifference = weekday - day
+        # 今日の日付
         currentday = today + timedelta(days=-daydifference)
+        # 献立IDを取得
+        Cooks = Menu.objects.filter(user=request.user,meal_day = currentday, mealtime = time).values('menu_id')
+        # 献立IDから料理IDを取得
+        Cookid = Menucook.objects.filter(menu =  Cooks[0]['menu_id']).values('cook')
+        logging.debug(Cookid)
+        # 取得した料理IDの数だけループ
+        for i in range(len(Cookid)):
+            #料理の詳細情報を取得
+            CookDetail = Cook.objects.filter(cook_id = Cookid[i]['cook']).values('cook_id','cookname','recipe_text','calorie','protein','lipids','carbohydrates','fiber','saltcontent')
+            #取得した情報をリスト形式に変換
+            choice_list = list(CookDetail.values())
+            # 料理リストに追加する
+            cooklist.append(choice_list[0])
+            # レシピDBから料理に使った材料一覧を取得
+            materials = Recipe.objects.filter(cook = Cookid[i]['cook']).values('material','quantity')
+            # 材料の数だけループ
+            for j in range(len(materials)):
+                # 取得した情報をリスト形式に変換
+                choice_list = list(materials.values())
+                # データを保持するための辞書作成
+                materialdetail = {}
+                # 材料IDから材料名を取得
+                material = Material.objects.filter(material_id = materials[j]['material']).values('name')
+                # 材料名を辞書に追加
+                materialdetail['materialname'] = material[0]['name']
+                # 材料の量を辞書に追加
+                materialdetail['quantity'] = materials[j]['quantity']
+                # 作成した辞書をリストに追加
+                cookmateriallist.append(materialdetail)
+            # 料理ごとのリストをリストに追加    
+            materiallist.append(cookmateriallist)
+            # 材料リストを初期化
+            cookmateriallist = []
+            
+        logging.debug(materiallist)
+        # リストをjson形式に変換
+        json_string = json.dumps(materiallist, indent=4)
         
-        return render(request, self.template_name)    
+        logging.debug(json_string)
+        
+        return render(request, self.template_name,{'cook_list': cooklist, 'material_list': json_string})    
 
 class HealthSelectionView(TemplateView):
     template_name='health/health_selection.html'
-    def get(self, request, *args, **kwargs):
     
+    def get(self, request, *args, **kwargs):
+        allergylist = []
+        
+        user_family_id = Familymember.objects.filter(user = request.user).values('family_id')
+        logging.debug(user_family_id)
+        if user_family_id:
+            for i in range(len(user_family_id)):
+                user_family_allergy = Familyallergy.objects.filter(family_member_id = user_family_id[i]['family_id']).values('allergy')
+                
+                familyallergy_list = list(user_family_allergy)
+                logging.debug(familyallergy_list)   
+              
+        userallergy = Userallergy.objects.filter(user = request.user).values('allergy')
+        userallergy_list = list(userallergy)
+        if userallergy_list:
+            logging.debug("t")
+        else:
+            logging.debug("f")
+        logging.debug(userallergy_list)
+        for i in familyallergy_list:
+            userallergy_list.append(i)
+        logging.debug(userallergy_list)
+        for i in userallergy_list:
+            allergy = i['allergy']
+            allergylist.append(allergy)
+        logging.debug(allergylist)
         today = date.today()
         weekday = today.weekday()
         context = super().get_context_data(**kwargs)
         day = self.kwargs.get('day') 
         daydifference = weekday - day
-
-        currentday = today + timedelta(days=-daydifference)
-        logging.debug(currentday)
-        form = CookSelectForm()
-        form.fields['CookSelect'].queryset = Cook.objects.filter(type="1")
         
-        return render(request, self.template_name, {'form': form})
+        current_day = today + timedelta(days=-daydifference)
+        logging.debug(current_day)
+        form = CookSelectForm()
+        cook_list = []
+        cooks = Cook.objects.filter(type="1")
+        cook_dict =  list(cooks.values('cook_id'))
+        for i in cook_dict:
+            cook_list.append(i['cook_id'])
+        logging.debug(cook_list)
+        allergycooklist = []
+        for i in cook_list:
+
+            material = Recipe.objects.filter(cook = i).values('material')
+            logging.debug(material)
+            for j in material:
+                allergycook = Allergy.objects.filter(material_id = j['material'])
+                if allergycook:
+                    allergycooklist.append(i)
+                    break
+                    
+        logging.debug(allergycooklist)
+        for i in allergycooklist:
+            
+            cook_list.remove(i)
+        form.fields['CookSelect'].queryset = Cook.objects.filter(cook_id__in =cook_list)
+        
+        return render(request, self.template_name, {'form': form, 'allergylist':allergylist})
     
     def post(self, request, *args, **kwargs):
         # 年齢で処理を変えるためのhandlers
+        context = super().get_context_data(**kwargs)
         handlers = [
                     ((1, 2), process_group_1_2),
                     ((3, 5), process_group_3_5),
@@ -379,13 +476,7 @@ class HealthSelectionView(TemplateView):
                     family_carbohydrates += carbohydrates
                     family_fiber += fiber
                     family_saltcontent += saltcontent
-                    logging.debug(family_calorie)
-                    logging.debug(family_protein)
-                    logging.debug(family_lipids)
-                    logging.debug(family_carbohydrates)
-                    logging.debug(family_fiber)
-                    logging.debug(family_saltcontent)
-                    logging.debug(i['family_gender'])
+                    
                     # 処理をした回数だけ家族の人数を増やす
                     count +=1
             # 主菜の栄養情報を料理の栄養情報に足す
@@ -405,19 +496,6 @@ class HealthSelectionView(TemplateView):
             need_carbohydrates = family_carbohydrates / 3
             need_fiber = family_fiber / 3
             need_saltcontent = family_saltcontent / 3        
-            logging.debug("主菜のカロリー%f" , all_calorie)
-            logging.debug("主菜のタンパク質%f" , all_protein)
-            logging.debug("主菜の脂質%f" , all_libids)
-            logging.debug("主菜の炭水化物%f" , all_carbohydrates)
-            logging.debug("主菜の食物繊維%f" , all_fiber)
-            logging.debug("主菜の塩分%f" , all_saltcontent)
-            
-            logging.debug("必要カロリー%f" , need_calorie)
-            logging.debug("必要タンパク質%f" ,need_protein)
-            logging.debug("必要脂質%f" , need_libids)
-            logging.debug("必要炭水化物%f" , need_carbohydrates)
-            logging.debug("必要食物繊維%f" , need_fiber)
-            logging.debug("必要塩分%f" , need_saltcontent)
             
             deficiency_calorie = need_calorie - all_calorie
             deficiency_protein = need_protein - all_protein
@@ -425,21 +503,40 @@ class HealthSelectionView(TemplateView):
             deficiency_carbohydrates = need_carbohydrates - all_carbohydrates
             deficiency_fiber = need_fiber - all_fiber
             deficiency_saltcontentr = need_saltcontent - all_saltcontent
-            logging.debug("不足カロリー%f" , deficiency_calorie)
-            logging.debug("不足タンパク質%f" ,deficiency_protein)
-            logging.debug("不足脂質%f" , deficiency_libids)
-            logging.debug("不足炭水化物%f" , deficiency_carbohydrates)
-            logging.debug("不足食物繊維%f" , deficiency_fiber)
-            logging.debug("不足塩分%f" , deficiency_saltcontentr)
+
             if need_calorie - all_calorie >0:
+                     # アレルギー関連の処理
+                allergylist = self.kwargs.get('allergylist') 
+                logging.debug(allergylist)
+                cook_list = []
+                cooks = Cook.objects.filter(type__in=[2, 3])
+                cook_dict =  list(cooks.values('cook_id'))
+                for i in cook_dict:
+                    cook_list.append(i['cook_id'])
+                    logging.debug(cook_list)
+                    allergycooklist = []
+                for i in cook_list:
+
+                    material = Recipe.objects.filter(cook = i).values('material')
+                    logging.debug(material)
+                    for j in material:
+                        allergycook = Allergy.objects.filter(material_id = j['material'])
+                        if allergycook:
+                            allergycooklist.append(i)
+                            break
+                                        
+                logging.debug(allergycooklist)
+                for i in allergycooklist:
+                                
+                    cook_list.remove(i)  
+                              
                 results = Cook.objects.filter(
-                type__in=[2, 3],
+                cook_id__in =cook_list,
                 calorie__lte=deficiency_calorie / 3,
                 protein__gte=deficiency_protein / 3,
                 saltcontent__lte=deficiency_saltcontentr / 3
                 ).values('cook_id','calorie','protein','lipids','carbohydrates','fiber','saltcontent')
-                logging.debug(results)
-                logging.debug(len(results))
+
                 if len(results) != 0:
                                 
                     random_number = random.randint(0, len(results)-1)
@@ -451,14 +548,6 @@ class HealthSelectionView(TemplateView):
                     all_fiber += count * randomcookdata['fiber']
                     all_saltcontent += count * randomcookdata['saltcontent']
                     subcook.append(randomcookdata['cook_id'])
-                    logging.debug(results[random_number])
-                    logging.debug(results[random_number])  
-                    logging.debug("主菜のカロリー%f" , all_calorie)
-                    logging.debug("主菜のタンパク質%f" , all_protein)
-                    logging.debug("主菜の脂質%f" , all_libids)
-                    logging.debug("主菜の炭水化物%f" , all_carbohydrates)
-                    logging.debug("主菜の食物繊維%f" , all_fiber)
-                    logging.debug("主菜の塩分%f" , all_saltcontent)
                     
                     if need_calorie - all_calorie >0:
                         while True:
@@ -469,14 +558,10 @@ class HealthSelectionView(TemplateView):
                             deficiency_carbohydrates = need_carbohydrates - all_carbohydrates
                             deficiency_fiber = need_fiber - all_fiber
                             deficiency_saltcontentr = need_saltcontent - all_saltcontent
-                            logging.debug("不足カロリー%f" , deficiency_calorie)
-                            logging.debug("不足タンパク質%f" ,deficiency_protein)
-                            logging.debug("不足脂質%f" , deficiency_libids)
-                            logging.debug("不足炭水化物%f" , deficiency_carbohydrates)
-                            logging.debug("不足食物繊維%f" , deficiency_fiber)
-                            logging.debug("不足塩分%f" , deficiency_saltcontentr)
+
+       
                             results = Cook.objects.filter(
-                            type__in=[2, 3],
+                            cook_id__in =cook_list,
                             calorie__lte=deficiency_calorie / 3,
                             protein__gte=deficiency_protein / 3,
                             saltcontent__lte=deficiency_saltcontentr / 3
@@ -496,7 +581,7 @@ class HealthSelectionView(TemplateView):
                             all_carbohydrates += count * randomcookdata['carbohydrates']
                             all_fiber += count * randomcookdata['fiber']
                             all_saltcontent += count * randomcookdata['saltcontent']
-                            subcook.append(randomcookdata['cookname'])
+                            subcook.append(randomcookdata['cook_id'])
                             if need_calorie - all_calorie >0:
                                 logging.debug("break")
                                 break
@@ -508,9 +593,9 @@ class HealthSelectionView(TemplateView):
             day = self.kwargs.get('day') 
             daydifference = weekday - day
 
-            currentday = today + timedelta(days=-daydifference)
+            current_day = today + timedelta(days=-daydifference)
             
-            formatted_date  = currentday.strftime("%Y-%m-%d")
+            formatted_date  = current_day.strftime("%Y-%m-%d")
             logging.debug(formatted_date)
  
             menu =Menu(user = request.user, meal_day = formatted_date, mealtime = str(mealtime))
@@ -540,7 +625,7 @@ class HealthSelectionComplateView(TemplateView):
     def get(self, request, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         day = self.kwargs.get('day')
-        menu = Menu.objects.filter(user = request.user, meal_day = day).values("menu_id","mealtime").order_by('mealtime')
+        menu = Menu.objects.filter(user=request.user, meal_day=day).values("menu_id", "mealtime").order_by('mealtime')
         logging.debug(menu)
         breakfast = menu[0]
         lunch = menu[1]

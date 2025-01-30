@@ -6,6 +6,7 @@
 }
 
 body {
+    background-color: #ffebcd; /* 白枠以外の背景色 */
     flex-direction: column;
     min-height: 100vh; /* 画面の高さを100%に設定 */
     overflow: hidden; /* スクロールバーを非表示にする */
@@ -57,11 +58,6 @@ body {
     text-decoration: underline;
 }
 
-.header .nav-links a.home-link {
-    color: #007bff; /* ホームリンクは明るい青 */
-    font-weight: bold;
-}
-
 .header .user-icon {
     width: 40px;
     height: 40px;
@@ -84,7 +80,6 @@ body {
 }
 
 /* フッターのスタイリング */
-/* フッターの固定スタイル */
 footer {
     position: fixed;
     bottom: 0;
@@ -96,4 +91,51 @@ footer {
     padding: 10px 0;
     font-size: 0.9rem;
     height: 50px; /* フッターの高さを固定 */
+}
+
+/* ログアウト確認画面のスタイル */
+.logout-container {
+    display: flex;
+    justify-content: center; /* 水平方向の中央揃え */
+    align-items: flex-start; /* 上部中央に配置 */
+    height: calc(100vh - 60px - 50px); /* ヘッダーとフッターを除いた高さ */
+    padding: 20px;
+    margin-top: 50px; /* 上部の余白を調整 */
+}
+
+.logout-box {
+    background-color: white;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    margin: auto;
+}
+
+/* ボタンコンテナのスタイル */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* ボタンのスタイル */
+.logout-btn, .cancel-btn {
+    background-color: #007bff; /* 🔹 青色に変更 */
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+    min-width: 100px;
+    white-space: nowrap;
+    transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover, .cancel-btn:hover {
+    background-color: #0056b3; /* 🔹 ホバー時の色を濃い青に変更 */
 }
