@@ -486,7 +486,7 @@ class DietaryHistoryDetailView(TemplateView):
                 cook_images = Cookimage.objects.filter(cook=menu_cook.cook)
                 menu_cook.cook.images = [ci.image.image for ci in cook_images if ci.image]
                 recipes = Recipe.objects.filter(cook=menu_cook.cook)
-                menu_cook.cook.materials = [(recipe.material.name, recipe.material_quantity) for recipe in recipes]
+                menu_cook.cook.materials = [(recipe.material.name, recipe.quantity) for recipe in recipes]
 
         return context
  
