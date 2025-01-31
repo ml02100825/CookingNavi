@@ -87,52 +87,62 @@
 
 <h2 style="text-align: center;">食事履歴</h2>
 
-<body>
-    <div class="content">
-        <h2>食事履歴</h2>
+<div class="content">
+    <h2>食事履歴</h2>
 
-        <!-- 朝昼晩の見出し -->
-        <div class="meal-header">
-            <div>日付</div>
-            <div>朝</div>
-            <div>昼</div>
-            <div>晩</div>
-        </div>
-
-        <ul class="ingredients-list" id="ingredients-list">
-            <!-- 料理名を表示 -->
-            {% for date, meals in cook_names.items %}
-                <div class="meal-row">
-                    <div class="meal-date">{{ date }}</div> <!-- 日付を左側に固定 -->
-                    
-                    <div class="meal-container">
-                        <div class="meal-box">
-                            <ul>
-                                {% for cookname in meals.朝 %}
-                                    <li>{{ cookname }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-
-                        <div class="meal-box">
-                            <ul>
-                                {% for cookname in meals.昼 %}
-                                    <li>{{ cookname }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-
-                        <div class="meal-box">
-                            <ul>
-                                {% for cookname in meals.晩 %}
-                                    <li>{{ cookname }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </ul>
+    <!-- 朝昼晩の見出し -->
+    <div class="meal-header">
+        <div>日付</div>
+        <div>朝</div>
+        <div>昼</div>
+        <div>晩</div>
     </div>
-</body>
+
+    <ul class="ingredients-list" id="ingredients-list">
+        <!-- 料理名を表示 -->
+        {% for date, meals in cook_names.items %}
+    <div class="meal-row">
+        <div class="meal-date">{{ date }}</div> <!-- 日付を左側に固定 -->
+        
+        <div class="meal-container">
+            <div class="meal-box">
+                <ul>
+                    {% for cookname in meals.朝 %}
+                    {% if cookname %}
+                    <li><a href="{% url 'cookapp:dietaryhistorydetail' date=date cookname=cookname|urlencode %}">{{ cookname }}</a></li>
+                    {% else %}
+                    <li>なし</li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="meal-box">
+                <ul>
+                    {% for cookname in meals.昼 %}
+                    {% if cookname %}
+                    <li><a href="{% url 'cookapp:dietaryhistorydetail' date=date cookname=cookname|urlencode %}">{{ cookname }}</a></li>
+                    {% else %}
+                    <li>なし</li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="meal-box">
+                <ul>
+                    {% for cookname in meals.晩 %}
+                    {% if cookname %}
+                    <li><a href="{% url 'cookapp:dietaryhistorydetail' date=date cookname=cookname|urlencode %}">{{ cookname }}</a></li>
+                    {% else %}
+                    <li>未登録</li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+    </ul>
+</div>
 {% endblock %}

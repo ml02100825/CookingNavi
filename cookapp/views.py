@@ -457,6 +457,20 @@ class DietaryHistoryView(TemplateView):
         # コンテキストにデータを追加
         context['cook_names'] = cook_names
         return context
+
+class DietaryHistoryDetailView(TemplateView):
+    template_name = 'shokujirireki/dietaryhistorydetail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        date = kwargs.get('date')
+        cookname = kwargs.get('cookname')
+
+        # 日付と料理名に基づいて詳細情報を取得
+        menu_cooks = Menucook.objects.filter(menu__meal_day=date, cook__cookname=cookname)
+        
+        context['menu_cooks'] = menu_cooks
+        return context
         
  
  
