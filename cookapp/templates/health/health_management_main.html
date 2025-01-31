@@ -16,14 +16,8 @@
     <h1>健康管理</h1>
     
     <!-- Schedule Table -->
-    <table class="schedule-table">
-        {% if exist_list.0 == "T" %}
-
-        {% else %}
-        <td>
-            <h2>未定</h2>
-        </td>
-        {% endif %}
+    <table class="schedule-table">  
+  
         <tr>
             {% if exist_list.0 == "F" %}
             <th><a href="{% url 'health:health_selection' 0 0 %}"><button class="day-button">月</button></a></th>
