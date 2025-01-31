@@ -1,7 +1,7 @@
 import json
 from django.shortcuts import get_object_or_404, render, redirect
 
-from administrator.models import Cook, Cookimage
+from administrator.models import Cook, Cookimage, Recipe
 from healthmanagement.models import Menu, Menucook
 from .forms import EmailForm, UsernameForm, PasswordForm, BodyInfoUpdateForm, FamilyForm
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -481,10 +481,12 @@ class DietaryHistoryDetailView(TemplateView):
             context['error_message'] = "該当する料理情報が見つかりませんでした。"
         else:
             context['menu_cooks'] = menu_cooks
-            # 画像を取得してコンテキストに追加
+            # 画像と材料を取得してコンテキストに追加
             for menu_cook in menu_cooks:
                 cook_images = Cookimage.objects.filter(cook=menu_cook.cook)
                 menu_cook.cook.images = [ci.image.image for ci in cook_images if ci.image]
+                recipes = Recipe.objects.filter(cook=menu_cook.cook)
+                menu_cook.cook.materials = [(recipe.material.name, recipe.material_quantity) for recipe in recipes]
 
         return context
  

@@ -9,7 +9,7 @@
 
 <h2 style="text-align: center;">料理詳細</h2>
 
-<div class="content">
+<div class="content" style="max-height: 80vh; overflow-y: auto;">
     {% if error_message %}
         <p style="color: red; text-align: center;">{{ error_message }}</p>
     {% else %}
@@ -27,6 +27,16 @@
                     {% for image_url in menu_cook.cook.images %}
                         <img src="{{ image_url }}" alt="{{ menu_cook.cook.cookname }}の画像">
                     {% endfor %}
+                </div>
+            {% endif %}
+            {% if menu_cook.cook.materials %}
+                <div class="materials">
+                    <h4>材料:</h4>
+                    <ul>
+                        {% for material, quantity in menu_cook.cook.materials %}
+                            <li>{{ material }}: {{ quantity }}</li>
+                        {% endfor %}
+                    </ul>
                 </div>
             {% endif %}
         {% endfor %}
