@@ -1,7 +1,7 @@
 import json
 from django.shortcuts import get_object_or_404, render, redirect
 
-from administrator.models import Cook
+from administrator.models import Cook, Cookimage
 from healthmanagement.models import Menu, Menucook
 from .forms import EmailForm, UsernameForm, PasswordForm, BodyInfoUpdateForm, FamilyForm
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -23,6 +23,9 @@ from django.views import View
 from django.contrib.auth.views import PasswordResetDoneView
 from datetime import datetime, timedelta
 from .forms import DateRangeForm
+from django.db import connection
+from urllib.parse import unquote
+
  
  
 logger = logging.getLogger(__name__)
@@ -464,14 +467,26 @@ class DietaryHistoryDetailView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         date = kwargs.get('date')
-        cookname = kwargs.get('cookname')
+        cookname = unquote(kwargs.get('cookname'))
+        
+        print(f"DEBUG: date={date}, cookname={cookname}")  # デバッグ用
+        
+        # 日付と料理名に基づいてメニューを取得
+        menu_cooks = Menucook.objects.filter(menu__meal_day=date, cook__cookname__icontains=cookname)
 
-        # 日付と料理名に基づいて詳細情報を取得
-        menu_cooks = Menucook.objects.filter(menu__meal_day=date, cook__cookname=cookname)
-        
-        context['menu_cooks'] = menu_cooks
+        print(f"DEBUG: menu_cooks={menu_cooks}")  # デバッグ用
+        print(f"DEBUG: SQL Query: {menu_cooks.query}")
+
+        if not menu_cooks.exists():
+            context['error_message'] = "該当する料理情報が見つかりませんでした。"
+        else:
+            context['menu_cooks'] = menu_cooks
+            # 画像を取得してコンテキストに追加
+            for menu_cook in menu_cooks:
+                cook_images = Cookimage.objects.filter(cook=menu_cook.cook)
+                menu_cook.cook.images = [ci.image.image for ci in cook_images if ci.image]
+
         return context
-        
  
  
 class HealthGraphView(TemplateView):
