@@ -2,7 +2,7 @@ from venv import logger
 from django.http import JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic.base import TemplateView
-from administrator.models import Material, Image,CookImagesave
+from administrator.models import Material, Image,AdministratorCookimagesave
 from .models import Userrecipe, Postimage, Bbs, Favorite
 from .forms import RecipeAddForm, RecipeEditForm
 from django.views import View
@@ -115,7 +115,7 @@ class PostsView(TemplateView):
             bbs = Bbs(user =user,name = name, recipe_text = recipe_text, calorie = bbs_calorie, protein = bbs_protein, lipids = bbs_lipids,fiber = bbs_fiber,carbohydrates=bbs_carbohydrates, saltcontent= bbs_saltcontent)
             bbs.save()
            
-            image1 = CookImagesave(image = image1)
+            image1 = AdministratorCookimagesave(image = image1)
             image1.save()
             imageurl1 = Image(image = image1.image.url)
             imageurl1.save()
@@ -123,7 +123,7 @@ class PostsView(TemplateView):
             bbsimage1.save()
            
             if image2 != None:
-                image2 = CookImagesave(image = image2)
+                image2 = AdministratorCookimagesave(image = image2)
                 image2.save()
                 imageurl2 = Image(image = image2.image.url)
                 imageurl2.save()
@@ -131,7 +131,7 @@ class PostsView(TemplateView):
                 bbsimage2.save()
  
             if image3 != None:
-                image3 = CookImagesave(image = image3)
+                image3 = AdministratorCookimagesave(image = image3)
                 image3.save()
                 imageurl3 = Image(image = image3.image.url)
                 imageurl3.save()

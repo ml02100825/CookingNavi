@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 # Create your views here.
 from django.views.generic.base import TemplateView
 from .forms import RecipeAddForm
-from .models import Cook, Material, Image,Cookimage,Recipe,CookImagesave
+from .models import Cook, Material, Image,Cookimage,Recipe,AdministratorCookimagesave
 
 
 
