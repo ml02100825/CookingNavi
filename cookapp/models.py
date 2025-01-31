@@ -46,7 +46,7 @@ class Allergy(models.Model):
 class Weight(models.Model):
     weight_id = models.AutoField(db_column='Weight_ID', primary_key=True)  # Field name made lowercase.
     weight = models.FloatField(db_column='Weight')  # Field name made lowercase.
-    registertime = models.CharField(db_column='RegisterTime', max_length=50)  # Field name made lowercase.
+    register_time = models.CharField(db_column='RegisterTime', max_length=50)  # Field name made lowercase.
     user = models.ForeignKey('account.User', models.CASCADE, db_column='User_ID',related_name='weights')  # Field name made lowercase.
     family = models.ForeignKey('Familymember', models.CASCADE, db_column='Family_ID')  # Field name made lowercase.
 
@@ -69,6 +69,7 @@ class News(models.Model):
     upload_time = models.CharField(db_column='UploadTime', max_length=20)  # Field name made lowercase.
     update_time = models.CharField(db_column='UpdateTime', max_length=20, blank=True, null=True)  # Field name made lowercase.
     user = models.ForeignKey('account.User', models.CASCADE, db_column='User_ID')  # Field name made lowercase.
+  
 
     class Meta:
         managed = False
