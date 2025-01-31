@@ -23,6 +23,8 @@ from django.views import View
 from django.contrib.auth.views import PasswordResetDoneView
 from datetime import datetime, timedelta
 from .forms import DateRangeForm
+from django.db import connection
+from urllib.parse import unquote
  
  
 logger = logging.getLogger(__name__)
@@ -465,13 +467,27 @@ class DietaryHistoryDetailView(TemplateView):
         context = super().get_context_data(**kwargs)
         date = kwargs.get('date')
         cookname = kwargs.get('cookname')
+        
+        # cooknameをデコード
+        cookname = unquote(cookname)
+        
+        print(f"DEBUG: date={date}, cookname={cookname}")  # デバッグ用
+        
+        # 日付と料理名に基づいてメニューを取得
+        menu_cooks = Menucook.objects.filter(menu__meal_day=date, cook__cookname__icontains=cookname)
 
-        # 日付と料理名に基づいて詳細情報を取得
-        menu_cooks = Menucook.objects.filter(menu__meal_day=date, cook__cookname=cookname)
+        print(f"DEBUG: menu_cooks={menu_cooks}")  # デバッグ用
+
+        # SQLクエリを出力
+        print(f"DEBUG: SQL Query: {menu_cooks.query}")
+
+        if not menu_cooks.exists():
+            context['error_message'] = "該当する料理情報が見つかりませんでした。"
+        else:
+            context['menu_cooks'] = menu_cooks
         
-        context['menu_cooks'] = menu_cooks
         return context
-        
+
  
  
 class HealthGraphView(TemplateView):

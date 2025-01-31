@@ -4,16 +4,25 @@
 {% block title %}料理詳細{% endblock %}
 
 {% block content %}
+<meta charset="UTF-8">
 <link rel="stylesheet" href="{% static 'css/kaimonorisuto/buylist.css' %}">
-<h2 style="text-align: center;">{{ cook.cookname }}</h2>
+
+<h2 style="text-align: center;">料理詳細</h2>
 
 <div class="content">
-    <p>レシピ: {{ cook.recipe_text }}</p>
-    <p>カロリー: {{ cook.calorie }}</p>
-    <p>たんぱく質: {{ cook.protein }}</p>
-    <p>脂質: {{ cook.lipids }}</p>
-    <p>炭水化物: {{ cook.carbohydrates }}</p>
-    <p>食物繊維: {{ cook.fiber }}</p>
-    <p>塩分含有量: {{ cook.saltcontent }}</p>
+    {% if error_message %}
+        <p style="color: red; text-align: center;">{{ error_message }}</p>
+    {% else %}
+        {% for menu_cook in menu_cooks %}
+            <h3>{{ menu_cook.cook.cookname }}</h3>
+            <p>レシピ: {{ menu_cook.cook.recipe_text }}</p>
+            <p>カロリー: {{ menu_cook.cook.calorie }}</p>
+            <p>たんぱく質: {{ menu_cook.cook.protein }}</p>
+            <p>脂質: {{ menu_cook.cook.lipids }}</p>
+            <p>炭水化物: {{ menu_cook.cook.carbohydrates }}</p>
+            <p>食物繊維: {{ menu_cook.cook.fiber }}</p>
+            <p>塩分含有量: {{ menu_cook.cook.saltcontent }}</p>
+        {% endfor %}
+    {% endif %}
 </div>
 {% endblock %}
