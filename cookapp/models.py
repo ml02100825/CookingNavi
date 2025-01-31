@@ -69,7 +69,7 @@ class News(models.Model):
     upload_time = models.CharField(db_column='UploadTime', max_length=20)  # Field name made lowercase.
     update_time = models.CharField(db_column='UpdateTime', max_length=20, blank=True, null=True)  # Field name made lowercase.
     user = models.ForeignKey('account.User', models.CASCADE, db_column='User_ID')  # Field name made lowercase.
-  
+    title =  models.CharField(db_column='title', max_length=100)  # Field name made lowercase.
 
     class Meta:
         managed = False
