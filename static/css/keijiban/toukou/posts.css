@@ -1,81 +1,99 @@
-/* ベーススタイル */
-body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
+/* ==========================
+   ベーススタイル
+   ========================== */
+   body {
+    font-family: 'Roboto', sans-serif; /* 文字フォント */
+    background-color: #f4f4f9; /* 背景色 */
+    color: #333; /* テキストカラー */
     margin: 0;
     padding: 0;
-    line-height: 1.6;
+    line-height: 1.6; /* 行間 */
 }
 
-/* 見出し */
+/* ==========================
+   見出しのスタイル
+   ========================== */
 h2 {
-    text-align: center;
-    color: #222;
-    font-size: 28px;
-    font-weight: 600;
+    text-align: center; /* 中央寄せ */
+    color: #222; /* 文字色 */
+    font-size: 28px; /* フォントサイズ */
+    font-weight: 600; /* 太字 */
     margin: 20px 0;
 }
 
-/* フォームコンテナ */
+/* ==========================
+   フォームコンテナ（スクロール可能）
+   ========================== */
 .form-container {
-    width: 90%;
-    max-width: 600px;
-    margin: 30px auto;
+    width: 90%; /* 幅を90%に設定 */
+    max-width: 600px; /* 最大幅を600pxに制限 */
+    margin: 30px auto; /* 上下30px, 左右中央配置 */
     padding: 25px;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-    border: 1px solid #eaeaea;
-    transition: box-shadow 0.3s ease;
+    background-color: #ffffff; /* 背景色（白） */
+    border-radius: 12px; /* 角を丸くする */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* 影をつける */
+    border: 1px solid #eaeaea; /* 薄い枠線 */
+    transition: box-shadow 0.3s ease; /* ホバー時の影の変化 */
+    
+    /* スクロール設定 */
+    max-height: 400px; /* 最大高さ400px */
+    overflow-y: auto; /* 縦スクロールを有効化 */
 }
 
+/* ホバー時の影の変化 */
 .form-container:hover {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* フォーム要素 */
+/* ==========================
+   フォーム要素のスタイル
+   ========================== */
 form label {
-    display: block;
-    margin: 10px 0 5px;
-    font-weight: 500;
-    color: #444;
+    display: block; /* ブロック要素に変更 */
+    margin: 10px 0 5px; /* 上10px, 下5pxのマージン */
+    font-weight: 500; /* 少し太字 */
+    color: #444; /* 文字色 */
     font-size: 16px;
 }
 
+/* テキスト入力、セレクト、テキストエリアの共通スタイル */
 form input[type="text"],
 form input[type="number"],
 form select,
 form textarea {
-    width: 100%;
-    padding: 12px 15px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    width: 100%; /* 横幅100% */
+    padding: 12px 15px; /* 内側余白 */
+    margin-bottom: 15px; /* 下余白 */
+    border: 1px solid #ccc; /* 枠線の色 */
+    border-radius: 6px; /* 角を丸くする */
     font-size: 15px;
-    background-color: #f9f9f9;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: #f9f9f9; /* 背景色 */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* フォーカス時のアニメーション */
 }
 
+/* フォーカス時のスタイル */
 form input:focus,
 form textarea:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+    border-color: #007bff; /* 枠線を青色に */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2); /* ぼかし */
     outline: none;
 }
 
-/* ボタン配置用のコンテナ */
+/* ==========================
+   ボタンスタイル
+   ========================== */
 .button-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex; /* 横並び */
+    justify-content: space-between; /* 左右に配置 */
+    align-items: center; /* 縦方向中央寄せ */
     margin-top: 20px;
 }
 
+/* 通常ボタン */
 form button {
     padding: 12px 20px;
-    background-color: #007bff;
-    color: #fff;
+    background-color: #007bff; /* 青色 */
+    color: #fff; /* 文字色を白に */
     border: none;
     border-radius: 6px;
     font-size: 16px;
@@ -85,45 +103,73 @@ form button {
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+/* ボタンホバー時 */
 form button:hover {
     background-color: #0056b3;
-    transform: translateY(-2px);
+    transform: translateY(-2px); /* 少し浮かせる */
 }
 
-/* 特定ボタンのスタイル */
+/* 特定ボタンのスタイル（緑色） */
 #materialbutton {
     background-color: #28a745;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+/* ホバー時の変更 */
 #materialbutton:hover {
     background-color: #218838;
 }
 
-/* 投稿リストコンテナ */
+/* ==========================
+   投稿リストコンテナ（スクロール可能）
+   ========================== */
 .posts-container {
     width: 90%;
-    max-width: 800px;
-    margin: 30px auto;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff; /* 背景色（白） */
+    border-radius: 12px; /* 角を丸く */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* 影をつける */
     border: 1px solid #eaeaea;
+    
+    /* スクロール設定 */
+    max-height: 500px; /* 高さ制限 */
+    overflow-y: auto; /* 縦スクロール */
 }
 
+/* 投稿リストのタイトル */
 .posts-container h3 {
     font-size: 22px;
     color: #222;
     margin-bottom: 10px;
-    border-bottom: 2px solid #007bff;
+    border-bottom: 2px solid #007bff; /* 下線 */
     display: inline-block;
     padding-bottom: 5px;
 }
 
+/* 投稿リストの本文 */
 .posts-container p {
     font-size: 15px;
     color: #555;
     line-height: 1.8;
     margin-bottom: 20px;
+}
+
+/* ==========================
+   スクロールバーのカスタマイズ（Chrome, Edge, Safari）
+   ========================== */
+.form-container::-webkit-scrollbar,
+.posts-container::-webkit-scrollbar {
+    width: 8px; /* スクロールバーの幅 */
+}
+
+/* スクロールバーのつまみ部分 */
+.form-container::-webkit-scrollbar-thumb,
+.posts-container::-webkit-scrollbar-thumb {
+    background-color: #007bff; /* 青色 */
+    border-radius: 4px; /* 角を丸く */
+}
+
+/* スクロールバーの背景 */
+.form-container::-webkit-scrollbar-track,
+.posts-container::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* 明るいグレー */
 }
