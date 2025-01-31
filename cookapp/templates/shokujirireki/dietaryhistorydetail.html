@@ -22,6 +22,13 @@
             <p>炭水化物: {{ menu_cook.cook.carbohydrates }}</p>
             <p>食物繊維: {{ menu_cook.cook.fiber }}</p>
             <p>塩分含有量: {{ menu_cook.cook.saltcontent }}</p>
+            {% if menu_cook.cook.images %}
+                <div class="images">
+                    {% for image_url in menu_cook.cook.images %}
+                        <img src="{{ image_url }}" alt="{{ menu_cook.cook.cookname }}の画像">
+                    {% endfor %}
+                </div>
+            {% endif %}
         {% endfor %}
     {% endif %}
 </div>
