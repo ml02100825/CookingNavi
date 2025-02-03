@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 # Create your views here.
 from django.views.generic.base import TemplateView
 
-from bbs.models import Bbs, Postimage
+from bbs.models import Bbs, Favorite, Postimage, Userrecipe
 from .forms import RecipeAddForm
 from .models import Cook, Material, Image,Cookimage,Recipe,AdministratorCookimagesave
 
@@ -218,13 +218,27 @@ class DeleteConfirm2View(TemplateView):
     def post(self, request, *args, **kwargs):
         post_id = self.kwargs['post_id']
         post = get_object_or_404(Bbs, pk=post_id)
+        
+        # 関連するfavoriteテーブルのレコードを削除
+        Favorite.objects.filter(post=post).delete()
+        
+        # 関連するuserrecipeテーブルのレコードを削除
+        Userrecipe.objects.filter(post=post).delete()
+        
+        # 関連するpostimageテーブルのレコードと画像を削除
         post_images = Postimage.objects.filter(post=post)
         for post_image in post_images:
             image = get_object_or_404(Image, pk=post_image.image.image_id)
-            image.delete()
-        post_images.delete()
+            post_image.delete()  # postimageレコードを先に削除
+            image.delete()  # その後にimageレコードを削除
+        
+        # bbsテーブルのレコードを削除
         post.delete()
-        return redirect('administrator:BulletinBoard2')
+        
+        return redirect('administrator:deletecomplete2')
+    
+class DeleteComplete2View(TemplateView):
+    template_name = 'administrator/keijiban/deletecomplete2.html'
 
 class RecipeEditView(TemplateView):
     template_name = 'administrator/recipe/edit/recipe_edit.html'

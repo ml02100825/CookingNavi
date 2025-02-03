@@ -1,0 +1,18 @@
+{% extends 'baseuser.html' %}
+
+{% block title %}投稿削除{% endblock %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>削除完了</title>
+</head>
+<body>
+    <h1>削除が完了しました</h1>
+    <p>投稿の削除が完了しました。</p>
+    
+    <!-- 投稿一覧ページへのリンク -->
+    <a href="{% url 'administrator:BulletinBoard2' %}"><button type="button">投稿一覧に戻る</button></a>
+</body>
+</html>
+{% endblock %}

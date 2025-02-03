@@ -12,4 +12,5 @@ urlpatterns = [
     path('bulletinboard2/', views.BulletinBoard2View.as_view(), name='BulletinBoard2'),
     path('recipe/edit/', views.RecipeEditView.as_view(), name='recipeedit'),
     path('deleteconfirm2/<int:post_id>/', views.DeleteConfirm2View.as_view(), name='deleteconfirm2'),
+    path('deletecomplete2/', views.DeleteComplete2View.as_view(), name='deletecomplete2'),
 ]
