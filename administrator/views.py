@@ -1,11 +1,13 @@
 import logging
 from django.http import JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 # Create your views here.
 from django.views.generic.base import TemplateView
+
+from bbs.models import Bbs, Postimage
 from .forms import RecipeAddForm
-from .models import Cook, Material, Image,Cookimage,Recipe,CookImagesave
+from .models import Cook, Material, Image,Cookimage,Recipe,AdministratorCookimagesave
 
 
 
@@ -65,7 +67,7 @@ class RecipeAddView(TemplateView):
             cook = Cook(cookname = name,type = type, recipe_text = recipe_text, calorie = cook_calorie, protein = cook_protein, lipids = cook_lipids,fiber = cook_fiber,carbohydrates=cook_carbohydrates, saltcontent= cook_saltcontent)
             cook.save()
             
-            image1 = CookImagesave(image = image1)
+            image1 = AdministratorCookimagesave(image = image1)
             image1.save()
             imageurl1 = Image(image = image1.image.url)
             imageurl1.save()
@@ -73,14 +75,14 @@ class RecipeAddView(TemplateView):
             cookimage1.save()
            
             if image2 != None:
-                image2 = CookImagesave(image = image2)
+                image2 = AdministratorCookimagesave(image = image2)
                 image2.save()
                 imageurl2 = Image(image = image2.image.url)
                 imageurl2.save()
                 cookimage2 = Cookimage(cook = cook, image = imageurl2)
                 cookimage2.save()
             if image3 != None:
-                image3 = CookImagesave(image = image3)
+                image3 = AdministratorCookimagesave(image = image3)
                 image3.save()
                 imageurl3 = Image(image = image3.image.url)
                 imageurl3.save()
@@ -158,8 +160,71 @@ def save_material(request, material,materialamount):
 
 
 class BulletinBoard2View(TemplateView):
-    template_name='administrator/keijiban/BulletinBoard2.html'
-    
+    template_name = 'administrator/keijiban/BulletinBoard2.html'
+ 
+    def get(self, request, *args, **kwargs):
+        search_query = request.GET.get('search_query', '')  # 検索クエリを取得
+ 
+        # 検索クエリが指定されている場合、Bbsモデルをフィルタリング
+        if search_query:
+            bbs = Bbs.objects.filter(name__icontains=search_query)
+        else:
+            bbs = Bbs.objects.all()  # すべての投稿を表示
+ 
+        bbs_with_images = []
+ 
+        # 各Bbsに関連する画像を取得
+        for post in bbs:
+            images = Postimage.objects.filter(post=post).values('image')  # Postimageから画像を取得
+            logging.debug(images)
+ 
+            # 画像がない場合はスキップまたはデフォルト画像を使用
+            if images:
+                img = images[0]
+                imagepath = Image.objects.filter(image_id=img['image']).values('image')
+                logging.debug(imagepath)
+ 
+                # 画像が見つかった場合
+                if imagepath:
+                    image = imagepath[0]
+                    i = image['image']  # 画像パスを取得
+                else:
+                    i = 'default_image_path.jpg'  # 画像がない場合はデフォルト画像を設定
+            else:
+                i = 'default_image_path.jpg'  # 投稿に画像がない場合はデフォルト画像を設定
+ 
+            bbs_with_images.append({
+                'post': post,
+                'images': i
+            })
+ 
+        context = {
+            'bbs_with_images': bbs_with_images,  # 画像データを含むBbs情報
+            'search_query': search_query,  # 検索クエリをコンテキストに含める
+        }
+ 
+        return self.render_to_response(context)
+
+class DeleteConfirm2View(TemplateView):
+    template_name = 'administrator/keijiban/deleteconfirm2.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        post_id = self.kwargs['post_id']
+        post = get_object_or_404(Bbs, pk=post_id)
+        context['post'] = post
+        return context
+
+    def post(self, request, *args, **kwargs):
+        post_id = self.kwargs['post_id']
+        post = get_object_or_404(Bbs, pk=post_id)
+        post_images = Postimage.objects.filter(post=post)
+        for post_image in post_images:
+            image = get_object_or_404(Image, pk=post_image.image.image_id)
+            image.delete()
+        post_images.delete()
+        post.delete()
+        return redirect('administrator:BulletinBoard2')
 
 class RecipeEditView(TemplateView):
     template_name = 'administrator/recipe/edit/recipe_edit.html'
