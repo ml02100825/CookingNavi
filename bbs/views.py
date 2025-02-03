@@ -6,10 +6,9 @@ from administrator.models import Material, Image,AdministratorCookimagesave
 from .models import Userrecipe, Postimage, Bbs, Favorite
 from .forms import RecipeAddForm, RecipeEditForm
 from django.views import View
-from django.contrib import messages
 from django.urls import reverse
 from django.db.models import Sum
-import logging, os
+import logging
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 # Create your views here.
