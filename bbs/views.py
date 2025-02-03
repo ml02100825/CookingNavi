@@ -218,7 +218,7 @@ def save_material(request, material,materialamount):
         return JsonResponse(materials, safe=False)
  
 class MyBulletinBoardView(TemplateView):
-    template_name = 'keijiban/syusai/myBulletinBoard.html'
+    template_name = 'keijiban/syusai/MyBulletinBoard.html'
  
     def get(self, request, *args, **kwargs):
         user = self.request.user
