@@ -14,16 +14,27 @@ import logging
 
 def menu_exist(day):
     today = date.today()
-    weekday = today.weekday()
-    
-    daydifference = weekday - day
+    weekday = today.weekday()  # 今日の曜日を取得（0が月曜日、6が日曜日）
 
-    current_day = today + timedelta(days=-daydifference)
-    menu = Menu.objects.filter(meal_day  = current_day)
-    if menu:
-        return "T"
+    # day（引数）は曜日のオフセット（例: 月曜が0、火曜が1など）として与えられる
+    day_difference = weekday - day
+    
+    # メニューが存在する日を計算
+    current_day = today - timedelta(days=day_difference)
+    
+    # current_day に対応するメニューが存在するかをチェック
+    if Menu.objects.filter(meal_day=current_day).exists():
+        return "T"  # メニューが存在する
     else:
-        return "F"
+        return "F"  # メニューが存在しない
+        
+def health_menu(request):
+    # メニューのデータ例
+    material_list = ['材料1', '材料2', '材料3']
+    
+    return render(request, 'health/health_menuconfirmation.html', {
+        'material_list': material_list,
+    })
     
 def image_get(menu):
     menucook = Menucook.objects.filter(menu = menu['menu_id']).values('cook')
