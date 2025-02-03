@@ -6,18 +6,44 @@ body, html {
     height: 100%;
 }
 
-/* 画像とボタンを配置するためのコンテナ */
+/* 全体のコンテナ（ボタンの位置は変えない） */
 .image-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    height: 100vh; /* 画面の高さを占有 */
+    height: 100vh; /* 画面全体を占有 */
+    position: relative; /* タイトルの絶対配置を可能に */
 }
 
-/* ボタンを横並びに配置 */
+/* タイトルとサブタイトルを画面中央に配置 */
+.title-container {
+    position: absolute; /* 絶対配置で自由に配置 */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 完全に中央揃え */
+    text-align: center;
+    margin-bottom: 40px; /* タイトルとサブタイトルの下に余白を追加 */
+}
+
+.main-title {
+    font-size: 3rem; /* タイトルの文字サイズ */
+    margin: 0; /* 余白を削除 */
+    color: #333; /* ダークグレーの文字色 */
+    font-weight: bold; /* 太字 */
+}
+
+.sub-title {
+    font-size: 1.5rem; /* サブタイトルの文字サイズ */
+    margin: 20px 0; /* 上下の余白を増加 */
+    color: #555; /* サブタイトルの文字色 */
+}
+
+/* ボタンを絶対位置で下に配置 */
 .button-container {
+    position: absolute;
+    bottom: 250px; /* 画面下から250pxの距離で配置 */
     display: flex;
     flex-direction: row; /* 横並び */
     gap: 20px; /* ボタン間の間隔 */
