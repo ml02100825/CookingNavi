@@ -1,7 +1,7 @@
 /* 買い物リストページ全体のスタイル */
 body {
     font-family: Arial, sans-serif; /* フォントをArialに設定 */
-    background-color: #f7f7f7; /* 背景色を薄いグレーに設定 */
+    background-color: #ffebcd;  /* 背景色を薄いグレーに設定 */
     margin: 0; /* ページ全体の余白をリセット */
     padding: 0; /* ページ全体のパディングをリセット */
 }
