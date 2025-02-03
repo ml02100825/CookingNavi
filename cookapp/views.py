@@ -7,7 +7,7 @@ from .forms import EmailForm, UsernameForm, PasswordForm, BodyInfoUpdateForm, Fa
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 from django.contrib import messages
-from .models import Familymember, Familyallergy, Weight
+from .models import Familymember, Familyallergy, News, Weight
 from account.models import  Userallergy 
 from django.http import JsonResponse
 import logging
@@ -137,6 +137,16 @@ class SubscriptionKaiyakuOkView(LoginRequiredMixin, TemplateView):
  
 class OsiraseView(TemplateView):
     template_name='osirase/osirase.html'
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        news = News.objects.all().values('news_id','title','update_time', 'content').order_by('update_time')
+        newslist = list(news)
+        logging.debug(newslist)
+        context = {
+            'news': news,
+        }
+        return render(request, self.template_name, context)
+        
  
 class QuestionsView(TemplateView):
     template_name='questions/questions.html'
@@ -439,7 +449,7 @@ class DietaryHistoryView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        # すべてのメニューを取得（昇順に並べ替え）
+        # すべてのメニューを取得
         menus = Menu.objects.all().order_by('meal_day')
         
         # メニューに関連する料理を取得
@@ -457,11 +467,8 @@ class DietaryHistoryView(TemplateView):
             
             cook_names[meal_day][meal_time].append(cook_name)
 
-        # 日付順に並べ替え
-        sorted_cook_names = dict(sorted(cook_names.items()))
-
         # コンテキストにデータを追加
-        context['cook_names'] = sorted_cook_names
+        context['cook_names'] = cook_names
         return context
 
 class DietaryHistoryDetailView(TemplateView):
