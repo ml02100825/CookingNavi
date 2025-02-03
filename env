@@ -1,7 +1,0 @@
-SECRET_KEY=django-insecure-3in$m$l-np0!-=e(o*%brvsleu0qn3!hl_xn$!kudn!_v0q*jl
-DEBUG=True
-DATABASE_NAME=cookingnavi
-DATABASE_USER=root
-DATABASE_PASSWORD=cookingnavi@0104
-DATABASE_HOST=localhost
-DATABASE_PORT=3306
