@@ -1,6 +1,5 @@
 from django.urls import path
-from . import  views
-from django.contrib.auth import views as auth_views 
+from . import views
 
 app_name = "administrator"
 urlpatterns = [
@@ -13,5 +12,6 @@ urlpatterns = [
     path('bulletinboard2/', views.BulletinBoard2View.as_view(), name='BulletinBoard2'),
     path('recipe/edit/', views.RecipeEditView.as_view(), name='recipeedit'),
     path('recipe/delete/', views.RecipeDeleteView.as_view(), name='recipedelete'),
-    
+    path('deleteconfirm2/<int:post_id>/', views.DeleteConfirm2View.as_view(), name='deleteconfirm2'),
+    path('deletecomplete2/', views.DeleteComplete2View.as_view(), name='deletecomplete2'),
 ]

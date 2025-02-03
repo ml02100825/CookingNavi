@@ -1,0 +1,17 @@
+{% extends 'baseuser.html' %}
+{% load static %}
+
+{% block title %}削除確認{% endblock %}
+
+{% block content %}
+<div class="confirm-container">
+    <h1>削除確認</h1>
+    <p>本当にこの投稿を削除しますか？</p>
+    <p>投稿名: {{ post.name }}</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="confirm-btn">削除</button>
+        <a href="{% url 'administrator:BulletinBoard2' %}"><button type="button" class="cancel-btn">キャンセル</button></a>
+    </form>
+</div>
+{% endblock %}

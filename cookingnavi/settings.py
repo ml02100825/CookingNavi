@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 import os
+import environ
+
 import logging
 from pathlib import Path
 
@@ -24,18 +26,24 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-3in$m$l-np0!-=e(o*%brvsleu0qn3!hl_xn$!kudn!_v0q*jl"
+env = environ.Env()
+env.read_env(os.path.join(BASE_DIR, '.env'))
+SECRET_KEY = env('SECRET_KEY')
+DEBUG = env('DEBUG')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+
+CSRF_TRUSTED_ORIGIN = [
+    'http://3.90.189.16'
+]
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -90,18 +98,19 @@ WSGI_APPLICATION = "cookingnavi.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-         'NAME': 'cookingnavi',
-        'USER': 'root',
-        'PASSWORD': 'cookingnavi@0104',
-         'HOST':'localhost',
-         'PORT':'3306',
-         'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
-    }
-}
+ 'default': {
+ 'ENGINE': 'django.db.backends.mysql',
+ 'NAME': env('DATABASE_NAME'),
+ 'USER' : env('DATABASE_USER'),
+ 'PASSWORD' : env('DATABASE_PASSWORD'),
+ 'HOST' : env('DATABASE_HOST'),
+ 'PORT': env('DATABASE_PORT'),
+ 'OPTIONS': {
+ 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+ },
+ }
+ }
+
 
 
 # Password validation
@@ -142,6 +151,7 @@ SESSION_COOKIE_AGE = 1209600  # 2週間
 # SESSION_SAVE_EVERY_REQUEST = True
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # セッションをデータベースに保存
+DEFAULT_CHARSET = 'utf-8'
 
 
 # Static files (CSS, JavaScript, Images)
