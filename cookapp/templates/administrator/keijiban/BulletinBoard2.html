@@ -11,6 +11,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
+<div class="search-bar-container">
+    <form action="{% url 'administrator:BulletinBoard2' %}" method="get">
+        <input type="text" name="search_query" placeholder="投稿を検索する..." class="search-bar" value="{{ search_query }}">
+        <button type="submit" class="search-btn">検索</button>
+    </form>
+</div>
+
+
 <div class="content-container">
     <main class="main-content">
         {% if bbs_with_images %}
