@@ -1,10 +1,10 @@
 {% extends 'baseuser.html' %}
 {% load static %}
- 
+
 {% block title %}掲示板管理画面{% endblock %}
- 
+
 {% block content %}
- 
+
 <head>
     <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'css/keijiban/bulletinboard.css' %}">
@@ -33,13 +33,13 @@
         {% endif %}
     </main>
 </div>
- 
+
 {% endblock %}
- 
+
 {% block scripts %}
 <script>
     function confirmDelete(postId) {
-        window.location.href = `/deleteconfirm2/${postId}/`;
+        window.location.href = `{% url 'administrator:deleteconfirm2' post_id=0 %}`.replace('0', postId);
     }
 </script>
 {% endblock %}

@@ -44,7 +44,6 @@ CSRF_TRUSTED_ORIGIN = [
 # Application definition
 
 INSTALLED_APPS = [
-
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
