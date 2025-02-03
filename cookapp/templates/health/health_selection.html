@@ -8,45 +8,43 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/health/health_selection.css' %}">
 <div class="title">主菜選択</div>
+
 <form id="meal-form" method="post">
     {% csrf_token %}
+
     <!-- 日付選択 -->
     <div class="form-group">
-        <div class="date-display">～ 2024年10月16日 ～</div>
+        <div class="date-display">～ {{ day }} ～</div>
     </div>
 
-    <!-- 朝・昼・晩の選択 -->
-    <div class="form-group">
-        <div class="meal-time-options">
-            <label class="time-option">
-                <input type="radio" name="meal-time" value="morning"> 朝
-            </label>
-            <label class="time-option">
-                <input type="radio" name="meal-time" value="noon"> 昼
-            </label>
-            <label class="time-option">
-                <input type="radio" name="meal-time" value="evening"> 晩
-            </label>
-        </div>
+    <!-- 食事時間（朝・昼・晩） -->
+    <div>
+        <label for="mealtime">食事時間:</label>
+        {% if mealtime == 0 %}
+            <span>朝</span>
+        {% elif mealtime == 1 %}
+            <span>昼</span>
+        {% elif mealtime == 2 %}
+            <span>晩</span>
+        {% endif %}
     </div>
 
     <!-- メニュー選択 -->
     <div class="form-group">
         <label for="menu">メニュー</label>
-        {{ form.CookSelect }}
-        <!-- <select id="menu" name="menu">
-            <option value="curry">カレー</option>
-            <option value="nikujaga">肉じゃが</option>
-            <option value="kimchi">キムチ鍋</option>
-            <option value="sushi">寿司</option>
-            <option value="hamburg">ハンバーグ</option>
-        </select> -->
+        {{ form.CookSelect }}  <!-- メニュー選択フォーム -->
     </div>
 
     <!-- ボタン -->
     <div class="buttons">
-        <button type="button" class="back-btn">戻る</button>
-        <button type="submit" class="register-btn">登録</button>
+        <button type="submit" class="register-btn">
+            {% if mealtime == 2 %}
+                登録完了
+            {% else %}
+                次へ
+            {% endif %}
+        </button>
     </div>
 </form>
+
 {% endblock %}

@@ -431,7 +431,7 @@ class DietaryHistoryView(LoginRequiredMixin, TemplateView):
 
     def get(self, request, *args, **kwargs):
         today = datetime.today()
-        dates = [(today + timedelta(days=i)).strftime('%m月%d日') for i in range(7)]
+        dates = [(today - timedelta(days=i)).strftime('%m月%d日') for i in range(7)]
         return render(request, self.template_name, {'dates': dates})
  
  
