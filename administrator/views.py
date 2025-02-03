@@ -7,7 +7,7 @@ from django.views.generic.base import TemplateView
 
 from bbs.models import Bbs, Postimage
 from .forms import RecipeAddForm
-from .models import Cook, Material, Image,Cookimage,Recipe,AdministratorCookimagesave
+from .models import Cook, Material, Image,Cookimage,Recipe,CookImagesave
 
 
 
