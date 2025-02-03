@@ -283,11 +283,20 @@ class EditView(View):
         images = [{'url': Image.objects.get(image_id=img['image']).image, 'id': img['image']} for img in post_images]
         logging.debug(images)
 
-        # 画像URLをコンテキストに追加
+        # userrecipeから材料を取得
+        userrecipes = Userrecipe.objects.filter(post=post)
+        materials = [{'id': ur.material.material_id, 'name': ur.material.name, 'quantity': ur.quantity} for ur in userrecipes]
+
+        # すべての材料を取得
+        all_materials = Material.objects.all()
+
+        # 画像URLと材料をコンテキストに追加
         return render(request, 'keijiban/henshuu/edit.html', {
             'form': form,
             'post': post,
-            'images': images  # 画像URLのリストをコンテキストに渡す
+            'images': images,  # 画像URLのリストをコンテキストに渡す
+            'materials': materials,  # 材料のリストをコンテキストに渡す
+            'all_materials': all_materials  # すべての材料をコンテキストに渡す
         })
 
     def post(self, request, post_id, *args, **kwargs):
@@ -332,14 +341,38 @@ class EditView(View):
                     Postimage.objects.filter(post=post, image_id=image_id).delete()
                     Image.objects.filter(image_id=image_id).delete()
 
+            # 材料の更新を処理
+            for material_id, quantity in zip(request.POST.getlist('material_id'), request.POST.getlist('material_quantity')):
+                userrecipe = Userrecipe.objects.get(post=post, material_id=material_id)
+                userrecipe.quantity = quantity
+                userrecipe.save()
+
+            # 新しい材料の追加を処理
+            new_material_names = request.POST.getlist('new_material_name')
+            new_material_quantities = request.POST.getlist('new_material_quantity')
+            for name, quantity in zip(new_material_names, new_material_quantities):
+                if name and quantity:
+                    material = Material.objects.get(name=name)
+                    Userrecipe.objects.create(post=post, material=material, quantity=quantity)
+
+            # 削除する材料を処理
+            deleted_materials = request.POST.get('deleted_materials', '').split(',')
+            for material_id in deleted_materials:
+                if material_id:
+                    Userrecipe.objects.filter(post=post, material_id=material_id).delete()
+
             return redirect('bbs:editcomplate')  # 編集後にeditcomplateにリダイレクト
 
-        # エラーがある場合も画像を渡す
+        # エラーがある場合も画像と材料を渡す
         post_images = Postimage.objects.filter(post=post).values('image')
         images = [{'url': Image.objects.get(image_id=img['image']).image, 'id': img['image']} for img in post_images]
         logging.debug(images)
 
-        return render(request, 'keijiban/henshuu/edit.html', {'form': form, 'post': post, 'images': images})
+        userrecipes = Userrecipe.objects.filter(post=post)
+        materials = [{'id': ur.material.material_id, 'name': ur.material.name, 'quantity': ur.quantity} for ur in userrecipes]
+        all_materials = Material.objects.all()
+
+        return render(request, 'keijiban/henshuu/edit.html', {'form': form, 'post': post, 'images': images, 'materials': materials, 'all_materials': all_materials})
     
 class Editcomplate(TemplateView):
     template_name = 'keijiban/henshuu/editcomplate.html'
