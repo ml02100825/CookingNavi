@@ -7,7 +7,7 @@ from .forms import EmailForm, UsernameForm, PasswordForm, BodyInfoUpdateForm, Fa
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 from django.contrib import messages
-from .models import Familymember, Familyallergy, News, Weight
+from .models import Familymember, Familyallergy, News, Question, Weight
 from account.models import  Userallergy 
 from django.http import JsonResponse
 import logging
@@ -150,6 +150,14 @@ class OsiraseView(TemplateView):
  
 class QuestionsView(TemplateView):
     template_name='questions/questions.html'
+    def get(self, request, *args, **kwargs):
+        question = Question.objects.all().values('question_id','question','answer').order_by('question_id')
+        questionlist = list(question)
+        logging.debug(questionlist)
+        context = {
+            'question': questionlist,
+        }
+        return render(request, self.template_name, context)
  
  
 class UsernameView(LoginRequiredMixin, TemplateView):

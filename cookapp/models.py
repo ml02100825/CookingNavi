@@ -55,8 +55,8 @@ class Weight(models.Model):
         db_table = 'weight'
 
 class Question(models.Model):
-    qustion_id = models.IntegerField(db_column='Qustion_ID', primary_key=True)  # Field name made lowercase.
-    qustion = models.TextField(db_column='Qustion')  # Field name made lowercase.
+    question_id = models.IntegerField(db_column='Qustion_ID', primary_key=True)  # Field name made lowercase.
+    question = models.TextField(db_column='Qustion')  # Field name made lowercase.
     answer = models.TextField(db_column='Answer')  # Field name made lowercase.
 
     class Meta:
