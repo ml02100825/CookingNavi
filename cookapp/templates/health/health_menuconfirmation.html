@@ -7,14 +7,24 @@
 </head>
 <body>
     <h2>メニュー・栄養素閲覧</h2>
-    <p>～10月16日（水）～ 朝</p>
+    <div>
+        <p>～ {{ day }} ～
+            {% if time == 0 %}
+                <span>朝</span>
+            {% elif time == 1 %}
+                <span>昼</span>
+            {% elif time == 2 %}
+                <span>晩</span>
+            {% endif %}
+        </p>
+    </div>
 
 {% for i in cook_list %}
     {{ i.cookname }}
     <div class="tab-container">
     <button id="ingredients-button" class="tab-button{{ forloop.counter0 }}"  data-material='{{ material_list }}' onclick="showContent('ingredients', ' ','{{ forloop.counter0 }}')">材料</button>
     <button class="tab-button{{ forloop.counter0 }}" onclick="showContent('recipe','{{i.recipe_text}}', '{{ forloop.counter0 }}')">作り方</button>
-    <button class="tab-button{{ forloop.counter0 }}" onclick="showContent('nutrition','カロリー：{{i.calorie}}kcal \n タンパク質：{{i.protein}}g\n 脂質：{{ i.libids }}g 炭水化物：{{i.carbohydrates}}g fiber：{{ i.fiber }}g 塩分含有量： {{i.saltcontent}}g','{{ forloop.counter0 }}')">栄養素</button>
+    <button class="tab-button{{ forloop.counter0 }}" onclick="showContent('nutrition','カロリー：{{i.calorie}}kcal \n タンパク質：{{i.protein}}g\n 脂質：{{ i.lipids }}g 炭水化物：{{i.carbohydrates}}g fiber：{{ i.fiber }}g 塩分含有量： {{i.saltcontent}}g','{{ forloop.counter0 }}')">栄養素</button>
     </div>
     <div class="content-box" id="content-box{{ forloop.counter0 }}">
         ここに内容が表示されます。

@@ -30,9 +30,9 @@
                 <td>
                     {% if item.status.0 == "T" and item.status.1 == "T" and item.status.2 == "T" %}
                         <!-- 朝・昼・晩すべて設定されている場合、ボタンを表示 -->
-                        <a href="{% url 'health:health_menu' 0 item.date %}"><button class="time-slot-button">朝</button></a>
-                        <a href="{% url 'health:health_menu' 1 item.date %}"><button class="time-slot-button">昼</button></a>
-                        <a href="{% url 'health:health_menu' 2 item.date %}"><button class="time-slot-button">晩</button></a>
+                        <a href="{% url 'health:health_menu' time=0 day=item.date %}"><button class="time-slot-button">朝</button></a>
+                        <a href="{% url 'health:health_menu' time=1 day=item.date %}"><button class="time-slot-button">昼</button></a>
+                        <a href="{% url 'health:health_menu' time=2 day=item.date %}"><button class="time-slot-button">晩</button></a>
                     {% else %}
                         <!-- 1つでも未定があれば未定表示 -->
                         <h2>未定</h2>

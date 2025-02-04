@@ -273,9 +273,11 @@ class HealthMenuView(TemplateView):
         # 引数から取得された値を使用
         time = self.kwargs.get('time')  # 1: 朝, 2: 昼, 3: 晩
         day = self.kwargs.get('day')  # 選択された日付（文字列としてyyyy-mm-ddで渡されていると仮定）
+        year = datetime.now().year  # 現在の年を使う
+        formatted_day = f"{year}-{day}"  # '2025-01-31' の形式に変換
 
         # 渡された日付をdatetimeに変換
-        currentday = date.fromisoformat(day)
+        currentday = date.fromisoformat(formatted_day)
 
         # メニュー情報を取得
         Cooks = Menu.objects.filter(user=request.user, meal_day=currentday, mealtime=time).values('menu_id')
@@ -308,7 +310,7 @@ class HealthMenuView(TemplateView):
             # メニューがない場合はエラーハンドリングや適切な処理を追加することも検討
             logging.debug(f"No menu found for {currentday} and time {time}")
 
-        return render(request, self.template_name, {'cook_list': cooklist, 'material_list': materiallist})
+        return render(request, self.template_name, {'day': day, 'time': time, 'cook_list': cooklist, 'material_list': materiallist})
 
 class HealthSelectionView(TemplateView):
     template_name = 'health/health_selection.html'
@@ -485,9 +487,19 @@ class HealthSelectionView(TemplateView):
             next_mealtime = (mealtime + 1) % 3  # 0 -> 1 -> 2 -> 0に戻る
             request.session['mealtime'] = next_mealtime
 
-            # 次の日のメニューを保存
-            menu = Menu(user=request.user, meal_day=day, mealtime=str(mealtime))
-            menu.save()
+            # 同じday, mealtimeのMenuが存在するか確認
+            existing_menu = Menu.objects.filter(user=user, meal_day=day, mealtime=str(mealtime)).first()
+
+            if not existing_menu:
+                # Menuが存在しない場合は新規にMenuを作成
+                menu = Menu(user=request.user, meal_day=day, mealtime=str(mealtime))
+                menu.save()
+            else:
+                # Menuが存在する場合、そのmenu_idを使ってMenucookを削除
+                menu = existing_menu
+
+                # 既存のMenucookデータを削除（menu_idが一致するものを削除）
+                Menucook.objects.filter(menu_id=menu.menu_id).delete()
 
             for i in range(len(subcook) + 1):
                 if i == 0:
