@@ -261,25 +261,26 @@ class HealthMainView(TemplateView):
         return render(request, self.template_name, {'menu_status': menu_status})
 
 class HealthMenuView(TemplateView):
-    template_name='health/health_menuconfirmation.html'
+    template_name = 'health/health_menuconfirmation.html'
 
     def get(self, request, *args, **kwargs):
         # 料理リスト
         cooklist = []
         # 材料リスト
         materiallist = []
-        materialdetaillist = []
 
         # 引数から取得された値を使用
         time = self.kwargs.get('time')  # 1: 朝, 2: 昼, 3: 晩
         day = self.kwargs.get('day')  # 選択された日付（文字列としてyyyy-mm-ddで渡されていると仮定）
+        year = datetime.now().year  # 現在の年を使う
+        formatted_day = f"{year}-{day}"  # '2025-01-31' の形式に変換
 
         # 渡された日付をdatetimeに変換
-        currentday = date.fromisoformat(day)
+        currentday = date.fromisoformat(formatted_day)
 
         # メニュー情報を取得
         Cooks = Menu.objects.filter(user=request.user, meal_day=currentday, mealtime=time).values('menu_id')
-        
+
         # メニューが存在する場合にそのメニューIDを取得
         if Cooks.exists():
             Cookid = Menucook.objects.filter(menu=Cooks[0]['menu_id']).values('cook')
@@ -294,21 +295,34 @@ class HealthMenuView(TemplateView):
 
                 # 材料情報を取得
                 materials = Recipe.objects.filter(cook=Cookid[i]['cook']).values('material', 'quantity')
-                for j in range(len(materials)):
-                    choice_list = list(materials.values())
+                materialdetaillist = []
+                for material in materials:
                     materialdetail = {}
-                    material = Material.objects.filter(material_id=materials[j]['material']).values('name')
-                    materialdetail['materialname'] = material[0]['name']
-                    materialdetail['quantity'] = materials[j]['quantity']
+                    material_info = Material.objects.filter(material_id=material['material']).values('name')
+                    materialdetail['materialname'] = material_info[0]['name']
+                    materialdetail['quantity'] = material['quantity']
                     materialdetaillist.append(materialdetail)
 
                 materiallist.append(materialdetaillist)
-                materialdetaillist = []
+
+                # 画像情報を取得
+                cookimage = Cookimage.objects.filter(cook_id=Cookid[i]['cook']).values('image_id')
+                if cookimage.exists():
+                    image_id = cookimage[0]['image_id']
+                    image_path = Image.objects.filter(image_id=image_id).values('image')[0]['image']
+                    cooklist[-1]['image_path'] = image_path
+                else:
+                    cooklist[-1]['image_path'] = None
         else:
             # メニューがない場合はエラーハンドリングや適切な処理を追加することも検討
             logging.debug(f"No menu found for {currentday} and time {time}")
 
-        return render(request, self.template_name, {'cook_list': cooklist, 'material_list': materiallist})
+        return render(request, self.template_name, {
+            'day': day,
+            'time': time,
+            'cook_list': cooklist,
+            'material_list': json.dumps(materiallist)  # JSON形式で渡す
+        })
 
 class HealthSelectionView(TemplateView):
     template_name = 'health/health_selection.html'
@@ -485,9 +499,19 @@ class HealthSelectionView(TemplateView):
             next_mealtime = (mealtime + 1) % 3  # 0 -> 1 -> 2 -> 0に戻る
             request.session['mealtime'] = next_mealtime
 
-            # 次の日のメニューを保存
-            menu = Menu(user=request.user, meal_day=day, mealtime=str(mealtime))
-            menu.save()
+            # 同じday, mealtimeのMenuが存在するか確認
+            existing_menu = Menu.objects.filter(user=user, meal_day=day, mealtime=str(mealtime)).first()
+
+            if not existing_menu:
+                # Menuが存在しない場合は新規にMenuを作成
+                menu = Menu(user=request.user, meal_day=day, mealtime=str(mealtime))
+                menu.save()
+            else:
+                # Menuが存在する場合、そのmenu_idを使ってMenucookを削除
+                menu = existing_menu
+
+                # 既存のMenucookデータを削除（menu_idが一致するものを削除）
+                Menucook.objects.filter(menu_id=menu.menu_id).delete()
 
             for i in range(len(subcook) + 1):
                 if i == 0:
