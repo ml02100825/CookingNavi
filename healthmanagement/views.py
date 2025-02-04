@@ -13,33 +13,6 @@ from django.urls import reverse
 import json
 
 import logging
-<<<<<<< HEAD
-=======
-
-def menu_exist(day):
-    today = date.today()
-    weekday = today.weekday()  # 今日の曜日を取得（0が月曜日、6が日曜日）
-
-    # day（引数）は曜日のオフセット（例: 月曜が0、火曜が1など）として与えられる
-    day_difference = weekday - day
-    
-    # メニューが存在する日を計算
-    current_day = today - timedelta(days=day_difference)
-    
-    # current_day に対応するメニューが存在するかをチェック
-    if Menu.objects.filter(meal_day=current_day).exists():
-        return "T"  # メニューが存在する
-    else:
-        return "F"  # メニューが存在しない
-        
-def health_menu(request):
-    # メニューのデータ例
-    material_list = ['材料1', '材料2', '材料3']
-    
-    return render(request, 'health/health_menuconfirmation.html', {
-        'material_list': material_list,
-    })
->>>>>>> ad5604fe276679e106d6fc54211822cffa787e08
     
 def image_get(menu):
     menucook = Menucook.objects.filter(menu = menu['menu_id']).values('cook')
