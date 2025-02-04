@@ -1,4 +1,5 @@
 import random
+from django.http import HttpResponseBadRequest
 from django.shortcuts import redirect, render
 from django.views.generic.base import TemplateView
 import urllib
@@ -11,7 +12,7 @@ from .models import Menu, Menucook
 from django.utils import timezone
 from django.urls import reverse
 import json
-
+from django.db.models import Max
 import logging
     
 def image_get(menu):
@@ -328,10 +329,35 @@ class HealthSelectionView(TemplateView):
     template_name = 'health/health_selection.html'
 
     def get(self, request, *args, **kwargs):
-        day = kwargs.get('day')  # URLからdayを取得
+        day_str = kwargs.get('day')  # URLからdayを取得
+        year = datetime.now().year  # 現在の年を使う
+        formatted_day_str = f"{year}-{day_str}"  # '2025-01-31' の形式に変換
+
+        try:
+            day = datetime.strptime(formatted_day_str, "%Y-%m-%d").date()
+        except ValueError:
+            return HttpResponseBadRequest("無効な日付形式です。YYYY-MM-DD 形式にしてください。")
 
         # GETリクエストで選ばれた食事時間（デフォルトで朝にする）
         mealtime = request.session.get('mealtime', 0)
+
+        # 指定された日付のmeal_dayの最大数を取得
+        user = request.user
+        existing_menus = Menu.objects.filter(user=user, meal_day=day)
+        max_mealtime = existing_menus.aggregate(Max('mealtime'))['mealtime__max']
+
+        # meal_dayが存在しない場合は朝から入力させる
+        if max_mealtime is None:
+            mealtime = 0
+        # meal_dayの最大数が0の場合は昼から入力させる
+        elif max_mealtime == 0:
+            mealtime = 1
+        # meal_dayの最大数が1の場合は晩から入力させる
+        elif max_mealtime == 1:
+            mealtime = 2
+        # meal_dayの最大数が2の場合は朝から入力させる
+        elif max_mealtime == 2:
+            mealtime = 0
 
         # 食事時間に対応するメニューをフィルタリング
         form = CookSelectForm()
@@ -344,7 +370,7 @@ class HealthSelectionView(TemplateView):
         }
 
         return render(request, self.template_name, context)
-    
+
     def post(self, request, *args, **kwargs):
         # セッションからmealtimeを取得
         mealtime = request.session.get('mealtime', 0)
