@@ -19,14 +19,19 @@
     </div>
 
     {% for i in cook_list %}
-        {{ i.cookname }}
-        <div class="tab-container">
-            <button class="tab-button{{ forloop.counter0 }}" data-material='{{ material_list|safe }}' onclick="showContent('ingredients', '', '{{ forloop.counter0 }}')">材料</button>
-            <button class="tab-button{{ forloop.counter0 }}" onclick="showContent('recipe', '{{ i.recipe_text }}', '{{ forloop.counter0 }}')">作り方</button>
-            <button class="tab-button{{ forloop.counter0 }}" onclick="showContent('nutrition', 'カロリー：{{ i.calorie }}kcal \n タンパク質：{{ i.protein }}g\n 脂質：{{ i.lipids }}g 炭水化物：{{ i.carbohydrates }}g 食物繊維：{{ i.fiber }}g 塩分含有量：{{ i.saltcontent }}g', '{{ forloop.counter0 }}')">栄養素</button>
-        </div>
-        <div class="content-box" id="content-box{{ forloop.counter0 }}">
-            ここに内容が表示されます。
+        <div>
+            <h3>{{ i.cookname }}</h3>
+            {% if i.image_path %}
+                <img src="{{ i.image_path }}" alt="{{ i.cookname }}">
+            {% endif %}
+            <div class="tab-container">
+                <button class="tab-button{{ forloop.counter0 }}" data-material='{{ material_list|safe }}' onclick="showContent('ingredients', '', '{{ forloop.counter0 }}')">材料</button>
+                <button class="tab-button{{ forloop.counter0 }}" onclick="showContent('recipe', '{{ i.recipe_text }}', '{{ forloop.counter0 }}')">作り方</button>
+                <button class="tab-button{{ forloop.counter0 }}" onclick="showContent('nutrition', 'カロリー：{{ i.calorie }}kcal \n タンパク質：{{ i.protein }}g\n 脂質：{{ i.lipids }}g 炭水化物：{{ i.carbohydrates }}g 食物繊維：{{ i.fiber }}g 塩分含有量：{{ i.saltcontent }}g', '{{ forloop.counter0 }}')">栄養素</button>
+            </div>
+            <div class="content-box" id="content-box{{ forloop.counter0 }}">
+                ここに内容が表示されます。
+            </div>
         </div>
     {% endfor %}
 

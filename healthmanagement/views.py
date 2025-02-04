@@ -304,6 +304,15 @@ class HealthMenuView(TemplateView):
                     materialdetaillist.append(materialdetail)
 
                 materiallist.append(materialdetaillist)
+
+                # 画像情報を取得
+                cookimage = Cookimage.objects.filter(cook_id=Cookid[i]['cook']).values('image_id')
+                if cookimage.exists():
+                    image_id = cookimage[0]['image_id']
+                    image_path = Image.objects.filter(image_id=image_id).values('image')[0]['image']
+                    cooklist[-1]['image_path'] = image_path
+                else:
+                    cooklist[-1]['image_path'] = None
         else:
             # メニューがない場合はエラーハンドリングや適切な処理を追加することも検討
             logging.debug(f"No menu found for {currentday} and time {time}")
