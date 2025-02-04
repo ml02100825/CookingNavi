@@ -457,7 +457,7 @@ class DietaryHistoryView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        # すべてのメニューを取得
+        # すべてのメニューを取得（昇順に並べ替え）
         menus = Menu.objects.all().order_by('meal_day')
         
         # メニューに関連する料理を取得
@@ -475,8 +475,11 @@ class DietaryHistoryView(TemplateView):
             
             cook_names[meal_day][meal_time].append(cook_name)
 
+        # 日付順に並べ替え
+        sorted_cook_names = dict(sorted(cook_names.items()))
+
         # コンテキストにデータを追加
-        context['cook_names'] = cook_names
+        context['cook_names'] = sorted_cook_names
         return context
 
 class DietaryHistoryDetailView(TemplateView):
