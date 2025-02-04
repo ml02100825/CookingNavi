@@ -30,7 +30,7 @@ class User(AbstractBaseUser):
     def padded_id(self):
         return f"{self.user_id:010}"  # 10桁でゼロパディング
     class Meta:
-        managed = False
+        
         db_table = 'user'
     
     
@@ -41,5 +41,5 @@ class Userallergy(models.Model):
     def padded_id(self):
         return f"{self.userallergy_id:010}"  # 10桁でゼロパディング
     class Meta:
-        managed = False
+        
         db_table = 'userallergy'
