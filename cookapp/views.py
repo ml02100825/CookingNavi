@@ -457,7 +457,7 @@ class DietaryHistoryView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        # すべてのメニューを取得
+        # すべてのメニューを取得（昇順に並べ替え）
         menus = Menu.objects.all().order_by('meal_day')
         
         # メニューに関連する料理を取得
@@ -465,18 +465,28 @@ class DietaryHistoryView(TemplateView):
         
         # 料理名を日付ごとに整理
         cook_names = {}
-        for menu_cook in menu_cooks:
-            cook_name = menu_cook.cook.cookname
-            meal_day = str(menu_cook.menu.meal_day)
-            meal_time = '朝' if menu_cook.menu.mealtime == '0' else '昼' if menu_cook.menu.mealtime == '1' else '晩'
+        missing_menus = set(menus.values_list('menu_id', 'meal_day', 'mealtime')) - set(menu_cooks.values_list('menu_id', 'menu__meal_day', 'menu__mealtime'))
+        
+        for menu in menus:
+            meal_day = str(menu.meal_day)
+            meal_time = '朝' if menu.mealtime == '0' else '昼' if menu.mealtime == '1' else '晩'
             
             if meal_day not in cook_names:
                 cook_names[meal_day] = {'朝': [], '昼': [], '晩': []}
             
-            cook_names[meal_day][meal_time].append(cook_name)
+            related_cooks = menu_cooks.filter(menu=menu)
+            if related_cooks.exists():
+                for menu_cook in related_cooks:
+                    cook_names[meal_day][meal_time].append(menu_cook.cook.cookname)
+            else:
+                cook_names[meal_day][meal_time].append(None)
+
+        # 日付順に並べ替え
+        sorted_cook_names = dict(sorted(cook_names.items()))
 
         # コンテキストにデータを追加
-        context['cook_names'] = cook_names
+        context['cook_names'] = sorted_cook_names
+        context['missing_menus'] = missing_menus
         return context
 
 class DietaryHistoryDetailView(TemplateView):
