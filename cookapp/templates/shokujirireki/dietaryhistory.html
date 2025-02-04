@@ -4,31 +4,145 @@
 {% block title %}食事履歴{% endblock %}
 
 {% block content %}
-<!-- CSSファイルが正しく読み込まれるか確認 -->
-<link rel="stylesheet" href="{% static 'css/shokujirireki/dietaryhistory.css' %}">
+<style>
+    .content {
+        overflow-y: auto;
+        max-height: 80vh;
+        padding: 20px;
+    }
+
+    /* 全体のリストデザイン */
+    .ingredients-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    /* 朝昼晩の見出し */
+    .meal-header {
+        display: flex;
+        justify-content: space-between;
+        background-color: #007bff;
+        color: white;
+        padding: 10px;
+        font-weight: bold;
+        text-align: center;
+        border-radius: 8px;
+    }
+
+    .meal-header div {
+        flex: 1;
+        text-align: center;
+    }
+
+    /* 各行のデザイン */
+    .meal-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #f8f9fa;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border: 2px solid #ddd;
+    }
+
+    /* 日付のスタイル */
+    .meal-date {
+        font-size: 1.4em;
+        font-weight: bold;
+        text-align: center;
+        flex: 1;
+        min-width: 100px;
+        border-right: 2px solid #ddd;
+        padding: 10px;
+    }
+
+    /* 朝・昼・晩のコンテナ */
+    .meal-container {
+        display: flex;
+        flex: 3;
+        justify-content: space-around;
+        padding: 10px;
+    }
+
+    /* 朝・昼・晩のボックス */
+    .meal-box {
+        background-color: #e9ecef;
+        padding: 10px;
+        border-radius: 6px;
+        width: 30%;
+        min-width: 150px;
+        text-align: center;
+    }
+
+    .meal-box ul {
+        padding: 0;
+        list-style: none;
+    }
+
+    .meal-box li {
+        padding: 3px 0;
+    }
+</style>
+
+<h2 style="text-align: center;">食事履歴</h2>
 
 <div class="content">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>日付</th>
-                <th>朝</th>
-                <th>昼</th>
-                <th>晩</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for date in dates %}
-            <tr>
-                <td class="date-cell">
-                    <button class="date-button">{{ date }}</button>
-                </td>
-                <td><button class="meal-button">カレー</button></td>
-                <td><button class="meal-button">肉じゃが</button></td>
-                <td><button class="meal-button">ハヤシライス</button></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+
+
+    <!-- 朝昼晩の見出し -->
+    <div class="meal-header">
+        <div>日付</div>
+        <div>朝</div>
+        <div>昼</div>
+        <div>晩</div>
+    </div>
+
+    <ul class="ingredients-list" id="ingredients-list">
+        <!-- 料理名を表示 -->
+        {% for date, meals in cook_names.items %}
+    <div class="meal-row">
+        <div class="meal-date">{{ date }}</div> <!-- 日付を左側に固定 -->
+        
+        <div class="meal-container">
+            <div class="meal-box">
+                <ul>
+                    {% for cookname in meals.朝 %}
+                    {% if cookname %}
+                    <li><a href="{% url 'cookapp:dietaryhistorydetail' date=date cookname=cookname|urlencode %}">{{ cookname }}</a></li>
+                    {% else %}
+                    <li>なし</li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="meal-box">
+                <ul>
+                    {% for cookname in meals.昼 %}
+                    {% if cookname %}
+                    <li><a href="{% url 'cookapp:dietaryhistorydetail' date=date cookname=cookname|urlencode %}">{{ cookname }}</a></li>
+                    {% else %}
+                    <li>なし</li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="meal-box">
+                <ul>
+                    {% for cookname in meals.晩 %}
+                    {% if cookname %}
+                    <li><a href="{% url 'cookapp:dietaryhistorydetail' date=date cookname=cookname|urlencode %}">{{ cookname }}</a></li>
+                    {% else %}
+                    <li>未登録</li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+    </ul>
 </div>
 {% endblock %}

@@ -1,10 +1,13 @@
 import json
 from django.shortcuts import get_object_or_404, render, redirect
+
+from administrator.models import Cook, Cookimage, Recipe
+from healthmanagement.models import Menu, Menucook
 from .forms import EmailForm, UsernameForm, PasswordForm, BodyInfoUpdateForm, FamilyForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 from django.contrib import messages
-from .models import Familymember, Familyallergy, Weight
+from .models import Familymember, Familyallergy, News, Question, Weight
 from account.models import  Userallergy 
 from django.http import JsonResponse
 import logging
@@ -19,6 +22,10 @@ from django.shortcuts import render
 from django.views import View
 from django.contrib.auth.views import PasswordResetDoneView
 from datetime import datetime, timedelta
+from .forms import DateRangeForm
+from django.db import connection
+from urllib.parse import unquote
+
  
  
 logger = logging.getLogger(__name__)
@@ -130,9 +137,27 @@ class SubscriptionKaiyakuOkView(LoginRequiredMixin, TemplateView):
  
 class OsiraseView(TemplateView):
     template_name='osirase/osirase.html'
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        news = News.objects.all().values('news_id','title','update_time', 'content').order_by('update_time')
+        newslist = list(news)
+        logging.debug(newslist)
+        context = {
+            'news': news,
+        }
+        return render(request, self.template_name, context)
+        
  
 class QuestionsView(TemplateView):
     template_name='questions/questions.html'
+    def get(self, request, *args, **kwargs):
+        question = Question.objects.all().values('question_id','question','answer').order_by('question_id')
+        questionlist = list(question)
+        logging.debug(questionlist)
+        context = {
+            'question': questionlist,
+        }
+        return render(request, self.template_name, context)
  
  
 class UsernameView(LoginRequiredMixin, TemplateView):
@@ -248,8 +273,8 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
                     allergy = allergies[i]
                     try:
                         # 既存のアレルギー情報を検索して更新する
-                        user_allergy = Userallergy.objects.get(user=user, allergy_category=allergy)
-                        user_allergy.allergy_category = allergy
+                        user_allergy = Userallergy.objects.get(user=user, allergy=allergy)
+                        user_allergy.allergy = allergy
                         user_allergy.save()  # 更新を保存
                         print(f"Updated allergy for user {user} with allergy {allergy}")
                     except Userallergy.DoesNotExist:
@@ -426,13 +451,62 @@ class KazokuHenkoOkView(TemplateView):
         return render(request, self.template_name, {'family_member': family_member})
  
  
-class DietaryHistoryView(LoginRequiredMixin, TemplateView):
+class DietaryHistoryView(TemplateView):
     template_name = 'shokujirireki/dietaryhistory.html'
 
-    def get(self, request, *args, **kwargs):
-        today = datetime.today()
-        dates = [(today - timedelta(days=i)).strftime('%m月%d日') for i in range(7)]
-        return render(request, self.template_name, {'dates': dates})
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # すべてのメニューを取得
+        menus = Menu.objects.all().order_by('meal_day')
+        
+        # メニューに関連する料理を取得
+        menu_cooks = Menucook.objects.filter(menu__in=menus)
+        
+        # 料理名を日付ごとに整理
+        cook_names = {}
+        for menu_cook in menu_cooks:
+            cook_name = menu_cook.cook.cookname
+            meal_day = str(menu_cook.menu.meal_day)
+            meal_time = '朝' if menu_cook.menu.mealtime == '0' else '昼' if menu_cook.menu.mealtime == '1' else '晩'
+            
+            if meal_day not in cook_names:
+                cook_names[meal_day] = {'朝': [], '昼': [], '晩': []}
+            
+            cook_names[meal_day][meal_time].append(cook_name)
+
+        # コンテキストにデータを追加
+        context['cook_names'] = cook_names
+        return context
+
+class DietaryHistoryDetailView(TemplateView):
+    template_name = 'shokujirireki/dietaryhistorydetail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        date = kwargs.get('date')
+        cookname = unquote(kwargs.get('cookname'))
+        
+        print(f"DEBUG: date={date}, cookname={cookname}")  # デバッグ用
+        
+        # 日付と料理名に基づいてメニューを取得
+        menu_cooks = Menucook.objects.filter(menu__meal_day=date, cook__cookname__icontains=cookname)
+
+        print(f"DEBUG: menu_cooks={menu_cooks}")  # デバッグ用
+        print(f"DEBUG: SQL Query: {menu_cooks.query}")
+
+        if not menu_cooks.exists():
+            context['error_message'] = "該当する料理情報が見つかりませんでした。"
+        else:
+            context['menu_cooks'] = menu_cooks
+            # 画像と材料を取得してコンテキストに追加
+            for menu_cook in menu_cooks:
+                cook_images = Cookimage.objects.filter(cook=menu_cook.cook)
+                menu_cook.cook.images = [ci.image.image for ci in cook_images if ci.image]
+                recipes = Recipe.objects.filter(cook=menu_cook.cook)
+                menu_cook.cook.materials = [(recipe.material.name, recipe.quantity) for recipe in recipes]
+
+        return context
  
  
 class HealthGraphView(TemplateView):

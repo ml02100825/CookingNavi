@@ -2,9 +2,10 @@ import random
 from django.shortcuts import redirect, render
 from django.views.generic.base import TemplateView
 import urllib
+from account.models import Userallergy
 from administrator.models import Cook, Cookimage, Image, Material, Recipe
 from datetime import datetime, date, timedelta
-from cookapp.models import Familymember
+from cookapp.models import Familymember, Familyallergy,Allergy
 from .forms import CookSelectForm
 from .models import Menu, Menucook
 from django.utils import timezone
@@ -12,6 +13,33 @@ from django.urls import reverse
 import json
 
 import logging
+<<<<<<< HEAD
+=======
+
+def menu_exist(day):
+    today = date.today()
+    weekday = today.weekday()  # 今日の曜日を取得（0が月曜日、6が日曜日）
+
+    # day（引数）は曜日のオフセット（例: 月曜が0、火曜が1など）として与えられる
+    day_difference = weekday - day
+    
+    # メニューが存在する日を計算
+    current_day = today - timedelta(days=day_difference)
+    
+    # current_day に対応するメニューが存在するかをチェック
+    if Menu.objects.filter(meal_day=current_day).exists():
+        return "T"  # メニューが存在する
+    else:
+        return "F"  # メニューが存在しない
+        
+def health_menu(request):
+    # メニューのデータ例
+    material_list = ['材料1', '材料2', '材料3']
+    
+    return render(request, 'health/health_menuconfirmation.html', {
+        'material_list': material_list,
+    })
+>>>>>>> ad5604fe276679e106d6fc54211822cffa787e08
     
 def image_get(menu):
     menucook = Menucook.objects.filter(menu = menu['menu_id']).values('cook')
@@ -19,7 +47,7 @@ def image_get(menu):
         
         menuid = Cook.objects.filter(cook_id= i['cook']).values('cook_id', 'type')
         menuid = menuid[0]
-        if menuid['type'] == '0':
+        if menuid['type'] == '1':
                 break
     menuimageid = Cookimage.objects.filter(cook =menuid['cook_id']).values('image')
     menuimageid= menuimageid[0]
@@ -263,7 +291,9 @@ class HealthMenuView(TemplateView):
     template_name='health/health_menuconfirmation.html'
 
     def get(self, request, *args, **kwargs):
+        # 料理リスト
         cooklist = []
+        # 材料リスト
         materiallist = []
         materialdetaillist = []
 
@@ -333,6 +363,7 @@ class HealthSelectionView(TemplateView):
         mealtime = request.session.get('mealtime', 0)
 
         # 年齢で処理を変えるためのhandlers
+        context = super().get_context_data(**kwargs)
         handlers = [
             ((1, 2), process_group_1_2),
             ((3, 5), process_group_3_5),
@@ -515,7 +546,7 @@ class HealthSelectionComplateView(TemplateView):
     def get(self, request, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         day = self.kwargs.get('day')
-        menu = Menu.objects.filter(user = request.user, meal_day = day).values("menu_id","mealtime").order_by('mealtime')
+        menu = Menu.objects.filter(user=request.user, meal_day=day).values("menu_id", "mealtime").order_by('mealtime')
         logging.debug(menu)
         breakfast = menu[0]
         lunch = menu[1]

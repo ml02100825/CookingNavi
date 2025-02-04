@@ -1,5 +1,4 @@
 {% extends 'baseuser.html' %}
-
 {% load static %}
 
 {% block title %}投稿編集{% endblock %}
@@ -16,6 +15,11 @@
         }
         .hidden {
             display: none;
+        }
+        .edit-container {
+            max-height: 80vh; /* 画面の高さの80%に制限 */
+            overflow-y: auto; /* 縦方向のスクロールを有効に */
+            padding: 20px;
         }
     </style>
 </head>
@@ -65,6 +69,28 @@
             {{ form.recipe_text }} <!-- 作り方フォーム -->
         </div>
 
+        <!-- 材料の編集 -->
+        <div class="material-edit">
+            <h3>材料</h3>
+            {% for material in materials %}
+                <div class="form-group">
+                    <label for="material-{{ material.id }}">{{ material.name }}</label>
+                    <input type="hidden" name="material_id" value="{{ material.id }}">
+                    <input type="number" name="material_quantity" value="{{ material.quantity }}" class="form-control">
+                    <button type="button" onclick="deleteMaterial('{{ material.id }}')">削除</button>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- 新しい材料の追加 -->
+        <div class="new-materials">
+            <h3>新しい材料を追加</h3>
+            <div id="new-material-fields">
+                <!-- ここに動的に新しい材料フィールドが挿入されます -->
+            </div>
+            <button type="button" onclick="addMaterialField()">材料を追加</button>
+        </div>
+
         <!-- 画像追加フィールド -->
         <div id="image-fields">
             <!-- ここに動的に画像追加フィールドが挿入されます -->
@@ -72,6 +98,7 @@
 
         <!-- 削除する画像の情報を一時的に保存するフィールド -->
         <input type="hidden" name="deleted_images" id="deleted-images">
+        <input type="hidden" name="deleted_materials" id="deleted-materials">
 
         <!-- 保存、キャンセル、戻るボタン -->
         <div class="button-group">
@@ -85,6 +112,7 @@
 <script>
     let currentImageIndex = 0;
     let deletedImages = [];
+    let deletedMaterials = [];
 
     function changeImage(direction) {
         const images = document.querySelectorAll('.post-image');
@@ -122,6 +150,29 @@
         newField.type = 'file';
         newField.name = 'additional_images';
         imageFields.appendChild(newField);
+    }
+
+    function deleteMaterial(materialId) {
+        deletedMaterials.push(materialId);
+        document.getElementById('deleted-materials').value = deletedMaterials.join(',');
+        document.querySelector(`input[name="material_id"][value="${materialId}"]`).parentElement.remove();
+    }
+
+    function addMaterialField() {
+        const materialFields = document.getElementById('new-material-fields');
+        const newField = document.createElement('div');
+        newField.classList.add('form-group');
+        newField.innerHTML = `
+            <label for="new-material-name">材料名</label>
+            <select name="new_material_name" class="form-control">
+                {% for material in all_materials %}
+                    <option value="{{ material.name }}">{{ material.name }}</option>
+                {% endfor %}
+            </select>
+            <label for="new-material-quantity">数量</label>
+            <input type="number" name="new_material_quantity" class="form-control">
+        `;
+        materialFields.appendChild(newField);
     }
 </script>
 {% endblock %}

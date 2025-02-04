@@ -7,8 +7,7 @@
 <h2 style="text-align: center;">買い物リスト</h2>
 
 <body>
-    <div class="content">
-        <h2>買い物リスト</h2>
+    <div class="content" style="overflow-y: auto; max-height: 80vh;">
         
         <!-- フォーム表示 -->
         <form method="post">
@@ -18,7 +17,10 @@
         </form>
 
         <ul class="ingredients-list" id="ingredients-list">
-            <!-- Ingredients will be displayed here based on the selected date range -->
+            <!-- 材料とその量を表示 -->
+            {% for material, quantity in material_quantities.items %}
+                <li>{{ material }}: {{ quantity }}</li>
+            {% endfor %}
         </ul>
     </div>
 

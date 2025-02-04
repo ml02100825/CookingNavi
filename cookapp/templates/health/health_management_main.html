@@ -16,7 +16,8 @@
     <h1>健康管理</h1>
     
     <!-- Schedule Table -->
-    <table class="schedule-table">
+    <table class="schedule-table">  
+  
         <tr>
             {% for item in menu_status %}
                 <th><a href="{% url 'health:health_selection' day=item.date %}">

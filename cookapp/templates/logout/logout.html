@@ -9,7 +9,7 @@
         <p>ログアウトしますか？</p>
         <div class="button-container">
             <!-- ログアウトフォーム -->
-            <form method="POST" action="{% url 'account:logout_ok' %}">
+            <form method="POST" action="{% url 'account:logout' %}">
                 {% csrf_token %}
                 <button type="submit" class="logout-btn">はい</button>
             </form>

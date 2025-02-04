@@ -3,7 +3,7 @@ body {
     font-family: Arial, sans-serif; /* フォントの設定 */
     margin: 0; /* ページの外側の余白を削除 */
     padding: 0; /* ページの内側の余白を削除 */
-    background-color: #f9f9f9; /* 背景色 */
+    background-color: #ffebcd;  /* 背景色 */
     color: #333; /* デフォルトのテキストカラー */
     display: flex; /* 子要素をフレックスボックスで整列 */
     flex-direction: column; /* 子要素を縦方向に並べる */

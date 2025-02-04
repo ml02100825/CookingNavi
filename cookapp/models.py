@@ -1,6 +1,7 @@
 from django.utils import timezone
 from django.db import models
 from django.conf import settings
+from account.models import User
 
 
 
@@ -16,7 +17,7 @@ class Familymember(models.Model):
 
     class Meta:
         db_table = 'familymember'
-
+        managed = False
 
 
 class Familyallergy(models.Model):
@@ -43,14 +44,43 @@ class Allergy(models.Model):
 
 
 class Weight(models.Model):
-    weight_id = models.AutoField(db_column='Weight_ID', primary_key=True)
-    weight = models.FloatField(db_column='Weight')
-    register_time = models.CharField(db_column='RegisterTime', max_length=50)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='User_ID', related_name='user_weights')
-    family = models.ForeignKey(Familymember, db_column='Family_ID', on_delete=models.CASCADE)
+    weight_id = models.AutoField(db_column='Weight_ID', primary_key=True)  # Field name made lowercase.
+    weight = models.FloatField(db_column='Weight')  # Field name made lowercase.
+    register_time = models.CharField(db_column='RegisterTime', max_length=50)  # Field name made lowercase.
+    user = models.ForeignKey('account.User', models.CASCADE, db_column='User_ID',related_name='weights')  # Field name made lowercase.
+    family = models.ForeignKey('Familymember', models.CASCADE, db_column='Family_ID')  # Field name made lowercase.
 
     class Meta:
+        managed = False
         db_table = 'weight'
 
+class Question(models.Model):
+    question_id = models.IntegerField(db_column='Qustion_ID', primary_key=True)  # Field name made lowercase.
+    question = models.TextField(db_column='Qustion')  # Field name made lowercase.
+    answer = models.TextField(db_column='Answer')  # Field name made lowercase.
+
+    class Meta:
+        managed = False 
+        db_table = 'Question'
+
+class News(models.Model):
+    news_id = models.AutoField(db_column='NEWS_ID', primary_key=True)  # Field name made lowercase.
+    content = models.TextField(db_column='Content')  # Field name made lowercase.
+    upload_time = models.CharField(db_column='UploadTime', max_length=20)  # Field name made lowercase.
+    update_time = models.CharField(db_column='UpdateTime', max_length=20, blank=True, null=True)  # Field name made lowercase.
+    user = models.ForeignKey('account.User', models.CASCADE, db_column='User_ID')  # Field name made lowercase.
+    title =  models.CharField(db_column='title', max_length=100)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'News'
 
 
+class Newsimage(models.Model):
+    newsimage_id = models.AutoField(db_column='NEWSIMAGE_ID', primary_key=True)  # Field name made lowercase.
+    news = models.ForeignKey('News', models.CASCADE, db_column='NEWS_ID')  # Field name made lowercase.
+    image = models.ForeignKey('administrator.Image', models.CASCADE, db_column='IMAGE_ID')  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'NewsImage'

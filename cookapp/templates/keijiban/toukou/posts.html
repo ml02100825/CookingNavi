@@ -14,7 +14,7 @@
 <script src="{% static 'js/delete_material_posts.js' %}"></script>
 
 <!-- 投稿画面 -->
-<div class="form-container">
+<div class="form-container" style="overflow-y: auto; max-height: 80vh;">
     <h2>投稿画面</h2>
     <form id="recipe-form" method="post" enctype="multipart/form-data">
         {% csrf_token %}
@@ -39,7 +39,7 @@
 </div>
 
 <!-- 投稿一覧 -->
-<div class="posts-container" id="posts-container">
+<div class="posts-container" id="posts-container" style="overflow-y: auto; max-height: 80vh;">
     <!-- 投稿内容がここに表示されます -->
 </div>
 {% endblock %}
