@@ -322,19 +322,18 @@ class KazokuaddView(LoginRequiredMixin, TemplateView):
         if form.is_valid():
             # フォームデータを取得
             family_name = form.cleaned_data['family_name']
-            birth_date = form.cleaned_data['birth_date']
+            family_age = form.cleaned_data['birth_date']
+            formatted_age = family_age.strftime("%Y/%m/%d")
             family_gender = form.cleaned_data['family_gender']
             family_height = form.cleaned_data['family_height']
             family_weight = form.cleaned_data['family_weight']
             allergy_ids = form.cleaned_data.get('allergy_id')
 
-            # 生年月日から年齢を計算
-            family_age = form.calculate_age()
 
             # 家族情報を登録
             family_member = Familymember.objects.create(
                 family_name=family_name,
-                family_age=family_age,
+                family_age=formatted_age,
                 family_gender=family_gender,
                 family_height=family_height,
                 family_weight=family_weight,
@@ -452,9 +451,12 @@ class DietaryHistoryView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
-        # すべてのメニューを取得（昇順に並べ替え）
-        menus = Menu.objects.all().order_by('meal_day')
+
+        # 今日の日付を取得
+        today = datetime.today().date()
+
+        # すべてのメニューを取得（降順に並べ替え）、今日以降の日付を除外
+        menus = Menu.objects.filter(meal_day__lt=today).order_by('-meal_day')
         
         # メニューに関連する料理を取得
         menu_cooks = Menucook.objects.filter(menu__in=menus)
@@ -477,8 +479,9 @@ class DietaryHistoryView(TemplateView):
             else:
                 cook_names[meal_day][meal_time].append(None)
 
-        # 日付順に並べ替え
-        sorted_cook_names = dict(sorted(cook_names.items()))
+
+        # 逆順で並べて、最初に昨日を表示する
+        sorted_cook_names = dict(sorted(cook_names.items(), reverse=True))
 
         # コンテキストにデータを追加
         context['cook_names'] = sorted_cook_names

@@ -8,8 +8,8 @@ class User(AbstractBaseUser):
     email = models.EmailField(verbose_name="メールアドレス", db_column='email', unique=True, max_length=128)  # Field name made lowercase.
     gender = models.CharField(verbose_name="性別", db_column='Gender', max_length=1)  # Field name made lowercase.
     age = models.CharField(verbose_name="生年月日", db_column='Age', max_length=10)  # Field name made lowercase.
-    height = models.FloatField(verbose_name="身長", db_column='Height')  # Field name made lowercase.
-    weight = models.FloatField(verbose_name="体重", db_column='Weight')  # Field name made lowercase.
+    height = models.DecimalField(verbose_name="身長",max_digits=5,decimal_places=2, db_column='Height')  # Field name made lowercase.
+    weight = models.DecimalField(verbose_name="体重",max_digits=5,decimal_places=2, db_column='Weight')  # Field name made lowercase.
     is_superuser = models.BooleanField(verbose_name="管理者フラグ", db_column='is_superuser',default = False)  # Field name made lowercase.
     is_staff = models.BooleanField(verbose_name="管理者フラグ", db_column='is_staff',default = False)  # Field name made lowercase.
     family = models.BooleanField(verbose_name="家族フラグ", db_column='Family',default = False)  # Field name made lowercase.
