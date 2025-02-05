@@ -1,5 +1,9 @@
-<!DOCTYPE html>
-<html lang="ja">
+{% extends 'baseuser.html' %}
+{% load static %}
+
+{% block title %}料理情報{% endblock %}
+
+{% block content %}
 <head>
     <meta charset="UTF-8">
     <title>メニュー・栄養素閲覧</title>
@@ -30,6 +34,8 @@
         ここに内容が表示されます。
     </div>
 {% endfor %}
+
+{% endblock %}
     <script>
         function showContent(type, text,count) {
             contentid = 'content-box' + count;
