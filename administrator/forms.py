@@ -1,10 +1,4 @@
-# UserCreationFormクラスをインポート
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
-
-# models.pyで定義したUserをインポート
-from .models import Material,Cook,Recipe,Cookimage,Image
-
 
 class RecipeAddForm(forms.Form):
     name = forms.CharField(label="料理名",max_length=50)

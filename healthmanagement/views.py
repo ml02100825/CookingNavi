@@ -2,15 +2,11 @@ import random
 from django.http import HttpResponseBadRequest
 from django.shortcuts import redirect, render
 from django.views.generic.base import TemplateView
-import urllib
-from account.models import Userallergy
 from administrator.models import Cook, Cookimage, Image, Material, Recipe
 from datetime import datetime, date, timedelta
-from cookapp.models import Familymember, Familyallergy,Allergy
+from cookapp.models import Familymember
 from .forms import CookSelectForm
 from .models import Menu, Menucook
-from django.utils import timezone
-from django.urls import reverse
 import json
 from django.db.models import Max
 import logging

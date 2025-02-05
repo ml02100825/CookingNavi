@@ -1,7 +1,7 @@
 import json
 from django.shortcuts import get_object_or_404, render, redirect
 
-from administrator.models import Cook, Cookimage, Recipe
+from administrator.models import Cookimage, Recipe
 from healthmanagement.models import Menu, Menucook
 from .forms import EmailForm, UsernameForm, PasswordForm, BodyInfoUpdateForm, FamilyForm
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -15,15 +15,12 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, get_user_model, authenticate, login
 from django.urls import reverse
-from datetime import datetime
 import calendar
 import json
 from django.shortcuts import render
 from django.views import View
 from django.contrib.auth.views import PasswordResetDoneView
-from datetime import datetime, timedelta
-from .forms import DateRangeForm
-from django.db import connection
+from datetime import datetime
 from urllib.parse import unquote
 
  
@@ -313,8 +310,6 @@ class FamilyInfoView(LoginRequiredMixin, TemplateView):
         return render(request, self.template_name, context)
  
    
-from datetime import datetime
-
 class KazokuaddView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/add/kazoku_add.html'
 
@@ -331,7 +326,7 @@ class KazokuaddView(LoginRequiredMixin, TemplateView):
             family_gender = form.cleaned_data['family_gender']
             family_height = form.cleaned_data['family_height']
             family_weight = form.cleaned_data['family_weight']
-            allergy_id = form.cleaned_data.get('allergy_id')
+            allergy_ids = form.cleaned_data.get('allergy_id')
 
             # 生年月日から年齢を計算
             family_age = form.calculate_age()
@@ -355,12 +350,13 @@ class KazokuaddView(LoginRequiredMixin, TemplateView):
             )
 
             # 家族アレルギー情報を登録
-            if allergy_id:
+            for allergy_id in allergy_ids:
                 Familyallergy.objects.create(
                     family_member=family_member,
                     allergy_id=allergy_id
                 )
-            if family_member and request.user.family == False :
+
+            if family_member and request.user.family == False:
                 user = request.user
                 user.family = True
                 user.save()
