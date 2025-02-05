@@ -1,11 +1,15 @@
-{% extends '../baseuser.html' %}
+{% extends 'baseuser.html' %}
 
 {% load static %}
 
 {% block title %}健康グラフ{% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/kenkougurahu/healthgraph.css' %}">
+<head>
+    <title>健康グラフ</title>
+    <link rel="stylesheet" href="{% static 'css/kenkougurahu/healthgraph.css' %}">
+</head>
+
 <h2 style="text-align: center;">健康グラフ</h2>
 
 <div class="selection" style="text-align: center;">
