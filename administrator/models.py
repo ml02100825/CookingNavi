@@ -15,7 +15,7 @@ class Material(models.Model):
         return self.name  # nameだけを表示
     
     class Meta:
-        managed = False
+        
         db_table = 'material'
         
 class Cook(models.Model):
@@ -31,7 +31,7 @@ class Cook(models.Model):
     saltcontent = models.FloatField(db_column='SaltContent')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'cook'
     def __str__(self):
         return f"{self.cookname}"
@@ -41,7 +41,7 @@ class Recipe(models.Model):
     material = models.ForeignKey('Material', models.PROTECT, db_column='MATERIAL_ID')  # Field name made lowercase.
     quantity = models.IntegerField(db_column='material_quantity')
     class Meta:
-        managed = False
+        
         db_table = 'recipe'
         
 class Image(models.Model):
@@ -49,22 +49,26 @@ class Image(models.Model):
     image = models.CharField(db_column='Image', max_length=256)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'image'
         
         
 class Cookimage(models.Model):
     cookimage_id = models.AutoField(db_column='COOKIMAGE_ID', primary_key=True)  # Field name made lowercase.
     cook = models.ForeignKey('Cook', models.CASCADE, db_column='COOK_ID')  # Field name made lowercase.
-    image = models.ForeignKey('Image', models.SET_NULL, db_column='IMAGE_ID', null=True)  # Field name made lowercase.
+    image = models.ForeignKey('Image', models.CASCADE, db_column='IMAGE_ID', null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'cookimage'
 
 
 
-class CookImagesave(models.Model):
-    
-    image = models.ImageField(upload_to='cook/')  # 画像の保存先フォルダ
+class Cookimagesave(models.Model):
+    id = models.AutoField(primary_key=True)
+    image = models.ImageField(upload_to='cook/')
+
+    class Meta:
+        
+        db_table = 'cookimagesave'
     

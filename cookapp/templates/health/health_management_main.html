@@ -1,10 +1,9 @@
 {% extends 'baseuser.html' %}
 {% load static %}
-{% block title %}編集完了{% endblock %}
+
+{% block title %}健康管理{% endblock %}
 
 {% block content %}
-<!DOCTYPE html>
-<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,134 +11,32 @@
     <link rel="stylesheet" href="{% static 'css/health/health_management_main.css' %}">
 </head>
 <body>
-    <!-- Header -->
     <h1>健康管理</h1>
     
     <!-- Schedule Table -->
-    <table class="schedule-table">
-        {% if exist_list.0 == "T" %}
-
-        {% else %}
-        <td>
-            <h2>未定</h2>
-        </td>
-        {% endif %}
+    <table class="schedule-table">  
+  
         <tr>
-            {% if exist_list.0 == "F" %}
-            <th><a href="{% url 'health:health_selection' 0 0 %}"><button class="day-button">月</button></a></th>
-            {% else %}
-            <th>月</th>
-            {% endif %}
-            {% if exist_list.1 == "F" %}    
-            <th><a href="{% url 'health:health_selection' 1 0 %}"><button class="day-button">火</button></a></th>
-            {% else %}
-            <th>火</th>
-            {% endif %}
-            {% if exist_list.2 == "F" %}
-            <th><a href="{% url 'health:health_selection' 2 0 %}"><button class="day-button">水</button></a></th>
-            {% else %}
-            <th>水</th>  
-            {% endif %}
-            {% if exist_list.3 == "F" %}
-            <th><a href="{% url 'health:health_selection' 3 0 %}"><button class="day-button">木</button></a></th>
-            {% else %}
-            <th>木</th>
-            {% endif %}
-            {% if exist_list.4 == "F" %}
-            <th><a href="{% url 'health:health_selection' 4 0 %}"><button class="day-button">金</button></a></th>
-            {% else %}
-            <th>金</th>
-            {% endif %}
-            {% if exist_list.5 == "F" %}
-            <th><a href="{% url 'health:health_selection' 5 0 %}"><button class="day-button">土</button></a></th>
-            {% else %}
-            <th>土</th>
-            {% endif %}
-            {% if exist_list.6 == "F" %}
-            <th><a href="{% url 'health:health_selection' 6 0 %}"><button class="day-button">日</button></a></th>
-            {% else %} 
-            <th>日</th>
-            {% endif %}
-
+            {% for item in menu_status %}
+                <th><a href="{% url 'health:health_selection' day=item.date %}">
+                    <button class="day-button">{{ item.date }}</button>
+                </a></th>
+            {% endfor %}
         </tr>
         <tr>
-            {% if exist_list.0 == "T" %}
-            <td>
-                <a href="{% url 'health:health_menu' 0 0 %}"><button class="time-slot-button">朝</button></a>
-                <a href="{% url 'health:health_menu' 1 0 %}"><button class="time-slot-button">昼</button></a>
-                <a href="{% url 'health:health_menu' 2 0 %}"><button class="time-slot-button">晩</button></a>
-            </td>
-            {% else %}
-            <td>
-                <h2>未定</h2>
-            </td>
-            {% endif %}
-            {% if exist_list.1 == "T" %}
-            <td>
-                <a href="{% url 'health:health_menu' 0 1 %}"><button class="time-slot-button">朝</button></a>
-                <a href="{% url 'health:health_menu' 1 1 %}"><button class="time-slot-button">昼</button></a>
-                <a href="{% url 'health:health_menu' 2 1 %}"><button class="time-slot-button">晩</button></a>
-            </td>
-            {% else %}
-            <td>
-                <h2>未定</h2>
-            </td>
-            {% endif %}
-            {% if exist_list.2 == "T" %}
-            <td>
-                <a href="{% url 'health:health_menu' 0 2 %}"><button class="time-slot-button">朝</button></a>
-                <a href="{% url 'health:health_menu' 1 2 %}"><button class="time-slot-button">昼</button></a>
-                <a href="{% url 'health:health_menu' 2 2 %}"><button class="time-slot-button">晩</button></a>
-            </td>
-            {% else %}
-            <td>
-                <h2>未定</h2>
-            </td>
-            {% endif %}
-            {% if exist_list.3 == "T" %}
-            <td>
-                <a href="{% url 'health:health_menu' 0 3 %}"><button class="time-slot-button">朝</button></a>
-                <a href="{% url 'health:health_menu' 1 3 %}"><button class="time-slot-button">昼</button></a>
-                <a href="{% url 'health:health_menu' 2 3 %}"><button class="time-slot-button">晩</button></a>
-            </td>
-            {% else %}
-            <td>
-                <h2>未定</h2>
-            </td>
-            {% endif %}
-            {% if exist_list.4 == "T" %}
-            <td>
-                <a href="{% url 'health:health_menu' 0 4 %}"><button class="time-slot-button">朝</button></a>
-                <a href="{% url 'health:health_menu' 1 4 %}"><button class="time-slot-button">昼</button></a>
-                <a href="{% url 'health:health_menu' 2 4 %}"><button class="time-slot-button">晩</button></a>
-            </td>
-            {% else %}
-            <td>
-                <h2>未定</h2>
-            </td>
-            {% endif %}
-            {% if exist_list.5 == "T" %}
-            <td>
-                <a href="{% url 'health:health_menu' 0 5 %}"><button class="time-slot-button">朝</button></a>
-                <a href="{% url 'health:health_menu' 1 5 %}"><button class="time-slot-button">昼</button></a>
-                <a href="{% url 'health:health_menu' 2 5 %}"><button class="time-slot-button">晩</button></a>
-            </td>
-            {% else %}
-            <td>
-                <h2>未定</h2>
-            </td>
-            {% endif %}
-            {% if exist_list.6 == "T" %}
-            <td>
-                <a href="{% url 'health:health_menu' 0 6 %}"><button class="time-slot-button">朝</button></a>
-                <a href="{% url 'health:health_menu' 1 6 %}"><button class="time-slot-button">昼</button></a>
-                <a href="{% url 'health:health_menu' 2 6 %}"><button class="time-slot-button">晩</button></a>
-            </td>
-            {% else %}
-            <td>
-                <h2>未定</h2>
-            </td>
-            {% endif %}
+            {% for item in menu_status %}
+                <td>
+                    {% if item.status.0 == "T" and item.status.1 == "T" and item.status.2 == "T" %}
+                        <!-- 朝・昼・晩すべて設定されている場合、ボタンを表示 -->
+                        <a href="{% url 'health:health_menu' time=0 day=item.date %}"><button class="time-slot-button">朝</button></a>
+                        <a href="{% url 'health:health_menu' time=1 day=item.date %}"><button class="time-slot-button">昼</button></a>
+                        <a href="{% url 'health:health_menu' time=2 day=item.date %}"><button class="time-slot-button">晩</button></a>
+                    {% else %}
+                        <!-- 1つでも未定があれば未定表示 -->
+                        <h2>未定</h2>
+                    {% endif %}
+                </td>
+            {% endfor %}
         </tr>
     </table>
 </body>

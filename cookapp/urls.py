@@ -1,9 +1,7 @@
-from django.urls import path, include
+from django.urls import path
 from . import views
 from .views import  KazokuHenkoView
-from .views import KiyakuView
 from django.contrib.auth import views as auth_views
-from .views import password_reset_done_view
 from .views import DietaryHistoryDetailView
 
 

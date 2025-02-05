@@ -1,13 +1,13 @@
 import json
 from django.shortcuts import get_object_or_404, render, redirect
 
-from administrator.models import Cook, Cookimage, Recipe
+from administrator.models import Cookimage, Recipe
 from healthmanagement.models import Menu, Menucook
 from .forms import EmailForm, UsernameForm, PasswordForm, BodyInfoUpdateForm, FamilyForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 from django.contrib import messages
-from .models import Familymember, Familyallergy, Weight
+from .models import Familymember, Familyallergy, News, Question, Weight
 from account.models import  Userallergy 
 from django.http import JsonResponse
 import logging
@@ -15,15 +15,12 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, get_user_model, authenticate, login
 from django.urls import reverse
-from datetime import datetime
 import calendar
 import json
 from django.shortcuts import render
 from django.views import View
 from django.contrib.auth.views import PasswordResetDoneView
-from datetime import datetime, timedelta
-from .forms import DateRangeForm
-from django.db import connection
+from datetime import datetime
 from urllib.parse import unquote
 
  
@@ -137,9 +134,27 @@ class SubscriptionKaiyakuOkView(LoginRequiredMixin, TemplateView):
  
 class OsiraseView(TemplateView):
     template_name='osirase/osirase.html'
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        news = News.objects.all().values('news_id','title','update_time', 'content').order_by('update_time')
+        newslist = list(news)
+        logging.debug(newslist)
+        context = {
+            'news': news,
+        }
+        return render(request, self.template_name, context)
+        
  
 class QuestionsView(TemplateView):
     template_name='questions/questions.html'
+    def get(self, request, *args, **kwargs):
+        question = Question.objects.all().values('question_id','question','answer').order_by('question_id')
+        questionlist = list(question)
+        logging.debug(questionlist)
+        context = {
+            'question': questionlist,
+        }
+        return render(request, self.template_name, context)
  
  
 class UsernameView(LoginRequiredMixin, TemplateView):
@@ -295,8 +310,6 @@ class FamilyInfoView(LoginRequiredMixin, TemplateView):
         return render(request, self.template_name, context)
  
    
-from datetime import datetime
-
 class KazokuaddView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/add/kazoku_add.html'
 
@@ -309,19 +322,18 @@ class KazokuaddView(LoginRequiredMixin, TemplateView):
         if form.is_valid():
             # フォームデータを取得
             family_name = form.cleaned_data['family_name']
-            birth_date = form.cleaned_data['birth_date']
+            family_age = form.cleaned_data['birth_date']
+            formatted_age = family_age.strftime("%Y/%m/%d")
             family_gender = form.cleaned_data['family_gender']
             family_height = form.cleaned_data['family_height']
             family_weight = form.cleaned_data['family_weight']
-            allergy_id = form.cleaned_data.get('allergy_id')
+            allergy_ids = form.cleaned_data.get('allergy_id')
 
-            # 生年月日から年齢を計算
-            family_age = form.calculate_age()
 
             # 家族情報を登録
             family_member = Familymember.objects.create(
                 family_name=family_name,
-                family_age=family_age,
+                family_age=formatted_age,
                 family_gender=family_gender,
                 family_height=family_height,
                 family_weight=family_weight,
@@ -337,12 +349,13 @@ class KazokuaddView(LoginRequiredMixin, TemplateView):
             )
 
             # 家族アレルギー情報を登録
-            if allergy_id:
+            for allergy_id in allergy_ids:
                 Familyallergy.objects.create(
                     family_member=family_member,
                     allergy_id=allergy_id
                 )
-            if family_member and request.user.family == False :
+
+            if family_member and request.user.family == False:
                 user = request.user
                 user.family = True
                 user.save()
@@ -438,27 +451,41 @@ class DietaryHistoryView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
-        # すべてのメニューを取得
-        menus = Menu.objects.all().order_by('meal_day')
+
+        # 今日の日付を取得
+        today = datetime.today().date()
+
+        # すべてのメニューを取得（降順に並べ替え）、今日以降の日付を除外
+        menus = Menu.objects.filter(meal_day__lt=today).order_by('-meal_day')
         
         # メニューに関連する料理を取得
         menu_cooks = Menucook.objects.filter(menu__in=menus)
         
         # 料理名を日付ごとに整理
         cook_names = {}
-        for menu_cook in menu_cooks:
-            cook_name = menu_cook.cook.cookname
-            meal_day = str(menu_cook.menu.meal_day)
-            meal_time = '朝' if menu_cook.menu.mealtime == '0' else '昼' if menu_cook.menu.mealtime == '1' else '晩'
+        missing_menus = set(menus.values_list('menu_id', 'meal_day', 'mealtime')) - set(menu_cooks.values_list('menu_id', 'menu__meal_day', 'menu__mealtime'))
+        
+        for menu in menus:
+            meal_day = str(menu.meal_day)
+            meal_time = '朝' if menu.mealtime == '0' else '昼' if menu.mealtime == '1' else '晩'
             
             if meal_day not in cook_names:
                 cook_names[meal_day] = {'朝': [], '昼': [], '晩': []}
             
-            cook_names[meal_day][meal_time].append(cook_name)
+            related_cooks = menu_cooks.filter(menu=menu)
+            if related_cooks.exists():
+                for menu_cook in related_cooks:
+                    cook_names[meal_day][meal_time].append(menu_cook.cook.cookname)
+            else:
+                cook_names[meal_day][meal_time].append(None)
+
+
+        # 逆順で並べて、最初に昨日を表示する
+        sorted_cook_names = dict(sorted(cook_names.items(), reverse=True))
 
         # コンテキストにデータを追加
-        context['cook_names'] = cook_names
+        context['cook_names'] = sorted_cook_names
+        context['missing_menus'] = missing_menus
         return context
 
 class DietaryHistoryDetailView(TemplateView):

@@ -1,7 +1,7 @@
 /* 全体のスタイル設定 */
 body {
     font-family: Arial, sans-serif; /* フォントをArial、次にsans-serifに設定 */
-    background-color: #f4f4f4; /* 背景色を薄いグレーに設定 */
+    background-color: #ffebcd; 
     margin: 0; /* ページの余白をゼロに設定 */
     padding: 0; /* ページ内のパディングをゼロに設定 */
     display: flex; /* フレックスボックスレイアウトを使用 */
@@ -10,14 +10,6 @@ body {
     justify-content: flex-start; /* コンテンツを縦方向に上寄せ */
     height: 100vh; /* ビューポートの高さに合わせて全体を表示 */
     box-sizing: border-box; /* パディングやボーダーが要素のサイズに含まれるように設定 */
-}
-
-/* ヘッダーのスタイル */
-h2 {
-    font-size: 28px; /* フォントサイズを28pxに設定 */
-    color: #333; /* 色を濃いグレーに設定 */
-    margin-top: 20px; /* 上に20pxのマージンを追加 */
-    margin-bottom: 10px; /* 下に10pxのマージンを追加 */
 }
 
 /* メニュー入力のラベルと入力フィールド */

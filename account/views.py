@@ -3,16 +3,11 @@ from django.shortcuts import render, redirect
 from django.views.generic.base import TemplateView
 from django.contrib.auth import login,authenticate
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView
 from .forms import CustomUserCreation1Form, CustomUserCreation2Form, LoginForm
 from .models import User, Userallergy 
 from cookapp.models import Familymember, Weight
-from django.urls import reverse_lazy
 import logging
-from datetime import datetime
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.csrf import csrf_protect
 from datetime import datetime
 from django.views import View
 from django.contrib.auth import logout

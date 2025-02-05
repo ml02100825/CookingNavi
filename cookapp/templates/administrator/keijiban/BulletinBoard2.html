@@ -1,40 +1,53 @@
-{% extends "administrator/base.html" %}
-
+{% extends 'baseuser.html' %}
 {% load static %}
 
-{% block title %}掲示板{% endblock %}
+{% block title %}掲示板管理画面{% endblock %}
 
 {% block content %}
+
 <head>
     <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'css/keijiban/bulletinboard.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+
 <div class="search-bar-container">
-    <input type="text" placeholder="料理を検索する..." class="search-bar">
-    <button class="search-btn">検索</button>
-    <a href="{% url 'bbs:Posts' %}">
-        <button class="post-btn">レシピを投稿する</button>
-    </a>
+    <form action="{% url 'administrator:BulletinBoard2' %}" method="get">
+        <input type="text" name="search_query" placeholder="投稿を検索する..." class="search-bar" value="{{ search_query }}">
+        <button type="submit" class="search-btn">検索</button>
+    </form>
 </div>
+
 
 <div class="content-container">
-    <aside class="sidebar">
-        <button>自分が投稿したもの</button>
-        <button>お気に入り</button>
-        <button>いいね数順</button>
-    </aside>
-
     <main class="main-content">
-        {% for post in bbs %}
-        <div class="post-card">
-            <img src="{{ postimage.image.url }}" alt="{{ post.name }}">
-            <div class="post-details">
-                <h3>{{ post.name }}</h3>
-                <p>{{ post.user.username }}</p>
-                <button class="like-btn" onclick="toggleLike(this)">❤</button>
-            </div>
-        </div>
-        {% endfor %}
+        {% if bbs_with_images %}
+            {% for bbs_entry in bbs_with_images %}
+                <div class="post-card">
+                    <div class="post-details">
+                        <h3>{{ bbs_entry.post.name }}</h3>
+                        <a href="{% url 'bbs:shousai' bbs_entry.post.post_id %}">
+                            <img src="{{ bbs_entry.images }}" alt="Post image" class="img-fluid mb-3">
+                        </a>
+                        <div class="button-container">
+                            <!-- 削除ボタン -->
+                            <button class="delete-btn" onclick="confirmDelete('{{ bbs_entry.post.post_id }}')">削除</button>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>検索結果が見つかりませんでした。</p>
+        {% endif %}
     </main>
 </div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function confirmDelete(postId) {
+        window.location.href = `{% url 'administrator:deleteconfirm2' post_id=0 %}`.replace('0', postId);
+    }
+</script>
 {% endblock %}
