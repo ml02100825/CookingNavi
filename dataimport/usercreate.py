@@ -34,6 +34,7 @@ for i in range(100):
     name = fake.name()
     gender = random.choice(genders)
     age = fake.date_of_birth(minimum_age=18, maximum_age=75)
+    formatted_age = age.strftime("%Y/%m/%d")
     height = random.uniform(150, 190)
     weight = random.uniform(50, 100)
     password = fake.password(length=10, special_chars=True, digits=True, upper_case=True, lower_case=True)
@@ -45,7 +46,7 @@ for i in range(100):
             password=password,
             email =email,
             gender=gender,
-            age=age,
+            age=formatted_age,
             height=height,
             weight=weight,
             is_superuser=is_superuser,
@@ -62,7 +63,7 @@ for i in range(100):
     Familymember.objects.create(
         family_name = name,
         family_gender = gender,
-        family_age = age,
+        family_age = formatted_age,
         family_height = height,
         family_weight = weight,
         user = User.objects.get(email=email)
