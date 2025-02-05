@@ -327,19 +327,18 @@ class KazokuaddView(LoginRequiredMixin, TemplateView):
         if form.is_valid():
             # フォームデータを取得
             family_name = form.cleaned_data['family_name']
-            birth_date = form.cleaned_data['birth_date']
+            family_age = form.cleaned_data['birth_date']
+            formatted_age = family_age.strftime("%Y/%m/%d")
             family_gender = form.cleaned_data['family_gender']
             family_height = form.cleaned_data['family_height']
             family_weight = form.cleaned_data['family_weight']
             allergy_id = form.cleaned_data.get('allergy_id')
 
-            # 生年月日から年齢を計算
-            family_age = form.calculate_age()
 
             # 家族情報を登録
             family_member = Familymember.objects.create(
                 family_name=family_name,
-                family_age=family_age,
+                family_age=formatted_age,
                 family_gender=family_gender,
                 family_height=family_height,
                 family_weight=family_weight,

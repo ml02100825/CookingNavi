@@ -453,7 +453,9 @@ class HealthSelectionView(TemplateView):
                     continue
 
                 # 家族の年齢を取得
-                family_age = int(i['family_age'])  # 年齢の取得
+                family_age = datetime.strptime(i['family_age'], "%Y/%m/%d")
+                today = datetime.today()
+                family_age = today.year - family_age.year
 
                 # 年齢をもとに必要栄養情報を取得
                 for (start, end), handler in handlers:
