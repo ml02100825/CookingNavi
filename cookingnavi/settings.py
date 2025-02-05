@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "bbs.apps.BbsConfig",
     "healthmanagement.apps.HealthmanagementConfig",
     "kaimonorisuto.apps.KaimonorisutoConfig",
+    "dataimport.apps.DataimportConfig",
 ]
 
 MIDDLEWARE = [

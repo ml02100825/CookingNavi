@@ -1,4 +1,5 @@
 import random
+from django.http import HttpResponseBadRequest
 from django.shortcuts import redirect, render
 from django.views.generic.base import TemplateView
 import urllib
@@ -11,7 +12,7 @@ from .models import Menu, Menucook
 from django.utils import timezone
 from django.urls import reverse
 import json
-
+from django.db.models import Max
 import logging
     
 def image_get(menu):
@@ -261,14 +262,13 @@ class HealthMainView(TemplateView):
         return render(request, self.template_name, {'menu_status': menu_status})
 
 class HealthMenuView(TemplateView):
-    template_name='health/health_menuconfirmation.html'
+    template_name = 'health/health_menuconfirmation.html'
 
     def get(self, request, *args, **kwargs):
         # 料理リスト
         cooklist = []
         # 材料リスト
         materiallist = []
-        materialdetaillist = []
 
         # 引数から取得された値を使用
         time = self.kwargs.get('time')  # 1: 朝, 2: 昼, 3: 晩
@@ -281,7 +281,7 @@ class HealthMenuView(TemplateView):
 
         # メニュー情報を取得
         Cooks = Menu.objects.filter(user=request.user, meal_day=currentday, mealtime=time).values('menu_id')
-        
+
         # メニューが存在する場合にそのメニューIDを取得
         if Cooks.exists():
             Cookid = Menucook.objects.filter(menu=Cooks[0]['menu_id']).values('cook')
@@ -296,30 +296,68 @@ class HealthMenuView(TemplateView):
 
                 # 材料情報を取得
                 materials = Recipe.objects.filter(cook=Cookid[i]['cook']).values('material', 'quantity')
-                for j in range(len(materials)):
-                    choice_list = list(materials.values())
+                materialdetaillist = []
+                for material in materials:
                     materialdetail = {}
-                    material = Material.objects.filter(material_id=materials[j]['material']).values('name')
-                    materialdetail['materialname'] = material[0]['name']
-                    materialdetail['quantity'] = materials[j]['quantity']
+                    material_info = Material.objects.filter(material_id=material['material']).values('name')
+                    materialdetail['materialname'] = material_info[0]['name']
+                    materialdetail['quantity'] = material['quantity']
                     materialdetaillist.append(materialdetail)
 
                 materiallist.append(materialdetaillist)
-                materialdetaillist = []
+
+                # 画像情報を取得
+                cookimage = Cookimage.objects.filter(cook_id=Cookid[i]['cook']).values('image_id')
+                if cookimage.exists():
+                    image_id = cookimage[0]['image_id']
+                    image_path = Image.objects.filter(image_id=image_id).values('image')[0]['image']
+                    cooklist[-1]['image_path'] = image_path
+                else:
+                    cooklist[-1]['image_path'] = None
         else:
             # メニューがない場合はエラーハンドリングや適切な処理を追加することも検討
             logging.debug(f"No menu found for {currentday} and time {time}")
 
-        return render(request, self.template_name, {'day': day, 'time': time, 'cook_list': cooklist, 'material_list': materiallist})
+        return render(request, self.template_name, {
+            'day': day,
+            'time': time,
+            'cook_list': cooklist,
+            'material_list': json.dumps(materiallist)  # JSON形式で渡す
+        })
 
 class HealthSelectionView(TemplateView):
     template_name = 'health/health_selection.html'
 
     def get(self, request, *args, **kwargs):
-        day = kwargs.get('day')  # URLからdayを取得
+        day_str = kwargs.get('day')  # URLからdayを取得
+        year = datetime.now().year  # 現在の年を使う
+        formatted_day_str = f"{year}-{day_str}"  # '2025-01-31' の形式に変換
+
+        try:
+            day = datetime.strptime(formatted_day_str, "%Y-%m-%d").date()
+        except ValueError:
+            return HttpResponseBadRequest("無効な日付形式です。YYYY-MM-DD 形式にしてください。")
 
         # GETリクエストで選ばれた食事時間（デフォルトで朝にする）
         mealtime = request.session.get('mealtime', 0)
+
+        # 指定された日付のmeal_dayの最大数を取得
+        user = request.user
+        existing_menus = Menu.objects.filter(user=user, meal_day=day)
+        max_mealtime = existing_menus.aggregate(Max('mealtime'))['mealtime__max']
+
+        # meal_dayが存在しない場合は朝から入力させる
+        if max_mealtime is None:
+            mealtime = 0
+        # meal_dayの最大数が0の場合は昼から入力させる
+        elif max_mealtime == 0:
+            mealtime = 1
+        # meal_dayの最大数が1の場合は晩から入力させる
+        elif max_mealtime == 1:
+            mealtime = 2
+        # meal_dayの最大数が2の場合は朝から入力させる
+        elif max_mealtime == 2:
+            mealtime = 0
 
         # 食事時間に対応するメニューをフィルタリング
         form = CookSelectForm()
@@ -332,7 +370,7 @@ class HealthSelectionView(TemplateView):
         }
 
         return render(request, self.template_name, context)
-    
+
     def post(self, request, *args, **kwargs):
         # セッションからmealtimeを取得
         mealtime = request.session.get('mealtime', 0)

@@ -17,7 +17,7 @@ class Familymember(models.Model):
 
     class Meta:
         db_table = 'familymember'
-        managed = False
+        
 
 
 class Familyallergy(models.Model):
@@ -26,7 +26,7 @@ class Familyallergy(models.Model):
     family_member = models.ForeignKey('Familymember', verbose_name='家族', db_column='Family_ID', on_delete=models.CASCADE)
     
     class Meta:
-        managed = False  # DB管理外
+          # DB管理外
         db_table = 'familyallergy'
 
     def __str__(self):
@@ -39,7 +39,7 @@ class Allergy(models.Model):
     allergy_name = models.CharField(verbose_name='アレルギー名', db_column='ALLERGY_NAME', max_length=30)
 
     class Meta:
-        managed = False
+        
         db_table = 'allergy'
 
 
@@ -51,7 +51,7 @@ class Weight(models.Model):
     family = models.ForeignKey('Familymember', models.CASCADE, db_column='Family_ID')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'weight'
 
 class Question(models.Model):
@@ -60,19 +60,20 @@ class Question(models.Model):
     answer = models.TextField(db_column='Answer')  # Field name made lowercase.
 
     class Meta:
-        managed = False 
+         
         db_table = 'Question'
 
 class News(models.Model):
     news_id = models.AutoField(db_column='NEWS_ID', primary_key=True)  # Field name made lowercase.
+    title =  models.CharField(db_column='title', max_length=100)  # Field name made lowercase.
     content = models.TextField(db_column='Content')  # Field name made lowercase.
     upload_time = models.CharField(db_column='UploadTime', max_length=20)  # Field name made lowercase.
     update_time = models.CharField(db_column='UpdateTime', max_length=20, blank=True, null=True)  # Field name made lowercase.
-    user = models.ForeignKey('account.User', models.CASCADE, db_column='User_ID')  # Field name made lowercase.
-    title =  models.CharField(db_column='title', max_length=100)  # Field name made lowercase.
+    subscribe = models.CharField( db_column='Subscribe', max_length=1)  # Field name made lowercase.
+    
 
     class Meta:
-        managed = False
+        
         db_table = 'News'
 
 
@@ -82,5 +83,5 @@ class Newsimage(models.Model):
     image = models.ForeignKey('administrator.Image', models.CASCADE, db_column='IMAGE_ID')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'NewsImage'
