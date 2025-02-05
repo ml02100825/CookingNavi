@@ -329,6 +329,28 @@ class HealthSelectionView(TemplateView):
     template_name = 'health/health_selection.html'
 
     def get(self, request, *args, **kwargs):
+        # アレルギー情報取得
+        allergylist = []
+        
+        user_family_id = Familymember.objects.filter(user = request.user).values('family_id')
+        logging.debug(user_family_id)
+        if len(user_family_id) != 1:
+            logging.debug(user_family_id)
+            for i in range(len(user_family_id)):
+                if i != 0:
+                    user_family_allergy = Familyallergy.objects.filter(family_member_id = user_family_id[i]['family_id']).values('allergy')
+                    familyallergy_list = list(user_family_allergy)
+        userallergy = Userallergy.objects.filter(user = request.user).values('allergy')
+        userallergy_list = list(userallergy)
+        if len(user_family_id) != 1:
+            for i in familyallergy_list:
+                userallergy_list.append(i)
+        logging.debug(userallergy_list)
+        for i in userallergy_list:
+            allergy = i['allergy']
+            allergylist.append(allergy)
+            
+            
         day_str = kwargs.get('day')  # URLからdayを取得
         year = datetime.now().year  # 現在の年を使う
         formatted_day_str = f"{year}-{day_str}"  # '2025-01-31' の形式に変換
@@ -361,13 +383,35 @@ class HealthSelectionView(TemplateView):
 
         # 食事時間に対応するメニューをフィルタリング
         form = CookSelectForm()
-        form.fields['CookSelect'].queryset = Cook.objects.filter(type="1")
+        cook_list = []
+        cooks = Cook.objects.filter(type="1")
+        cook_dict =  list(cooks.values('cook_id'))
+        for i in cook_dict:
+            cook_list.append(i['cook_id'])
+        logging.debug(cook_list)
+        allergycooklist = []
+        for i in cook_list:
+
+            material = Recipe.objects.filter(cook = i).values('material')
+            logging.debug(material)
+            for j in material:
+                allergycook = Allergy.objects.filter(material_id = j['material'])
+                if allergycook:
+                    allergycooklist.append(i)
+                    break
+
+        logging.debug(allergycooklist)
+        for i in allergycooklist:
+
+            cook_list.remove(i)
+        form.fields['CookSelect'].queryset = Cook.objects.filter(cook_id__in =cook_list)
 
         context = {
             'day': day,
             'mealtime': mealtime,  # 選択された食事時間
             'form': form,
-        }
+            'allergylist':allergylist,
+            }
 
         return render(request, self.template_name, context)
 
@@ -499,12 +543,36 @@ class HealthSelectionView(TemplateView):
             deficiency_saltcontentr = need_saltcontent - all_saltcontent
 
             if deficiency_calorie > 0:
+                allergylist = self.kwargs.get('allergylist') 
+                logging.debug(allergylist)
+                cook_list = []
+                cooks = Cook.objects.filter(type__in=[2, 3])
+                cook_dict =  list(cooks.values('cook_id'))
+                for i in cook_dict:
+                    cook_list.append(i['cook_id'])
+                    logging.debug(cook_list)
+                    allergycooklist = []
+                for i in cook_list:
+
+                    material = Recipe.objects.filter(cook = i).values('material')
+                    logging.debug(material)
+                    for j in material:
+                        allergycook = Allergy.objects.filter(material_id = j['material'])
+                        if allergycook:
+                            allergycooklist.append(i)
+                            break
+
+                logging.debug(allergycooklist)
+                for i in allergycooklist:
+
+                    cook_list.remove(i)  
+
                 results = Cook.objects.filter(
-                    type__in=[2, 3],
-                    calorie__lte=deficiency_calorie / 3,
-                    protein__gte=deficiency_protein / 3,
-                    saltcontent__lte=deficiency_saltcontentr / 3
-                ).values('cook_id', 'calorie', 'protein', 'lipids', 'carbohydrates', 'fiber', 'saltcontent')
+                cook_id__in =cook_list,
+                calorie__lte=deficiency_calorie / 3,
+                protein__gte=deficiency_protein / 3,
+                saltcontent__lte=deficiency_saltcontentr / 3
+                ).values('cook_id','calorie','protein','lipids','carbohydrates','fiber','saltcontent')
 
                 if len(results) != 0:
                     random_number = random.randint(0, len(results) - 1)
