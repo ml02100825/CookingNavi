@@ -55,28 +55,21 @@ class SettingView(TemplateView):
     template_name='setting/setting.html'
    
  
-class AcountSettingView(TemplateView):
-    def dispatch(self,request, *args, **kwargs):
+class AcountSettingView(LoginRequiredMixin, TemplateView):
+    template_name = 'acount/acount_setting.html'
+
+    def dispatch(self, request, *args, **kwargs):
         if not self.request.user.is_authenticated:
             logger.error("Error 401: Unauthorized access attempt to AccountSettingView.")
             logging.debug(f"Session info: {request.session.items()}")  # セッション内容をログに出力
-             # ログインしていない場合はリダイレクト
-        return super().dispatch(request,*args, **kwargs)
+            # ログインしていない場合はリダイレクト
+            return redirect('login')
+        return super().dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if 'user_id' in self.request.session:
-            id = self.request.session['user_id']
-            try:
-                User = get_user_model()
-                user = User.objects.get(user_id=id)
-                context['user'] = user
-            except User.DoesNotExist:
-                context['user'] = None
-        else:
-            context['user'] = None
-             
+        context['user'] = self.request.user
         return context
-    template_name='acount/acount_setting.html'
  
  
 class NotificationSettingView(TemplateView):
