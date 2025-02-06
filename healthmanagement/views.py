@@ -263,29 +263,29 @@ class HealthMainView(TemplateView):
 
 class HealthMenuView(TemplateView):
     template_name = 'health/health_menuconfirmation.html'
-
+ 
     def get(self, request, *args, **kwargs):
         # 料理リスト
         cooklist = []
         # 材料リスト
         materiallist = []
-
+ 
         # 引数から取得された値を使用
         time = self.kwargs.get('time')  # 1: 朝, 2: 昼, 3: 晩
         day = self.kwargs.get('day')  # 選択された日付（文字列としてyyyy-mm-ddで渡されていると仮定）
         year = datetime.now().year  # 現在の年を使う
         formatted_day = f"{year}-{day}"  # '2025-01-31' の形式に変換
-
+ 
         # 渡された日付をdatetimeに変換
         currentday = date.fromisoformat(formatted_day)
-
+ 
         # メニュー情報を取得
         Cooks = Menu.objects.filter(user=request.user, meal_day=currentday, mealtime=time).values('menu_id')
-
+ 
         # メニューが存在する場合にそのメニューIDを取得
         if Cooks.exists():
             Cookid = Menucook.objects.filter(menu=Cooks[0]['menu_id']).values('cook')
-
+ 
             for i in range(len(Cookid)):
                 # 料理の詳細情報を取得
                 CookDetail = Cook.objects.filter(cook_id=Cookid[i]['cook']).values(
@@ -293,7 +293,7 @@ class HealthMenuView(TemplateView):
                 )
                 choice_list = list(CookDetail.values())
                 cooklist.append(choice_list[0])
-
+ 
                 # 材料情報を取得
                 materials = Recipe.objects.filter(cook=Cookid[i]['cook']).values('material', 'quantity')
                 materialdetaillist = []
@@ -303,9 +303,9 @@ class HealthMenuView(TemplateView):
                     materialdetail['materialname'] = material_info[0]['name']
                     materialdetail['quantity'] = material['quantity']
                     materialdetaillist.append(materialdetail)
-
+ 
                 materiallist.append(materialdetaillist)
-
+ 
                 # 画像情報を取得
                 cookimage = Cookimage.objects.filter(cook_id=Cookid[i]['cook']).values('image_id')
                 if cookimage.exists():
@@ -317,7 +317,7 @@ class HealthMenuView(TemplateView):
         else:
             # メニューがない場合はエラーハンドリングや適切な処理を追加することも検討
             logging.debug(f"No menu found for {currentday} and time {time}")
-
+ 
         return render(request, self.template_name, {
             'day': day,
             'time': time,
@@ -338,25 +338,25 @@ class HealthSelectionView(TemplateView):
         except ValueError:
             return HttpResponseBadRequest("無効な日付形式です。YYYY-MM-DD 形式にしてください。")
 
-        # GETリクエストで選ばれた食事時間（デフォルトで朝にする）
-        mealtime = request.session.get('mealtime', 0)
-
         # 指定された日付のmeal_dayの最大数を取得
         user = request.user
         existing_menus = Menu.objects.filter(user=user, meal_day=day)
         max_mealtime = existing_menus.aggregate(Max('mealtime'))['mealtime__max']
 
+        # 初期値を設定
+        mealtime = None
+
         # meal_dayが存在しない場合は朝から入力させる
         if max_mealtime is None:
             mealtime = 0
         # meal_dayの最大数が0の場合は昼から入力させる
-        elif max_mealtime == 0:
+        elif max_mealtime == '0':
             mealtime = 1
         # meal_dayの最大数が1の場合は晩から入力させる
-        elif max_mealtime == 1:
+        elif max_mealtime == '1':
             mealtime = 2
         # meal_dayの最大数が2の場合は朝から入力させる
-        elif max_mealtime == 2:
+        elif max_mealtime == '2':
             mealtime = 0
 
         # 食事時間に対応するメニューをフィルタリング
@@ -372,8 +372,6 @@ class HealthSelectionView(TemplateView):
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        # セッションからmealtimeを取得
-        mealtime = request.session.get('mealtime', 0)
 
         # 年齢で処理を変えるためのhandlers
         context = super().get_context_data(**kwargs)
@@ -521,9 +519,28 @@ class HealthSelectionView(TemplateView):
             formatted_day_str = f"{year}-{day_str}"  # '2025-01-31' の形式に変換
             day = datetime.strptime(formatted_day_str, "%Y-%m-%d").date()
 
+            # 指定された日付のmeal_dayの最大数を取得
+            existing_menus = Menu.objects.filter(user=user, meal_day=day)
+            max_mealtime = existing_menus.aggregate(Max('mealtime'))['mealtime__max']
+
+            # 初期値を設定
+            mealtime = None
+
+            # meal_dayが存在しない場合は朝から入力させる
+            if max_mealtime is None:
+                mealtime = 0
+            # meal_dayの最大数が0の場合は昼から入力させる
+            elif max_mealtime == '0':
+                mealtime = 1
+            # meal_dayの最大数が1の場合は晩から入力させる
+            elif max_mealtime == '1':
+                mealtime = 2
+            # meal_dayの最大数が2の場合は朝から入力させる
+            elif max_mealtime == '2':
+                mealtime = 0
+
             # 次の食事時間をセッションで管理
             next_mealtime = (mealtime + 1) % 3  # 0 -> 1 -> 2 -> 0に戻る
-            request.session['mealtime'] = next_mealtime
 
             # 同じday, mealtimeのMenuが存在するか確認
             existing_menu = Menu.objects.filter(user=user, meal_day=day, mealtime=str(mealtime)).first()
