@@ -241,7 +241,15 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
     template_name = 'sintai/sintai_henko.html'
 
     def get(self, request, *args, **kwargs):
-        form = BodyInfoUpdateForm()
+        initial_data = {
+            'name': request.user.name,
+            'birthdate': request.user.age,
+            'gender': request.user.gender,
+            'height': request.user.height,
+            'weight': request.user.weight,
+            'allergies': [ua.allergy for ua in Userallergy.objects.filter(user=request.user)]
+        }
+        form = BodyInfoUpdateForm(initial=initial_data)
         return render(request, self.template_name, {'form': form})
    
     def post(self, request, *args, **kwargs):
@@ -389,6 +397,7 @@ class KazokuHenkoView(LoginRequiredMixin, TemplateView):
             'family_gender': family_member.family_gender,
             'family_height': family_member.family_height,
             'family_weight': family_member.family_weight,
+            'allergy_id': [fa.allergy_id for fa in Familyallergy.objects.filter(family_member=family_member)]
         }
         form = FamilyForm(initial=initial_data)
         return render(request, self.template_name, {'form': form, 'family_member': family_member})
@@ -403,7 +412,7 @@ class KazokuHenkoView(LoginRequiredMixin, TemplateView):
             family_gender = form.cleaned_data['family_gender']
             family_height = form.cleaned_data['family_height']
             family_weight = form.cleaned_data['family_weight']
-            allergy_id = form.cleaned_data.get('allergy_id')
+            allergy_ids = form.cleaned_data.get('allergy_id')
 
             # 家族メンバーを更新
             family_member.family_name = family_name
@@ -417,12 +426,14 @@ class KazokuHenkoView(LoginRequiredMixin, TemplateView):
                 weight=family_weight,  # 更新された体重を登録
                 user=family_member.user,  # 家族メンバーに紐づくユーザー
                 family=family_member,  # 家族メンバー
-                register_time=datetime.now().strftime('%Y-%m-%d')  # 今日の日付を登録
+                register_time=timezone.now().strftime('%Y-%m-%d')  # 今日の日付を登録
             )
 
-            # アレルギーIDがある場合、Familyallergyテーブルを更新
-            if allergy_id:
-                # アレルギー情報を新たに登録
+            # 既存のアレルギー情報を削除
+            Familyallergy.objects.filter(family_member=family_member).delete()
+
+            # 新しいアレルギー情報を登録
+            for allergy_id in allergy_ids:
                 Familyallergy.objects.create(
                     family_member=family_member,  # 家族情報インスタンス
                     allergy_id=allergy_id         # アレルギーID
