@@ -82,7 +82,7 @@ class SignUpPage1View(TemplateView):
             # 非アクティブユーザーの状態をチェック
             try:
                 user = User.objects.get(email=email)
-                if not user.is_active or user.DeleteFlag:
+                if not user.is_active or user.deleteflag:
                     # 非アクティブまたは削除ユーザーの場合、次の画面へ遷移
                     logging.debug(f"非アクティブまたは削除ユーザー {email} を検出。次の画面へ遷移します。")
             except User.DoesNotExist:
@@ -183,7 +183,7 @@ class SignUpPage2View(TemplateView):
  
         # フォームが無効な場合
         return render(request, self.template_name, {'form': form})
-
+    
 class CustomSignUpView(TemplateView):
     template_name = 'administrator/sign up/sign up_completion.html'
 

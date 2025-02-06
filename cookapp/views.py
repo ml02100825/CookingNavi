@@ -238,12 +238,13 @@ class PasswordOkView(TemplateView):
  
  
 class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
-    template_name='sintai/sintai_henko.html'
+    template_name = 'sintai/sintai_henko.html'
+
     def get(self, request, *args, **kwargs):
         form = BodyInfoUpdateForm()
         return render(request, self.template_name, {'form': form})
    
-    def post(self, request, * args, **kwargs):
+    def post(self, request, *args, **kwargs):
         family_member = Familymember.objects.filter(user=request.user).first()
         form = BodyInfoUpdateForm(request.POST)
         if form.is_valid():
@@ -255,7 +256,7 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
             weight = form.cleaned_data['weight']
             logging.debug(birthdate)
             modified_birthdate = str(birthdate).replace("-", "/")
- 
+
             if name != request.user.name:
                 messages.error(request, "ログイン中のユーザーと異なるユーザー名を入力しました。")
             else:
@@ -266,18 +267,14 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
                 user.weight = weight
                 user.save()
                 logging.debug(modified_birthdate)
-                for i in range(len(allergies)):
-                    allergy = allergies[i]
-                    try:
-                        # 既存のアレルギー情報を検索して更新する
-                        user_allergy = Userallergy.objects.get(user=user, allergy=allergy)
-                        user_allergy.allergy = allergy
-                        user_allergy.save()  # 更新を保存
-                        print(f"Updated allergy for user {user} with allergy {allergy}")
-                    except Userallergy.DoesNotExist:
-                        # レコードが見つからなかった場合の処理
-                        print(f"Allergy {allergy} for user {user} not found, skipping.")
- 
+
+                # 既存のアレルギー情報を削除
+                Userallergy.objects.filter(user=user).delete()
+
+                # 新しいアレルギー情報を登録
+                for allergy in allergies:
+                    Userallergy.objects.create(user=user, allergy=allergy)
+
                 weight_entry = Weight(
                     weight=form.cleaned_data['weight'],
                     register_time=timezone.now().strftime('%Y-%m-%d'),
@@ -285,7 +282,7 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
                     family_id=family_member.family_id,  # familyオブジェクトを使用
                 )
                 weight_entry.save()
- 
+
                 return redirect('cookapp:body_info_ok')
        
         return render(request, self.template_name, {'form': form})
