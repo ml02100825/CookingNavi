@@ -3,16 +3,11 @@ from django.shortcuts import render, redirect
 from django.views.generic.base import TemplateView
 from django.contrib.auth import login,authenticate
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView
 from .forms import CustomUserCreation1Form, CustomUserCreation2Form, LoginForm
 from .models import User, Userallergy 
 from cookapp.models import Familymember, Weight
-from django.urls import reverse_lazy
 import logging
-from datetime import datetime
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.csrf import csrf_protect
 from datetime import datetime
 from django.views import View
 from django.contrib.auth import logout
@@ -87,7 +82,7 @@ class SignUpPage1View(TemplateView):
             # 非アクティブユーザーの状態をチェック
             try:
                 user = User.objects.get(email=email)
-                if not user.is_active or user.DeleteFlag:
+                if not user.is_active or user.deleteflag:
                     # 非アクティブまたは削除ユーザーの場合、次の画面へ遷移
                     logging.debug(f"非アクティブまたは削除ユーザー {email} を検出。次の画面へ遷移します。")
             except User.DoesNotExist:
@@ -188,7 +183,7 @@ class SignUpPage2View(TemplateView):
  
         # フォームが無効な場合
         return render(request, self.template_name, {'form': form})
-
+    
 class CustomSignUpView(TemplateView):
     template_name = 'administrator/sign up/sign up_completion.html'
 

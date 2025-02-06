@@ -11,8 +11,8 @@ class Familymember(models.Model):
     family_name = models.CharField(db_column='Family_Name', max_length=30)
     family_gender = models.CharField(db_column='Family_Gender', max_length=1)
     family_age = models.CharField(db_column='Family_Age', max_length=10)
-    family_height = models.FloatField(db_column='Family_Height')
-    family_weight = models.FloatField(db_column='Family_Weight')
+    family_height = models.DecimalField(db_column='Family_Height',max_digits=5,decimal_places=2,)
+    family_weight = models.DecimalField(db_column='Family_Weight',max_digits=5,decimal_places=2,)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='User_ID', on_delete=models.CASCADE)
 
     class Meta:

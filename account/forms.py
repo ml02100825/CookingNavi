@@ -29,7 +29,7 @@ class CustomUserCreation2Form(forms.ModelForm):
         choices=[('1', 'えび'), ('2', 'かに'), ('3', 'くるみ'), ('4', '小麦'), ('5', 'そば'),
                  ('6', '卵'), ('7', '乳'), ('8', '落花生(ピーナッツ)'), ('9', 'アーモンド')],
         required=False,
-        widget=forms.SelectMultiple(attrs={'size': '5'})
+        widget=forms.CheckboxSelectMultiple
     )
     height = forms.FloatField(label="身長 (cm)", min_value=0)
     weight = forms.FloatField(label="体重 (kg)", min_value=0)

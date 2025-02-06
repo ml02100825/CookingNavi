@@ -1,7 +1,7 @@
 import json
 from django.shortcuts import get_object_or_404, render, redirect
 
-from administrator.models import Cook, Cookimage, Recipe
+from administrator.models import Cookimage, Recipe
 from healthmanagement.models import Menu, Menucook
 from .forms import EmailForm, UsernameForm, PasswordForm, BodyInfoUpdateForm, FamilyForm
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -15,15 +15,12 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, get_user_model, authenticate, login
 from django.urls import reverse
-from datetime import datetime
 import calendar
 import json
 from django.shortcuts import render
 from django.views import View
 from django.contrib.auth.views import PasswordResetDoneView
-from datetime import datetime, timedelta
-from .forms import DateRangeForm
-from django.db import connection
+from datetime import datetime
 from urllib.parse import unquote
 
  
@@ -58,28 +55,21 @@ class SettingView(TemplateView):
     template_name='setting/setting.html'
    
  
-class AcountSettingView(TemplateView):
-    def dispatch(self,request, *args, **kwargs):
+class AcountSettingView(LoginRequiredMixin, TemplateView):
+    template_name = 'acount/acount_setting.html'
+
+    def dispatch(self, request, *args, **kwargs):
         if not self.request.user.is_authenticated:
             logger.error("Error 401: Unauthorized access attempt to AccountSettingView.")
             logging.debug(f"Session info: {request.session.items()}")  # セッション内容をログに出力
-             # ログインしていない場合はリダイレクト
-        return super().dispatch(request,*args, **kwargs)
+            # ログインしていない場合はリダイレクト
+            return redirect('login')
+        return super().dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if 'user_id' in self.request.session:
-            id = self.request.session['user_id']
-            try:
-                User = get_user_model()
-                user = User.objects.get(user_id=id)
-                context['user'] = user
-            except User.DoesNotExist:
-                context['user'] = None
-        else:
-            context['user'] = None
-             
+        context['user'] = self.request.user
         return context
-    template_name='acount/acount_setting.html'
  
  
 class NotificationSettingView(TemplateView):
@@ -241,12 +231,21 @@ class PasswordOkView(TemplateView):
  
  
 class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
-    template_name='sintai/sintai_henko.html'
+    template_name = 'sintai/sintai_henko.html'
+
     def get(self, request, *args, **kwargs):
-        form = BodyInfoUpdateForm()
+        initial_data = {
+            'name': request.user.name,
+            'birthdate': request.user.age,
+            'gender': request.user.gender,
+            'height': request.user.height,
+            'weight': request.user.weight,
+            'allergies': [ua.allergy for ua in Userallergy.objects.filter(user=request.user)]
+        }
+        form = BodyInfoUpdateForm(initial=initial_data)
         return render(request, self.template_name, {'form': form})
    
-    def post(self, request, * args, **kwargs):
+    def post(self, request, *args, **kwargs):
         family_member = Familymember.objects.filter(user=request.user).first()
         form = BodyInfoUpdateForm(request.POST)
         if form.is_valid():
@@ -258,7 +257,7 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
             weight = form.cleaned_data['weight']
             logging.debug(birthdate)
             modified_birthdate = str(birthdate).replace("-", "/")
- 
+
             if name != request.user.name:
                 messages.error(request, "ログイン中のユーザーと異なるユーザー名を入力しました。")
             else:
@@ -269,18 +268,14 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
                 user.weight = weight
                 user.save()
                 logging.debug(modified_birthdate)
-                for i in range(len(allergies)):
-                    allergy = allergies[i]
-                    try:
-                        # 既存のアレルギー情報を検索して更新する
-                        user_allergy = Userallergy.objects.get(user=user, allergy=allergy)
-                        user_allergy.allergy = allergy
-                        user_allergy.save()  # 更新を保存
-                        print(f"Updated allergy for user {user} with allergy {allergy}")
-                    except Userallergy.DoesNotExist:
-                        # レコードが見つからなかった場合の処理
-                        print(f"Allergy {allergy} for user {user} not found, skipping.")
- 
+
+                # 既存のアレルギー情報を削除
+                Userallergy.objects.filter(user=user).delete()
+
+                # 新しいアレルギー情報を登録
+                for allergy in allergies:
+                    Userallergy.objects.create(user=user, allergy=allergy)
+
                 weight_entry = Weight(
                     weight=form.cleaned_data['weight'],
                     register_time=timezone.now().strftime('%Y-%m-%d'),
@@ -288,7 +283,7 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
                     family_id=family_member.family_id,  # familyオブジェクトを使用
                 )
                 weight_entry.save()
- 
+
                 return redirect('cookapp:body_info_ok')
        
         return render(request, self.template_name, {'form': form})
@@ -313,8 +308,6 @@ class FamilyInfoView(LoginRequiredMixin, TemplateView):
         return render(request, self.template_name, context)
  
    
-from datetime import datetime
-
 class KazokuaddView(LoginRequiredMixin, TemplateView):
     template_name = 'kazoku/add/kazoku_add.html'
 
@@ -327,19 +320,18 @@ class KazokuaddView(LoginRequiredMixin, TemplateView):
         if form.is_valid():
             # フォームデータを取得
             family_name = form.cleaned_data['family_name']
-            birth_date = form.cleaned_data['birth_date']
+            family_age = form.cleaned_data['birth_date']
+            formatted_age = family_age.strftime("%Y/%m/%d")
             family_gender = form.cleaned_data['family_gender']
             family_height = form.cleaned_data['family_height']
             family_weight = form.cleaned_data['family_weight']
-            allergy_id = form.cleaned_data.get('allergy_id')
+            allergy_ids = form.cleaned_data.get('allergy_id')
 
-            # 生年月日から年齢を計算
-            family_age = form.calculate_age()
 
             # 家族情報を登録
             family_member = Familymember.objects.create(
                 family_name=family_name,
-                family_age=family_age,
+                family_age=formatted_age,
                 family_gender=family_gender,
                 family_height=family_height,
                 family_weight=family_weight,
@@ -355,12 +347,13 @@ class KazokuaddView(LoginRequiredMixin, TemplateView):
             )
 
             # 家族アレルギー情報を登録
-            if allergy_id:
+            for allergy_id in allergy_ids:
                 Familyallergy.objects.create(
                     family_member=family_member,
                     allergy_id=allergy_id
                 )
-            if family_member and request.user.family == False :
+
+            if family_member and request.user.family == False:
                 user = request.user
                 user.family = True
                 user.save()
@@ -397,6 +390,7 @@ class KazokuHenkoView(LoginRequiredMixin, TemplateView):
             'family_gender': family_member.family_gender,
             'family_height': family_member.family_height,
             'family_weight': family_member.family_weight,
+            'allergy_id': [fa.allergy_id for fa in Familyallergy.objects.filter(family_member=family_member)]
         }
         form = FamilyForm(initial=initial_data)
         return render(request, self.template_name, {'form': form, 'family_member': family_member})
@@ -411,7 +405,7 @@ class KazokuHenkoView(LoginRequiredMixin, TemplateView):
             family_gender = form.cleaned_data['family_gender']
             family_height = form.cleaned_data['family_height']
             family_weight = form.cleaned_data['family_weight']
-            allergy_id = form.cleaned_data.get('allergy_id')
+            allergy_ids = form.cleaned_data.get('allergy_id')
 
             # 家族メンバーを更新
             family_member.family_name = family_name
@@ -425,12 +419,14 @@ class KazokuHenkoView(LoginRequiredMixin, TemplateView):
                 weight=family_weight,  # 更新された体重を登録
                 user=family_member.user,  # 家族メンバーに紐づくユーザー
                 family=family_member,  # 家族メンバー
-                register_time=datetime.now().strftime('%Y-%m-%d')  # 今日の日付を登録
+                register_time=timezone.now().strftime('%Y-%m-%d')  # 今日の日付を登録
             )
 
-            # アレルギーIDがある場合、Familyallergyテーブルを更新
-            if allergy_id:
-                # アレルギー情報を新たに登録
+            # 既存のアレルギー情報を削除
+            Familyallergy.objects.filter(family_member=family_member).delete()
+
+            # 新しいアレルギー情報を登録
+            for allergy_id in allergy_ids:
                 Familyallergy.objects.create(
                     family_member=family_member,  # 家族情報インスタンス
                     allergy_id=allergy_id         # アレルギーID
