@@ -386,6 +386,7 @@ class KazokuHenkoView(LoginRequiredMixin, TemplateView):
         # フォームの初期値を設定
         initial_data = {
             'family_name': family_member.family_name,
+            'birth_date': family_member.family_age,  # ここを追加
             'family_gender': family_member.family_gender,
             'family_height': family_member.family_height,
             'family_weight': family_member.family_weight,
@@ -401,6 +402,8 @@ class KazokuHenkoView(LoginRequiredMixin, TemplateView):
         if form.is_valid():
             # フォームデータを取得
             family_name = form.cleaned_data['family_name']
+            birth_date = form.cleaned_data['birth_date']  # ここを追加
+            formatted_age = birth_date.strftime("%Y-%m-%d")  # ここを追加
             family_gender = form.cleaned_data['family_gender']
             family_height = form.cleaned_data['family_height']
             family_weight = form.cleaned_data['family_weight']
@@ -408,6 +411,7 @@ class KazokuHenkoView(LoginRequiredMixin, TemplateView):
 
             # 家族メンバーを更新
             family_member.family_name = family_name
+            family_member.family_age = formatted_age  # ここを追加
             family_member.family_gender = family_gender
             family_member.family_height = family_height
             family_member.family_weight = family_weight
