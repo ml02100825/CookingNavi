@@ -9,19 +9,21 @@
 <link rel="stylesheet" href="{% static 'css/osirase/osirase.css' %}">
 <div class="wrapper">
   <h1>お知らせ</h1>
-  <article id="part1">
-    <p class="text_date">
-      <time datetime="{% now 'Y-m-d' %}">{% now 'Y.m.d' %}</time>
-    </p>
-    <h2>お問い合わせページを追加しました。</h2>
-    <p class="text_content">お問い合わせページを追加しました。<br>当サイトについてのお問い合わせは、記載した電話番号、またはメールアドレスまでお寄せください。</p>
-  </article>
-  <article id="part2">
-    <p class="text_date">
-      <time datetime="{% now 'Y-m-d' %}">{% now 'Y.m.d' %}</time>
-    </p>
-    <h2>プロフィールを更新しました。</h2>
-    <p class="text_content">プロフィールを更新しました。</p>
-  </article>
+
+  {% for i in news %}
+  <article id="part{{ i.news_id }}">
+    <div class="osirase">
+      <p class="text_date">
+        {{i.update_time}}
+      </p>
+      <div class="osirase-title">
+        <h2>{{ i.title }}</h2>
+      </div>
+      <div ></div>
+        <p class="text_content">{{ i.content }}</p>
+      </div>
+    </article>
+  {% endfor %}
+  
 </div>
 {% endblock %}

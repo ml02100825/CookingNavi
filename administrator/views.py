@@ -7,7 +7,7 @@ from django.views.generic.base import TemplateView
 
 from bbs.models import Bbs, Favorite, Postimage, Userrecipe
 from .forms import RecipeAddForm
-from .models import Cook, Material, Image,Cookimage,Recipe,AdministratorCookimagesave
+from .models import Cook, Material, Image,Cookimage,Recipe,Cookimagesave
 
 
 
@@ -67,7 +67,7 @@ class RecipeAddView(TemplateView):
             cook = Cook(cookname = name,type = type, recipe_text = recipe_text, calorie = cook_calorie, protein = cook_protein, lipids = cook_lipids,fiber = cook_fiber,carbohydrates=cook_carbohydrates, saltcontent= cook_saltcontent)
             cook.save()
             
-            image1 = AdministratorCookimagesave(image = image1)
+            image1 = Cookimagesave(image = image1)
             image1.save()
             imageurl1 = Image(image = image1.image.url)
             imageurl1.save()
@@ -75,14 +75,14 @@ class RecipeAddView(TemplateView):
             cookimage1.save()
            
             if image2 != None:
-                image2 = AdministratorCookimagesave(image = image2)
+                image2 = Cookimagesave(image = image2)
                 image2.save()
                 imageurl2 = Image(image = image2.image.url)
                 imageurl2.save()
                 cookimage2 = Cookimage(cook = cook, image = imageurl2)
                 cookimage2.save()
             if image3 != None:
-                image3 = AdministratorCookimagesave(image = image3)
+                image3 = Cookimagesave(image = image3)
                 image3.save()
                 imageurl3 = Image(image = image3.image.url)
                 imageurl3.save()

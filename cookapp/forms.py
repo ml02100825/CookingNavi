@@ -1,7 +1,7 @@
-from django.contrib.auth.hashers import check_password
 from django import forms
 from django.forms.widgets import DateInput
 from django.utils import timezone
+
 
 
 class UsernameForm(forms.Form):
@@ -57,13 +57,19 @@ class BodyInfoUpdateForm(forms.Form):
     name = forms.CharField(label='名前', max_length=20)
     birthdate = forms.DateField(label="生年月日", widget=forms.SelectDateWidget(years=range(1900, 2025)))
     gender = forms.ChoiceField(label="性別", choices=[('1', '男性'), ('2', '女性'), ('3', 'その他')])
-    allergies = forms.MultipleChoiceField(label="アレルギー", choices=[('1', 'えび'), ('2', 'かに'), ('3', 'くるみ'),
-    ('4', '小麦'),('5', 'そば'),('6', '卵'),('7', '乳'),('8', '落花生(ピーナッツ)'),('9', 'アーモンド'),
-    ('10', 'あわび'),('11', 'いか'),('12', 'いくら'),('13', 'オレンジ'),('14', 'カシューナッツ'),('15', 'キウイフルーツ'),
-    ('16', '牛肉'),('17', 'ごま'),('18', '鮭'),('19', '鯖'),('20', '大豆'),('21', '鶏肉'),('22', 'バナナ'),('23', '豚肉'),('24', 'マカダミアナッツ'),
-    ('25', 'もも'),('26', 'やまいも'),('27', 'りんご'),('28', 'ゼラチン'),],required=False, widget=forms.SelectMultiple(attrs={
-            'size': '5'  # 表示する選択肢の数
-        }))
+    allergies = forms.MultipleChoiceField(
+        label="アレルギー",
+        choices=[
+            ('1', 'えび'), ('2', 'かに'), ('3', 'くるみ'), ('4', '小麦'), ('5', 'そば'),
+            ('6', '卵'), ('7', '乳'), ('8', '落花生(ピーナッツ)'), ('9', 'アーモンド'),
+            ('10', 'あわび'), ('11', 'いか'), ('12', 'いくら'), ('13', 'オレンジ'), ('14', 'カシューナッツ'),
+            ('15', 'キウイフルーツ'), ('16', '牛肉'), ('17', 'ごま'), ('18', '鮭'), ('19', '鯖'),
+            ('20', '大豆'), ('21', '鶏肉'), ('22', 'バナナ'), ('23', '豚肉'), ('24', 'マカダミアナッツ'),
+            ('25', 'もも'), ('26', 'やまいも'), ('27', 'りんご'), ('28', 'ゼラチン')
+        ],
+        required=False,
+        widget=forms.CheckboxSelectMultiple
+    )
     height = forms.FloatField(label="身長 (cm)", min_value=0)
     weight = forms.FloatField(label="体重 (kg)", min_value=0)
     
@@ -85,20 +91,20 @@ class FamilyForm(forms.Form):
     family_height = forms.FloatField(label='身長')
     family_weight = forms.FloatField(label='体重')
 
-    # アレルギー情報（アレルギー名ではなくIDで処理）
-    allergy_id = forms.ChoiceField(
+    # アレルギー情報（複数選択可能）
+    allergy_id = forms.MultipleChoiceField(
         label='アレルギー',
         choices=[
-            ('1', 'エビ'),  # 1 = エビ
-            ('2', '小麦'),  # 1 = 小麦
+            ('1', 'エビ'),
+            ('2', '小麦'),
             ('3', 'くるみ'),
             ('4', 'カニ'),
             ('5', 'そば'),
             ('6', '卵'),
             ('7', '牛乳'),
             ('8', '落花生'),
-            ('', 'なし'),
         ],
+        widget=forms.CheckboxSelectMultiple,
         required=False  # オプショナル
     )
 
@@ -113,11 +119,10 @@ class FamilyForm(forms.Form):
 
     def clean_allergy_id(self):
         allergy_id = self.cleaned_data.get('allergy_id')
-        if allergy_id == '':
-            return None  # 'なし'が選ばれた場合はNoneとして扱う
+        if not allergy_id:
+            return []  # 'なし'が選ばれた場合は空リストとして扱う
         return allergy_id
 
-from django import forms
 
 class DateRangeForm(forms.Form):
     start_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))

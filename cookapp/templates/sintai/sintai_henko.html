@@ -5,8 +5,63 @@
 
 {% block content %}
 
+<style>
+/* チェックボックスのスタイル */
+input[type="checkbox"] {
+    display: none;
+}
 
-<link rel="stylesheet" href="{% static 'css/sintai/sintai_henko.css' %}">
+input[type="checkbox"] + label {
+    display: inline-block;
+    position: relative;
+    padding-left: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+input[type="checkbox"] + label:before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #007bff;
+    border-radius: 3px;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #fff;
+}
+
+input[type="checkbox"]:checked + label:before {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+input[type="checkbox"]:checked + label:after {
+    content: "";
+    display: block;
+    width: 6px;
+    height: 12px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+/* フォームコンテナのスタイル */
+.registration-form {
+    max-height: 400px; /* 必要に応じて高さを調整 */
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+</style>
 
 <main class="main-content">
     <h2>身体情報変更</h2>
@@ -19,7 +74,30 @@
     </div>
     <form action="{% url 'cookapp:body_info_update' %}" method="post" class="registration-form">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form.non_field_errors }}
+        <div class="form-group">
+            {{ form.name.label_tag }} {{ form.name }}
+        </div>
+        <div class="form-group">
+            {{ form.birthdate.label_tag }} {{ form.birthdate }}
+        </div>
+        <div class="form-group">
+            {{ form.gender.label_tag }} {{ form.gender }}
+        </div>
+        <div class="form-group">
+            {{ form.height.label_tag }} {{ form.height }}
+        </div>
+        <div class="form-group">
+            {{ form.weight.label_tag }} {{ form.weight }}
+        </div>
+        <div class="form-group">
+            {{ form.allergies.label_tag }}
+            {% for checkbox in form.allergies %}
+                <div class="checkbox">
+                    {{ checkbox.tag }} <label for="{{ checkbox.id_for_label }}">{{ checkbox.choice_label }}</label>
+                </div>
+            {% endfor %}
+        </div>
         <button type="button" onclick="window.history.back()">戻る</button>
         <button type="submit">変更</button>
     </form>
