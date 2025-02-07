@@ -377,6 +377,9 @@ class HealthSelectionView(TemplateView):
         # meal_dayの最大数が2の場合は朝から入力させる
         elif max_mealtime == '2':
             mealtime = 0
+            existing_menus.delete()  # Menuを削除
+            Menucook.objects.filter(menu_id__in=existing_menus.values('menu_id')).delete()  # 関連するMenucookを削除
+            mealtime = 0  # 朝から入力させるためにmealtimeを0に設定
  
         # 食事時間に対応するメニューをフィルタリング
         form = CookSelectForm()
