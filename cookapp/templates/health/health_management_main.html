@@ -15,12 +15,19 @@
     
     <!-- Schedule Table -->
     <table class="schedule-table">  
-  
         <tr>
             {% for item in menu_status %}
-                <th><a href="{% url 'health:health_selection' day=item.date %}">
-                    <button class="day-button">{{ item.date }}</button>
-                </a></th>
+                <th>
+                    {% if item.status.0 == "T" and item.status.1 == "T" and item.status.2 == "T" %}
+                        <!-- すべての食事時間が設定されている場合、リンクを無効にする -->
+                        <button class="day-button" disabled>{{ item.date }}</button>
+                    {% else %}
+                        <!-- 1つでも未定があればリンクを有効にする -->
+                        <a href="{% url 'health:health_selection' day=item.date %}">
+                            <button class="day-button">{{ item.date }}</button>
+                        </a>
+                    {% endif %}
+                </th>
             {% endfor %}
         </tr>
         <tr>
