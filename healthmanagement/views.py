@@ -413,7 +413,6 @@ class HealthSelectionView(TemplateView):
         return render(request, self.template_name, context)
  
     def post(self, request, *args, **kwargs):
- 
         # 年齢で処理を変えるためのhandlers
         context = super().get_context_data(**kwargs)
         handlers = [
@@ -430,27 +429,27 @@ class HealthSelectionView(TemplateView):
             ((65, 74), process_group_65_74),
             ((75, float('inf')), process_group_75_plus),
         ]
- 
+    
         # 入力されたformを取得
         form = CookSelectForm(request.POST)
- 
+    
         # ユーザの家族人数を数えるためのcount
         count = 1
- 
+    
         # もしformが正常に入力されていたら
         if form.is_valid():
             # 選択された料理名を取ってくる
             name = form.cleaned_data['CookSelect']
- 
+    
             # 料理の栄養情報を取ってくる
             cook = Cook.objects.filter(cookname=name).values('cook_id', 'calorie', 'protein', 'lipids', 'carbohydrates', 'fiber', 'saltcontent')
- 
+    
             # リストに入っている先頭のオブジェクトを取ってくる
             cookdata = cook[0]
- 
+    
             # ログイン中のユーザを代入
             user = request.user
- 
+    
             # 家族の必要栄養情報の初期値を代入
             family_calorie = 0
             family_protein = 0
@@ -458,19 +457,19 @@ class HealthSelectionView(TemplateView):
             family_carbohydrates = 0
             family_fiber = 0
             family_saltcontent = 0
- 
+    
             # userの誕生日から年齢を計算
-            birth_date = datetime.strptime(user.age, "%Y/%m/%d")
+            birth_date = datetime.strptime(user.age, "%Y-%m-%d")
             today = datetime.today()
             age = today.year - birth_date.year
             if (today.month, today.day) < (birth_date.month, birth_date.day):
                 age -= 1
- 
+    
             for (start, end), handler in handlers:
                 if start <= age <= end:
                     calorie, protein, libids, carbohydrates, fiber, saltcontent = handler(age, user.gender, float(user.weight))
                     break
- 
+    
             # 年齢から計算した必要栄養情報を家族の必要栄養情報に足す
             family_calorie += calorie
             family_protein += protein
@@ -478,38 +477,30 @@ class HealthSelectionView(TemplateView):
             family_carbohydrates += carbohydrates
             family_fiber += fiber
             family_saltcontent += saltcontent
- 
+    
             # ユーザーの家族情報を取得
             userfamily = Familymember.objects.filter(user=user).order_by('family_id').values('family_id', 'family_gender', 'family_age', 'family_height', 'family_weight')
- 
+    
             # 家族の人数分ループ
             for i in userfamily:
                 if 'family_id' not in i:  # family_id がない場合はスキップ
                     continue
- 
+    
                 # user自身の分（最初のデータ）は栄養計算から省く
                 if i['family_id'] == userfamily[0]['family_id']:
                     continue
- 
+    
                 # 家族の年齢を取得
-                try:
-                    # family_age が数値（年齢）の場合はそのまま整数として使用
-                    family_age = int(i['family_age'])
-                except ValueError:
-                    # family_age が日付形式（YYYY/MM/DD）の場合、年齢に変換
-                    family_birth_date = datetime.strptime(i['family_age'], "%Y/%m/%d")
-                    today = datetime.today()
-                    # 年齢計算
-                    family_age = today.year - family_birth_date.year
-                    if today.month < family_birth_date.month or (today.month == family_birth_date.month and today.day < family_birth_date.day):
-                        family_age -= 1
- 
+                family_age = datetime.strptime(i['family_age'], "%Y-%m-%d")
+                today = datetime.today()
+                family_age = today.year - family_age.year
+    
                 # 年齢をもとに必要栄養情報を取得
                 for (start, end), handler in handlers:
                     if start <= family_age <= end:
                         calorie, protein, libids, carbohydrates, fiber, saltcontent = handler(family_age, i['family_gender'], float(i['family_weight']))
                         break
- 
+    
                     # 必要栄養情報を家族の必要栄養情報に足す
                     family_calorie += calorie
                     family_protein += protein
@@ -518,7 +509,7 @@ class HealthSelectionView(TemplateView):
                     family_fiber += fiber
                     family_saltcontent += saltcontent
                     count += 1  # 処理をした回数だけ家族の人数を増やす
- 
+    
             # 主菜の栄養情報を料理の栄養情報に足す
             all_calorie = count * cookdata['calorie']
             all_protein = count * cookdata['protein']
@@ -526,9 +517,9 @@ class HealthSelectionView(TemplateView):
             all_carbohydrates = count * cookdata['carbohydrates']
             all_fiber = count * cookdata['fiber']
             all_saltcontent = count * cookdata['saltcontent']
- 
+    
             subcook = []
- 
+    
             # 家族の一食あたりの栄養必要量
             need_calorie = family_calorie / 3
             need_protein = family_protein / 3
@@ -536,7 +527,7 @@ class HealthSelectionView(TemplateView):
             need_carbohydrates = family_carbohydrates / 3
             need_fiber = family_fiber / 3
             need_saltcontent = family_saltcontent / 3
- 
+    
             # 不足栄養素を計算
             deficiency_calorie = need_calorie - all_calorie
             deficiency_protein = need_protein - all_protein
@@ -544,9 +535,9 @@ class HealthSelectionView(TemplateView):
             deficiency_carbohydrates = need_carbohydrates - all_carbohydrates
             deficiency_fiber = need_fiber - all_fiber
             deficiency_saltcontentr = need_saltcontent - all_saltcontent
- 
+    
             if deficiency_calorie > 0:
-                allergylist = self.kwargs.get('allergylist')
+                allergylist = self.kwargs.get('allergylist') 
                 logging.debug(allergylist)
                 cook_list = []
                 cooks = Cook.objects.filter(type__in=[2, 3])
@@ -556,7 +547,7 @@ class HealthSelectionView(TemplateView):
                     logging.debug(cook_list)
                     allergycooklist = []
                 for i in cook_list:
- 
+    
                     material = Recipe.objects.filter(cook = i).values('material')
                     logging.debug(material)
                     for j in material:
@@ -564,19 +555,19 @@ class HealthSelectionView(TemplateView):
                         if allergycook:
                             allergycooklist.append(i)
                             break
- 
+    
                 logging.debug(allergycooklist)
                 for i in allergycooklist:
- 
+    
                     cook_list.remove(i)  
- 
+    
                 results = Cook.objects.filter(
                 cook_id__in =cook_list,
                 calorie__lte=deficiency_calorie / 3,
                 protein__gte=deficiency_protein / 3,
                 saltcontent__lte=deficiency_saltcontentr / 3
                 ).values('cook_id','calorie','protein','lipids','carbohydrates','fiber','saltcontent')
- 
+    
                 if len(results) != 0:
                     random_number = random.randint(0, len(results) - 1)
                     randomcookdata = results[random_number]
@@ -587,20 +578,23 @@ class HealthSelectionView(TemplateView):
                     all_fiber += count * randomcookdata['fiber']
                     all_saltcontent += count * randomcookdata['saltcontent']
                     subcook.append(randomcookdata['cook_id'])
- 
+    
             # day は '01-01' のような形式で渡される
             day_str = self.kwargs.get('day')
             year = datetime.now().year  # 現在の年を使う
             formatted_day_str = f"{year}-{day_str}"  # '2025-01-31' の形式に変換
-            day = datetime.strptime(formatted_day_str, "%Y-%m-%d").date()
- 
+            try:
+                day = datetime.strptime(formatted_day_str, "%Y-%m-%d").date()
+            except ValueError:
+                return HttpResponseBadRequest("無効な日付形式です。YYYY-MM-DD 形式にしてください。")
+    
             # 指定された日付のmeal_dayの最大数を取得
             existing_menus = Menu.objects.filter(user=user, meal_day=day)
             max_mealtime = existing_menus.aggregate(Max('mealtime'))['mealtime__max']
- 
+    
             # 初期値を設定
             mealtime = None
- 
+    
             # meal_dayが存在しない場合は朝から入力させる
             if max_mealtime is None:
                 mealtime = 0
@@ -613,13 +607,13 @@ class HealthSelectionView(TemplateView):
             # meal_dayの最大数が2の場合は朝から入力させる
             elif max_mealtime == '2':
                 mealtime = 0
- 
+    
             # 次の食事時間をセッションで管理
             next_mealtime = (mealtime + 1) % 3  # 0 -> 1 -> 2 -> 0に戻る
- 
+    
             # 同じday, mealtimeのMenuが存在するか確認
             existing_menu = Menu.objects.filter(user=user, meal_day=day, mealtime=str(mealtime)).first()
- 
+    
             if not existing_menu:
                 # Menuが存在しない場合は新規にMenuを作成
                 menu = Menu(user=request.user, meal_day=day, mealtime=str(mealtime))
@@ -627,10 +621,10 @@ class HealthSelectionView(TemplateView):
             else:
                 # Menuが存在する場合、そのmenu_idを使ってMenucookを削除
                 menu = existing_menu
- 
+    
                 # 既存のMenucookデータを削除（menu_idが一致するものを削除）
                 Menucook.objects.filter(menu_id=menu.menu_id).delete()
- 
+    
             for i in range(len(subcook) + 1):
                 if i == 0:
                     cook = Cook.objects.get(cook_id=cookdata['cook_id'])
@@ -640,7 +634,7 @@ class HealthSelectionView(TemplateView):
                     cook = Cook.objects.get(cook_id=subcook[i - 1])
                     menucook = Menucook(menu=menu, cook=cook)
                     menucook.save()
- 
+    
             # 最後の食事時間が選ばれたら完了
             if next_mealtime == 0:
                 return redirect('health:health_selectioncomplate', day=day)
@@ -649,9 +643,9 @@ class HealthSelectionView(TemplateView):
                 form = CookSelectForm()
                 form.fields['CookSelect'].queryset = Cook.objects.filter(type="1")
                 return render(request, 'health/health_selection.html', {'mealtime': next_mealtime, 'day': day_str, 'form': form})
- 
+    
         else:
-            return render(request, 'health/health_selection.html')
+            return render(request, 'health/health_selection.html', {'form': form})
 
 
 
