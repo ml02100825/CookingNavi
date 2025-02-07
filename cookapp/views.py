@@ -244,7 +244,7 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
         }
         form = BodyInfoUpdateForm(initial=initial_data)
         return render(request, self.template_name, {'form': form})
-   
+
     def post(self, request, *args, **kwargs):
         family_member = Familymember.objects.filter(user=request.user).first()
         form = BodyInfoUpdateForm(request.POST)
@@ -256,7 +256,7 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
             height = form.cleaned_data['height']
             weight = form.cleaned_data['weight']
             logging.debug(birthdate)
-            modified_birthdate = str(birthdate).replace("-", "/")
+            modified_birthdate = birthdate.strftime("%Y-%m-%d")  # フォーマットを修正
 
             if name != request.user.name:
                 messages.error(request, "ログイン中のユーザーと異なるユーザー名を入力しました。")
@@ -285,7 +285,7 @@ class BodyInfoUpdateView(LoginRequiredMixin, TemplateView):
                 weight_entry.save()
 
                 return redirect('cookapp:body_info_ok')
-       
+
         return render(request, self.template_name, {'form': form})
        
 class BodyInfoOkView(TemplateView):
