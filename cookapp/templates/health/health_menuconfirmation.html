@@ -34,7 +34,7 @@
             </div>
         </div>
     {% endfor %}
- 
+ {% block script %}
     <script>
         function showContent(type, text, count) {
             const contentBox = document.getElementById('content-box' + count);
