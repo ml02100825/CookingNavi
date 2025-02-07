@@ -49,8 +49,8 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert(data.message);
-                    window.location.href = data.redirect_url; // 削除完了画面にリダイレクト
+                    
+                    window.location.href = "{% url 'administrator:recipedeletecomplete' %}"; // 削除完了画面にリダイレクト
                 } else {
                     alert(data.message);
                 }

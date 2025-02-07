@@ -270,3 +270,7 @@ class RecipeDeleteView(View):
             return JsonResponse({'success': True, 'message': f'レシピ「{recipe_name}」を削除しました。', 'redirect_url': '/administrator/recipe/delete/done/'})
         else:
             return JsonResponse({'success': False, 'message': '該当するレシピが見つかりませんでした。'})
+        
+
+class recipe_delete_complete(TemplateView):
+    template_name = 'administrator/recipe/delete/recipe_delete_complete.html'
