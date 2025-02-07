@@ -1,5 +1,5 @@
 <!-- recipe_delete_complete.html -->
-{% extends '../base.html' %}
+{% extends '../../base.html' %}
 
 {% block title %}（管理者）レシピ削除完了{% endblock %}
 
@@ -8,6 +8,6 @@
 <div class="login-complete-container">
     <h1>レシピ削除完了</h1>
     <p>レシピの削除が完了しました！</p>
-    <a href="{% url 'home' %}" class="btn">戻る</a>
+    <a href="{% url 'administrator:home' %}" class="btn">戻る</a>
 </div>
 {% endblock %}

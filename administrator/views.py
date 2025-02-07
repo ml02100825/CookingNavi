@@ -1,7 +1,7 @@
 import logging
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
-
+from django.views import View
 # Create your views here.
 from django.views.generic.base import TemplateView
 
@@ -248,3 +248,29 @@ class RecipeEditView(TemplateView):
         cooks = Cook.objects.values_list('cookname', flat=True)
         return render(request, 'administrator/recipe/edit/recipe_edit.html', {'cooks': cooks})
     
+
+
+class RecipeDeleteView(View):
+    template_name = 'administrator/recipe/delete/recipe_delete.html'
+
+    def get(self, request, *args, **kwargs):
+        cooks = Cook.objects.values_list('cookname', flat=True)  # cookname が正しいか確認
+        return render(request, self.template_name, {'cooks': cooks})
+
+    def post(self, request, *args, **kwargs):
+        recipe_name = request.POST.get('recipe_name')
+
+        if not recipe_name:
+            return JsonResponse({'success': False, 'message': 'レシピ名が選択されていません。'})
+
+        # cookname が一致するデータをすべて削除
+        deleted_count, _ = Cook.objects.filter(cookname=recipe_name).delete()
+
+        if deleted_count > 0:
+            return JsonResponse({'success': True, 'message': f'レシピ「{recipe_name}」を削除しました。', 'redirect_url': '/administrator/recipe/delete/done/'})
+        else:
+            return JsonResponse({'success': False, 'message': '該当するレシピが見つかりませんでした。'})
+        
+
+class recipe_delete_complete(TemplateView):
+    template_name = 'administrator/recipe/delete/recipe_delete_complete.html'
