@@ -36,12 +36,13 @@ class Cook(models.Model):
     def __str__(self):
         return f"{self.cookname}"
 class Recipe(models.Model):
-    recipe_id = models.AutoField(db_column='RECIPE_ID', primary_key=True)  # Field name made lowercase.
-    cook = models.ForeignKey('Cook', models.PROTECT, db_column='COOK_ID')  # Field name made lowercase.
-    material = models.ForeignKey('Material', models.PROTECT, db_column='MATERIAL_ID')  # Field name made lowercase.
+    recipe_id = models.AutoField(db_column='RECIPE_ID', primary_key=True)
+    cook = models.ForeignKey('Cook', models.CASCADE, db_column='COOK_ID')  # 変更
+    material = models.ForeignKey('Material', models.PROTECT, db_column='MATERIAL_ID')  
     quantity = models.IntegerField(db_column='material_quantity')
+
     class Meta:
-        
+        managed = False
         db_table = 'recipe'
         
 class Image(models.Model):
