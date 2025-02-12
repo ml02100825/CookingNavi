@@ -17,6 +17,17 @@
             max-height: 400px; /* 必要に応じて高さを調整 */
             overflow-y: auto; /* 縦方向のスクロールバーを表示 */
         }
+
+        .meal-time {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .meal-time img {
+            max-width: 100px;
+            height: auto;
+        }
     </style>
 </head>
 <body>
@@ -27,23 +38,51 @@
     <!-- データベースの情報を表示 -->
     <div class="menu-info">
         <h2>メニュー情報</h2>
-        <ul>
-            {% for menu in menus %}
-                <li>食事時間: {% if menu.mealtime == '0' %}朝{% elif menu.mealtime == '1' %}昼{% elif menu.mealtime == '2' %}晩{% endif %} - 日付: {{ menu.meal_day }}</li>
-            {% endfor %}
-        </ul>
-        <h2>料理情報</h2>
-        <ul>
-            {% for menucook in menucooks %}
-                <li>食事時間: {% if menucook.menu__mealtime == '0' %}朝{% elif menucook.menu__mealtime == '1' %}昼{% elif menucook.menu__mealtime == '2' %}晩{% endif %} - 料理名: {{ menucook.cook__cookname }}</li>
-            {% endfor %}
-        </ul>
-        <h2>画像情報</h2>
-        <ul>
-            {% for cook_image in cook_images %}
-                <li>食事時間: {% if cook_image.mealtime == '0' %}朝{% elif cook_image.mealtime == '1' %}昼{% elif cook_image.mealtime == '2' %}晩{% endif %} - 料理名: {{ cook_image.cookname }} - <img src="{{ cook_image.image_url }}" alt="{{ cook_image.cookname }}"></li>
-            {% endfor %}
-        </ul>
+        <div class="meal-time">
+            <h3>朝</h3>
+            <ul>
+                {% for menu in menus %}
+                    {% if menu.mealtime == '0' %}
+                        
+                    {% endif %}
+                {% endfor %}
+                {% for cook_image in cook_images %}
+                    {% if cook_image.mealtime == '0' %}
+                        <li>料理名: {{ cook_image.cookname }} - <img src="{{ cook_image.image_url }}" alt="{{ cook_image.cookname }}"></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="meal-time">
+            <h3>昼</h3>
+            <ul>
+                {% for menu in menus %}
+                    {% if menu.mealtime == '1' %}
+                        
+                    {% endif %}
+                {% endfor %}
+                {% for cook_image in cook_images %}
+                    {% if cook_image.mealtime == '1' %}
+                        <li>料理名: {{ cook_image.cookname }} - <img src="{{ cook_image.image_url }}" alt="{{ cook_image.cookname }}"></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="meal-time">
+            <h3>晩</h3>
+            <ul>
+                {% for menu in menus %}
+                    {% if menu.mealtime == '2' %}
+                       
+                    {% endif %}
+                {% endfor %}
+                {% for cook_image in cook_images %}
+                    {% if cook_image.mealtime == '2' %}
+                        <li>料理名: {{ cook_image.cookname }} - <img src="{{ cook_image.image_url }}" alt="{{ cook_image.cookname }}"></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 
     <form method="post">
