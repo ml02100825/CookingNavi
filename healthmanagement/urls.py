@@ -8,4 +8,6 @@ urlpatterns = [
     path('health_selection/<str:day>/', views.HealthSelectionView.as_view(), name='health_selection'),
     path('health_selectioncomplate/<str:day>/', views.HealthSelectionComplateView.as_view(), name='health_selectioncomplate'),
     path('health_menu/<int:time>/<str:day>', views.HealthMenuView.as_view(), name='health_menu'),
+    path('health/delete/<str:day>/', views.HealthDeleteView.as_view(), name='health_delete'),
+    path('health_deletecomplate/', views.HealthDeleteComplateView.as_view(), name='health_deletecomplate'),
 ]

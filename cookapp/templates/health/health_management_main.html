@@ -27,6 +27,10 @@
                             <button class="day-button">{{ item.date }}</button>
                         </a>
                     {% endif %}
+                    <!-- 削除ボタンを追加 -->
+                    <a href="{% url 'health:health_delete' day=item.date %}">
+                        <button class="delete-button">削除</button>
+                    </a>
                 </th>
             {% endfor %}
         </tr>

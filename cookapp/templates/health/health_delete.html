@@ -1,0 +1,41 @@
+{% extends 'baseuser.html' %}
+{% load static %}
+
+{% block title %}削除確認{% endblock %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除確認</title>
+    <link rel="stylesheet" href="{% static 'css/health/health_delete.css' %}">
+</head>
+<body>
+    <h1>削除確認</h1>
+    <p>本当にこの日のメニューを削除しますか？</p>
+    <p>日付: {{ day }}</p>
+    
+    <!-- データベースの情報を表示 -->
+    <div class="menu-info">
+        <h2>メニュー情報</h2>
+        <ul>
+            {% for menu in menus %}
+                <li>食事時間: {% if menu.mealtime == '0' %}朝{% elif menu.mealtime == '1' %}昼{% elif menu.mealtime == '2' %}晩{% endif %} - 日付: {{ menu.meal_day }}</li>
+            {% endfor %}
+        </ul>
+        <h2>料理情報</h2>
+        <ul>
+            {% for menucook in menucooks %}
+                <li>食事時間: {% if menucook.menu__mealtime == '0' %}朝{% elif menucook.menu__mealtime == '1' %}昼{% elif menucook.menu__mealtime == '2' %}晩{% endif %} - 料理名: {{ menucook.cook__CookName }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="confirm-button">削除</button>
+        <a href="{% url 'health:health_management_main' %}"><button type="button" class="cancel-button">キャンセル</button></a>
+    </form>
+</body>
+</html>
+{% endblock %}

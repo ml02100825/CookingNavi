@@ -666,7 +666,42 @@ class HealthSelectionComplateView(TemplateView):
             
             
         return render(request, self.template_name, {"breakfastimage":breakfastimage, "lunchimage":lunchimage,"dinnerimage":dinnerimage })
- 
+    
+class HealthDeleteView(TemplateView):
+    template_name = 'health/health_delete.html'
 
+    def get(self, request, *args, **kwargs):
+        day = self.kwargs.get('day')
+        user = request.user
+        try:
+            # MM-DD形式の日付をYYYY-MM-DD形式に変換
+            day = datetime.strptime(f"2025-{day}", '%Y-%m-%d').date()
+        except ValueError:
+            return HttpResponseBadRequest("Invalid date format. Use MM-DD.")
+        
+        menus = Menu.objects.filter(user=user, meal_day=day).values('mealtime', 'menu_id', 'meal_day')
+        menucooks = Menucook.objects.filter(menu__user=user, menu__meal_day=day).values('menu__mealtime', 'cook__cookname')
+        
+        context = {
+            'day': day.strftime('%m-%d'),  # 表示用にMM-DD形式に戻す
+            'menus': menus,
+            'menucooks': menucooks,
+        }
+        return self.render_to_response(context)
 
-
+    def post(self, request, *args, **kwargs):
+        day = self.kwargs.get('day')
+        user = request.user
+        try:
+            # MM-DD形式の日付をYYYY-MM-DD形式に変換
+            day = datetime.strptime(f"2025-{day}", '%Y-%m-%d').date()
+        except ValueError:
+            return HttpResponseBadRequest("Invalid date format. Use MM-DD.")
+        
+        # 指定された日のメニューを削除
+        Menu.objects.filter(user=user, meal_day=day).delete()
+        Menucook.objects.filter(menu__user=user, menu__meal_day=day).delete()
+        return render(request, 'health/health_deletecomplate.html')
+    
+class HealthDeleteComplateView(TemplateView):
+    template_name = 'health/health_deletecomplate.html'
