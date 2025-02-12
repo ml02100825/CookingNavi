@@ -8,7 +8,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>削除確認</title>
-    <link rel="stylesheet" href="{% static 'css/health/health_delete.css' %}">
+    <style>
+        body {
+            overflow-y: auto; /* 縦方向のスクロールバーを表示 */
+        }
+
+        .menu-info {
+            max-height: 400px; /* 必要に応じて高さを調整 */
+            overflow-y: auto; /* 縦方向のスクロールバーを表示 */
+        }
+    </style>
 </head>
 <body>
     <h1>削除確認</h1>
@@ -26,7 +35,13 @@
         <h2>料理情報</h2>
         <ul>
             {% for menucook in menucooks %}
-                <li>食事時間: {% if menucook.menu__mealtime == '0' %}朝{% elif menucook.menu__mealtime == '1' %}昼{% elif menucook.menu__mealtime == '2' %}晩{% endif %} - 料理名: {{ menucook.cook__CookName }}</li>
+                <li>食事時間: {% if menucook.menu__mealtime == '0' %}朝{% elif menucook.menu__mealtime == '1' %}昼{% elif menucook.menu__mealtime == '2' %}晩{% endif %} - 料理名: {{ menucook.cook__cookname }}</li>
+            {% endfor %}
+        </ul>
+        <h2>画像情報</h2>
+        <ul>
+            {% for cook_image in cook_images %}
+                <li>食事時間: {% if cook_image.mealtime == '0' %}朝{% elif cook_image.mealtime == '1' %}昼{% elif cook_image.mealtime == '2' %}晩{% endif %} - 料理名: {{ cook_image.cookname }} - <img src="{{ cook_image.image_url }}" alt="{{ cook_image.cookname }}"></li>
             {% endfor %}
         </ul>
     </div>
