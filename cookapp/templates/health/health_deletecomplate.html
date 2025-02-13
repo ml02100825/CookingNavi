@@ -1,0 +1,18 @@
+{% extends 'baseuser.html' %}
+{% load static %}
+
+{% block title %}主菜選択{% endblock %}
+
+{% block content %}
+    <!-- メインコンテンツ -->
+    <div class="main-content">
+        <h1>主菜選択</h1>
+
+
+        <!-- 登録完了メッセージ -->
+        <p class="confirmation-message">削除が完了しました</p>
+
+        <!-- 戻るボタン -->
+        <th><a href="{% url 'health:health_management_main' %}" ><button class="day-button">戻る</button></a></th>
+    </div>
+{% endblock %}

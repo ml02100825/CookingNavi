@@ -10,6 +10,11 @@ body {
     align-items: center; /* 子要素を水平中央に配置 */
 }
 
+h1 {
+    text-align: center;
+}
+
+
 /* アプリ名のスタイル */
 .app-name {
     font-size: 1.5em; /* フォントサイズ */

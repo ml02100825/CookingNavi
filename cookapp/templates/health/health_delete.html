@@ -1,0 +1,95 @@
+{% extends 'baseuser.html' %}
+{% load static %}
+
+{% block title %}削除確認{% endblock %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除確認</title>
+    <style>
+        body {
+            overflow-y: auto; /* 縦方向のスクロールバーを表示 */
+        }
+
+        .menu-info {
+            max-height: 400px; /* 必要に応じて高さを調整 */
+            overflow-y: auto; /* 縦方向のスクロールバーを表示 */
+        }
+
+        .meal-time {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .meal-time img {
+            max-width: 100px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>削除確認</h1>
+    <p>本当にこの日のメニューを削除しますか？</p>
+    <p>日付: {{ day }}</p>
+    
+    <!-- データベースの情報を表示 -->
+    <div class="menu-info">
+        <h2>メニュー情報</h2>
+        <div class="meal-time">
+            <h3>朝</h3>
+            <ul>
+                {% for menu in menus %}
+                    {% if menu.mealtime == '0' %}
+                        
+                    {% endif %}
+                {% endfor %}
+                {% for cook_image in cook_images %}
+                    {% if cook_image.mealtime == '0' %}
+                        <li>料理名: {{ cook_image.cookname }} - <img src="{{ cook_image.image_url }}" alt="{{ cook_image.cookname }}"></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="meal-time">
+            <h3>昼</h3>
+            <ul>
+                {% for menu in menus %}
+                    {% if menu.mealtime == '1' %}
+                        
+                    {% endif %}
+                {% endfor %}
+                {% for cook_image in cook_images %}
+                    {% if cook_image.mealtime == '1' %}
+                        <li>料理名: {{ cook_image.cookname }} - <img src="{{ cook_image.image_url }}" alt="{{ cook_image.cookname }}"></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="meal-time">
+            <h3>晩</h3>
+            <ul>
+                {% for menu in menus %}
+                    {% if menu.mealtime == '2' %}
+                       
+                    {% endif %}
+                {% endfor %}
+                {% for cook_image in cook_images %}
+                    {% if cook_image.mealtime == '2' %}
+                        <li>料理名: {{ cook_image.cookname }} - <img src="{{ cook_image.image_url }}" alt="{{ cook_image.cookname }}"></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="confirm-button">削除</button>
+        <a href="{% url 'health:health_management_main' %}"><button type="button" class="cancel-button">キャンセル</button></a>
+    </form>
+</body>
+</html>
+{% endblock %}

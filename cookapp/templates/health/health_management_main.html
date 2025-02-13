@@ -4,12 +4,10 @@
 {% block title %}健康管理{% endblock %}
 
 {% block content %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>健康管理</title>
-    <link rel="stylesheet" href="{% static 'css/health/health_management_main.css' %}">
-</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="{% static 'css/health/health_management_main.css' %}">
+
 <body>
     <h1>健康管理</h1>
     
@@ -21,6 +19,10 @@
                     {% if item.status.0 == "T" and item.status.1 == "T" and item.status.2 == "T" %}
                         <!-- すべての食事時間が設定されている場合、リンクを無効にする -->
                         <button class="day-button" disabled>{{ item.date }}</button>
+                        <!-- 削除ボタンを表示 -->
+                        <a href="{% url 'health:health_delete' day=item.date %}">
+                            <button class="delete-button">削除</button>
+                        </a>
                     {% else %}
                         <!-- 1つでも未定があればリンクを有効にする -->
                         <a href="{% url 'health:health_selection' day=item.date %}">

@@ -10,7 +10,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* ビューポートの高さを確保 */
+    min-height: 80vh; /* ビューポートの高さを確保 */
     margin: 0;
 }
 
@@ -23,6 +23,16 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* ボックスシャドウ */
     padding: 20px; /* 内側の余白 */
     text-align: center; /* テキストを中央揃え */
+}
+
+h2 {
+    font-size: 1.8em;
+    margin-bottom: 20px; /* タイトル下に余白を追加 */
+    color: #333; /* 落ち着いた色で視認性を確保 */
+    position: absolute; /* 絶対配置で白枠外に配置 */
+    top: 260px; /* 白枠のさらに上に出す */
+    left: 50%; /* 水平方向の中央 */
+    transform: translateX(-50%); /* 中央揃え */
 }
 
 /* フォームのスタイリング */

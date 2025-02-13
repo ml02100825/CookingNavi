@@ -15,13 +15,15 @@ main {
     min-height: 80vh; /* 画面全体の高さに近い部分を占有 */
 }
 
+
 /* 解約完了メッセージのスタイル */
 .kaiyaku-complete-container {
     background-color: #ffffff; /* 背景を白で設定 */
     border-radius: 8px; /* 角を丸める */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 軽い影をつけて目立たせる */
-    padding: 20px 30px; /* 内側に余白を設定 */
-    max-width: 400px; /* 最大幅を指定 */
+    padding: 20px; /* 内側に余白を設定 */
+    max-width: 600px; /* 最大幅を指定 */
+    margin: 50px auto;
     width: 100%; /* 幅を可変に */
     text-align: center; /* 中央揃え */
 }
@@ -36,6 +38,7 @@ main {
 /* ホームへのリンクスタイル */
 .kaiyaku-complete-container a {
     display: inline-block; /* ボタン風に見せるためインラインブロック化 */
+    margin-top: 20px; /* 上部に余白を追加 */
     text-decoration: none; /* デフォルトの下線を消す */
     background-color: #E53935; /* ボタンの背景色 */
     color: #ffffff; /* テキストは白色 */
