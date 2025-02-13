@@ -18,7 +18,7 @@ body {
     color: #333; /* ダークグレーで目に優しい文字色 */
     display: flex;
     flex-direction: column; /* 縦に並べる */
-    min-height: 100vh; /* 全画面の高さを確保 */
+    min-height: 80vh; /* 全画面の高さを確保 */
 }
 
 /* アプリ名を強調 */
@@ -105,6 +105,13 @@ input[type="text"]:focus {
 /* ------------------------------
    ボタンのスタイル
    ------------------------------ */
+
+.button-group {
+    display: flex; /* ボタンを横並びに配置 */
+    justify-content: center; /* ボタンを中央揃え */
+    gap: 10px; /* ボタン間の間隔を設定 */
+}
+
 button {
     padding: 10px 20px; /* ボタンの内側の余白を設定 */
     font-size: 1em; /* ボタンの文字サイズ */
