@@ -14,7 +14,7 @@
 
         <!-- 認証済みのユーザーかどうかの表示 -->
         {% if user.is_authenticated %}
-            <p>こんにちは、{{ user.username }}さん！</p>
+            <p>こんにちは、{{ user.name }}さん！</p>
         {% else %}
             <p>ログインしていません</p>
         {% endif %}
